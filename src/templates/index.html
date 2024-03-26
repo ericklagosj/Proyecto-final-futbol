@@ -4,16 +4,16 @@
 <head>
     <meta charset=utf-8>
     <meta name=description content="">
-    <meta name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <title>soccer club</title>
-    <link rel="shortcut icon" href=favicon.ico>
-    <link rel=stylesheet href=vendor.css>
-    <link rel=stylesheet href=style.css>
-    <link rel=stylesheet type=text/css href=css/layerslider.css>
-    <script src=js/vendor/modernizr.js></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='css/favicon.ico') }}">
+    <link rel=stylesheet href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel=stylesheet href="{{ url_for('static', filename='css/vendor.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/layerslide.css') }}">
+
 </head>
-<body><!--[if lt IE 10]>
+<body>
+<!--[if lt IE 10]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
 <![endif]-->
@@ -23,15 +23,15 @@
             <div class=container>
                 <div class=row>
                     <ul>
-                        <li><a href="InicioSesión.html">Registrar/logear</a></li>
+                        <li><a href="{{ url_for('login') }}">Registrar/logear</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="header-lower clearfix">
             <div class=container>
-                <div class=row><h1 class=logo><a href=index-2.html><img src=images/logo.png alt=image></a></h1>
-
+                <div class=row>
+                    <h1 class=logo><a href=index-2.html><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"></a></h1>
                     <div class=menubar>
                         <nav class=navbar>
                             <div class=nav-wrapper>
@@ -52,11 +52,16 @@
                                                 <li><a href=gallery03.html>gallery column 03</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href=#>Equipos<span></span> <span></span> <span></span>
+                                        <li><a href="{{ url_for('listar_equipos')}}">Equipos<span></span> <span></span> <span></span>
                                             <span></span></a></li>
-                                        <li><a href=bookTicket.html>book Tickets <span></span> <span></span>
-                                            <span></span> <span></span></a></li>
-                                        <li><a href=contact.html>contacto <span></span> <span></span> <span></span>
+                                        <li><a>Posiciones<span></span> <span></span> <span></span> <span></span></a>
+                                            <ul class=sub-menu>
+                                                <li><a href="{{ url_for('tabla_posiciones')}}">Primera División</a></li>
+                                                <li><a href="{{ url_for('tabla_posiciones_segunda') }}">Segunda División</a></li>
+
+                                            </ul>
+                                        </li>
+                                        <li><a href="{{ url_for('estadisticas_jugadores') }}">Estadisticas <span></span> <span></span> <span></span>
                                             <span></span></a></li>
                                         <li><a>error <span></span> <span></span> <span></span> <span></span></a>
                                             <ul class=sub-menu>
@@ -73,29 +78,32 @@
                             </div>
                         </nav>
                     </div>
-                    <div class=social><a href=https://www.facebook.com/templatespoint.net class=facebook><i
-                            class="fa fa-facebook"></i></a> <a href=https://twitter.com/itobuztech class=twitter><i
-                            class="fa fa-twitter"></i></a> <a href=https://www.behance.net/ class=behance><i
-                            class="fa fa-behance"></i></a></div>
+                    <div class=social>
+                        <a href=https://www.facebook.com/templatespoint.net class=facebook><i
+                            class="fa fa-facebook"></i></a>
+                        <a href=https://twitter.com/itobuztech class=twitter><i
+                            class="fa fa-twitter"></i></a>
+                        <a href=https://www.behance.net/ class=behance><i
+                            class="fa fa-behance"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
     <div class=banner id=layerSlider style="width: 100%;">
-        <div class=ls-slide data-ls="transition3d: 33,15; slidedelay: 8000 ; durationin:0;"><img
-                src=images/banner/background01.jpg class=ls-bg alt="Slide background">
-
+        <div class=ls-slide data-ls="transition3d: 33,15; slidedelay: 8000 ; durationin:0;">
+            <img src="{{ url_for('static', filename='images/banner/background01.jpg') }}" class=ls-bg alt="Slide background">
             <div class="ls-l layercontent01" style="top: 50%; left: 50%; z-index:4;"
-                 data-ls="offsetxin:left; offsetxout:right; durationin: 4000; parallaxlevel: 8;"><img
-                    src=images/banner/player.png alt=innerimage class=img-responsive
-                    style="max-width: 100% !important ;"></div>
-            <img src=images/banner/ball.png alt=innerimage class="ls-l layercontent02" style=z-index:5;
+                 data-ls="offsetxin:left; offsetxout:right; durationin: 4000; parallaxlevel: 8;">
+                <img src="{{ url_for('static', filename='images/banner/player.png') }}" alt=innerimage class=img-responsive
+                    style="max-width: 100% !important ;">
+            </div>
+            <img src="{{ url_for('static', filename='images/banner/ball.png') }}"alt=innerimage class="ls-l layercontent02" style=z-index:5;
                  data-ls="offsetxin: right; offsetxout:left; rotatein:-360; easingin: easeoutquart; durationin: 4000; delayin: 250; parallaxlevel: -5;">
-            <img src=images/banner/front_particles.png alt=particles class=ls-l style="z-index:3; left:0;"
+            <img src="{{ url_for('static', filename='images/banner/front_particles.png') }}"alt=particles class=ls-l style="z-index:3; left:0;"
                  data-ls="offsetxin: left; offsetxout:left; scalexin:50; easingin: easeoutquart; durationin: 3000; delayin: 250;">
-            <img src=images/banner/back_particles.png alt=particles class=ls-l style="z-index:3; left:50%;"
+            <img src="{{ url_for('static', filename='images/banner/back_particles.png') }}"alt=particles class=ls-l style="z-index:3; left:50%;"
                  data-ls="offsetxin: left; offsetxout:left; scalein:90; easingin: easeoutquart; durationin: 3000; delayin: 250;">
-
             <h2 class="ls-l bannertext layercontent03" data-ls="offsetxin:left; rotatexin:90 ; durationin: 3500;">
                 Club</h2>
 
@@ -171,7 +179,7 @@
                             <p>Jhonny Sins(23)</p></div>
                         <div class=figure>
                             <div class=team-logo>
-                                <div style=background:url(images/team-logo/logo01.png) class=teamLogoImg></div>
+                                <div style="background: url({{ url_for('static', filename='images/team-logo/logo01.png') }})" class="teamLogoImg"></div>
                             </div>
                         </div>
                     </div>
@@ -190,12 +198,13 @@
 
                             <p>win</p>
 
-                            <p>Angela White(29)</p>
+                            <p>Angela(29)</p>
 
-                            <p>Alexis Texas(39)</p></div>
+                            <p>Alexis(39)</p></div>
                         <div class="figure figresult">
                             <div class=team-logo>
-                                <div style=background:url(images/team-logo/logo02.png) class=teamLogoImg></div>
+                                <div style="background: url({{ url_for('static', filename='images/team-logo/logo02.png') }})" class="teamLogoImg"></div>
+
                             </div>
                         </div>
                     </div>
@@ -230,9 +239,9 @@
                                 ¡Prepárate para disfrutar de un espectáculo de fútbol vibrante e impredecible!.</p>
 
                                 <div class="wrap-logo clearfix">
-                                    <div class=logo-match><img src=images/matchResult/logo01.png alt=image></div>
+                                    <div class=logo-match><img src="{{ url_for('static', filename='images/matchResult/logo01.png') }}"alt=image></div>
                                     <div class=match_vs>vs</div>
-                                    <div class=logo-match><img src=images/matchResult/logo02.png alt=image></div>
+                                    <div class=logo-match><img src="{{ url_for('static', filename='images/matchResult/logo02.png') }}" alt=image></div>
                                 </div>
                                 <p class=match_dtls>October 31, 2024 | 18:25PM</p>
 
@@ -633,11 +642,11 @@
                         <li><a href="#">
                             <div class=playerFig>
                                 <div class=playerpic>
-                                    <div style=background:url(images/player/player01.jpg) class=bgimg></div>
+                                    <div style="background: url({{ url_for('static', filename='images/team-logo/logo01.png') }})" class="teamLogoImg"></div>
+
                                 </div>
                                 <ul class="playerDetails clearfix">
-                                    <li><span>Daren Difiore</span> <span><img src=images/icons/tShirt.png
-                                                                              alt=image></span></li>
+                                    <li><span>Daren Difiore</span> <span><img src="{{ url_for('static', filename='images/icons/tShirt.png') }}"alt=image></span></li>
                                     <li class=playinfodetails>age 28 (born 22 april ,1987)</li>
                                     <li class=playerInfo><span>goalkeeper</span> <span><i
                                             class="fa fa-heart"></i>20</span></li>
@@ -647,11 +656,11 @@
                         <li><a href="#">
                             <div class=playerFig>
                                 <div class=playerpic>
-                                    <div style=background:url(images/player/player02.jpg) class=bgimg></div>
+                                    <div style="background: url({{ url_for('static', filename='images/team-logo/logo02.png') }})" class="teamLogoImg"></div>
+
                                 </div>
                                 <ul class="playerDetails clearfix">
-                                    <li><span>Terry Tijerina</span> <span><img src=images/icons/tShirt.png
-                                                                               alt=image></span></li>
+                                    <li><span>Terry Tijerina</span> <span><img src="{{ url_for('static', filename='images/icons/tShirt.png') }}" alt=image></span></li>
                                     <li class=playinfodetails>age 28 (born 22 april ,1987)</li>
                                     <li class=playerInfo><span>DEFENDER</span> <span><i
                                             class="fa fa-heart"></i>34</span></li>
@@ -661,11 +670,11 @@
                         <li><a href="#">
                             <div class=playerFig>
                                 <div class=playerpic>
-                                    <div style=background:url(images/player/player03.jpg) class=bgimg></div>
+                                    <div style="background: url({{ url_for('static', filename='images/team-logo/logo03.png') }})" class="teamLogoImg"></div>
+
                                 </div>
                                 <ul class="playerDetails clearfix">
-                                    <li><span>Alex Alameda</span> <span><img src=images/icons/tShirt.png
-                                                                             alt=image></span></li>
+                                    <li><span>Alex Alameda</span> <span><img src="{{ url_for('static', filename='images/icons/tShirt.png') }}" alt=image></span></li>
                                     <li class=playinfodetails>age 28 (born 22 april ,1987)</li>
                                     <li class=playerInfo><span>STRIKER</span> <span><i class="fa fa-heart"></i>45</span>
                                     </li>
@@ -675,11 +684,11 @@
                         <li><a href="#">
                             <div class=playerFig>
                                 <div class=playerpic>
-                                    <div style=background:url(images/player/player04.jpg) class=bgimg></div>
+                                    <div style="background: url({{ url_for('static', filename='images/team-logo/logo04.png') }})" class="teamLogoImg"></div>
+
                                 </div>
                                 <ul class="playerDetails clearfix">
-                                    <li><span>Lane Lavalley</span> <span><img src=images/icons/tShirt.png
-                                                                              alt=image></span></li>
+                                    <li><span>Lane Lavalley</span> <span><img src="{{ url_for('static', filename='images/icons/tShirt.png') }}" alt=image></span></li>
                                     <li class=playinfodetails>age 28 (born 22 april ,1987)</li>
                                     <li class=playerInfo><span>STRIKER</span> <span><i class="fa fa-heart"></i>45</span>
                                     </li>
@@ -689,11 +698,11 @@
                         <li><a href="#">
                             <div class=playerFig>
                                 <div class=playerpic>
-                                    <div style=background:url(images/player/player05.jpg) class=bgimg></div>
+                                    <div style="background: url({{ url_for('static', filename='images/team-logo/logo05.png') }})" class="teamLogoImg"></div>
+
                                 </div>
                                 <ul class="playerDetails clearfix">
-                                    <li><span>Dominick Dumbleton</span> <span><img src=images/icons/tShirt.png
-                                                                                   alt=image></span></li>
+                                    <li><span>Dominick Dumbleton</span> <span><img src="{{ url_for('static', filename='images/icons/tShirt.png') }}" alt=image></span></li>
                                     <li class=playinfodetails>age 28 (born 22 april ,1987)</li>
                                     <li class=playerInfo><span>STRIKER</span> <span><i class="fa fa-heart"></i>78</span>
                                     </li>
@@ -716,7 +725,7 @@
         <div class=galleryWrapper>
             <div class=grid>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/gallery.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery.jpg') }}"alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -726,7 +735,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/gallery02.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery02.jpg') }}"alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -736,7 +745,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/gallery03.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery03.jpg') }}" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -746,7 +755,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/gallery04.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery04.jpg') }}" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -756,7 +765,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/gallery021.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery21.jpg') }}" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -766,7 +775,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/gallery031.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery31.jpg') }}" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -776,7 +785,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/five.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/five.jpg') }}"alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -786,7 +795,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/gallery031.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery31.jpg') }}" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -796,7 +805,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/masonry/medium_01.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/masonry/medium_01.jpg') }}"alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -806,7 +815,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/gallery041.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery41.jpg') }}" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -816,7 +825,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src=images/gallery/masonry/medium_03.jpg alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/masonry/medium_03.jpg') }}"alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -862,31 +871,31 @@
 
                 <div class="wrapper-container clearfix"><a class="prv awards_prev"></a> <a class="nxt awards_next"></a>
                     <ul class="awards-wrap clearfix">
-                        <li><a href=achivement_details.html><img src=images/awards/awards01.png alt=image>
+                        <li><a href=achivement_details.html><img src="{{ url_for('static', filename='images/awards/awards01.png') }}" alt=image>
                             <ul class=awards-info>
                                 <li>uefa 2014</li>
                                 <li>champion</li>
                             </ul>
                         </a></li>
-                        <li><a href=achivement_details.html><img src=images/awards/awards02.png alt=image>
+                        <li><a href=achivement_details.html><img src="{{ url_for('static', filename='images/awards/awards02.png') }}" alt=image>
                             <ul class=awards-info>
                                 <li>uefa 2014</li>
                                 <li>champion</li>
                             </ul>
                         </a></li>
-                        <li><a href=achivement_details.html><img src=images/awards/awards03.png alt=image>
+                        <li><a href=achivement_details.html><img src="{{ url_for('static', filename='images/awards/awards03.png') }}" alt=image>
                             <ul class=awards-info>
                                 <li>uefa 2014</li>
                                 <li>champion</li>
                             </ul>
                         </a></li>
-                        <li><a href=#><img src=images/awards/awards04.png alt=image>
+                        <li><a href=#><img src="{{ url_for('static', filename='images/awards/awards04.png') }}" alt=image>
                             <ul class=awards-info>
                                 <li>uefa 2014</li>
                                 <li>champion</li>
                             </ul>
                         </a></li>
-                        <li><a href=achivement_details.html><img src=images/awards/awards02.png alt=image>
+                        <li><a href=achivement_details.html><img src="{{ url_for('static', filename='images/awards/awards02.png') }}" alt=image>
                             <ul class=awards-info>
                                 <li>uefa 2014</li>
                                 <li>champion</li>
@@ -907,8 +916,7 @@
                 <ul class=product_details>
                     <li><a href=#>
                         <div>
-                            <div class=product-img
-                                 style="background:url(images/product/product01.jpg) center no-repeat"></div>
+                            <div class="product-img" style="background: url({{ url_for('static', filename='images/product/product01.jpg') }}) center no-repeat"></div>
                         </div>
                         <ul class="oswald16 product_info">
                             <li class=detailsContainer><span>soccer jersey</span> <span><i
@@ -919,8 +927,7 @@
                     </a></li>
                     <li><a href=#>
                         <div>
-                            <div class=product-img
-                                 style="background:url(images/product/product02.jpg) center no-repeat"></div>
+                            <div class="product-img" style="background: url({{ url_for('static', filename='images/product/product02.jpg') }}) center no-repeat"></div>
                         </div>
                         <ul class="oswald16 product_info">
                             <li class=detailsContainer><span>soccer jersey</span> <span><i
@@ -931,8 +938,7 @@
                     </a></li>
                     <li><a href=#>
                         <div>
-                            <div class=product-img
-                                 style="background:url(images/product/product03.jpg) center no-repeat"></div>
+                            <div class="product-img" style="background: url({{ url_for('static', filename='images/product/product03.jpg') }}) center no-repeat"></div>
                         </div>
                         <ul class="oswald16 product_info">
                             <li class=detailsContainer><span>soccer jersey</span> <span><i
@@ -943,8 +949,7 @@
                     </a></li>
                     <li><a href=#>
                         <div>
-                            <div class=product-img
-                                 style="background:url(images/product/product04.jpg) center no-repeat"></div>
+                            <div class="product-img" style="background: url({{ url_for('static', filename='images/product/product04.jpg') }}) center no-repeat"></div>
                         </div>
                         <ul class="oswald16 product_info">
                             <li class=detailsContainer><span>soccer jersey</span> <span><i
@@ -1005,7 +1010,7 @@
         </div>
         <div class=footer-type02>
             <div class=container>
-                <div class=row><a href=index-2.html class=footer-logo><img src=images/logo.png alt=image></a>
+                <div class=row><a href=index-2.html class=footer-logo><img src="{{ url_for('static', filename='images/logo.png') }}" alt=image></a>
 
                     <div class=footer-container>
                         <ul class=clearfix>
@@ -1018,16 +1023,16 @@
                         </ul>
                         <p><a target="_blank" href="https://www.templatespoint.net/">Templates Point</a></p></div>
                     <div class=footer-appstore>
-                        <figure><a href=#><img src=images/appstore/apple.png alt=image></a></figure>
-                        <figure><a href=#><img src=images/appstore/google.png alt=image></a></figure>
+                        <figure><a href=#><img src="{{ url_for('static', filename='images/appstore/apple.png') }}" alt=image></a></figure>
+                        <figure><a href=#><img src="{{ url_for('static', filename='images/appstore/google.png') }}" alt=image></a></figure>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 </div>
-<script src=js/vendor/vendor.js></script>
-<script src=js/main.js></script>
+<script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 
 </body>

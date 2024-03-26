@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ListadoEquipos</title>
+    <link rel=stylesheet href="/static/css/listar_equipos.css">
+</head>
+
+<body>
+    <main class="table" id="customers_table">
+        <section class="table__header">
+            <!-- Encabezado de la tabla -->
+            <h1>LISTADO DE EQUIPOS</h1>
+            <!-- Barra de búsqueda -->
+            <div class="input-group">
+                <input type="search" placeholder="Buscar Equipos...">
+                <img src="/static/images/equipos/search.png" alt="">
+            </div>
+            <!-- Opciones de exportación -->
+            <div class="export__file">
+                <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
+                <input type="checkbox" id="export-file">
+                <div class="export__file-options">
+                    <label>Exportar como &nbsp; &#10140;</label>
+                    <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt=""></label>
+                    <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt=""></label>
+                    <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt=""></label>
+                    <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt=""></label>
+                </div>
+            </div>
+        </section>
+        <!-- Cuerpo de la tabla -->
+        <section class="table__body">
+            <table>
+                <thead>
+                    <!-- Encabezados de las columnas -->
+                    <tr>
+                        <th> Id <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Nombre <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Ciudad <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Año Fundacion <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> División <span class="icon-arrow">&UpArrow;</span></th>
+                        <th> Estadio <span class="icon-arrow">&UpArrow;</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for equipo in equipos %}
+                    <!-- Datos de los equipos -->
+                    <tr>
+                        <td>{{ equipo['ID'] }}</td>
+                        <td><a href="{{ url_for('obtener_equipo', id=equipo['ID']) }}">{{ equipo['Nombre'] }}</a></td>
+                        <td>{{ equipo['Ciudad'] }}</td>
+                        <td>{{ equipo['Ano_Fundacion'] }}</td>
+                        <td>{{ equipo['Division_ID'] }}</td>
+                        <td>{{ equipo['Estadio_ID'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+</body>
+<script src="/static/js/listar_equipos.js"></script>
+
+</html>

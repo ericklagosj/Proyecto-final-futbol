@@ -1,0 +1,51 @@
+<!-- Contenido de admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Cabecera -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador</title>
+    <link rel="stylesheet" href="../static/css/admin.css">
+</head>
+<body>
+    <!-- Header con opción de cerrar sesión -->
+    <header class="header">
+        <h1>Panel de Administrador</h1>
+    </header>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Panel lateral -->
+        <aside class="sidebar">
+            <h2>Menú</h2>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="{{ url_for('registro') }}">Registro de jugadores</a></li> <!-- Modificación aquí -->
+                <li><a href="{{ url_for('listar_jugadores') }}">Jugadores registrados</a></li>
+                <li><a href="{{ url_for('listar_equipos') }}">Equipos</a></li>
+                <li><a href="#">Ayuda</a></li>
+                <li><a href="#">Acerca de</a></li>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <!-- Banner con opciones -->
+            <div class="banner">
+                <div class="user-options">
+                    <span class="username">Usuario: [Nombre de Usuario]</span>
+                    <a href="#" class="logout">Cerrar Sesión</a>
+                </div>
+            </div>
+
+            <!-- Contenido adicional -->
+            <div class="content">
+                <h2>Bienvenido al Panel de Administrador</h2>
+                <p>¡Bienvenido! Aquí puedes gestionar los usuarios, configurar la aplicación, generar reportes, obtener ayuda y conocer más sobre esta aplicación.</p>
+                <p>Explora las opciones del menú lateral para comenzar.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

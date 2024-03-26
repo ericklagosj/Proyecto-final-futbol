@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Jugadores</title>
+</head>
+<body>
+    <h1>Listado de Jugadores</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Rut</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Posición</th>
+                <th>Categoría</th>
+                <th>Equipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for jugador in jugadores %}
+            <tr>
+                <td>{{ jugador['ID'] }}</td>
+                <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }}</a></td>
+                <td>{{ jugador['Apellido_Paterno'] }}</td>
+                <td>{{ jugador['Apellido_Materno'] }}</td>
+                <td>{{ jugador['rut'] }}</td>
+                <td>{{ jugador['Fecha_Nacimiento'] }}</td>
+                <td>{{ jugador['Posicion_ID'] }}</td>
+                <td>{{ jugador['Categoria_ID'] }}</td>
+                <td>{{ jugador['Equipo_ID'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

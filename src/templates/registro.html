@@ -1,0 +1,73 @@
+{% include 'cabecera.html' %}
+
+<!-----FORMULARIO DE REGISTRO-->
+<div class="caja">
+    <form class="form-control" action="{{ url_for('crear_registro') }}" method="post">
+        <!---alertas-->
+        {% if mensaje %}
+        <div class="alert alert-danger" role="alert">
+            {{ mensaje }}
+        </div>
+        {% endif %}
+        <h1 class="text-center t">Registro de Jugadores</h1>
+        <div class="form-group">
+            <label for="nombre" class="t text-center">Nombre</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Nombre del jugador" name="nombre">
+        </div>
+        <div class="form-group">
+            <label for="apellido_paterno" class="t text-center">Apellido Paterno</label>
+            <input type="text" class="form-control" id="apellido_paterno" placeholder="Apellido paterno del jugador" name="apellido_paterno">
+        </div>
+        <div class="form-group">
+            <label for="apellido_materno" class="t text-center">Apellido Materno</label>
+            <input type="text" class="form-control" id="apellido_materno" placeholder="Apellido materno del jugador" name="apellido_materno">
+        </div>
+        <div class="form-group">
+            <label for="rut" class="t text-center">RUT</label>
+            <input type="text" class="form-control" id="rut" placeholder="RUT del jugador" name="rut" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha_nacimiento" class="t text-center">Fecha de Nacimiento</label>
+            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento">
+        </div>
+        <div class="form-group">
+            <label for="categoria_id" class="t text-center">Categoría</label>
+            <select class="form-control" id="categoria_id" name="categoria_id" required>
+                <option value="" disabled selected>Selecciona una categoría</option>
+                <option value="1">Juvenil</option>
+                <option value="2">Adulta</option>
+                <option value="3">Senior</option>
+                <option value="4">Super Senior</option>
+                <option value="5">Honor</option>
+            </select>
+        </div>        
+        <div class="form-group">
+            <label for="equipo_id" class="t text-center">Equipo</label>
+            <select class="form-control" id="equipo_id" name="equipo_id">
+                <option value="" disabled selected>Seleciona un equipo</option>
+                <option value="1">Los Tilos</option>
+                <option value="2">Selva Negra</option>
+                <option value="3">Cantarrana</option>
+                <option value="4">Santa Juana</option>
+                <option value="5">Alianza</option>
+                <option value="6">Quiriquina</option>
+                <option value="7">El Quillay</option>
+                <option value="8">Renacer</option>
+                <option value="9">Pueblo Seco</option>
+                <option value="10">La Greda</option>
+                <option value="11">San Ignacio</option>
+                <option value="12">Unión Barrio Alto</option>
+                <option value="13">San Miguel</option>
+                <option value="14">El Lucero</option>
+                <option value="15">Simón Bolívar</option>
+                <option value="16">Los Maitenes</option>
+                <option value="17">Las Quilas</option>
+                <option value="18">Real Pueblo Seco</option>
+            </select>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Registrar Jugador</button>
+        </div>
+    </form>
+</div>
+<!-----FIN--------->

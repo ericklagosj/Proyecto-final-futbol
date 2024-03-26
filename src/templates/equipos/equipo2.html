@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado Jugadores</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/equipos.css" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='css/favicon.ico') }}">
+    <link rel=stylesheet href="{{ url_for('static', filename='css/tablas.css') }}">
+    <link rel=stylesheet href="{{ url_for('static', filename='css/vendor.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/layerslide.css') }}">
+    
+</head>
+
+<body>
+    
+    <div>
+        <header class=header-main>
+        
+            <div class="header-lower clearfix">
+                <div class=container>
+                    <div class=row>
+                        <h1 class=logo><a href=index-2.html><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"></a></h1>
+                        <div class=menubar>
+                            <nav class=navbar>
+                                <div class=nav-wrapper>
+                                    <div class=navbar-header>
+                                        <button type=button class=navbar-toggle><span class=sr-only>Toggle navigation</span>
+                                            <span class=icon-bar></span></button>
+                                    </div>
+                                    <div class=nav-menu>
+                                        <ul class="nav navbar-nav menu-bar">
+                                            <li><a href=index-2.html class=active>Inicio <span></span> <span></span>
+                                                <span></span> <span></span></a></li>
+                                            <li><a href=blog.html>Noticias<span></span> <span></span> <span></span>
+                                                <span></span></a></li>
+                                            <li><a>Galeria<span></span> <span></span> <span></span> <span></span></a>
+                                                <ul class=sub-menu>
+                                                    <li><a href=gallerypage01.html>masonry</a></li>
+                                                    <li><a href=gallery02.html>gallery column two</a></li>
+                                                    <li><a href=gallery03.html>gallery column 03</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href=#>Equipos<span></span> <span></span> <span></span>
+                                                <span></span></a></li>
+                                            <li><a>Tabla de Posiciones<span></span> <span></span> <span></span> <span></span></a>
+                                                <ul class=sub-menu>
+                                                    <li><a href="{{ url_for('tabla_posiciones')}}">Primera División</a></li>
+                                                    <li><a href="{{ url_for('tabla_posiciones_segunda') }}">Segunda División</a></li>
+    
+                                                </ul>
+                                            </li>
+                                            <li><a href=contact.html>contacto <span></span> <span></span> <span></span>
+                                                <span></span></a></li>
+                                            <li><a>error <span></span> <span></span> <span></span> <span></span></a>
+                                                <ul class=sub-menu>
+                                                    <li><a href=400.html>400 page</a></li>
+                                                    <li><a href=401.html>401 page</a></li>
+                                                    <li><a href=403.html>403 page</a></li>
+                                                    <li><a href=404.html>404 page</a></li>
+                                                    <li><a href=500.html>500 page</a></li>
+                                                    <li><a href=503.html>503 page</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                        <div class=social>
+                            <a href=https://www.facebook.com/templatespoint.net class=facebook><i
+                                class="fa fa-facebook"></i></a>
+                            <a href=https://twitter.com/itobuztech class=twitter><i
+                                class="fa fa-twitter"></i></a>
+                            <a href=https://www.behance.net/ class=behance><i
+                                class="fa fa-behance"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    
+        <div class="main-container">
+            <main class="table" id="customers_table">
+                <section class="table__header">
+                    <div class="input-group">
+                        <input type="search" id="search-input" placeholder="Buscar Jugadores..." />
+                        <img src="/static/images/equipos/search.png" alt="" />
+                    </div>
+                    <div class="category-filter">
+                        <label for="category-select">Seleccionar Categoría:</label>
+                        <select id="category-select">
+                            <option value="all">Todas</option>
+                            <option value="1">Juvenil</option>
+                            <option value="2">Adulta</option>
+                            <option value="3">Senior</option>
+                            <option value="4">Super Senior</option>
+                            <option value="5">Honor</option>
+                        </select>
+                    </div>
+                </section>
+                <section class="table__body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Apellido Paterno</th>
+                                <th>Apellido Materno</th>
+                                <th>Rut</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Posición</th>
+                                <th>Categoría</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for jugador in jugadores %}
+                            <tr class="player-row">
+                                <td>{{ jugador['id'] }}</td>
+                                <td>{{ jugador['Nombre'] }}</td>
+                                <td>{{ jugador['Apellido_Paterno'] }}</td>
+                                <td>{{ jugador['Apellido_Materno'] }}</td>
+                                <td>{{ jugador['rut'] }}</td>
+                                <td>{{ jugador['Fecha_Nacimiento'] }}</td>
+                                <td>{{ jugador['posicion'] }}</td>
+                                <td>{{ jugador['Categoria_ID'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+        </div>
+    
+    </div>
+
+    <script src="/static/js/filtro.js"></script>
+    <script src="/static/js/equipo.js"></script>
+</body>
+</html>

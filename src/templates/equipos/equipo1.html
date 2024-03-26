@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado Jugadores</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/equipos.css" />
+</head>
+
+<body>
+    <main class="table" id="customers_table">
+        <section class="table__header">
+            <h1>Lista De Jugadores</h1>
+        <div class="input-group">
+            <input type="search" id="search-input" placeholder="Buscar Jugadores..." />
+            <img src="/static/images/equipos/search.png" alt="" />
+        </div>
+        <div class="category-filter">
+            <label for="category-select">Seleccionar Categoría:</label>
+            <select id="category-select">
+                <option value="all">Todas</option>
+                <option value="1">Juvenil</option>
+                <option value="2">Adulta</option>
+                <option value="3">Senior</option>
+                <option value="4">Super Senior</option>
+                <option value="5">Honor</option>
+            </select>
+        </div>
+
+            <!-- Aquí puedes agregar los elementos de filtrado si es necesario -->
+        </section>
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Rut</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Posición</th>
+                        <th>Categoría</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for jugador in jugadores %}
+                    <tr class="player-row">
+                        <td>{{ jugador['id'] }}</td>
+                        <td>{{ jugador['Nombre'] }}</td>
+                        <td>{{ jugador['Apellido_Paterno'] }}</td>
+                        <td>{{ jugador['Apellido_Materno'] }}</td>                        <td>{{ jugador['rut'] }}</td>
+                        <td>{{ jugador['Fecha_Nacimiento'] }}</td>
+                        <td>{{ jugador['posicion'] }}</td>
+                        <td>{{ jugador['Categoria_ID'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+<script src="/static/js/filtro.js"></script>
+<script src="/static/js/equipo.js"></script>
+</html>

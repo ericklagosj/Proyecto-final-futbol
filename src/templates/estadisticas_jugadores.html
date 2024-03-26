@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas de Jugadores</title>
+</head>
+<body>
+    <h1>Estadísticas de Jugadores</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Goles Anotados</th>
+                <th>Asistencias</th>
+                <th>Tarjetas Amarillas</th>
+                <th>Tarjetas Rojas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for jugador in jugadores %}
+            <tr>
+                <td>{{ jugador['Nombre'] }}</td>
+                <td>{{ jugador['Apellido_Paterno'] }}</td>
+                <td>{{ jugador['Apellido_Materno'] }}</td>
+                <td>{{ jugador['Goles_Anotados'] }}</td>
+                <td>{{ jugador['Asistencias'] }}</td>
+                <td>{{ jugador['Tarjetas_Amarillas'] }}</td>
+                <td>{{ jugador['Tarjetas_Rojas'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

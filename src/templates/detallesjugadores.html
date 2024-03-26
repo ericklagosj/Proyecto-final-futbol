@@ -1,0 +1,478 @@
+<!doctype html>
+<html class=no-js lang="">
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<head>
+    <meta charset=utf-8>
+    <meta name=description content="">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <title>soccer club</title>
+    <link rel="shortcut icon" href=favicon.ico>
+    <link rel=stylesheet href="{{ url_for('static', filename='css/vendor.css') }}">
+    <link rel=stylesheet href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/layerslider.css') }}">
+    <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
+
+    <style>
+        .heroesBg {
+            background-image: url("{{ url_for('static', filename='images/background/heroesBg.jpg') }}");
+        }
+
+        .player01 {
+            background-image: url("{{ url_for('static', filename='images/player/player01.jpg') }}");
+        }
+    </style>
+      
+</head>
+<body><!--[if lt IE 10]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<div class=wrapper>
+    <header class=header-main>
+        <div class=header-upper>
+            <div class=container>
+                <div class=row>
+                    <ul>
+                        <li><a href="#">Registrar/logear</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header-lower clearfix">
+            <div class=container>
+                <div class=row><h1 class=logo><a href=index-2.html><img src="{{ url_for('static', filename='images/logo.png') }}" alt=image></a></h1>
+
+                    <div class=menubar>
+                        <nav class=navbar>
+                            <div class=nav-wrapper>
+                                <div class=navbar-header>
+                                    <button type=button class=navbar-toggle><span class=sr-only>Toggle navigation</span>
+                                        <span class=icon-bar></span></button>
+                                </div>
+                                <div class=nav-menu>
+                                    <ul class="nav navbar-nav menu-bar">
+                                        <li><a href=index-2.html class=active>Inicio <span></span> <span></span>
+                                            <span></span> <span></span></a></li>
+                                        <li><a href=noticias.html>Noticias<span></span> <span></span> <span></span>
+                                            <span></span></a></li>
+                                        <li><a href=about.html>about<span></span> <span></span> <span></span>
+                                                <span></span></a></li>
+                                        <li><a>Galeria<span></span> <span></span> <span></span> <span></span></a>
+                                            <ul class=sub-menu>
+                                                <li><a href=gallerypage01.html>masonry</a></li>
+                                                <li><a href=gallery02.html>gallery column two</a></li>
+                                                <li><a href=gallery03.html>gallery column 03</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href=equipos.html>Equipos<span></span> <span></span> <span></span>
+                                            <span></span></a></li>
+                                        <li><a href=contact.html>contacto <span></span> <span></span> <span></span>
+                                            <span></span></a></li>
+                                        <li><a>error <span></span> <span></span> <span></span> <span></span></a>
+                                            <ul class=sub-menu>
+                                                <li><a href=400.html>400 page</a></li>
+                                                <li><a href=401.html>401 page</a></li>
+                                                <li><a href=403.html>403 page</a></li>
+                                                <li><a href=404.html>404 page</a></li>
+                                                <li><a href=500.html>500 page</a></li>
+                                                <li><a href=503.html>503 page</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class=social><a href=https://www.facebook.com/templatespoint.net class=facebook><i
+                            class="fa fa-facebook"></i></a> <a href=https://twitter.com/ class=twitter><i
+                            class="fa fa-twitter"></i></a> <a href=https://www.behance.net/ class=behance><i
+                            class="fa fa-behance"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class=innerbannerwrap>
+        <div class=content></div>
+        <div class=innerbanner><h2 class=bannerHeadline><span>Detalles del jugador</span></h2></div>
+    </div>
+    <section class=playerDpage>
+        <div class=container>
+            <div class=row><h2 class=heading>Detalles <span>del jugador</span></h2>
+
+            
+                <ul class="playerDetailsPage-info clearfix">
+                    <li>
+                        <div class="container">
+                            <div class="player-details">
+                                <p><strong>Nombre:</strong> {{ jugador['Nombre'] }}</p>
+                                <p><strong>Apellido Paterno:</strong> {{ jugador['Apellido_Paterno'] }}</p>
+                                <p><strong>Apellido Materno:</strong> {{ jugador['Apellido_Materno'] }}</p>
+                                <p><strong>RUT:</strong> {{ jugador['rut'] }}</p>
+                                <p><strong>Fecha de Nacimiento:</strong> {{ jugador['Fecha_Nacimiento'] }}</p>
+                                <p><strong>Categoría ID:</strong> {{ jugador['Categoria_ID'] }}</p>
+                                <p><strong>Equipo ID:</strong> {{ jugador['Equipo_ID'] }}</p>
+                                <p><strong>Posición ID:</strong> {{ jugador['Posicion_ID'] }}</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li></li>
+                    <li><h5>Me gusta luchar por cada balón como si fuera el último y darlo todo en el campo.</h5>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique.</p>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, tempore consequuntur.
+                            Magni distinctio nihil.</p>
+
+                        <div class="playersocial bg-black clearfix"><a href=# class=social_link><i
+                                class="fa fa-facebook"></i></a> <a href=# class=social_link><i
+                                class="fa fa-linkedin"></i></a> <a href=# class=social_link><i
+                                class="fa fa-twitter"></i></a> <a href=# class=social_link><i class="fa-twitter"></i></a>
+                        </div>
+                    </li>
+                </ul>
+                <div class=information_section><h4>Acerca de</h4>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla at, recusandae, iure omnis,
+                        debitis quam distinctio mollitia minima dolorem voluptatibus ducimus hic. Officiis quas
+                        laudantium unde veniam repudiandae quam, ea.Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Provident odio et adipisci sed dolorem id ipsam deleniti porro, cum quaerat cumque veniam
+                        velit veritatis aliquam iusto facilis qui earum, at.Lorem ipsum dolor sit amet, consectetur
+                        adipisicing elit. Vitae deleniti quaerat ducimus, earum tempore aspernatur molestiae ad commodi,
+                        omnis minus! Esse quisquam nemo ducimus reiciendis repellendus, deleniti quae saepe magnam.</p>
+                    <h4>Trayectoria Deportiva</h4>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio quis id totam veniam perferendis
+                        sapiente nostrum facere iure ipsa laboriosam perspiciatis voluptatum labore soluta, eligendi
+                        veritatis atque molestias a natus?</p>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem alias assumenda non nesciunt
+                        atque nam, quos obcaecati doloribus necessitatibus nisi voluptas libero sunt officiis quisquam
+                        sit, saepe deserunt, rerum eligendi?Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Commodi corporis fugit nostrum fuga, iure sequi reiciendis, omnis eius nihil provident nisi
+                        adipisci veritatis rem. Ipsa ipsam, aliquam omnis facilis minima.Lorem ipsum dolor sit amet,
+                        consectetur adipisicing elit. Molestias itaque dolore nam libero quidem, veritatis provident
+                        error est quo illo vel fugit, ut, possimus. Animi esse labore eum unde aliquam.</p><h4>
+                        Inspirando Generaciones</h4>
+
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni in facere sequi aspernatur
+                        assumenda expedita commodi quas quibusdam laboriosam, dignissimos, vitae non est iste blanditiis
+                        reprehenderit aut quis iusto error.Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                        Nobis fuga non expedita ullam earum iusto magni necessitatibus inventore sequi omnis nisi
+                        repudiandae, voluptates unde facere cupiditate velit reiciendis sunt, quos!.</p><h4>Pasión y Sacrificio: El Legado de Erick Lagos </h4>
+
+                    <p>nunc dui viverra quam, eget pharetra sapien sem luctus ex. Integer aliquam nec mi in bibendum.
+                        Duis pulvinar lacinia lacinia. Nulla eget eros et lorem sodales venenatis. Aenean porta sapien
+                        lacinia mauris interdum, ac facilisis nisl volutpat. Phasellus dui ipsum, pellentesque eget
+                        massa vitae, pulvinar tristique mi. Sed vel semper libero, in facilisis erat. Donec vestibulum
+                        ultrices efficitur. Aenean sit amet luctus lacus. Nunc accumsan efficitur euismod. Fusce non
+                        libero et orci condimentum rutrum vel ac diam. Integer accumsan, ipsum ac eleifend sollicitudin,
+                        justo turpis suscipit magna, a lobortis odio ex eget mi.</p></div>
+                <div class=scoresBoard>
+                    <div class=sb_header><h4>Trayectoria</h4></div>
+                    <div class=sb_body>
+                        <div class="first-column clearfix">
+                            <div></div>
+                            <div>Temp.</div>
+                            <div>2013-14</div>
+                            <div>2014-2015</div>
+                            <div>2015-2016</div>
+                            <div>total</div>
+                        </div>
+                        <div class=wrapper-score-scrollbar>
+                            <div class=wrap>
+                                <div class=second-column>
+                                    <div class=""><a class=prevScore></a> <a class=nextScore></a> La Greda</div>
+                                    <ul>
+                                        <li>Asist.</li>
+                                        <li>Goles</li>
+                                    </ul>
+                                    <ul>
+                                        <li>25 + 1</li>
+                                        <li>5</li>
+                                    </ul>
+                                    <ul>
+                                        <li>21 +1</li>
+                                        <li>6</li>
+                                    </ul>
+                                    <ul>
+                                        <li>29 + 1</li>
+                                        <li>4</li>
+                                    </ul>
+                                    <ul>
+                                        <li>30+1</li>
+                                        <li>5</li>
+                                    </ul>
+                                </div>
+                                <div class=second-column>
+                                    <div class=""><a class=prevScore></a> <a class=nextScore></a> San Ignacio</div>
+                                    <ul>
+                                        <li>Asist.</li>
+                                        <li>Goles</li>
+                                    </ul>
+                                    <ul>
+                                        <li>25 + 1</li>
+                                        <li>5</li>
+                                    </ul>
+                                    <ul>
+                                        <li>21 +1</li>
+                                        <li>6</li>
+                                    </ul>
+                                    <ul>
+                                        <li>29 + 1</li>
+                                        <li>4</li>
+                                    </ul>
+                                    <ul>
+                                        <li>30+1</li>
+                                        <li>5</li>
+                                    </ul>
+                                </div>
+                                <div class=second-column>
+                                    <div class=""><a class=prevScore></a> <a class=nextScore></a> Selva Negra</div>
+                                    <ul>
+                                        <li>Asist.</li>
+                                        <li>Goles</li>
+                                    </ul>
+                                    <ul>
+                                        <li>25 + 1</li>
+                                        <li>5</li>
+                                    </ul>
+                                    <ul>
+                                        <li>21 +1</li>
+                                        <li>6</li>
+                                    </ul>
+                                    <ul>
+                                        <li>29 + 1</li>
+                                        <li>4</li>
+                                    </ul>
+                                    <ul>
+                                        <li>30+1</li>
+                                        <li>5</li>
+                                    </ul>
+                                </div>
+                                <div class=second-column>
+                                    <div class=""><a class=prevScore></a> <a class=nextScore></a> Quiriquina</div>
+                                    <ul>
+                                        <li>Asist.</li>
+                                        <li>Goles</li>
+                                    </ul>
+                                    <ul>
+                                        <li>25 + 1</li>
+                                        <li>5</li>
+                                    </ul>
+                                    <ul>
+                                        <li>21 +1</li>
+                                        <li>6</li>
+                                    </ul>
+                                    <ul>
+                                        <li>29 + 1</li>
+                                        <li>4</li>
+                                    </ul>
+                                    <ul>
+                                        <li>30+1</li>
+                                        <li>5</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="second-column total clearfix">
+                            <div class="">total</div>
+                            <ul>
+                                <li>Asist.</li>
+                                <li>Goles</li>
+                            </ul>
+                            <ul>
+                                <li>25 + 1</li>
+                                <li>5</li>
+                            </ul>
+                            <ul>
+                                <li>21 +1</li>
+                                <li>6</li>
+                            </ul>
+                            <ul>
+                                <li>29 + 1</li>
+                                <li>4</li>
+                            </ul>
+                            <ul>
+                                <li>30+1</li>
+                                <li>5</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class=playerYear>
+        <div class=container>
+            <div class=row><h2 class=heading>mi <span>año</span></h2>
+                <ul class="yr_accordion clearfix">
+                    <li class=active><a href=#detailsprevYr>2015-2016</a></li>
+                    <li><a href=#detailscurrentYr>2014-2015</a></li>
+                    <li><a href=#detailsnextYr>2013-2014</a></li>
+                </ul>
+                <div class="information-wrap clearfix">
+                    <div role=tabpanel class="tab-pane information_section active" id=detailsprevYr><h4>Junio</h4>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores impedit, consequuntur
+                            commodi inventore modi debitis! Doloribus iste vero officia consequuntur cumque sequi, enim
+                            omnis magnam ipsum, nihil dolor, maxime repudiandae.</p>
+
+                        <p>Vivamus ac lectus non eros pharetra lobortis id sollicitudin orci. Mauris nec semper metus.
+                            Sed luctus justo a egestas sagittis. Cras a iaculis nibh. Ut pellentesque ligula nec nunc
+                            efficitur gravida. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
+                            cubilia Curae; Vestibulum eu magna neque. Suspendisse aliquam scelerisque posuere.</p><h4>
+                            febrero</h4>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio quis id totam veniam
+                            perferendis sapiente nostrum facere iure ipsa laboriosam perspiciatis voluptatum labore
+                            soluta, eligendi veritatis atque molestias a natus?</p><h4>marzo</h4>
+
+                        <p>TVivamus sapien nisi, finibus a lectus a, faucibus convallis dui. Morbi in dolor eleifend
+                            odio gravida euismod vitae ut elit. Fusce eget aliquet nisi. In quis massa tristique,
+                            elementum lorem in, malesuada nibh. Fusce sit amet pellentesque lacus, vel dictum leo. Etiam
+                            commodo ornare justo a rutrum. Nulla commodo, augue ut convallis varius, dolor massa
+                            consequat neque, ut placerat diam lectus vitae enim. Sed in pretium nulla. Fusce consequat
+                            nisl arcu, in vulputate leo aliquet non. Proin molestie vehicula ultrices. Nam vel suscipit
+                            nunc, et aliquam augue. Praesent ornare lectus in est varius, sed convallis nisl laoreet.
+                            Nunc sit amet congue justo.</p><h4>abril</h4>
+
+                        <p>nunc dui viverra quam, eget pharetra sapien sem luctus ex. Integer aliquam nec mi in
+                            bibendum. Duis pulvinar lacinia lacinia. Nulla eget eros et lorem sodales venenatis. Aenean
+                            porta sapien lacinia mauris interdum, ac facilisis nisl volutpat. Phasellus dui ipsum,
+                            pellentesque eget massa vitae, pulvinar tristique mi. Sed vel semper libero, in facilisis
+                            erat. Donec vestibulum ultrices efficitur. Aenean sit amet luctus lacus. Nunc accumsan
+                            efficitur euismod. Fusce non libero et orci condimentum rutrum vel ac diam. Integer
+                            accumsan, ipsum ac eleifend sollicitudin, justo turpis suscipit magna, a lobortis odio ex
+                            eget mi.</p></div>
+                    <div role=tabpanel class="tab-pane information_section" id=detailscurrentYr><h4>junio</h4>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores impedit, consequuntur
+                            commodi inventore modi debitis! Doloribus iste vero officia consequuntur cumque sequi, enim
+                            omnis magnam ipsum, nihil dolor, maxime repudiandae.</p>
+
+                        <p>Vivamus ac lectus non eros pharetra lobortis id sollicitudin orci. Mauris nec semper metus.
+                            Sed luctus justo a egestas sagittis. Cras a iaculis nibh. Ut pellentesque ligula nec nunc
+                            efficitur gravida. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
+                            cubilia Curae; Vestibulum eu magna neque. Suspendisse aliquam scelerisque posuere.</p><h4>
+                            febrero</h4>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio quis id totam veniam
+                            perferendis sapiente nostrum facere iure ipsa laboriosam perspiciatis voluptatum labore
+                            soluta, eligendi veritatis atque molestias a natus?</p><h4>marzo</h4>
+
+                        <p>TVivamus sapien nisi, finibus a lectus a, faucibus convallis dui. Morbi in dolor eleifend
+                            odio gravida euismod vitae ut elit. Fusce eget aliquet nisi. In quis massa tristique,
+                            elementum lorem in, malesuada nibh. Fusce sit amet pellentesque lacus, vel dictum leo. Etiam
+                            commodo ornare justo a rutrum. Nulla commodo, augue ut convallis varius, dolor massa
+                            consequat neque, ut placerat diam lectus vitae enim. Sed in pretium nulla. Fusce consequat
+                            nisl arcu, in vulputate leo aliquet non. Proin molestie vehicula ultrices. Nam vel suscipit
+                            nunc, et aliquam augue. Praesent ornare lectus in est varius, sed convallis nisl laoreet.
+                            Nunc sit amet congue justo.</p><h4>abril</h4>
+
+                        <p>nunc dui viverra quam, eget pharetra sapien sem luctus ex. Integer aliquam nec mi in
+                            bibendum. Duis pulvinar lacinia lacinia. Nulla eget eros et lorem sodales venenatis. Aenean
+                            porta sapien lacinia mauris interdum, ac facilisis nisl volutpat. Phasellus dui ipsum,
+                            pellentesque eget massa vitae, pulvinar tristique mi. Sed vel semper libero, in facilisis
+                            erat. Donec vestibulum ultrices efficitur. Aenean sit amet luctus lacus. Nunc accumsan
+                            efficitur euismod. Fusce non libero et orci condimentum rutrum vel ac diam. Integer
+                            accumsan, ipsum ac eleifend sollicitudin, justo turpis suscipit magna, a lobortis odio ex
+                            eget mi.</p><h4>mayo</h4>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit, repudiandae asperiores
+                            nulla quasi labore dolorem fugit! Unde possimus, accusantium dicta, obcaecati sed nulla
+                            similique neque earum ad cumque soluta ipsa.</p></div>
+                    <div role=tabpanel class="tab-pane information_section" id=detailsnextYr><h4>abril</h4>
+
+                        <p>nunc dui viverra quam, eget pharetra sapien sem luctus ex. Integer aliquam nec mi in
+                            bibendum. Duis pulvinar lacinia lacinia. Nulla eget eros et lorem sodales venenatis. Aenean
+                            porta sapien lacinia mauris interdum, ac facilisis nisl volutpat. Phasellus dui ipsum,
+                            pellentesque eget massa vitae, pulvinar tristique mi. Sed vel semper libero, in facilisis
+                            erat. Donec vestibulum ultrices efficitur. Aenean sit amet luctus lacus. Nunc accumsan
+                            efficitur euismod. Fusce non libero et orci condimentum rutrum vel ac diam. Integer
+                            accumsan, ipsum ac eleifend sollicitudin, justo turpis suscipit magna, a lobortis odio ex
+                            eget mi.</p><h4>mayo</h4>
+
+                        <p>nunc dui viverra quam, eget pharetra sapien sem luctus ex. Integer aliquam nec mi in
+                            bibendum. Duis pulvinar lacinia lacinia. Nulla eget eros et lorem sodales venenatis. Aenean
+                            porta sapien lacinia mauris interdum, ac facilisis nisl volutpat. Phasellus dui ipsum,
+                            pellentesque eget massa vitae, pulvinar tristique mi. Sed vel semper libero, in facilisis
+                            erat. Donec vestibulum ultrices efficitur. Aenean sit amet luctus lacus. Nunc accumsan
+                            efficitur euismod. Fusce non libero et orci condimentum rutrum vel ac diam. Integer
+                            accumsan, ipsum ac eleifend sollicitudin, justo turpis suscipit magna, a lobortis odio ex
+                            eget mi.</p><h4>junio</h4>
+
+                        <p>nunc dui viverra quam, eget pharetra sapien sem luctus ex. Integer aliquam nec mi in
+                            bibendum. Duis pulvinar lacinia lacinia. Nulla eget eros et lorem sodales venenatis. Aenean
+                            porta sapien lacinia mauris interdum, ac facilisis nisl volutpat. Phasellus dui ipsum,
+                            pellentesque eget massa vitae, pulvinar tristique mi. Sed vel semper libero, in facilisis
+                            erat. Donec vestibulum ultrices efficitur. Aenean sit amet luctus lacus. Nunc accumsan
+                            efficitur euismod. Fusce non libero et orci condimentum rutrum vel ac diam. Integer
+                            accumsan, ipsum ac eleifend sollicitudin, justo turpis suscipit magna, a lobortis odio ex
+                            eget mi.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class=footer-type01>
+        <div class=container>
+            <div class=row>
+                <ul class=footer-widget>
+                    <li class=widget-about><h4 class=footerheading>Acerca <span>de</span></h4>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis vitae, velit perferendis
+                            dolor atque magni, porro minus repellendus nostrum alias ea deserunt. Vel quam explicabo
+                            laudantium accusamus est, nulla minima!</p>
+
+                        <p><span class=uppercaseheading>Direccion:</span><span class=red>239</span> Calle los Alamos
+                            San Ignacio,Chile.</p>
+
+                        <p><span class=uppercaseheading>call:</span> <span class=red>956758745</span></p></li>
+                    <li class=widget-news><h4 class=footerheading>Noticias <span>Recientes</span></h4>
+                        <ul class="widget-newsdetails clearfix">
+                            <li class=clearfix><a href="#" class=clearfix>
+                                <div class=widget-pic style="background: url({{ url_for('static', filename='images/widget/widget01.jpg') }}) center no-repeat;"></div>
+                                <div class=widget-newsinfo><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    Numquam soluta excepturi.</p>
+
+                                    <p class=uppercaseheading>18 september ,<span class=red>2015</span></p></div>
+                            </a></li>
+                            <li class=clearfix><a href="#" class=clearfix>
+                                <div class=widget-pic style="background: url({{ url_for('static', filename='images/widget/widget02.jpg') }}) center no-repeat;"></div>
+                                <div class=widget-newsinfo><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    Numquam soluta excepturi.</p>
+
+                                    <p class=uppercaseheading>18 september ,<span class=red>2015</span></p></div>
+                            </a></li>
+                            <li class=clearfix><a href="#" class=clearfix>
+                                <div class=widget-pic style="background: url({{ url_for('static', filename='images/widget/widget03.jpg') }}) center no-repeat;"></div>
+                                <div class=widget-newsinfo><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                    Numquam soluta excepturi.</p>
+
+                                    <p class=uppercaseheading>18 september ,<span class=red>2015</span></p></div>
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class=footer-type02>
+            <div class=container>
+                <div class=row><a href=index-2.html class=footer-logo><img src="{{ url_for('static', filename='images/logo.png') }}" alt=image></a>
+
+                    <div class=footer-container>
+                        <ul class=clearfix>
+                            <li><a href=https://www.facebook.com/ class=bigsocial-link><i
+                                    class="fa fa-facebook"></i></a></li>
+                            <li><a href=https://twitter.com/ class=bigsocial-link target=_blank><i
+                                    class="fa fa-twitter"></i></a></li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<script src="{{ url_for('static', filename='js/vendor/vendor.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-/*
+
 Name:  
 Author :
 Repo :  
@@ -1489,8 +1489,8 @@ blockquote.pull-right {
 address {
   margin-bottom: 20px;
   font-style: normal;
-  line-height: 1.428571429; }
-
+  line-height: 1.428571429; 
+}
 code,
 kbd,
 pre,
@@ -6868,7 +6868,7 @@ h6 {
 
 .footer-type02 {
   padding: 30px 0;
-  background-image: url("images/background/heroesBg.jpg");
+  background-image: url("{{ url_for('static', filename='images/background/heroesBg.jpg') }}");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; }
@@ -7968,10 +7968,11 @@ ul.videoLive {
   height: 600px;
   position: relative;
   overflow: hidden;
-  background: url(images/background/innerpageBg.jpg) center no-repeat;
+  background: url({{ url_for('static', filename='images/background/innerpageBg.jpg') }}) center no-repeat;
   /* Image Credit: Unsplash.me */
   background-size: cover;
-  background-attachment: fixed; }
+  background-attachment: fixed; 
+}
 
 .innerbannerwrap {
   position: relative; }
@@ -8332,7 +8333,7 @@ section {
 
 .players {
   padding: 70px 0 0;
-  background-image: url("images/background/heroesBg.jpg");
+  background-image: url("{{ url_for('static', filename='images/background/heroesBg.jpg') }}");
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat; }
@@ -10579,7 +10580,7 @@ ul.slick-dots {
       width: 33.3333333333%; } }
   .playerDetailsPage-info li:first-of-type {
     padding: 50px;
-    background-image: url("images/background/heroesBg.jpg");
+    background-image: url("{{ url_for('static', filename='images/background/heroesBg.jpg') }}");
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat; }
@@ -10596,13 +10597,13 @@ ul.slick-dots {
       font-weight: 400;
       text-transform: capitalize; }
   .playerDetailsPage-info li:nth-of-type(2) {
-    background-image: url("images/player/player01.jpg");
+    background-image: url("{{ url_for('static', filename='images/player/player01.jpg') }}");
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
     height: 600px; }
   .playerDetailsPage-info li:last-of-type {
-    background-image: url("images/background/heroesBg.jpg");
+    background-image: url("{{ url_for('static', filename='images/background/heroesBg.jpg') }}");
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;

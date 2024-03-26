@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Posiciones</title>
+</head>
+<body>
+    <h1>Segunda división Juvenil</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Pos</th>
+                <th>Club</th>
+                <th>PTS</th>
+                <th>PJ</th>
+                <th>PG</th>
+                <th>PE</th>
+                <th>PP</th>
+                <th>GF</th>
+                <th>GC</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in tabla_juvenil_s %}
+            <tr>
+                <td>{{ fila.Pos }}</td>
+                <td>{{ fila.Club }}</td>
+                <td>{{ fila.PTS }}</td>
+                <td>{{ fila.PJ }}</td>
+                <td>{{ fila.PG }}</td>
+                <td>{{ fila.PE }}</td>
+                <td>{{ fila.PP }}</td>
+                <td>{{ fila.GF }}</td>
+                <td>{{ fila.GC }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,156 @@
+/* Estilos para el encabezado principal */
+.header-main {
+    background-color: #000000; /* Color de fondo del encabezado */
+    color: #fff; /* Color del texto en el encabezado */
+    padding: 0; /* Espaciado interno del encabezado */
+    text-align: center; /* Alineación del texto al centro */
+    font-size: 18px; /* Tamaño de fuente del encabezado */
+    width: 100%;
+}
+
+
+/* Estilos para el contenedor del encabezado */
+.container {
+    width: 90%; /* Ancho del contenedor */
+    height: 200px;
+    margin: 0 auto; /* Centrar el contenedor */
+    overflow: hidden; /* Evitar desbordamiento */
+}
+
+/* Estilos para la fila del encabezado */
+.row {
+    display: flex; /* Mostrar como flexbox */
+    justify-content: space-between; /* Distribuir elementos equitativamente */
+    align-items: center; /* Alinear elementos verticalmente */
+}
+
+/* Estilos para los elementos de la lista en el encabezado */
+.header-main ul {
+    list-style: none; /* Quitar viñetas de la lista */
+}
+
+.header-main ul li {
+    display: inline-block; /* Mostrar elementos en línea */
+    margin-right: 20px; /* Margen derecho entre elementos */
+}
+
+/* Estilos para los enlaces en el encabezado */
+.header-main a {
+    color: #fff; /* Color de los enlaces */
+    text-decoration: none; /* Sin subrayado en los enlaces */
+}
+
+.header-main a:hover {
+    text-decoration: underline; /* Subrayado al pasar el ratón */
+}
+
+/* Estilos para el logotipo en el encabezado */
+.logo img {
+    max-width: 100%; /* Ancho máximo del logotipo */
+    height: auto; /* Altura automática */
+}
+
+/* Estilos para el menú de navegación en el encabezado */
+.menubar {
+    display: flex; /* Mostrar como flexbox */
+    align-items: center; /* Alinear elementos verticalmente */
+}
+
+.navbar {
+    flex-grow: 1; /* Que el menú de navegación ocupe todo el espacio disponible */
+}
+
+/* Estilos para el botón de navegación en el encabezado */
+.navbar-toggle {
+    display: none; /* Ocultar el botón de navegación por defecto */
+}
+
+/* Estilos para la lista de navegación en el encabezado */
+.navbar ul {
+    list-style: none; /* Quitar viñetas de la lista */
+    padding: 0; /* Eliminar relleno de la lista */
+}
+
+.navbar ul li {
+    display: inline-block; /* Mostrar elementos en línea */
+    margin-right: 20px; /* Margen derecho entre elementos */
+}
+
+/* Estilos para los elementos de la sublista en el encabezado */
+.navbar ul ul {
+    display: none; /* Ocultar sublista por defecto */
+    position: absolute; /* Posición absoluta */
+    background-color: #333; /* Color de fondo de la sublista */
+}
+
+.navbar ul ul li {
+    display: block; /* Mostrar elementos como bloque */
+    width: 100%; /* Ancho completo */
+    text-align: left; /* Alineación del texto a la izquierda */
+}
+
+/* Estilos para los enlaces de la sublista en el encabezado */
+.navbar ul ul li a {
+    display: block; /* Mostrar enlaces como bloque */
+    padding: 10px; /* Espaciado interno */
+    color: #fff; /* Color del texto */
+    text-decoration: none; /* Sin subrayado */
+}
+
+/* Estilos para los enlaces de la sublista al pasar el ratón */
+.navbar ul ul li a:hover {
+    background-color: #555; /* Cambio de color de fondo al pasar el ratón */
+}
+
+/* Estilos para los elementos sociales en el encabezado */
+.social {
+    display: inline-block; /* Mostrar elementos en línea */
+}
+
+/* Estilos para los elementos sociales en el encabezado */
+.social a {
+    color: #fff; /* Color de los enlaces */
+    margin-left: 10px; /* Margen izquierdo entre elementos */
+}
+
+/* Estilos para los elementos sociales al pasar el ratón */
+.social a:hover {
+    color: #ccc; /* Cambio de color al pasar el ratón */
+}
+/*categoria*/
+/* Oculta el menú de categorías por defecto */
+#categoria-menu {
+    display: none;
+}
+
+/* Muestra el menú de categorías cuando el checkbox está marcado */
+#categoria-btn:checked ~ #categoria-menu {
+    display: block;
+}
+
+/* Estilo para el checkbox */
+#categoria-btn {
+    display: none;
+}
+
+/* Estilo para el contenedor del texto "Categoría" */
+label[for="categoria-btn"] {
+    cursor: pointer;
+    position: relative;
+}
+
+/* Estilo para la flecha */
+.arrow {
+    position: absolute;
+    right: 20px; /* Ajusta la distancia entre la flecha y el texto "Categoría" */
+    top: 50%;
+    transform: translateY(-50%) rotate(0deg);
+    transition: transform 0.3s ease;
+}
+
+/* Rotación de la flecha cuando el menú está abierto */
+#categoria-btn:checked ~ label[for="categoria-btn"] .arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+

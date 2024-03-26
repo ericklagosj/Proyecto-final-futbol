@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset=utf-8>
+        <meta name=description content="">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <title>Tabla de Posiciones</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='css/favicon.ico') }}">
+        <link rel=stylesheet href="{{ url_for('static', filename='css/tablas.css') }}">
+        <link rel=stylesheet href="{{ url_for('static', filename='css/vendor.css') }}">
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/layerslide.css') }}">
+    
+    </head>
+<body>
+    <header class=header-main>
+        
+        <div class="header-lower clearfix">
+            <div class=container>
+                <div class=row>
+                    <h1 class=logo><a href=index-2.html><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"></a></h1>
+                    <div class=menubar>
+                        <nav class=navbar>
+                            <div class=nav-wrapper>
+                                <div class=navbar-header>
+                                    <button type=button class=navbar-toggle><span class=sr-only>Toggle navigation</span>
+                                        <span class=icon-bar></span></button>
+                                </div>
+                                <div class=nav-menu>
+                                    <ul class="nav navbar-nav menu-bar">
+                                        <li><a href=index-2.html class=active>Inicio <span></span> <span></span>
+                                            <span></span> <span></span></a></li>
+                                        <li><a href=blog.html>Noticias<span></span> <span></span> <span></span>
+                                            <span></span></a></li>
+                                        <li><a>Galeria<span></span> <span></span> <span></span> <span></span></a>
+                                            <ul class=sub-menu>
+                                                <li><a href=gallerypage01.html>masonry</a></li>
+                                                <li><a href=gallery02.html>gallery column two</a></li>
+                                                <li><a href=gallery03.html>gallery column 03</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href=#>Equipos<span></span> <span></span> <span></span>
+                                            <span></span></a></li>
+                                        <li><a>Tabla de Posiciones<span></span> <span></span> <span></span> <span></span></a>
+                                            <ul class=sub-menu>
+                                                <li><a href="{{ url_for('tabla_posiciones')}}">Primera División</a></li>
+                                                <li><a href="{{ url_for('tabla_posiciones_segunda') }}">Segunda División</a></li>
+
+                                            </ul>
+                                        </li>
+                                        <li><a href=contact.html>contacto <span></span> <span></span> <span></span>
+                                            <span></span></a></li>
+                                        <li><a>error <span></span> <span></span> <span></span> <span></span></a>
+                                            <ul class=sub-menu>
+                                                <li><a href=400.html>400 page</a></li>
+                                                <li><a href=401.html>401 page</a></li>
+                                                <li><a href=403.html>403 page</a></li>
+                                                <li><a href=404.html>404 page</a></li>
+                                                <li><a href=500.html>500 page</a></li>
+                                                <li><a href=503.html>503 page</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class=social>
+                        <a href=https://www.facebook.com/templatespoint.net class=facebook><i
+                            class="fa fa-facebook"></i></a>
+                        <a href=https://twitter.com/itobuztech class=twitter><i
+                            class="fa fa-twitter"></i></a>
+                        <a href=https://www.behance.net/ class=behance><i
+                            class="fa fa-behance"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <h1>Tabla de Posiciones</h1>
+    
+    <li><a>Categoría<span></span> <span></span> <span></span> <span></span></a>
+        <ul class=sub-menu>
+            <li><a href="#">Juvenil</a></li>
+            <li><a href="#">Adulta</a></li>
+            <li><a href="#">Senior</a></li>
+            <li><a href="#">Super Senior</a></li>
+            <li><a href="#">Honor</a></li>
+        </ul>
+    </li>
+    
+    <table border="1" class="tabla-posiciones">
+        <thead>
+            <tr>
+                <th>Pos</th>
+                <th>Club</th>
+                <th>PTS</th>
+                <th>PJ</th>
+                <th>PG</th>
+                <th>PE</th>
+                <th>PP</th>
+                <th>GF</th>
+                <th>GC</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in tabla_posiciones %}
+            <tr>
+                <td>{{ fila.Pos }}</td>
+                <td>{{ fila.Club }}</td>
+                <td>{{ fila.PTS }}</td>
+                <td>{{ fila.PJ }}</td>
+                <td>{{ fila.PG }}</td>
+                <td>{{ fila.PE }}</td>
+                <td>{{ fila.PP }}</td>
+                <td>{{ fila.GF }}</td>
+                <td>{{ fila.GC }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>
