@@ -6,11 +6,11 @@
     <meta name=description content="">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <title>soccer club</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='css/favicon.ico') }}">
-    <link rel=stylesheet href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel=stylesheet href="{{ url_for('static', filename='css/vendor.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/layerslide.css') }}">
-
+    <link rel="shortcut icon" href="/static/css/favicon.ico">
+    <link rel=stylesheet href="/static/css/style.css">
+    <link rel=stylesheet href="/static/css/vendor.css">
+    <link rel=stylesheet type=text/css href="/static/css/layerslider.css">
+    <script src=/static/js/vendor/modernizr.js></script>
 </head>
 <body>
 <!--[if lt IE 10]>
@@ -31,7 +31,7 @@
         <div class="header-lower clearfix">
             <div class=container>
                 <div class=row>
-                    <h1 class=logo><a href=index-2.html><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"></a></h1>
+                    <h1 class=logo><a href=index-2.html><img src=" /static/images/logo.png" alt="Logo"></a></h1>
                     <div class=menubar>
                         <nav class=navbar>
                             <div class=nav-wrapper>
@@ -43,14 +43,10 @@
                                     <ul class="nav navbar-nav menu-bar">
                                         <li><a href=index-2.html class=active>Inicio <span></span> <span></span>
                                             <span></span> <span></span></a></li>
-                                        <li><a href=blog.html>Noticias<span></span> <span></span> <span></span>
+                                        <li><a href="{{ url_for('noticias')}}">Noticias<span></span> <span></span> <span></span>
                                             <span></span></a></li>
-                                        <li><a>Galeria<span></span> <span></span> <span></span> <span></span></a>
-                                            <ul class=sub-menu>
-                                                <li><a href=gallerypage01.html>masonry</a></li>
-                                                <li><a href=gallery02.html>gallery column two</a></li>
-                                                <li><a href=gallery03.html>gallery column 03</a></li>
-                                            </ul>
+                                        <li><a href="{{ url_for('galeria')}}">Galeria<span></span> <span></span> <span></span> <span></span></a>
+                            
                                         </li>
                                         <li><a href="{{ url_for('listar_equipos')}}">Equipos<span></span> <span></span> <span></span>
                                             <span></span></a></li>
@@ -63,15 +59,9 @@
                                         </li>
                                         <li><a href="{{ url_for('estadisticas_jugadores') }}">Estadisticas <span></span> <span></span> <span></span>
                                             <span></span></a></li>
-                                        <li><a>error <span></span> <span></span> <span></span> <span></span></a>
-                                            <ul class=sub-menu>
-                                                <li><a href=400.html>400 page</a></li>
-                                                <li><a href=401.html>401 page</a></li>
-                                                <li><a href=403.html>403 page</a></li>
-                                                <li><a href=404.html>404 page</a></li>
-                                                <li><a href=500.html>500 page</a></li>
-                                                <li><a href=503.html>503 page</a></li>
-                                            </ul>
+                                        <li><a href="{{ url_for('resultados_partidos')}}">Partidos <span></span> <span></span> <span></span> <span></span></a>
+                                        </li>
+                                        <li><a href="{{ url_for('mostrar_jugadores')}}">Asistencia <span></span> <span></span> <span></span> <span></span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -92,13 +82,13 @@
     </header>
     <div class=banner id=layerSlider style="width: 100%;">
         <div class=ls-slide data-ls="transition3d: 33,15; slidedelay: 8000 ; durationin:0;">
-            <img src="{{ url_for('static', filename='images/banner/background01.jpg') }}" class=ls-bg alt="Slide background">
+            <img src="/static/images/banner/background01.jpg" class=ls-bg alt="Slide background">
             <div class="ls-l layercontent01" style="top: 50%; left: 50%; z-index:4;"
                  data-ls="offsetxin:left; offsetxout:right; durationin: 4000; parallaxlevel: 8;">
-                <img src="{{ url_for('static', filename='images/banner/player.png') }}" alt=innerimage class=img-responsive
+                <img src="/static/images/banner/player.png" alt=innerimage class=img-responsive
                     style="max-width: 100% !important ;">
             </div>
-            <img src="{{ url_for('static', filename='images/banner/ball.png') }}"alt=innerimage class="ls-l layercontent02" style=z-index:5;
+            <img src="/static/images/banner/ball.png" alt=innerimage class="ls-l layercontent02" style=z-index:5;
                  data-ls="offsetxin: right; offsetxout:left; rotatein:-360; easingin: easeoutquart; durationin: 4000; delayin: 250; parallaxlevel: -5;">
             <img src="{{ url_for('static', filename='images/banner/front_particles.png') }}"alt=particles class=ls-l style="z-index:3; left:0;"
                  data-ls="offsetxin: left; offsetxout:left; scalexin:50; easingin: easeoutquart; durationin: 3000; delayin: 250;">
@@ -670,7 +660,7 @@
                         <li><a href="#">
                             <div class=playerFig>
                                 <div class=playerpic>
-                                    <div style="background: url({{ url_for('static', filename='images/team-logo/logo03.png') }})" class="teamLogoImg"></div>
+                                    <div style="background: /static/images/team-logo/logo03.png" class="teamLogoImg"></div>
 
                                 </div>
                                 <ul class="playerDetails clearfix">
@@ -684,7 +674,7 @@
                         <li><a href="#">
                             <div class=playerFig>
                                 <div class=playerpic>
-                                    <div style="background: url({{ url_for('static', filename='images/team-logo/logo04.png') }})" class="teamLogoImg"></div>
+                                    <div style="background: /static/images/team-logo/logo04.png" class="teamLogoImg"></div>
 
                                 </div>
                                 <ul class="playerDetails clearfix">
@@ -698,7 +688,7 @@
                         <li><a href="#">
                             <div class=playerFig>
                                 <div class=playerpic>
-                                    <div style="background: url({{ url_for('static', filename='images/team-logo/logo05.png') }})" class="teamLogoImg"></div>
+                                    <div style="background: /static/images/team-logo/logo05.png" class="teamLogoImg"></div>
 
                                 </div>
                                 <ul class="playerDetails clearfix">
@@ -765,7 +755,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery21.jpg') }}" alt=image>
+                    <div class=gallery_dtl><img src="/static/images/gallery/gallery021.jpg" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -775,7 +765,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery31.jpg') }}" alt=image>
+                    <div class=gallery_dtl><img src="/static/images/gallery/gallery031.jpg" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -795,7 +785,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery31.jpg') }}" alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery031.jpg') }}" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -805,7 +795,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/masonry/medium_01.jpg') }}"alt=image>
+                    <div class=gallery_dtl><img src= "/static/images/gallery/masonry/medium_01.jpg" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -815,7 +805,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery41.jpg') }}" alt=image>
+                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/gallery/gallery041.jpg') }}" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -825,7 +815,7 @@
                     </div>
                 </div>
                 <div class=grid_item>
-                    <div class=gallery_dtl><img src="{{ url_for('static', filename='images/masonry/medium_03.jpg') }}"alt=image>
+                    <div class=gallery_dtl><img src= "/static/images/gallery/masonry/medium_03.jpg" alt=image>
 
                         <div class=gallery_info>
                             <div class=galleryinfo_wrap><p class=uppercase>consectetur</p>
@@ -949,7 +939,7 @@
                     </a></li>
                     <li><a href=#>
                         <div>
-                            <div class="product-img" style="background: url({{ url_for('static', filename='images/product/product04.jpg') }}) center no-repeat"></div>
+                            <div class="product-img" style="background: url(/static/images/product/product04.jpg)"></div>
                         </div>
                         <ul class="oswald16 product_info">
                             <li class=detailsContainer><span>soccer jersey</span> <span><i
@@ -981,7 +971,7 @@
                         <ul class="widget-newsdetails clearfix">
                             <li class=clearfix><a href="#" class=clearfix>
                                 <div class=widget-pic
-                                     style="background:url(images/widget/widget01.jpg) center no-repeat"></div>
+                                     style="background: /static/images/widget/widget01.jpg" center no-repeat"></div>
                                 <div class=widget-newsinfo><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                                     Numquam soluta excepturi.</p>
 
@@ -989,7 +979,7 @@
                             </a></li>
                             <li class=clearfix><a href="#" class=clearfix>
                                 <div class=widget-pic
-                                     style="background:url(images/widget/widget02.jpg) center no-repeat"></div>
+                                     style="background:/static/images/widget/widget02.jpg" center no-repeat"></div>
                                 <div class=widget-newsinfo><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                                     Numquam soluta excepturi.</p>
 
@@ -997,7 +987,7 @@
                             </a></li>
                             <li class=clearfix><a href="#" class=clearfix>
                                 <div class=widget-pic
-                                     style="background:url(images/widget/widget03.jpg) center no-repeat"></div>
+                                     style="background: /static/images/widget/widget03.jpg" center no-repeat"></div>
                                 <div class=widget-newsinfo><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                                     Numquam soluta excepturi.</p>
 
@@ -1010,7 +1000,7 @@
         </div>
         <div class=footer-type02>
             <div class=container>
-                <div class=row><a href=index-2.html class=footer-logo><img src="{{ url_for('static', filename='images/logo.png') }}" alt=image></a>
+                <div class=row><a href=index-2.html class=footer-logo><img src="/static/images/logo.png" alt=image></a>
 
                     <div class=footer-container>
                         <ul class=clearfix>
@@ -1023,16 +1013,16 @@
                         </ul>
                         <p><a target="_blank" href="https://www.templatespoint.net/">Templates Point</a></p></div>
                     <div class=footer-appstore>
-                        <figure><a href=#><img src="{{ url_for('static', filename='images/appstore/apple.png') }}" alt=image></a></figure>
-                        <figure><a href=#><img src="{{ url_for('static', filename='images/appstore/google.png') }}" alt=image></a></figure>
+                        <figure><a href=#><img src="/static/images/appstore/apple.png" alt=image></a></figure>
+                        <figure><a href=#><img src="/static/images/appstore/google.png" alt=image></a></figure>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
 </div>
-<script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="/static/js/vendor/vendor.js"></script>
+<script src="/static/js/main.js"></script>
 
 
 </body>

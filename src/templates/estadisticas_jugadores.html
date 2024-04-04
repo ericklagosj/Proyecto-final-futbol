@@ -1,37 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas de Jugadores</title>
-</head>
-<body>
-    <h1>Estadísticas de Jugadores</h1>
-    <table border="1">
-        <thead>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ListadoEquipos</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/estadisticas_jugadores.css" />
+  </head>
+
+  <body>
+    <main class="table" id="customers_table">
+      <section class="table__header">
+        <!-- Encabezado de la tabla -->
+        <h1>Estadisticas Jugadores</h1>
+        <!-- Barra de búsqueda -->
+        <div class="input-group">
+          <input type="search" placeholder="Buscar Estadisticas..." />
+          <img src="/static/images/equipos/search.png" alt="" />
+        </div>
+        <!-- Opciones de exportación -->
+        <div class="export__file">
+          <label
+            for="export-file"
+            class="export__file-btn"
+            title="Exportar Archivo"
+          ></label>
+          <input type="checkbox" id="export-file" />
+          <div class="export__file-options">
+            <label>Exportar como &nbsp; &#10140;</label>
+            <label for="export-file" id="toPDF"
+              >PDF <img src="/static/images/equipos/pdf.png" alt=""
+            /></label>
+            <label for="export-file" id="toJSON"
+              >JSON <img src="/static/images/equipos/json.png" alt=""
+            /></label>
+            <label for="export-file" id="toCSV"
+              >CSV <img src="/static/images/equipos/csv.png" alt=""
+            /></label>
+            <label for="export-file" id="toEXCEL"
+              >EXCEL <img src="/static/images/equipos/excel.png" alt=""
+            /></label>
+          </div>
+        </div>
+      </section>
+      <!-- Cuerpo de la tabla -->
+      <section class="table__body">
+        <table>
+          <thead>
+            <!-- Encabezados de las columnas -->
             <tr>
-                <th>Nombre</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>Goles Anotados</th>
-                <th>Asistencias</th>
-                <th>Tarjetas Amarillas</th>
-                <th>Tarjetas Rojas</th>
+              <th>Nombre<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Apellido Materno<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Apellido Paterno<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Goles Anotados<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Asistencias<span class="icon-arrow">&UpArrow;</span></th>
+              <th>
+                Tarjetas Amarillas<span class="icon-arrow">&UpArrow;</span>
+              </th>
+              <th>Tarjetas Rojas<span class="icon-arrow">&UpArrow;</span></th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             {% for jugador in jugadores %}
+            <!-- Datos de los equipos -->
             <tr>
-                <td>{{ jugador['Nombre'] }}</td>
-                <td>{{ jugador['Apellido_Paterno'] }}</td>
-                <td>{{ jugador['Apellido_Materno'] }}</td>
-                <td>{{ jugador['Goles_Anotados'] }}</td>
-                <td>{{ jugador['Asistencias'] }}</td>
-                <td>{{ jugador['Tarjetas_Amarillas'] }}</td>
-                <td>{{ jugador['Tarjetas_Rojas'] }}</td>
+              <td>{{jugador['Nombre'] }}</td>
+              <td>{{jugador['Apellido_Paterno'] }}</td>
+              <td>{{jugador['Apellido_Materno'] }}</td>
+              <td>{{jugador['Goles_Anotados'] }}</td>
+              <td>{{jugador['Asistencias'] }}</td>
+              <td>{{jugador['Tarjetas_Amarillas'] }}</td>
+              <td>{{jugador['Tarjetas_Rojas'] }}</td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</body>
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <!-- Script JavaScript -->
+    <script src="static/js/estadisticas_jugadores.js"></script>
+  </body>
 </html>

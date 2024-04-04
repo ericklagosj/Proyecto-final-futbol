@@ -1,57 +1,228 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html class=no-js lang="">
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado Jugadores</title>
+    <meta charset=utf-8>
+    <meta name=description content="">
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <title>soccer club</title>
+    <link rel="shortcut icon" href=/static/css/favicon.ico>
+    <link rel=stylesheet href=/static/css/vendor.css>
+    <link rel=stylesheet type=text/css href=/static/css/layerslider.css>
     <link rel="stylesheet" type="text/css" href="/static/css/equipos.css" />
+    <script src=/static/js/vendor/modernizr.js></script>
 </head>
+<body><!--[if lt IE 10]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<div class=wrapper>
+    <header class=header-main>
+        <div class=header-upper>
+            <div class=container>
+                <div class=row>
+                    <ul>
+                        <li><a href="#">Registrar/logear</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="header-lower clearfix">
+            <div class=container>
+                <div class=row><h1 class=logo><a href=index-2.html><img src=/static/images/logo.png alt=image></a></h1>
 
-<body>
+                    <div class=menubar>
+                        <nav class=navbar>
+                            <div class=nav-wrapper>
+                                <div class=navbar-header>
+                                    <button type=button class=navbar-toggle><span class=sr-only>Toggle navigation</span>
+                                        <span class=icon-bar></span></button>
+                                </div>
+                                <div class=nav-menu>
+                                    <ul class="nav navbar-nav menu-bar">
+                                        <li><a href="{{ url_for('home') }}">Inicio <span></span> <span></span> <span></span>
+                                            <span></span></a></li>
+                                        <li><a href=# class=active>Noticias <span></span> <span></span>
+                                            <span></span> <span></span></a></li>
+                                        <li><a>Galeria <span></span> <span></span> <span></span> <span></span></a>
+                                            <ul class=sub-menu>
+                                                <li><a href=gallerypage01.html>masonry</a></li>
+                                                <li><a href=gallery02.html>gallery column two</a></li>
+                                                <li><a href=gallery03.html>gallery column 03</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href=#>Equipos <span></span> <span></span> <span></span>
+                                            <span></span></a></li>
+                                        <li><a href=#>Posiciones <span></span> <span></span>
+                                            <span></span> <span></span></a></li>
+                                        <li><a href=#>Estadisticas <span></span> <span></span> <span></span>
+                                            <span></span></a></li>
+                                        <li><a>error <span></span> <span></span> <span></span> <span></span></a>
+                                            <ul class=sub-menu>
+                                                <li><a href=400.html>400 page</a></li>
+                                                <li><a href=401.html>401 page</a></li>
+                                                <li><a href=403.html>403 page</a></li>
+                                                <li><a href=404.html>404 page</a></li>
+                                                <li><a href=500.html>500 page</a></li>
+                                                <li><a href=503.html>503 page</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class=social><a href=https://www.facebook.com/templatespoint.net class=facebook><i
+                            class="fa fa-facebook"></i></a> <a href=https://twitter.com/itobuztech class=twitter><i
+                            class="fa fa-twitter"></i></a> <a href=https://www.behance.net/ class=behance><i
+                            class="fa fa-behance"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class=innerbannerwrap>
+        <div class=innerbanner><h2 class=bannerHeadline>Los  <span>Tilos</span></h2></div>
+    </div>
+    <section class="matchSchedule countryclub">
+        <div class=container>
+            <div class=row><h2 class="heading small">información<span> del equipo</span></h2>
+
+                <p class=headParagraph>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil debitis mollitia
+                    Est.</p></div>
+        </div>
+    </section>
+    <section class=players>
+        <div class=container>
+            <div class=row><h2 class=heading>Miembros <span>Directivo</span></h2>
+
+                <p class=headParagraph>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis
+                    Laborum nesciunt doloribus expedita atque error rem molestias, ducimus.</p>
+
+                <div class="wrapplayer clearfix"><a class="prv prev-player"></a> <a class="nxt next-player"></a>
+                    <ul class="boardmember clearfix">
+                        <li class=clearfix>
+                            <div>
+                                <div>
+                                    <div class=fig01>
+                                        <div class="memberimg" style="background: url('/static/images/boardMember/boardMember01.jpg') no-repeat top center;"></div>
+                                    </div>
+                                    <div class="bg-black01 fig02"><h6 class=paragraph02>Sammie Stoddard</h6>
+
+                                        <p class="uppercaseheading red">Ayudante Tecnico</p>
+
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam officia
+                                            labore molestias, Doloribus, aspernatur.</p></div>
+                                    <div class="bg-black fig02"><p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                                        elit. Velit repellat cum necessitatibus quas magni! Qui, modi possimus.</p>
+                                    </div>
+                                    <div class="bg-redcolor fig02"><p>Fecha Na: 14 Abril 1975, Chile</p></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <div>
+                                    <div class=fig01>
+                                        <div class="memberimg" style="background: url('/static/images/boardMember/boardMember02.jpg') no-repeat top center;"></div>
+                                    </div>
+                                    <div class="bg-black01 fig02"><h6 class=paragraph02>Dominick Dumbleton</h6>
+
+                                        <p class="uppercaseheading red">Director Tecnico</p>
+
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam officia
+                                            labore molestias, Doloribus, aspernatur.</p></div>
+                                    <div class="bg-black fig02"><p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                                        elit. Velit repellat cum necessitatibus quas magni! Qui, modi possimus.</p>
+                                    </div>
+                                    <div class="bg-redcolor fig02"><p>Fecha Na: 14 Abril 1975, Chile</p></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <div>
+                                    <div class=fig01>
+                
+                                        <div class="memberimg" style="background: url('/static/images/boardMember/boardMember03.jpg') no-repeat top center;"></div>
+                                    </div>
+                                    <div class="bg-black01 fig02"><h6 class=paragraph02>Leland Lagos</h6>
+
+                                        <p class="uppercaseheading red">Enfermero</p>
+
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam officia
+                                            labore molestias, Doloribus, aspernatur.</p></div>
+                                    <div class="bg-black fig02"><p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                                        elit. Velit repellat cum necessitatibus quas magni! Qui, modi possimus.</p>
+                                    </div>
+                                    <div class="bg-redcolor fig02"><p>Fecha Na: 14 Abril 1975, England</p></div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <div>
+                                    <div class=fig01>
+                                        <div class="memberimg" style="background: url('/static/images/boardMember/boardMember02.jpg') no-repeat top center;"></div>
+                                    </div>
+                                    <div class="bg-black01 fig02"><h6 class=paragraph02>Kenton Kidd</h6>
+
+                                        <p class="uppercaseheading red">ceo</p>
+
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam officia
+                                            labore molestias, Doloribus, aspernatur.</p></div>
+                                    <div class="bg-black fig02"><p>Lorem ipsum dolor sit amet, consectetur adipisicing
+                                        elit. Velit repellat cum necessitatibus quas magni! Qui, modi possimus.</p>
+                                    </div>
+                                    <div class="bg-redcolor fig02"><p>BORN 14 April 1975, England</p></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>   
+</div>
+<div class="fondo">
     <main class="table" id="customers_table">
         <section class="table__header">
-            <h1>Lista De Jugadores</h1>
-        <div class="input-group">
-            <input type="search" id="search-input" placeholder="Buscar Jugadores..." />
-            <img src="/static/images/equipos/search.png" alt="" />
-        </div>
-        <div class="category-filter">
-            <label for="category-select">Seleccionar Categoría:</label>
-            <select id="category-select">
-                <option value="all">Todas</option>
-                <option value="1">Juvenil</option>
-                <option value="2">Adulta</option>
-                <option value="3">Senior</option>
-                <option value="4">Super Senior</option>
-                <option value="5">Honor</option>
-            </select>
-        </div>
-
-            <!-- Aquí puedes agregar los elementos de filtrado si es necesario -->
+            <h1></h1>
+            <div class="input-group">
+                <input type="search" placeholder="Buscar Jugadores..." />
+                <img src="/static/images/equipos/search.png" alt="" />
+            </div>
+            <div class="category-filter">
+                <form id="category-form" action="{{ url_for('obtener_equipo', id=equipo_id) }}" method="get">
+                    <label for="category-select">Seleccionar Categoría:</label>
+                    <select id="category-select" name="categoria">
+                        <option value="all">Todas</option>
+                        <option value="1">Juvenil</option>
+                        <option value="2">Adulta</option>
+                        <option value="3">Senior</option>
+                        <option value="4">Super Senior</option>
+                        <option value="5">Honor</option>
+                    </select>
+                </form>
+            </div>
+            
+            
         </section>
         <section class="table__body">
             <table>
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Apellido Paterno</th>
-                        <th>Apellido Materno</th>
-                        <th>Rut</th>
-                        <th>Fecha Nacimiento</th>
-                        <th>Posición</th>
-                        <th>Categoría</th>
+                        <th>Nombre <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Rut <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Fecha Nacimiento <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Categoría <span class="icon-arrow">&UpArrow;</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for jugador in jugadores %}
                     <tr class="player-row">
-                        <td>{{ jugador['id'] }}</td>
-                        <td>{{ jugador['Nombre'] }}</td>
-                        <td>{{ jugador['Apellido_Paterno'] }}</td>
-                        <td>{{ jugador['Apellido_Materno'] }}</td>                        <td>{{ jugador['rut'] }}</td>
+                        <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{ jugador['Apellido_Materno'] }}</a></td>
+                        <td>{{ jugador['rut'] }}</td>
                         <td>{{ jugador['Fecha_Nacimiento'] }}</td>
-                        <td>{{ jugador['posicion'] }}</td>
                         <td>{{ jugador['Categoria_ID'] }}</td>
                     </tr>
                     {% endfor %}
@@ -59,7 +230,20 @@
             </table>
         </section>
     </main>
+    
+</div>
+<footer class=footer-type01>
+</footer>
+<script>
+    document.getElementById('category-select').onchange = function() {
+        document.getElementById('category-form').submit();
+    };
+</script>
+
+<script src=/static/js/vendor/vendor.js></script>
+<script src=/static/js/main.js></script>
+<script src=/static/js/filtro.js></script>
+<script src=/static/js/equipo.js></script>
 </body>
-<script src="/static/js/filtro.js"></script>
-<script src="/static/js/equipo.js"></script>
+
 </html>

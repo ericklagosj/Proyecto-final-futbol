@@ -1,156 +1,314 @@
-/* Estilos para el encabezado principal */
-.header-main {
-    background-color: #000000; /* Color de fondo del encabezado */
-    color: #fff; /* Color del texto en el encabezado */
-    padding: 0; /* Espaciado interno del encabezado */
-    text-align: center; /* Alineación del texto al centro */
-    font-size: 18px; /* Tamaño de fuente del encabezado */
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+/* Estilos del body */
+body {
+    min-height: 100vh;
+    background: url(/static/images/equipos/estadio.jpg) center / cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos del contenedor principal */
+main.table {
+    width: 82vw;
+    height: 90vh;
+    background-color: #fff5;
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: .8rem;
+    overflow: hidden;
+}
+
+/* Estilos del encabezado de la tabla */
+.table__header {
+    width: 100%;
+    height: 10%;
+    background-color: #fff4;
+    padding: .8rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilos del grupo de entrada de búsqueda */
+.table__header .input-group {
+    width: 35%;
+    height: 100%;
+    background-color: #fff5;
+    padding: 0 .8rem;
+    border-radius: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .2s;
+}
+
+/* Estilos del grupo de entrada de búsqueda al pasar el cursor */
+.table__header .input-group:hover {
+    width: 45%;
+    background-color: #fff8;
+    box-shadow: 0 .1rem .4rem #0002;
+}
+
+/* Estilos de la imagen del grupo de entrada de búsqueda */
+.table__header .input-group img {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/* Estilos del input de búsqueda */
+.table__header .input-group input {
+    width: 100%;
+    padding: 0 .5rem 0 .3rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+/* Estilos del cuerpo de la tabla */
+.table__body {
+    width: 95%;
+    max-height: calc(89% - 1.6rem);
+    background-color: #fffb;
+    margin: .8rem auto;
+    border-radius: .6rem;
+    overflow: auto;
+    overflow: overlay;
+}
+
+/* Estilos de las barras de desplazamiento */
+.table__body::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+/* Estilos del pulgar de la barra de desplazamiento */
+.table__body::-webkit-scrollbar-thumb {
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+/* Estilos del pulgar de la barra de desplazamiento al pasar el cursor */
+.table__body:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
+
+/* Estilos generales de la tabla */
+table {
     width: 100%;
 }
 
-
-/* Estilos para el contenedor del encabezado */
-.container {
-    width: 90%; /* Ancho del contenedor */
-    height: 200px;
-    margin: 0 auto; /* Centrar el contenedor */
-    overflow: hidden; /* Evitar desbordamiento */
+/* Estilos generales de las celdas */
+table,
+th,
+td {
+    border-collapse: collapse;
+    padding: 1rem;
+    text-align: left;
 }
 
-/* Estilos para la fila del encabezado */
-.row {
-    display: flex; /* Mostrar como flexbox */
-    justify-content: space-between; /* Distribuir elementos equitativamente */
-    align-items: center; /* Alinear elementos verticalmente */
-}
-
-/* Estilos para los elementos de la lista en el encabezado */
-.header-main ul {
-    list-style: none; /* Quitar viñetas de la lista */
-}
-
-.header-main ul li {
-    display: inline-block; /* Mostrar elementos en línea */
-    margin-right: 20px; /* Margen derecho entre elementos */
-}
-
-/* Estilos para los enlaces en el encabezado */
-.header-main a {
-    color: #fff; /* Color de los enlaces */
-    text-decoration: none; /* Sin subrayado en los enlaces */
-}
-
-.header-main a:hover {
-    text-decoration: underline; /* Subrayado al pasar el ratón */
-}
-
-/* Estilos para el logotipo en el encabezado */
-.logo img {
-    max-width: 100%; /* Ancho máximo del logotipo */
-    height: auto; /* Altura automática */
-}
-
-/* Estilos para el menú de navegación en el encabezado */
-.menubar {
-    display: flex; /* Mostrar como flexbox */
-    align-items: center; /* Alinear elementos verticalmente */
-}
-
-.navbar {
-    flex-grow: 1; /* Que el menú de navegación ocupe todo el espacio disponible */
-}
-
-/* Estilos para el botón de navegación en el encabezado */
-.navbar-toggle {
-    display: none; /* Ocultar el botón de navegación por defecto */
-}
-
-/* Estilos para la lista de navegación en el encabezado */
-.navbar ul {
-    list-style: none; /* Quitar viñetas de la lista */
-    padding: 0; /* Eliminar relleno de la lista */
-}
-
-.navbar ul li {
-    display: inline-block; /* Mostrar elementos en línea */
-    margin-right: 20px; /* Margen derecho entre elementos */
-}
-
-/* Estilos para los elementos de la sublista en el encabezado */
-.navbar ul ul {
-    display: none; /* Ocultar sublista por defecto */
-    position: absolute; /* Posición absoluta */
-    background-color: #333; /* Color de fondo de la sublista */
-}
-
-.navbar ul ul li {
-    display: block; /* Mostrar elementos como bloque */
-    width: 100%; /* Ancho completo */
-    text-align: left; /* Alineación del texto a la izquierda */
-}
-
-/* Estilos para los enlaces de la sublista en el encabezado */
-.navbar ul ul li a {
-    display: block; /* Mostrar enlaces como bloque */
-    padding: 10px; /* Espaciado interno */
-    color: #fff; /* Color del texto */
-    text-decoration: none; /* Sin subrayado */
-}
-
-/* Estilos para los enlaces de la sublista al pasar el ratón */
-.navbar ul ul li a:hover {
-    background-color: #555; /* Cambio de color de fondo al pasar el ratón */
-}
-
-/* Estilos para los elementos sociales en el encabezado */
-.social {
-    display: inline-block; /* Mostrar elementos en línea */
-}
-
-/* Estilos para los elementos sociales en el encabezado */
-.social a {
-    color: #fff; /* Color de los enlaces */
-    margin-left: 10px; /* Margen izquierdo entre elementos */
-}
-
-/* Estilos para los elementos sociales al pasar el ratón */
-.social a:hover {
-    color: #ccc; /* Cambio de color al pasar el ratón */
-}
-/*categoria*/
-/* Oculta el menú de categorías por defecto */
-#categoria-menu {
-    display: none;
-}
-
-/* Muestra el menú de categorías cuando el checkbox está marcado */
-#categoria-btn:checked ~ #categoria-menu {
-    display: block;
-}
-
-/* Estilo para el checkbox */
-#categoria-btn {
-    display: none;
-}
-
-/* Estilo para el contenedor del texto "Categoría" */
-label[for="categoria-btn"] {
+/* Estilos del encabezado de la tabla */
+thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #d5d1defe;
     cursor: pointer;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+/* Estilos de las filas pares del cuerpo de la tabla */
+tbody tr:nth-child(even) {
+    background-color: #0000000b;
+}
+
+/* Estilos de las filas al pasar el cursor */
+tbody tr:hover {
+    background-color: #fff6 !important;
+}
+
+/* Estilos de las celdas, párrafos e imágenes al pasar el cursor */
+tbody tr td,
+tbody tr td p {
+    transition: .2s ease-in-out;
+    padding-left: 60px; /* Ajusta el valor según sea necesario para centrar más a la derecha */
+}
+
+/* Estilos de las imágenes de las celdas */
+tbody tr td img {
+    width: 36px;
+    height: 36px;
+    margin-right: .5rem;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+/* Estilos de las celdas ocultas */
+tbody tr.hide td,
+tbody tr.hide td p {
+    padding: 0;
+    font: 0 / 0 sans-serif;
+    transition: .2s ease-in-out .5s;
+}
+
+/* Estilos de las imágenes de las celdas ocultas */
+tbody tr.hide td img {
+    width: 0;
+    height: 0;
+    transition: .2s ease-in-out .5s;
+}
+
+/* Estilos para dispositivos con ancho de pantalla máximo de 1000px */
+@media (max-width: 1000px) {
+    /* Estilos para las celdas que no son la primera de su tipo */
+    td:not(:first-of-type) {
+        min-width: 12.1rem;
+    }
+}
+
+/* Estilos de la flecha en el encabezado de la tabla */
+thead th span.icon-arrow {
+    display: inline-block;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    border: 1.4px solid transparent;
+    text-align: center;
+    font-size: 1rem;
+    margin-left: .5rem;
+    transition: .2s ease-in-out;
+}
+
+/* Estilos de la flecha en el encabezado de la tabla al pasar el cursor */
+thead th:hover span.icon-arrow {
+    border: 1.4px solid #6c00bd;
+}
+
+/* Estilos del encabezado de la tabla al pasar el cursor */
+thead th:hover {
+    color: #6c00bd;
+}
+
+/* Estilos de la flecha activa en el encabezado de la tabla */
+thead th.active span.icon-arrow {
+    background-color: #6c00bd;
+    color: #fff;
+}
+
+/* Estilos de la flecha ascendente en el encabezado de la tabla */
+thead th.asc span.icon-arrow {
+    transform: rotate(180deg);
+}
+
+/* Estilos del encabezado de la tabla activo y celdas activas en el cuerpo */
+thead th.active,
+tbody td.active {
+    color: #6c00bd;
+}
+
+/* Estilos del botón de exportación de archivo */
+.export__file {
     position: relative;
 }
 
-/* Estilo para la flecha */
-.arrow {
+/* Estilos del botón de exportación de archivo */
+.export__file .export__file-btn {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background: #fff6 url(/static/images/equipos/export.png) center / 80% no-repeat;
+    border-radius: 50%;
+    transition: .2s ease-in-out;
+}
+
+/* Estilos del botón de exportación de archivo al pasar el cursor */
+.export__file .export__file-btn:hover {
+    background-color: #fff;
+    transform: scale(1.15);
+    cursor: pointer;
+}
+
+/* Estilos del input oculto de exportación de archivo
+/* Estilos del botón de exportación de archivo */
+.export__file .export__file-btn {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background: #fff6 url(/static/images/equipos/export.png) center / 80% no-repeat;
+    border-radius: 50%;
+    transition: .2s ease-in-out;
+}
+
+/* Estilos del botón de exportación de archivo al pasar el cursor */
+.export__file .export__file-btn:hover {
+    background-color: #fff;
+    transform: scale(1.15);
+    cursor: pointer;
+}
+
+/* Estilos del input oculto de exportación de archivo */
+.export__file input {
+    display: none;
+}
+
+/* Estilos de las opciones de exportación de archivo */
+.export__file .export__file-options {
     position: absolute;
-    right: 20px; /* Ajusta la distancia entre la flecha y el texto "Categoría" */
-    top: 50%;
-    transform: translateY(-50%) rotate(0deg);
-    transition: transform 0.3s ease;
+    right: 0;
+    width: 12rem;
+    border-radius: .5rem;
+    overflow: hidden;
+    text-align: center;
+    opacity: 0;
+    transform: scale(.8);
+    transform-origin: top right;
+    box-shadow: 0 .2rem .5rem #0004;
+    transition: .2s;
 }
 
-/* Rotación de la flecha cuando el menú está abierto */
-#categoria-btn:checked ~ label[for="categoria-btn"] .arrow {
-    transform: translateY(-50%) rotate(180deg);
+/* Estilos de las opciones de exportación de archivo al estar seleccionado el input */
+.export__file input:checked + .export__file-options {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 100;
 }
 
+/* Estilos de las etiquetas de las opciones de exportación de archivo */
+.export__file .export__file-options label {
+    display: block;
+    width: 100%;
+    padding: .6rem 0;
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    transition: .2s ease-in-out;
+}
 
+/* Estilos de la primera etiqueta de las opciones de exportación de archivo */
+.export__file .export__file-options label:first-of-type {
+    padding: 1rem 0;
+    background-color: #86e49d !important;
+}
+
+/* Estilos de las etiquetas de las opciones de exportación de archivo al pasar el cursor */
+.export__file .export__file-options label:hover {
+    transform: scale(1.05);
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* Estilos de las imágenes de las opciones de exportación de archivo */
+.export__file .export__file-options img {
+    width: 2rem;
+    height: auto;
+}

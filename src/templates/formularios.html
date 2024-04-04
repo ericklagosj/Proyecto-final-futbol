@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivos Disponibles</title>
+</head>
+<body>
+    <h1>Archivos Disponibles</h1>
+    <ul>
+        {% for archivo in archivos %}
+            <li><a href="{{ url_for('descargar_archivo', nombre_archivo=archivo) }}">{{ archivo }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

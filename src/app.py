@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, render_template_string
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, render_template_string, send_from_directory
 from flask_mysqldb import MySQL
-
+import os
 
 app = Flask(__name__, template_folder='./templates')
 app.secret_key = "erick"
@@ -23,6 +23,14 @@ def home():
 @app.route('/admin')
 def admin():
     return render_template('admin.html')   
+
+@app.route('/galeria')
+def galeria():
+    return render_template('galeria.html')   
+
+@app.route('/noticias')
+def noticias():
+    return render_template('noticias.html') 
 
 @app.route('/acceso-login', methods=["GET", "POST"])
 def login():
@@ -100,7 +108,27 @@ def crear_registro():
 
     return redirect(url_for('listar_jugadores'))
 
+######################################################
+#############Descargar formularios####################
+UPLOAD_FOLDER = 'archivos'
+# Verificar si el directorio de carga existe, si no, crearlo
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'archivo' not in request.files:
+        return redirect(request.url)
+    archivo = request.files['archivo']
+    if archivo.filename == '':
+        return redirect(request.url)
+    if archivo:
+        archivo.save(os.path.join(app.config['UPLOAD_FOLDER'], archivo.filename))
+        return render_template('formularios.html')
+
+@app.route('/archivos/<nombre_archivo>')
+def descargar_archivo(nombre_archivo):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], nombre_archivo)
 
 # Ruta para listar jugadores
 @app.route('/listar-jugadores')
@@ -108,9 +136,25 @@ def listar_jugadores():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM jugador")
     jugadores = cur.fetchall()
+
+    # Obtener el parámetro de consulta 'categoria'
+    categoria = request.args.get('categoria')
+    
+    # Definir la consulta base para obtener jugadores
+    consulta_jugadores = "SELECT * FROM jugador WHERE Equipo_ID = %s"
+    
+    # Si se proporciona la categoría, ajusta la consulta para filtrar jugadores por esa categoría
+    if categoria:
+        consulta_jugadores += " AND Categoria_ID = %s"
+        cur.execute(consulta_jugadores, (id, categoria))
+    else:
+        cur.execute(consulta_jugadores, (id,))
     cur.close()
     
+    
     return render_template("listar_jugadores.html", jugadores=jugadores)
+
+
 
 # Ruta para listar equipos
 @app.route('/listar-equipos')
@@ -123,7 +167,6 @@ def listar_equipos():
     return render_template("listar_equipos.html", equipos=equipos)
 
 
-# muestra vista por cada equipo y su plantilla de jugadores
 @app.route('/equipo/<int:id>')
 def obtener_equipo(id):
     cur = mysql.connection.cursor()
@@ -151,14 +194,11 @@ def obtener_equipo(id):
         # Definir equipo_id aquí para pasarlo a la plantilla
         equipo_id = id
 
-        # Renderiza la plantilla HTML correspondiente al equipo y pasa la información del equipo y los jugadores
-        return render_template(f"equipos/equipo{id}.html", equipo=equipo, jugadores=jugadores)
+        # Renderiza la plantilla HTML correspondiente al equipo y pasa la información del equipo, jugadores y equipo_id
+        return render_template(f"equipos/equipo{id}.html", equipo=equipo, jugadores=jugadores, equipo_id=equipo_id)
     else:
         # Si no se encuentra el equipo, devuelve un mensaje de error y un código de estado 404
         return jsonify({"error": "equipo no encontrado"}), 404
-
-
-
 
 
 
@@ -193,27 +233,125 @@ def estadisticas_jugadores():
         return jsonify({"error": "No se encontraron jugadores"}), 404
 
 
+from collections import defaultdict
+
+# Resultados de partidos por jornada
+@app.route('/partidos', methods=['GET', 'POST'])
+@app.route('/partidos/<int:jornada>', methods=['GET', 'POST'])
+def resultados_partidos(jornada=1):
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        SELECT p.Resultado, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria
+        FROM partido p
+        JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
+        JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
+        JOIN categoria c ON p.ID_categoria = c.ID
+        WHERE p.Jornada = %s
+    """, (jornada,))
+    partidos = cur.fetchall()
+    cur.close()
+
+    # Inicializar el diccionario de categorías
+    categorias = {}
+
+    # Iterar sobre los partidos y agregarlos a las categorías correspondientes
+    for partido in partidos:
+        # Verificar si la categoría ya existe en el diccionario
+        if partido['Nombre_Categoria'] not in categorias:
+            # Si no existe, inicializar una lista vacía para esa categoría
+            categorias[partido['Nombre_Categoria']] = []
+        # Agregar el partido a la lista de la categoría correspondiente
+        categorias[partido['Nombre_Categoria']].append(partido)
+
+    # Renderizar el template con las categorías
+    return render_template("resultados_partidos.html", categorias=categorias)
+
+
+
+#############################################
+###########Asistencia a partridos############
+@app.route('/asistencia-jugadores')
+def mostrar_jugadores():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT id, nombre FROM jugador")
+    jugadores = cur.fetchall()
+
+    # Obtener la lista de todas las jornadas disponibles
+    cur.execute("SELECT DISTINCT jornada FROM asistencia")
+    jornadas = [res['jornada'] for res in cur.fetchall()]
+    jornadas.sort()  # Ordenar las jornadas
+
+    asistencia_jornadas = {}
+    total_jornadas_asistidas = {}
+    total_asistencias_por_jornada = {f'J{j}': 0 for j in jornadas}
+    asistencia_total = {}  
+
+    # Obtener la asistencia de cada jugador para cada jornada
+    for jugador in jugadores:
+        cur.execute("SELECT jornada, SUM(asistencia) AS total FROM asistencia WHERE id_jugador = %s GROUP BY jornada", (jugador['id'],))
+        asistencia_result = cur.fetchall()
+
+        # Crear un diccionario para mantener la asistencia del jugador por jornada
+        jugador_asistencia = {res['jornada']: res['total'] for res in asistencia_result}
+
+        # Calcular el total de asistencias para el jugador
+        total_asistencias = sum(asistencia['total'] for asistencia in asistencia_result)
+        asistencia_total[jugador['id']] = total_asistencias
+
+        # Actualizar el total de asistencias por jornada para todos los jugadores
+        for jornada in jornadas:
+            total_asistencias_por_jornada[f'J{jornada}'] += jugador_asistencia.get(jornada, 0)
+
+        # Actualizar la asistencia del jugador para todas las jornadas
+        asistencia_jornadas[jugador['id']] = jugador_asistencia
+        total_jornadas_asistidas[jugador['id']] = total_asistencias
+
+    cur.close()
+
+    return render_template('asistencia.html', jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_jornadas_asistidas=total_jornadas_asistidas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornadas=jornadas)
+
+############################################
+############################################
+
+
 ########### TABLAS DE POSICIONES ############
 #############################################
 #############################################
 #############################################
 
 
-# Muestra la tabla de primera división
+# Muestra la tabla general de primera división
 @app.route('/tabla-posiciones')
 def tabla_posiciones():
+    # Obtener la categoría seleccionada
+    categoria_seleccionada = request.args.get('categoria', 'all')
+
+    # Determinar la tabla a consultar según la categoría seleccionada
+    if categoria_seleccionada == 'all':
+        tabla = 'torneo_regular'
+    elif categoria_seleccionada == '1':
+        tabla = 'tabla_juvenil_p'
+    elif categoria_seleccionada == '2':
+        tabla = 'tabla_adulta_p'
+    elif categoria_seleccionada == '3':
+        tabla = 'tabla_senior_p'
+    elif categoria_seleccionada == '4':
+        tabla = 'tabla_supersenior_p'
+    elif categoria_seleccionada == '5':
+        tabla = 'tabla_honor_p'
+
     cur = mysql.connection.cursor()
 
-    # Consulta para obtener los datos de la tabla torneo_regular
+    # Consulta para obtener los datos de la tabla correspondiente a la categoría seleccionada
     cur.execute("""
         SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
                tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
                tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
                tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM torneo_regular tr
+        FROM {} tr
         JOIN equipo e ON tr.Equipo_ID = e.ID
         ORDER BY tr.Posicion
-    """)
+    """.format(tabla))
 
     tabla_posiciones = cur.fetchall()
     cur.close()
@@ -221,7 +359,9 @@ def tabla_posiciones():
     return render_template('tabla_posiciones.html', tabla_posiciones=tabla_posiciones)
 
 
-# Muestra la tabla de segunda división
+
+
+# Muestra la tabla general de segunda división
 @app.route('/tabla-posiciones-segunda')
 def tabla_posiciones_segunda():
     cur = mysql.connection.cursor()

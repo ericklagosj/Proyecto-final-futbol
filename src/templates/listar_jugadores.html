@@ -4,38 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar Jugadores</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/listar_jugadores.css" />
 </head>
 <body>
-    <h1>Listado de Jugadores</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>Rut</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Posición</th>
-                <th>Categoría</th>
-                <th>Equipo</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for jugador in jugadores %}
-            <tr>
-                <td>{{ jugador['ID'] }}</td>
-                <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }}</a></td>
-                <td>{{ jugador['Apellido_Paterno'] }}</td>
-                <td>{{ jugador['Apellido_Materno'] }}</td>
-                <td>{{ jugador['rut'] }}</td>
-                <td>{{ jugador['Fecha_Nacimiento'] }}</td>
-                <td>{{ jugador['Posicion_ID'] }}</td>
-                <td>{{ jugador['Categoria_ID'] }}</td>
-                <td>{{ jugador['Equipo_ID'] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <main class="table" id="customers_table">
+        <section class="table__header">
+            <h1>Lista De Jugadores</h1>
+            <div class="input-group">
+                <input type="search" id="search-input" placeholder="Buscar Jugadores..." />
+                <img src="/static/images/equipos/search.png" alt="" />
+            </div>
+             <!-- Opciones de exportación -->
+             <div class="export__file">
+                <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
+                <input type="checkbox" id="export-file">
+                <div class="export__file-options">
+                    <label>Exportar como &nbsp; &#10140;</label>
+                    <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt=""></label>
+                    <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt=""></label>
+                    <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt=""></label>
+                    <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt=""></label>
+                </div>
+            </div>
+            <div class="category-filter">
+                <label for="category-select">Seleccionar Categoría:</label>
+                <select id="category-select">
+                    <option value="all">Todas</option>
+                    <option value="1">Juvenil</option>
+                    <option value="2">Adulta</option>
+                    <option value="3">Senior</option>
+                    <option value="4">Super Senior</option>
+                    <option value="5">Honor</option>
+                </select>
+            </div>
+    
+        </section>
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Rut</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Posición</th>
+                        <th>Equipo</th>
+                        <th>Categoría</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for jugador in jugadores %}
+                    <tr>
+                        <td>{{ jugador['ID'] }}</td>
+                        <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }}</a></td>
+                        <td>{{ jugador['Apellido_Paterno'] }}</td>
+                        <td>{{ jugador['Apellido_Materno'] }}</td>
+                        <td>{{ jugador['rut'] }}</td>
+                        <td>{{ jugador['Fecha_Nacimiento'] }}</td>
+                        <td>{{ jugador['Posicion_ID'] }}</td>
+                        <td>{{ jugador['Equipo_ID'] }}</td>
+                        <td>{{ jugador['Categoria_ID'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+ 
 </body>
+<script src="/static/js/filtro.js"></script>
+<script src="/static/js/listar_jugadores.js"></script>
 </html>

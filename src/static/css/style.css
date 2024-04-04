@@ -6868,7 +6868,7 @@ h6 {
 
 .footer-type02 {
   padding: 30px 0;
-  background-image: url("{{ url_for('static', filename='images/background/heroesBg.jpg') }}");
+  background: url(/static/images/background/heroesBg.jpg) center / cover;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; }
@@ -7523,7 +7523,7 @@ h6 {
 /* -------------- latest result section -----------*/
 .latestResult {
   padding: 100px 0;
-  background: url("images/background/latestnews.jpg") no-repeat;
+  background: url(/static/images/background/latestnews.jpg) center / cover;
   background-size: cover;
   background-position: center; }
   .latestResult h2 {
@@ -7594,7 +7594,7 @@ h6 {
       min-height: 1px;
       padding-left: 15px;
       padding-right: 15px;
-      background-image: url("images/result/resultlogo.png");
+      background-image: url(/static/images/result/resultlogo.png) center / cover;
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
@@ -7618,7 +7618,7 @@ h6 {
         left: 60%;
         top: 50px;
         transition: all 0.9s ease;
-        background: url("images/result/resultBoard.png") top right no-repeat; }
+        background: url(/static/images/result/resultBoard.png) center / cover;
     .latestResult .result .content {
       position: relative;
       min-height: 1px;
@@ -7751,7 +7751,7 @@ h6 {
 
 @media screen and (min-width: 1200px) {
   .latestResult .result-details .figure {
-    background-image: url("images/result/resultlogo.png");
+    background-image: url(/static/images/result/resultlogo.png) center / cover;
     background-size: inherit;
     background-position: center;
     background-repeat: no-repeat;
@@ -7964,15 +7964,17 @@ ul.videoLive {
       position: absolute;
       content: "\f077"; } }
 
-.innerbanner {
-  height: 600px;
-  position: relative;
-  overflow: hidden;
-  background: url({{ url_for('static', filename='images/background/innerpageBg.jpg') }}) center no-repeat;
-  /* Image Credit: Unsplash.me */
-  background-size: cover;
-  background-attachment: fixed; 
-}
+      .innerbanner {
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+        background: url(/static/images/background/innerpageBg.jpg) center / cover;
+        /* Image Credit: Unsplash.me */
+        background-size: cover;
+        background-attachment: fixed; 
+    }
+    
+      
 
 .innerbannerwrap {
   position: relative; }
@@ -8011,7 +8013,7 @@ ul.videoLive {
   background: url(images/background/bgBottomRight.png) right bottom no-repeat, url(images/background/bgTopLeft.png) left top no-repeat #f5f5f5; }
 
 .bg-smallwhite {
-  background-image: url("images/background/whiteBg.jpg");
+  background: url(/static/images/background/whiteBg.jpg);
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat; }
@@ -8333,7 +8335,7 @@ section {
 
 .players {
   padding: 70px 0 0;
-  background-image: url("{{ url_for('static', filename='images/background/heroesBg.jpg') }}");
+  background: url(/static/images/background/heroesBg.jpg) center / cover;
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat; }
@@ -9957,7 +9959,7 @@ a.blacklrnmore {
 
 /*-------- about page --------*/
 .countryclub {
-  background-image: url("images/background/whiteBgBig.jpg");
+  background: url(/static/images/background/whiteBg.jpg);
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat; }
@@ -10580,7 +10582,7 @@ ul.slick-dots {
       width: 33.3333333333%; } }
   .playerDetailsPage-info li:first-of-type {
     padding: 50px;
-    background-image: url("{{ url_for('static', filename='images/background/heroesBg.jpg') }}");
+    background: url(/static/images/background/heroesBg.jpg) center / cover;
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat; }
@@ -10597,13 +10599,14 @@ ul.slick-dots {
       font-weight: 400;
       text-transform: capitalize; }
   .playerDetailsPage-info li:nth-of-type(2) {
-    background-image: url("{{ url_for('static', filename='images/player/player01.jpg') }}");
+    background: url(/static/images/background/heroesBg.jpg) center / cover;
+
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
     height: 600px; }
   .playerDetailsPage-info li:last-of-type {
-    background-image: url("{{ url_for('static', filename='images/background/heroesBg.jpg') }}");
+    background: url(/static/images/background/heroesBg.jpg) center / cover;
     background-size: cover;
     background-position: top center;
     background-repeat: no-repeat;
@@ -11393,3 +11396,4 @@ ul.slick-dots {
     .mail-cart button:hover {
       color: #63aa3d;
       background: white; }
+      }
