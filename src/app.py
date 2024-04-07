@@ -237,8 +237,8 @@ from collections import defaultdict
 
 # Resultados de partidos por jornada
 @app.route('/partidos', methods=['GET', 'POST'])
-@app.route('/partidos/<int:jornada>', methods=['GET', 'POST'])
-def resultados_partidos(jornada=1):
+@app.route('/partidos/<int:ID_jornada>', methods=['GET', 'POST'])
+def resultados_partidos(ID_jornada=1):
     cur = mysql.connection.cursor()
     cur.execute("""
         SELECT p.Resultado, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria
@@ -246,8 +246,8 @@ def resultados_partidos(jornada=1):
         JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
         JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
         JOIN categoria c ON p.ID_categoria = c.ID
-        WHERE p.Jornada = %s
-    """, (jornada,))
+        WHERE p.ID_jornada = %s
+    """, (ID_jornada,))
     partidos = cur.fetchall()
     cur.close()
 
@@ -265,7 +265,6 @@ def resultados_partidos(jornada=1):
 
     # Renderizar el template con las categorías
     return render_template("resultados_partidos.html", categorias=categorias)
-
 
 
 #############################################
