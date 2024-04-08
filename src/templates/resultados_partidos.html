@@ -44,9 +44,9 @@
     <h1>Resultados de Partidos</h1>
 
     <!-- Formulario para filtrar por jornada -->
-    <form action="{{ url_for('resultados_partidos', jornada=1) }}" method="post">
+    <form action="{{ url_for('resultados_partidos') }}" method="post">
         <div class="dropdown">
-            <select id="jornada" name="jornada">
+            <select id="jornada" name="ID_jornada"> <!-- Asegúrate de que el nombre sea "ID_jornada" -->
                 {% for i in range(1, 19) %}
                 <option value="{{ i }}">Jornada {{ i }}</option>
                 {% endfor %}
@@ -54,6 +54,7 @@
             <button type="submit">Filtrar por jornada</button>
         </div>
     </form>
+
 
     <!-- Recuadros de categoría con sus respectivos partidos -->
     {% for nombre_categoria, partidos in categorias.items() %}
@@ -85,10 +86,12 @@
     <!-- Script JavaScript para manejar el cambio de jornada -->
     <script>
         function cambiarJornada() {
-            var jornada = document.getElementById("jornada").value;
-            // Redireccionar a la página de resultados de la jornada seleccionada
-            window.location.href = "/partidos/" + jornada;
-        }
+        var jornada = document.getElementById("jornada").value;
+        console.log("Jornada seleccionada:", jornada); // Añade este console.log
+        // Redireccionar a la página de resultados de la jornada seleccionada
+        window.location.href = "/partidos/" + jornada;
+    }
+
     </script>
 </body>
 </html>

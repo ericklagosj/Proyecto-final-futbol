@@ -233,12 +233,16 @@ def estadisticas_jugadores():
         return jsonify({"error": "No se encontraron jugadores"}), 404
 
 
-from collections import defaultdict
+from flask import request
 
 # Resultados de partidos por jornada
 @app.route('/partidos', methods=['GET', 'POST'])
-@app.route('/partidos/<int:ID_jornada>', methods=['GET', 'POST'])
-def resultados_partidos(ID_jornada=1):
+def resultados_partidos():
+    if request.method == 'POST':
+        ID_jornada = request.form['ID_jornada']  # Obtén el valor de la jornada seleccionada del formulario
+    else:
+        ID_jornada = 1  # Valor por defecto si no se ha enviado el formulario
+
     cur = mysql.connection.cursor()
     cur.execute("""
         SELECT p.Resultado, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria
@@ -265,6 +269,7 @@ def resultados_partidos(ID_jornada=1):
 
     # Renderizar el template con las categorías
     return render_template("resultados_partidos.html", categorias=categorias)
+
 
 
 #############################################
