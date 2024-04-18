@@ -176,6 +176,10 @@ def obtener_equipo(id):
     # Obtener el parámetro de consulta 'categoria'
     categoria = request.args.get('categoria')
     
+    # Consulta para obtener los datos de la tabla categoria
+    cur.execute("SELECT * FROM categoria")
+    categorias = cur.fetchall()
+    
     # Definir la consulta base para obtener jugadores
     consulta_jugadores = "SELECT * FROM jugador WHERE Equipo_ID = %s"
     
@@ -188,14 +192,20 @@ def obtener_equipo(id):
     
     jugadores = cur.fetchall()
     
+    # Consulta para obtener el número de asistencias por jugador
+    for jugador in jugadores:
+        cur.execute("SELECT COUNT(*) FROM asistencia WHERE Jugador_ID = %s", (jugador['ID'],))
+        asistencias = cur.fetchone()
+        jugador['asistencias'] = asistencias[0]  # Añadir el número de asistencias al jugador
+    
     cur.close()
 
     if equipo:
         # Definir equipo_id aquí para pasarlo a la plantilla
         equipo_id = id
 
-        # Renderiza la plantilla HTML correspondiente al equipo y pasa la información del equipo, jugadores y equipo_id
-        return render_template(f"equipos/equipo{id}.html", equipo=equipo, jugadores=jugadores, equipo_id=equipo_id)
+        # Renderiza la plantilla HTML correspondiente al equipo y pasa la información del equipo, jugadores, categorías y equipo_id
+        return render_template(f"equipos/equipo{id}.html", equipo=equipo, jugadores=jugadores, equipo_id=equipo_id, categorias=categorias, categoria=categoria)
     else:
         # Si no se encuentra el equipo, devuelve un mensaje de error y un código de estado 404
         return jsonify({"error": "equipo no encontrado"}), 404
@@ -272,12 +282,11 @@ def resultados_partidos():
 
 
 
-#############################################
-###########Asistencia a partridos############
 @app.route('/asistencia-jugadores')
 def mostrar_jugadores():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT id, nombre FROM jugador")
+    cur.execute("SELECT id, nombre, Apellido_Paterno, Apellido_Materno FROM jugador")
+
     jugadores = cur.fetchall()
 
     # Obtener la lista de todas las jornadas disponibles
@@ -312,10 +321,12 @@ def mostrar_jugadores():
 
     cur.close()
 
-    return render_template('asistencia.html', jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_jornadas_asistidas=total_jornadas_asistidas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornadas=jornadas)
+    total_asistencia_partidos = sum(total_asistencias_por_jornada.values())
+    # Calcular el total de asistencias posibles (18 jornadas)
+    total_asistencias_posibles = 18
 
-############################################
-############################################
+    return render_template('asistencia.html', jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_jornadas_asistidas=total_jornadas_asistidas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornadas=jornadas, total_asistencia_partidos=total_asistencia_partidos, total_asistencias_posibles=total_asistencias_posibles)
+
 
 
 ########### TABLAS DE POSICIONES ############

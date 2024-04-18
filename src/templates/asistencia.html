@@ -48,17 +48,19 @@
                 <th>J{{ jornada }}</th>
                 {% endfor %}
                 <th>Asistencia Total</th>
+                <th>Porcentaje de Asistencia</th>
             </tr>
         </thead>
         <tbody>
             {% for jugador in jugadores %}
             <tr>
                 <td>{{ jugador.id }}</td>
-                <td>{{ jugador.nombre }}</td>
+                <td>{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
                 {% for jornada in jornadas %}
                 <td>{{ asistencia_jornadas[jugador.id].get(jornada, 0) }}</td>
                 {% endfor %}
                 <td>{{ asistencia_total.get(jugador.id, 0) }}</td>
+                <td>{% if total_asistencias_posibles > 0 %}{{ '%d' % (asistencia_total.get(jugador.id, 0) / total_asistencias_posibles * 100) }}{% else %}0{% endif %}%</td>
             </tr>
             {% endfor %}
         </tbody>
