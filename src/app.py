@@ -22,7 +22,101 @@ def home():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')   
+    return render_template('admin.html') 
+
+###Admin jugadores###
+# Ruta para obtener los datos de los jugadores y sus estadísticas
+@app.route('/admin-jugadores')
+def obtener_estadisticas_jugadores():
+    cur = mysql.connection.cursor()
+    # Consulta para obtener los datos de los jugadores y sus estadísticas
+    cur.execute("""
+        SELECT j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, e.Goles_Anotados, e.Tarjetas_Amarillas, e.Tarjetas_Rojas
+        FROM jugador j
+        LEFT JOIN est_jugador_c e ON j.ID = e.Jugador_ID
+    """)
+    jugadores = cur.fetchall()
+    cur.close()
+    # Renderiza la plantilla HTML y pasa los datos de los jugadores
+    return render_template('adminjugadores.html', jugadores=jugadores)
+
+######################################################################################################################
+@app.route('/actualizar-estadisticas', methods=["POST"])
+def actualizar_estadisticas():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellido_paterno = request.form['apellido_paterno']
+        apellido_materno = request.form['apellido_materno']
+        tipo = request.form['tipo']  # 'goles', 'amarillas' o 'rojas'
+        accion = request.form['accion']  # 'aumentar' o 'disminuir'
+
+        # Realiza las operaciones de actualización en la base de datos
+        cur = mysql.connection.cursor()
+
+        if accion == 'aumentar':
+            if tipo == 'goles':
+                cur.execute("""
+                    UPDATE est_jugador_c 
+                    SET Goles_Anotados = Goles_Anotados + 1 
+                    WHERE Jugador_ID IN (
+                        SELECT ID FROM jugador 
+                        WHERE Nombre = %s AND Apellido_Paterno = %s AND Apellido_Materno = %s
+                    )
+                """, (nombre, apellido_paterno, apellido_materno))
+            elif tipo == 'amarillas':
+                cur.execute("""
+                    UPDATE est_jugador_c 
+                    SET Tarjetas_Amarillas = Tarjetas_Amarillas + 1 
+                    WHERE Jugador_ID IN (
+                        SELECT ID FROM jugador 
+                        WHERE Nombre = %s AND Apellido_Paterno = %s AND Apellido_Materno = %s
+                    )
+                """, (nombre, apellido_paterno, apellido_materno))
+            elif tipo == 'rojas':
+                cur.execute("""
+                    UPDATE est_jugador_c 
+                    SET Tarjetas_Rojas = Tarjetas_Rojas + 1 
+                    WHERE Jugador_ID IN (
+                        SELECT ID FROM jugador 
+                        WHERE Nombre = %s AND Apellido_Paterno = %s AND Apellido_Materno = %s
+                    )
+                """, (nombre, apellido_paterno, apellido_materno))
+        elif accion == 'disminuir':
+            if tipo == 'goles':
+                cur.execute("""
+                    UPDATE est_jugador_c 
+                    SET Goles_Anotados = Goles_Anotados - 1 
+                    WHERE Jugador_ID IN (
+                        SELECT ID FROM jugador 
+                        WHERE Nombre = %s AND Apellido_Paterno = %s AND Apellido_Materno = %s
+                    ) AND Goles_Anotados > 0
+                """, (nombre, apellido_paterno, apellido_materno))
+            elif tipo == 'amarillas':
+                cur.execute("""
+                    UPDATE est_jugador_c 
+                    SET Tarjetas_Amarillas = Tarjetas_Amarillas - 1 
+                    WHERE Jugador_ID IN (
+                        SELECT ID FROM jugador 
+                        WHERE Nombre = %s AND Apellido_Paterno = %s AND Apellido_Materno = %s
+                    ) AND Tarjetas_Amarillas > 0
+                """, (nombre, apellido_paterno, apellido_materno))
+            elif tipo == 'rojas':
+                cur.execute("""
+                    UPDATE est_jugador_c 
+                    SET Tarjetas_Rojas = Tarjetas_Rojas - 1 
+                    WHERE Jugador_ID IN (
+                        SELECT ID FROM jugador 
+                        WHERE Nombre = %s AND Apellido_Paterno = %s AND Apellido_Materno = %s
+                    ) AND Tarjetas_Rojas > 0
+                """, (nombre, apellido_paterno, apellido_materno))
+        
+        mysql.connection.commit()
+        cur.close()
+
+        return 'OK', 200
+    return 'Error', 400
+
+#########################################
 
 @app.route('/galeria')
 def galeria():
@@ -192,12 +286,6 @@ def obtener_equipo(id):
     
     jugadores = cur.fetchall()
     
-    # Consulta para obtener el número de asistencias por jugador
-    for jugador in jugadores:
-        cur.execute("SELECT COUNT(*) FROM asistencia WHERE Jugador_ID = %s", (jugador['ID'],))
-        asistencias = cur.fetchone()
-        jugador['asistencias'] = asistencias[0]  # Añadir el número de asistencias al jugador
-    
     cur.close()
 
     if equipo:
@@ -211,21 +299,52 @@ def obtener_equipo(id):
         return jsonify({"error": "equipo no encontrado"}), 404
 
 
-
-
 @app.route('/jugador/<int:id>')
 def obtener_jugador(id):
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM jugador WHERE id = %s", (id,))
     jugador = cur.fetchone()
+
+    if not jugador:
+        cur.close()
+        return jsonify({"error": "Jugador no encontrado"}), 404
+
+    # Obtener el parámetro de consulta 'categoria'
+    categoria = request.args.get('categoria')
+
+    # Consulta para obtener los datos de la tabla categoria
+    cur.execute("SELECT * FROM categoria")
+    categorias = cur.fetchall()
+
+    # Consulta para obtener el equipo del jugador
+    cur.execute("SELECT * FROM equipo WHERE ID = %s", (jugador['Equipo_ID'],))
+    equipo = cur.fetchone()
+
+    # Consulta para obtener las estadísticas del jugador
+    cur.execute("SELECT * FROM est_jugador_c WHERE Jugador_ID = %s", (id,))
+    estadisticas = cur.fetchone()
+
+    # Definir la consulta base para obtener jugadores
+    consulta_jugadores = "SELECT * FROM jugador WHERE Equipo_ID = %s"
+
+    # Si se proporciona la categoría, ajusta la consulta para filtrar jugadores por esa categoría
+    if categoria:
+        consulta_jugadores += " AND Categoria_ID = %s"
+        cur.execute(consulta_jugadores, (id, categoria))
+    else:
+        cur.execute(consulta_jugadores, (id,))
+
+    jugadores = cur.fetchall()
+
     cur.close()
 
     if jugador:
-        # Devuelve los detalles del jugador como una respuesta JSON
-        return render_template("detallesjugadores.html", jugador=jugador)
-    else:
-        # Si no se encuentra el jugador, devuelve un mensaje de error y un código de estado 404
-        return jsonify({"error": "Jugador no encontrado"}), 404
+        # Cerrar el cursor
+
+        # Renderizar la plantilla HTML y pasar los datos del jugador y sus estadísticas
+        return render_template("detallesjugadores.html", jugador=jugador, jugadores=jugadores, categorias=categorias, equipo=equipo, estadisticas=estadisticas)
+
+
 
 
 # estadisticas jugadores

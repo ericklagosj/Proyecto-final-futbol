@@ -104,15 +104,42 @@
                     <li>
                         <div class="container">
                             <div class="player-details">
-                                <p><strong>Nombre:</strong> {{ jugador['Nombre'] }}</p>
-                                <p><strong>Apellido Paterno:</strong> {{ jugador['Apellido_Paterno'] }}</p>
-                                <p><strong>Apellido Materno:</strong> {{ jugador['Apellido_Materno'] }}</p>
-                                <p><strong>RUT:</strong> {{ jugador['rut'] }}</p>
+                                <p><strong>Nombre:</strong> {{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{ jugador['Apellido_Materno'] }}</p>
                                 <p><strong>Fecha de Nacimiento:</strong> {{ jugador['Fecha_Nacimiento'] }}</p>
-                                <p><strong>Categoría ID:</strong> {{ jugador['Categoria_ID'] }}</p>
-                                <p><strong>Equipo ID:</strong> {{ jugador['Equipo_ID'] }}</p>
-                                <p><strong>Posición ID:</strong> {{ jugador['Posicion_ID'] }}</p>
+                                <p><strong>Categoría:</strong> 
+                                    {% if jugador['Categoria_ID'] %}
+                                        {% for categoria in categorias %}
+                                            {% if categoria['ID'] == jugador['Categoria_ID'] %}
+                                                {{ categoria['Nombre'] }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        No categorizado
+                                    {% endif %}
+                                </p>
+                                <p><strong>Equipo Actual:</strong>
+                                    {% if equipo %}
+                                        {{ equipo['Nombre'] }}
+                                    {% else %}
+                                        No categorizado
+                                    {% endif %}
+                                </p>
+                                <p><strong>Comuna:</strong></p>
                             </div>
+                            
+                           <!-- Sección para mostrar las estadísticas del jugador -->
+                            <div class="player-details">
+                                <!-- Otros detalles del jugador -->
+                                <p><strong>Estadísticas:</strong></p>
+                                {% if estadisticas %}
+                                <p>Goles Anotados: {{ estadisticas['Goles_Anotados'] }}</p>
+                                <p>Tarjetas Amarillas: {{ estadisticas['Tarjetas_Amarillas'] }}</p>
+                                <p>Tarjetas Rojas: {{ estadisticas['Tarjetas_Rojas'] }}</p>
+                                {% else %}
+                                <p>No hay estadísticas disponibles para este jugador.</p>
+                                {% endif %}
+                            </div>
+
                         </div>
                     </li>
                     <li></li>

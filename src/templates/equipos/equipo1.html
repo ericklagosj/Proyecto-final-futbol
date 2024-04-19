@@ -209,30 +209,32 @@
         </section>
         <section class="table__body">
             <table>
-                <th>Nombre <span class="icon-arrow">&UpArrow;</span></th>
-                <th>Fecha Nacimiento <span class="icon-arrow">&UpArrow;</span></th>
-                <th>Categoría <span class="icon-arrow">&UpArrow;</span></th>
-                <th>Porcentaje de Asistencias <span class="icon-arrow">&UpArrow;</span></th> <!-- Nueva columna -->
-                ...
-                {% for jugador in jugadores %}
-                <tr class="player-row">
-                    <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{ jugador['Apellido_Materno'] }}</a></td>
-                    <td>{{ jugador['Fecha_Nacimiento'] }}</td>
-                    <td>
-                        {% if jugador['Categoria_ID'] %}
-                            {% for categoria in categorias %}
-                                {% if categoria['ID'] == jugador['Categoria_ID'] %}
-                                    {{ categoria['Nombre'] }}
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            No categorizado
-                        {% endif %}
-                    </td>
-                    <td>{{ jugador['porcentaje_asistencias'] }}%</td> <!-- Nueva columna -->
-                </tr>
-                {% endfor %}
-
+                <thead>
+                    <tr>
+                        <th>Nombre <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Fecha Nacimiento <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Categoría <span class="icon-arrow">&UpArrow;</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for jugador in jugadores %}
+                    <tr class="player-row">
+                        <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{ jugador['Apellido_Materno'] }}</a></td>
+                        <td>{{ jugador['Fecha_Nacimiento'] }}</td>
+                        <td>
+                            {% if jugador['Categoria_ID'] %}
+                                {% for categoria in categorias %}
+                                    {% if categoria['ID'] == jugador['Categoria_ID'] %}
+                                        {{ categoria['Nombre'] }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                No categorizado
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
                 
             </table>
         </section>
