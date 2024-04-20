@@ -10,6 +10,7 @@
     <link rel=stylesheet href="{{ url_for('static', filename='css/vendor.css') }}">
     <link rel=stylesheet href="{{ url_for('static', filename='css/style.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/layerslider.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/detallesjugadores.css" />
     <script src="{{ url_for('static', filename='js/vendor/modernizr.js') }}"></script>
 
     <style>
@@ -33,7 +34,7 @@
             <div class=container>
                 <div class=row>
                     <ul>
-                        <li><a href="#">Registrar/logear</a></li>
+                        <li><a href="#">DETALLE JUGADOR</a></li>
                     </ul>
                 </div>
             </div>
@@ -93,240 +94,69 @@
     </header>
     <div class=innerbannerwrap>
         <div class=content></div>
-        <div class=innerbanner><h2 class=bannerHeadline><span>Detalles del jugador</span></h2></div>
+        <div class=innerbanner><h2 class=bannerHeadline><span>                </span></h2></div>
     </div>
     <section class=playerDpage>
         <div class=container>
-            <div class=row><h2 class=heading>Detalles <span>del jugador</span></h2>
-
-            
-                <ul class="playerDetailsPage-info clearfix">
-                    <li>
-                        <div class="container">
-                            <div class="player-details">
-                                <p><strong>Nombre:</strong> {{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{ jugador['Apellido_Materno'] }}</p>
-                                <p><strong>Fecha de Nacimiento:</strong> {{ jugador['Fecha_Nacimiento'] }}</p>
-                                <p><strong>Categoría:</strong> 
-                                    {% if jugador['Categoria_ID'] %}
-                                        {% for categoria in categorias %}
-                                            {% if categoria['ID'] == jugador['Categoria_ID'] %}
-                                                {{ categoria['Nombre'] }}
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% else %}
-                                        No categorizado
+            <div class="row">
+                <div class="player-details-section">
+                    <h2 class="heading">Detalles <span>del jugador</span></h2>
+                    <div class="player-details">
+                        <!-- Detalles del jugador -->
+                        <p><strong>Nombre:</strong> {{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{ jugador['Apellido_Materno'] }}</p>
+                        <p><strong>Fecha de Nacimiento:</strong> {{ jugador['Fecha_Nacimiento'] }}</p>
+                        <p><strong>Categoría:</strong> 
+                            {% if jugador['Categoria_ID'] %}
+                                {% for categoria in categorias %}
+                                    {% if categoria['ID'] == jugador['Categoria_ID'] %}
+                                        {{ categoria['Nombre'] }}
                                     {% endif %}
-                                </p>
-                                <p><strong>Equipo Actual:</strong>
-                                    {% if equipo %}
-                                        {{ equipo['Nombre'] }}
-                                    {% else %}
-                                        No categorizado
-                                    {% endif %}
-                                </p>
-                                <p><strong>Comuna:</strong></p>
-                            </div>
-                            
-                           <!-- Sección para mostrar las estadísticas del jugador -->
-                            <div class="player-details">
-                                <!-- Otros detalles del jugador -->
-                                <p><strong>Estadísticas:</strong></p>
-                                {% if estadisticas %}
-                                <p>Goles Anotados: {{ estadisticas['Goles_Anotados'] }}</p>
-                                <p>Tarjetas Amarillas: {{ estadisticas['Tarjetas_Amarillas'] }}</p>
-                                <p>Tarjetas Rojas: {{ estadisticas['Tarjetas_Rojas'] }}</p>
-                                {% else %}
-                                <p>No hay estadísticas disponibles para este jugador.</p>
-                                {% endif %}
-                            </div>
-
-                        </div>
-                    </li>
-                    <li></li>
-                    <li><h5>Me gusta luchar por cada balón como si fuera el último y darlo todo en el campo.</h5>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique.</p>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, tempore consequuntur.
-                            Magni distinctio nihil.</p>
-
-                        <div class="playersocial bg-black clearfix"><a href=# class=social_link><i
-                                class="fa fa-facebook"></i></a> <a href=# class=social_link><i
-                                class="fa fa-linkedin"></i></a> <a href=# class=social_link><i
-                                class="fa fa-twitter"></i></a> <a href=# class=social_link><i class="fa-twitter"></i></a>
-                        </div>
-                    </li>
-                </ul>
-                <div class=information_section><h4>Acerca de</h4>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla at, recusandae, iure omnis,
-                        debitis quam distinctio mollitia minima dolorem voluptatibus ducimus hic. Officiis quas
-                        laudantium unde veniam repudiandae quam, ea.Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Provident odio et adipisci sed dolorem id ipsam deleniti porro, cum quaerat cumque veniam
-                        velit veritatis aliquam iusto facilis qui earum, at.Lorem ipsum dolor sit amet, consectetur
-                        adipisicing elit. Vitae deleniti quaerat ducimus, earum tempore aspernatur molestiae ad commodi,
-                        omnis minus! Esse quisquam nemo ducimus reiciendis repellendus, deleniti quae saepe magnam.</p>
-                    <h4>Trayectoria Deportiva</h4>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio quis id totam veniam perferendis
-                        sapiente nostrum facere iure ipsa laboriosam perspiciatis voluptatum labore soluta, eligendi
-                        veritatis atque molestias a natus?</p>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem alias assumenda non nesciunt
-                        atque nam, quos obcaecati doloribus necessitatibus nisi voluptas libero sunt officiis quisquam
-                        sit, saepe deserunt, rerum eligendi?Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                        Commodi corporis fugit nostrum fuga, iure sequi reiciendis, omnis eius nihil provident nisi
-                        adipisci veritatis rem. Ipsa ipsam, aliquam omnis facilis minima.Lorem ipsum dolor sit amet,
-                        consectetur adipisicing elit. Molestias itaque dolore nam libero quidem, veritatis provident
-                        error est quo illo vel fugit, ut, possimus. Animi esse labore eum unde aliquam.</p><h4>
-                        Inspirando Generaciones</h4>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni in facere sequi aspernatur
-                        assumenda expedita commodi quas quibusdam laboriosam, dignissimos, vitae non est iste blanditiis
-                        reprehenderit aut quis iusto error.Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                        Nobis fuga non expedita ullam earum iusto magni necessitatibus inventore sequi omnis nisi
-                        repudiandae, voluptates unde facere cupiditate velit reiciendis sunt, quos!.</p><h4>Pasión y Sacrificio: El Legado de Erick Lagos </h4>
-
-                    <p>nunc dui viverra quam, eget pharetra sapien sem luctus ex. Integer aliquam nec mi in bibendum.
-                        Duis pulvinar lacinia lacinia. Nulla eget eros et lorem sodales venenatis. Aenean porta sapien
-                        lacinia mauris interdum, ac facilisis nisl volutpat. Phasellus dui ipsum, pellentesque eget
-                        massa vitae, pulvinar tristique mi. Sed vel semper libero, in facilisis erat. Donec vestibulum
-                        ultrices efficitur. Aenean sit amet luctus lacus. Nunc accumsan efficitur euismod. Fusce non
-                        libero et orci condimentum rutrum vel ac diam. Integer accumsan, ipsum ac eleifend sollicitudin,
-                        justo turpis suscipit magna, a lobortis odio ex eget mi.</p></div>
-                <div class=scoresBoard>
-                    <div class=sb_header><h4>Trayectoria</h4></div>
-                    <div class=sb_body>
-                        <div class="first-column clearfix">
-                            <div></div>
-                            <div>Temp.</div>
-                            <div>2013-14</div>
-                            <div>2014-2015</div>
-                            <div>2015-2016</div>
-                            <div>total</div>
-                        </div>
-                        <div class=wrapper-score-scrollbar>
-                            <div class=wrap>
-                                <div class=second-column>
-                                    <div class=""><a class=prevScore></a> <a class=nextScore></a> La Greda</div>
-                                    <ul>
-                                        <li>Asist.</li>
-                                        <li>Goles</li>
-                                    </ul>
-                                    <ul>
-                                        <li>25 + 1</li>
-                                        <li>5</li>
-                                    </ul>
-                                    <ul>
-                                        <li>21 +1</li>
-                                        <li>6</li>
-                                    </ul>
-                                    <ul>
-                                        <li>29 + 1</li>
-                                        <li>4</li>
-                                    </ul>
-                                    <ul>
-                                        <li>30+1</li>
-                                        <li>5</li>
-                                    </ul>
-                                </div>
-                                <div class=second-column>
-                                    <div class=""><a class=prevScore></a> <a class=nextScore></a> San Ignacio</div>
-                                    <ul>
-                                        <li>Asist.</li>
-                                        <li>Goles</li>
-                                    </ul>
-                                    <ul>
-                                        <li>25 + 1</li>
-                                        <li>5</li>
-                                    </ul>
-                                    <ul>
-                                        <li>21 +1</li>
-                                        <li>6</li>
-                                    </ul>
-                                    <ul>
-                                        <li>29 + 1</li>
-                                        <li>4</li>
-                                    </ul>
-                                    <ul>
-                                        <li>30+1</li>
-                                        <li>5</li>
-                                    </ul>
-                                </div>
-                                <div class=second-column>
-                                    <div class=""><a class=prevScore></a> <a class=nextScore></a> Selva Negra</div>
-                                    <ul>
-                                        <li>Asist.</li>
-                                        <li>Goles</li>
-                                    </ul>
-                                    <ul>
-                                        <li>25 + 1</li>
-                                        <li>5</li>
-                                    </ul>
-                                    <ul>
-                                        <li>21 +1</li>
-                                        <li>6</li>
-                                    </ul>
-                                    <ul>
-                                        <li>29 + 1</li>
-                                        <li>4</li>
-                                    </ul>
-                                    <ul>
-                                        <li>30+1</li>
-                                        <li>5</li>
-                                    </ul>
-                                </div>
-                                <div class=second-column>
-                                    <div class=""><a class=prevScore></a> <a class=nextScore></a> Quiriquina</div>
-                                    <ul>
-                                        <li>Asist.</li>
-                                        <li>Goles</li>
-                                    </ul>
-                                    <ul>
-                                        <li>25 + 1</li>
-                                        <li>5</li>
-                                    </ul>
-                                    <ul>
-                                        <li>21 +1</li>
-                                        <li>6</li>
-                                    </ul>
-                                    <ul>
-                                        <li>29 + 1</li>
-                                        <li>4</li>
-                                    </ul>
-                                    <ul>
-                                        <li>30+1</li>
-                                        <li>5</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="second-column total clearfix">
-                            <div class="">total</div>
-                            <ul>
-                                <li>Asist.</li>
-                                <li>Goles</li>
-                            </ul>
-                            <ul>
-                                <li>25 + 1</li>
-                                <li>5</li>
-                            </ul>
-                            <ul>
-                                <li>21 +1</li>
-                                <li>6</li>
-                            </ul>
-                            <ul>
-                                <li>29 + 1</li>
-                                <li>4</li>
-                            </ul>
-                            <ul>
-                                <li>30+1</li>
-                                <li>5</li>
-                            </ul>
-                        </div>
+                                {% endfor %}
+                            {% else %}
+                                No categorizado
+                            {% endif %}
+                        </p>
+                        <p><strong>Equipo Actual:</strong>
+                            {% if equipo %}
+                                {{ equipo['Nombre'] }}
+                            {% else %}
+                                No categorizado
+                            {% endif %}
+                        </p>
+                        <p><strong>Comuna:</strong></p>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="player-stats-section">
+                    <div class="player-stats">
+                        <p class="stats-header">Estadísticas</p>
+                        <ul class="stats-list">
+                            <li>
+                                <span class="stat-icon"><img src="/static/images/equipos/balon.png" alt="Balón" class="icon"></span>
+                                {% if estadisticas %}
+                                <span class="stat-label">Goles Anotados: {{ estadisticas['Goles_Anotados'] }}</span>
+                                {% endif %}
+                            </li>
+                            <li>
+                                <span class="stat-icon"><img src="/static/images/equipos/tarjeta-amarilla.png" alt="Tarjeta Amarilla" class="icon"></span>
+                                {% if estadisticas %}
+                                <span class="stat-label">Tarjetas Amarillas: {{ estadisticas['Tarjetas_Amarillas'] }}</span>
+                                {% endif %}
+                            </li>
+                            <li>
+                                <span class="stat-icon"><img src="/static/images/equipos/tarjeta-roja.png" alt="Tarjeta Roja" class="icon"></span>
+                                {% if estadisticas %}
+                                <span class="stat-label">Tarjetas Rojas: {{ estadisticas['Tarjetas_Rojas'] }}</span>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
         </div>
     </section>
     <section class=playerYear>

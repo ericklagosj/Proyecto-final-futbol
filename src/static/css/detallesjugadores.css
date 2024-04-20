@@ -1,0 +1,93 @@
+.banner {
+}
+
+.playerDpage {
+    padding-top: 120px; /* Añadir relleno superior para separar del banner */
+    position: relative; /* Establecer posición relativa */
+    z-index: 1; /* Establecer el índice z para que esté por encima del banner */
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 5px; /* Ajusta la separación entre secciones */
+}
+
+.player-details-section,
+.player-stats-section {
+    flex-basis: 80%; /* Ajusta el ancho de las secciones */
+    margin-bottom: 3px; /* Ajusta la separación entre secciones */
+}
+
+.player-details,
+.player-stats {
+    background-color: #f0f0f0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.stats-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.stats-list li {
+    margin-bottom: 5px;
+}
+
+.stat-icon img {
+    width: 16px; /* Ancho del icono */
+    height: 16px; /* Altura del icono */
+    vertical-align: middle; /* Alinea verticalmente el icono con el texto */
+}
+
+.stat-label {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.stat-value {
+    margin-left: 5px;
+    font-size: 16px; /* Tamaño de fuente de los valores de estadísticas */
+}
+
+.icon {
+    width: 20px; /* Ajusta el tamaño de los iconos */
+    height: 20px;
+}
+
+/* Ajustes de diseño para pantallas de tamaño pequeño (móviles) */
+@media screen and (max-width: 768px) {
+    .row {
+        margin-bottom: 5px; /* Reducir la separación entre filas */
+    }
+
+    .player-details-section,
+    .player-stats-section {
+        width: 90%; /* Ajustar el ancho de los cuadros */
+        margin: 0 auto; /* Centrar los cuadros */
+    }
+
+    .player-details {
+        background-color: #f1f1f1; /* Cambiar el color de fondo */
+        padding: 20px; /* Añadir un relleno interno */
+        border-radius: 10px; /* Añadir bordes redondeados */
+        margin-bottom: 2px; /* Añadir separación inferior */
+    }
+
+    .player-stats {
+        background-color: #f1f1f1; /* Cambiar el color de fondo */
+        padding: 20px; /* Añadir un relleno interno */
+        border-radius: 10px; /* Añadir bordes redondeados */
+        text-align: center; /* Centrar el contenido */
+    }
+
+    .stats-header {
+        font-size: 24px; /* Tamaño de fuente más grande */
+        margin-bottom: 5px; /* Añadir separación inferior */
+    }
+}
+
+
