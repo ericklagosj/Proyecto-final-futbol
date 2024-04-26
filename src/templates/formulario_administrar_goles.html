@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Goles</title>
+</head>
+<body>
+    <h1>Administrar Goles</h1>
+
+    <!-- Formulario para seleccionar jornada y categoría -->
+    <form action="{{ url_for('administrar_goles') }}" method="post">
+        <label for="ID_jornada">Seleccionar jornada:</label>
+        <select id="ID_jornada" name="ID_jornada" style="font-size: 12px; padding: 4px;">
+            {% for jornada in jornadas %}
+            <option value="{{ jornada['ID'] }}">{{ jornada['Nombre'] }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="ID_categoria">Seleccionar categoría:</label>
+        <select id="ID_categoria" name="ID_categoria">
+            {% for categoria in categorias %}
+            <option value="{{ categoria['ID'] }}">{{ categoria['Nombre'] }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Consultar</button>
+    </form>
+</body>
+</html>

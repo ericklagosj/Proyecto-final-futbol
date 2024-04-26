@@ -29,16 +29,20 @@ def admin():
 @app.route('/admin-jugadores')
 def obtener_estadisticas_jugadores():
     cur = mysql.connection.cursor()
-    # Consulta para obtener los datos de los jugadores y sus estadísticas
+    # Consulta para obtener los datos de los jugadores y sus estadísticas, incluyendo el nombre del equipo
     cur.execute("""
-        SELECT j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, e.Goles_Anotados, e.Tarjetas_Amarillas, e.Tarjetas_Rojas
+        SELECT j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, e.Goles_Anotados, e.Tarjetas_Amarillas, e.Tarjetas_Rojas, eq.Nombre AS Nombre_Equipo, c.Nombre AS Nombre_Categoria
         FROM jugador j
         LEFT JOIN est_jugador_c e ON j.ID = e.Jugador_ID
+        LEFT JOIN equipo eq ON j.Equipo_ID = eq.ID
+        LEFT JOIN categoria c ON j.Categoria_ID = c.ID
     """)
+
     jugadores = cur.fetchall()
     cur.close()
     # Renderiza la plantilla HTML y pasa los datos de los jugadores
     return render_template('adminjugadores.html', jugadores=jugadores)
+
 
 ######################################################################################################################
 @app.route('/actualizar-estadisticas', methods=["POST"])
@@ -374,7 +378,7 @@ def resultados_partidos():
 
     cur = mysql.connection.cursor()
     cur.execute("""
-        SELECT p.Resultado, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria
+        SELECT p.Goles_Local, p.Goles_Visita, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria
         FROM partido p
         JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
         JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
@@ -399,8 +403,125 @@ def resultados_partidos():
     # Renderizar el template con las categorías
     return render_template("resultados_partidos.html", categorias=categorias)
 
+##################################################################################
+
+# Ruta para obtener los goles de jugadores por jornada
+@app.route('/administrar_goles', methods=['GET', 'POST'])
+def administrar_goles():
+    if request.method == 'POST':
+        ID_jornada = request.form['ID_jornada']
+        ID_categoria = request.form['ID_categoria']
+
+        cur = mysql.connection.cursor()
+
+        # Consultar todos los enfrentamientos de la jornada y categoría seleccionadas
+        cur.execute("""
+            SELECT p.Equipo_Local_ID, p.Equipo_Visitante_ID, p.ID_jornada, p.ID_categoria, 
+                   e1.Nombre AS Nombre_Local, e2.Nombre AS Nombre_Visitante
+            FROM partido p
+            JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
+            JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
+            WHERE p.ID_jornada = %s AND p.ID_categoria = %s
+        """, (ID_jornada, ID_categoria))
+        enfrentamientos = cur.fetchall()
+
+        # Lista para almacenar los jugadores del equipo local de cada enfrentamiento
+        jugadores_locales = []
+
+        # Lista para almacenar los jugadores del equipo visitante de cada enfrentamiento
+        jugadores_visitantes = []
+
+        # Consultar los jugadores de cada equipo para cada enfrentamiento
+        for enfrentamiento in enfrentamientos:
+            # Consultar los jugadores del equipo local para el enfrentamiento actual
+            cur.execute("""
+                SELECT j.ID, j.Nombre
+                FROM jugador j
+                JOIN equipo e ON j.Equipo_ID = e.ID
+                WHERE e.ID = %s AND e.Categoria_ID = %s
+            """, (enfrentamiento['Equipo_Local_ID'], ID_categoria))
+            jugadores_local = cur.fetchall()
+            jugadores_locales.append(jugadores_local)
+
+            # Consultar los jugadores del equipo visitante para el enfrentamiento actual
+            cur.execute("""
+                SELECT j.ID, j.Nombre
+                FROM jugador j
+                JOIN equipo e ON j.Equipo_ID = e.ID
+                WHERE e.ID = %s AND e.Categoria_ID = %s
+            """, (enfrentamiento['Equipo_Visitante_ID'], ID_categoria))
+            jugadores_visitante = cur.fetchall()
+            jugadores_visitantes.append(jugadores_visitante)
+
+        cur.close()
+
+        return render_template("administrar_goles.html", enfrentamientos=enfrentamientos, jugadores_locales=jugadores_locales, jugadores_visitantes=jugadores_visitantes)
+
+    else:
+        cur = mysql.connection.cursor()
+
+        # Consultar todas las jornadas disponibles
+        cur.execute("SELECT ID, Nombre FROM jornada")
+        jornadas = cur.fetchall()
+
+        # Consultar todas las categorías disponibles
+        cur.execute("SELECT ID, Nombre FROM categoria")
+        categorias = cur.fetchall()
+
+        cur.close()
+
+        return render_template("formulario_administrar_goles.html", jornadas=jornadas, categorias=categorias)
 
 
+@app.route('/guardar_goles', methods=['POST'])
+def guardar_goles():
+    if request.method == 'POST':
+        # Obtener los datos enviados desde el formulario
+        equipo_local_id = request.form['equipo_local_id']
+        equipo_visitante_id = request.form['equipo_visitante_id']
+        jornada_id = request.form['jornada_id']
+        categoria_id = request.form['categoria_id']
+        
+        # Crear una conexión a la base de datos
+        cur = mysql.connection.cursor()
+
+        # Iterar sobre los datos de los goles marcados por los jugadores del equipo local
+        for jugador_id, goles in request.form.items():
+            if jugador_id.startswith('goles_local_'):
+                jugador_id = jugador_id.replace('goles_local_', '')  # Obtener el ID del jugador
+                # Insertar los goles del jugador en la tabla correspondiente de la base de datos
+                cur.execute("""
+                    INSERT INTO goles_jornada (ID_jugador, ID_jornada, goles)
+                    VALUES (%s, %s, %s)
+                """, (jugador_id, jornada_id, goles))
+
+        # Iterar sobre los datos de los goles marcados por los jugadores del equipo visitante
+        for jugador_id, goles in request.form.items():
+            if jugador_id.startswith('goles_visitante_'):
+                jugador_id = jugador_id.replace('goles_visitante_', '')  # Obtener el ID del jugador
+                # Insertar los goles del jugador en la tabla correspondiente de la base de datos
+                cur.execute("""
+                    INSERT INTO goles_jornada (ID_jugador, ID_jornada, goles)
+                    VALUES (%s, %s, %s)
+                """, (jugador_id, jornada_id, goles))
+
+        # Commit para guardar los cambios en la base de datos
+        mysql.connection.commit()
+        
+        # Cerrar la conexión a la base de datos
+        cur.close()
+
+        # Redireccionar a la página de administrar goles
+        return redirect(url_for('administrar_goles'))
+
+    # En caso de que no se haya enviado una solicitud POST, redirigir a la página de administrar goles
+    else:
+        return redirect(url_for('administrar_goles'))
+
+
+#########################################################################################################################
+
+# Ruta para obtener los datos de los jugadores y sus estadísticas
 @app.route('/asistencia-jugadores')
 def mostrar_jugadores():
     cur = mysql.connection.cursor()

@@ -64,7 +64,9 @@
             <thead>
                 <tr>
                     <th>Equipo Local</th>
-                    <th>Resultado</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                     <th>Equipo Visitante</th>
                 </tr>
             </thead>
@@ -73,12 +75,15 @@
                 <tr>
                     <!-- Escudo del equipo local -->
                     <td><img src="{{ url_for('static', filename='images/escudos/' + partido['Equipo_Local'] + '.png') }}" alt="Escudo del equipo local" class="equipo-logo"> {{ partido['Equipo_Local'] }}</td>
-                    <td>{{ partido['Resultado'] }}</td>
+                    <td>{{ partido['Goles_Local'] }}</td>
+                    <td>-</td>
+                    <td>{{ partido['Goles_Visita'] }}</td>
                     <!-- Escudo del equipo visitante -->
                     <td><img src="{{ url_for('static', filename='images/escudos/' + partido['Equipo_Visitante'] + '.png') }}" alt="Escudo del equipo visitante" class="equipo-logo"> {{ partido['Equipo_Visitante'] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
+            
         </table>
     </div>
     {% endfor %}

@@ -4,104 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estadísticas de Jugadores</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #f5f5f5;
-        }
-        .btn-group {
-            display: flex;
-            align-items: center;
-        }
-        .btn-group button {
-            padding: 4px 8px;
-            margin: 0 4px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/static/css/adminjugadores.css" />
+
 </head>
 <body>
 
-<h2>Estadísticas de Jugadores</h2>
+    <main class="table" id="customers_table">
+        <section class="table__header">
+            <h1>Estadisticas de jugadores</h1>
+            <div class="input-group">
+                <input type="search" id="search-input" placeholder="Buscar Jugadores..." />
+                <img src="/static/images/equipos/search.png" alt="" />
+            </div>
+            <!-- Opciones de exportación 
+            <div class="export__file">
+                <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
+                <input type="checkbox" id="export-file">
+                <div class="export__file-options">
+                    <label>Exportar como &nbsp; &#10140;</label>
+                    <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt=""></label>
+                    <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt=""></label>
+                    <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt=""></label>
+                    <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt=""></label>
+                </div>
+            </div>-->
+            <div class="category-filter">
+                <label for="category-select">Seleccionar Categoría:</label>
+                <select id="category-select">
+                    <option value="all">Todas</option>
+                    <option value="1">Juvenil</option>
+                    <option value="2">Adulta</option>
+                    <option value="3">Senior</option>
+                    <option value="4">Super Senior</option>
+                    <option value="5">Honor</option>
+                </select>
+            </div>
+    
+        </section>
+    
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Equipo<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Categoría<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Goles Anotados<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Tarjetas Amarillas<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Tarjetas Rojas<span class="icon-arrow">&UpArrow;</span></th>
+                    </tr>
+                </thead>
+                {% for jugador in jugadores %}
+                <tr>
+                    <td>{{ jugador.Nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
+                    <td>{{ jugador.Nombre_Equipo }}</td>
+                    <td>{{ jugador.Nombre_Categoria }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'goles', 'aumentar')">+</button>
+                            <span>{{ jugador.Goles_Anotados }}</span>
+                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'goles', 'disminuir')">-</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'amarillas', 'aumentar')">+</button>
+                            <span>{{ jugador.Tarjetas_Amarillas }}</span>
+                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'amarillas', 'disminuir')">-</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'rojas', 'aumentar')">+</button>
+                            <span>{{ jugador.Tarjetas_Rojas }}</span>
+                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'rojas', 'disminuir')">-</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+              </table>
+        </section>
+    </main>
 
-<table>
-  <tr>
-      <th>Nombre</th>
-      <th>Apellido Paterno</th>
-      <th>Apellido Materno</th>
-      <th>Goles Anotados</th>
-      <th>Tarjetas Amarillas</th>
-      <th>Tarjetas Rojas</th>
-  </tr>
-  {% for jugador in jugadores %}
-  <tr>
-      <td>{{ jugador.Nombre }}</td>
-      <td>{{ jugador.Apellido_Paterno }}</td>
-      <td>{{ jugador.Apellido_Materno }}</td>
-      <td>
-          <div class="btn-group">
-              <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'goles', 'aumentar')">+</button>
-              <span>{{ jugador.Goles_Anotados }}</span>
-              <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'goles', 'disminuir')">-</button>
-          </div>
-      </td>
-      <td>
-          <div class="btn-group">
-              <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'amarillas', 'aumentar')">+</button>
-              <span>{{ jugador.Tarjetas_Amarillas }}</span>
-              <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'amarillas', 'disminuir')">-</button>
-          </div>
-      </td>
-      <td>
-          <div class="btn-group">
-              <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'rojas', 'aumentar')">+</button>
-              <span>{{ jugador.Tarjetas_Rojas }}</span>
-              <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'rojas', 'disminuir')">-</button>
-          </div>
-      </td>
-  </tr>
-  {% endfor %}
-</table>
-
-<script>
-  function actualizarEstadisticas(nombre, apellidoPaterno, apellidoMaterno, tipo, accion) {
-      var formData = new FormData();
-      formData.append('nombre', nombre);
-      formData.append('apellido_paterno', apellidoPaterno);
-      formData.append('apellido_materno', apellidoMaterno);
-      formData.append('tipo', tipo);
-      formData.append('accion', accion);
-  
-      fetch('/actualizar-estadisticas', {
-          method: 'POST',
-          body: formData
-      })
-      .then(response => {
-          if (response.ok) {
-              // Actualización exitosa, puedes realizar alguna acción adicional si lo deseas
-              console.log('Actualización exitosa');
-              // Por ejemplo, recargar la página para ver los cambios actualizados
-              location.reload();
-          } else {
-              // Error al actualizar, puedes mostrar un mensaje de error o realizar alguna acción adicional
-              console.error('Error al actualizar');
-          }
-      })
-      .catch(error => {
-          console.error('Error al actualizar:', error);
-      });
-  }
-</script>
+    <script>
+    function actualizarEstadisticas(nombre, apellidoPaterno, apellidoMaterno, tipo, accion) {
+        var formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('apellido_paterno', apellidoPaterno);
+        formData.append('apellido_materno', apellidoMaterno);
+        formData.append('tipo', tipo);
+        formData.append('accion', accion);
+    
+        fetch('/actualizar-estadisticas', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // Actualización exitosa, puedes realizar alguna acción adicional si lo deseas
+                console.log('Actualización exitosa');
+                // Por ejemplo, recargar la página para ver los cambios actualizados
+                location.reload();
+            } else {
+                // Error al actualizar, puedes mostrar un mensaje de error o realizar alguna acción adicional
+                console.error('Error al actualizar');
+            }
+        })
+        .catch(error => {
+            console.error('Error al actualizar:', error);
+        });
+    }
+    </script>
 
 </body>
+<script src="/static/js/filtro.js"></script>
+<script src="/static/js/listar_jugadores.js"></script>
 </html>
