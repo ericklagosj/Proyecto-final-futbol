@@ -1,27 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Tabla de Posiciones</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/static/css/tablas.css"
-    />
-  </head>
-  <body>
-    <main class="table" id="posiciones_table">
-      <section class="table__header">
+    <link rel="stylesheet" type="text/css" href="/static/css/tablas.css" />
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Alineación vertical de los números de posición */
+        td:first-child {
+            vertical-align: middle;
+        }
+
+        /* Alineación horizontal de los números de posición */
+        td:first-child {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<main class="table" id="posiciones_table">
+    <section class="table__header">
         <h1>Tabla de Posiciones</h1>
         <!-- Barra de búsqueda -->
         <div class="input-group">
-          <input type="search" placeholder="Buscar Equipos..." />
-          <img src="/static/images/equipos/search.png" alt="" />
+            <input type="search" placeholder="Buscar Equipos..." />
+            <img src="/static/images/equipos/search.png" alt="" />
         </div>
     
-          <div class="category-filter">
+        <div class="category-filter">
             <form id="category-form" action="{{ url_for('tabla_posiciones') }}" method="get">
                 <label for="category-select">Seleccionar Categoría:</label>
                 <select id="category-select" name="categoria">
@@ -34,92 +55,73 @@
                 </select>
                 <input type="submit" style="display: none;"> 
             </form>
-          </div>
-
+        </div>
 
         <div class="export__file">
-          <label
-            for="export-file"
-            class="export__file-btn"
-            title="Exportar Archivo"
-          ></label>
-          <input type="checkbox" id="export-file" />
-          <div class="export__file-options">
-            <label>Exportar como &nbsp; &#10140;</label>
-            <label for="export-file" id="toPDF"
-              >PDF
-              <img
-                src="/static/images/equipos/pdf.png"
-                alt=""
-            /></label>
-            <label for="export-file" id="toJSON"
-              >JSON
-              <img
-                src="/static/images/equipos/json.png"
-                alt=""
-            /></label>
-            <label for="export-file" id="toCSV"
-              >CSV
-              <img
-                src="/static/images/equipos/csv.png"
-                alt=""
-            /></label>
-            <label for="export-file" id="toEXCEL"
-              >EXCEL
-              <img
-                src="/static/images/equipos/excel.png"
-                alt=""
-            /></label>
-          </div>
+            <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
+            <input type="checkbox" id="export-file" />
+            <div class="export__file-options">
+                <label>Exportar como &nbsp; &#10140;</label>
+                <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt=""></label>
+                <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt=""></label>
+                <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt=""></label>
+                <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt=""></label>
+            </div>
         </div>
-      </section>
-      <section class="table__body">
+    </section>
+    <section class="table__body">
         <table>
-          <thead>
-            <tr>
-                <th>Pos</th>
-                <th>Club</th>
-                <th>PTS</th>
-                <th>PJ</th>
-                <th>PG</th>
-                <th>PE</th>
-                <th>PP</th>
-                <th>GF</th>
-                <th>GC</th>
-                <th>Últimos 5</th>
-            </tr>
-          </thead>
+            <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th>Club</th>
+                    <th>PTS</th>
+                    <th>PJ</th>
+                    <th>PG</th>
+                    <th>PE</th>
+                    <th>PP</th>
+                    <th>GF</th>
+                    <th>GC</th>
+                    <th>DIF</th>
+                    <th>Últimos 5</th>
+                </tr>
+            </thead>
             <tbody>
-              {% for fila in tabla_posiciones %}
-              <tr>
-                <td>{{ fila.Pos }}</td>
-                <td>{{ fila.Club }}</td>
-                <td>{{ fila.PTS }}</td>
-                <td>{{ fila.PJ }}</td>
-                <td>{{ fila.PG }}</td>
-                <td>{{ fila.PE }}</td>
-                <td>{{ fila.PP }}</td>
-                <td>{{ fila.GF }}</td>
-                <td>{{ fila.GC }}</td>
-              </tr>
-              {% endfor %}
+              <tbody>
+                {% for i in range(1, 11) %}
+                <tr>
+                    <td>{{ i }}</td>
+                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].Club }} {% endif %}</td>
+                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PTS }} {% endif %}</td>
+                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PJ }} {% endif %}</td>
+                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PG }} {% endif %}</td>
+                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PE }} {% endif %}</td>
+                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PP }} {% endif %}</td>
+                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].GF }} {% endif %}</td>
+                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].GC }} {% endif %}</td>
+                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].DIF }} {% endif %}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
             </tbody>
-          </table>
-      </section>
-    </main>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-          const categoryForm = document.getElementById("category-form");
-          const categorySelect = document.getElementById("category-select");
-  
-          // Agregar un evento al cambio de selección en el menú desplegable
-          categorySelect.addEventListener("change", function () {
-              // Enviar automáticamente el formulario cuando se selecciona una categoría
-              categoryForm.submit();
-          });
-      });
-  </script>
-  </body>
-  <script src="/static/js/filtro.js"></script>
-  <script src="/static/js/tablas.js"></script>
+            
+            </tbody>
+        </table>
+    </section>
+</main>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const categoryForm = document.getElementById("category-form");
+        const categorySelect = document.getElementById("category-select");
+
+        // Agregar un evento al cambio de selección en el menú desplegable
+        categorySelect.addEventListener("change", function () {
+            // Enviar automáticamente el formulario cuando se selecciona una categoría
+            categoryForm.submit();
+        });
+    });
+</script>
+<script src="/static/js/filtro.js"></script>
+<script src="/static/js/tablas.js"></script>
+</body>
 </html>

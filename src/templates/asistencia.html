@@ -1,69 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Asistencia de Jugadores</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 2px solid #ddd;
-            background-color: #fff;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #ddd;
-        }
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" href="../static/css/asistencia.css" />
+    <!--=============== REMIXICONS ===============-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <h1>Asistencia de Jugadores</h1>
-    <table>
+    <div class="table-container">
+      <table>
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                {% for jornada in jornadas %}
-                <th>J{{ jornada }}</th>
-                {% endfor %}
-                <th>Asistencia Total</th>
-                <th>Porcentaje de Asistencia</th>
-            </tr>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            {% for jornada in jornadas %}
+            <th>J{{ jornada }}</th>
+            {% endfor %}
+            <th>Total</th>
+            <th>%</th>
+          </tr>
         </thead>
         <tbody>
-            {% for jugador in jugadores %}
-            <tr>
-                <td>{{ jugador.id }}</td>
-                <td>{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
-                {% for jornada in jornadas %}
-                <td>{{ asistencia_jornadas[jugador.id].get(jornada, 0) }}</td>
-                {% endfor %}
-                <td>{{ asistencia_total.get(jugador.id, 0) }}</td>
-                <td>{% if total_asistencias_posibles > 0 %}{{ '%d' % (asistencia_total.get(jugador.id, 0) / total_asistencias_posibles * 100) }}{% else %}0{% endif %}%</td>
-            </tr>
+          {% for jugador in jugadores %}
+          <tr>
+            <td data-label-abbr="ID">{{ jugador.id }}</td>
+            <td data-label-abbr="Nombre">
+              {{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{
+              jugador.Apellido_Materno }}
+            </td>
+            {% for jornada in jornadas %}
+            <td data-label-abbr="J{{ jornada }}">
+              {{ asistencia_jornadas[jugador.id].get(jornada, 0) }}
+            </td>
             {% endfor %}
+            <td data-label-abbr="Total">
+              {{ asistencia_total.get(jugador.id, 0) }}
+            </td>
+            <td data-label-abbr="%">
+              {% if total_asistencias_posibles > 0 %} {{ '%.1f' %
+              (asistencia_total.get(jugador.id, 0) / total_asistencias_posibles
+              * 100) }}% {% else %} 0% {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
         </tbody>
-    </table>
-</body>
+      </table>
+    </div>
+    <!--=============== MAIN JS ===============-->
+    <script src="/assets/js/main.js"></script>
+  </body>
 </html>

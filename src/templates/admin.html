@@ -24,8 +24,8 @@
                 <li><a href="{{ url_for('registro') }}">Registro de jugadores</a></li> <!-- Modificación aquí -->
                 <li><a href="{{ url_for('listar_jugadores') }}">Jugadores registrados</a></li>
                 <li><a href="{{ url_for('listar_equipos') }}">Equipos</a></li>
-                <li><a href="#">Ayuda</a></li>
-                <li><a href="#">Acerca de</a></li>
+                <li><a href="{{ url_for('obtener_estadisticas_jugadores') }}">Registrar goles</a></li>
+                <li><a href="{{ url_for('administrar_enfrentamientos') }}">Administrar enfrentamientos</a></li>
             </ul>
         </aside>
 
@@ -35,7 +35,7 @@
             <div class="banner">
                 <div class="user-options">
                     <span class="username">Usuario: [Nombre de Usuario]</span>
-                    <a href="#" class="logout">Cerrar Sesión</a>
+                    <a href="{{ url_for('login') }}" class="logout">Cerrar Sesión</a>
                 </div>
             </div>
 

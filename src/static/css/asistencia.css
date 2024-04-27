@@ -1,0 +1,71 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: center;
+  }
+  
+  thead {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  /* Estilos para la barra negra */
+  td:first-child:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4px; /* Ancho de la barra */
+    background-color: #000; /* Color de la barra */
+  }
+  
+  /* Estilos específicos para dispositivos móviles */
+  @media screen and (max-width: 767px) {
+    th, td {
+      padding: 8px;
+      font-size: 12px;
+    }
+  
+    thead {
+      display: none;
+    }
+  
+    tbody td:before {
+      content: attr(data-label-abbr);
+      font-weight: bold;
+      display: block;
+    }
+  
+    tbody td:last-child:before {
+      content: "%";
+    }
+  }
+  

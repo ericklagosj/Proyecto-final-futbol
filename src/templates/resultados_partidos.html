@@ -1,102 +1,103 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/resultadopartido.css" />
     <title>Resultados de Partidos</title>
-    <style>
-        /* Estilos de los recuadros de categoría */
-        .categoria {
-            margin-bottom: 20px;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-        }
-        
-        .categoria h2 {
-            margin-top: 0;
-        }
-
-        /* Estilos para la tabla de partidos */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .equipo-logo {
-            width: 50px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Resultados de Partidos</h1>
-
-    <!-- Formulario para filtrar por jornada -->
-    <form action="{{ url_for('resultados_partidos') }}" method="post">
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Remix Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Resultados de Partidos</h1>
+      <!-- Formulario para filtrar por jornada -->
+      <form
+        action="{{ url_for('resultados_partidos') }}"
+        method="post"
+        class="form"
+      >
         <div class="dropdown">
-            <select id="jornada" name="ID_jornada"> <!-- Asegúrate de que el nombre sea "ID_jornada" -->
-                {% for i in range(1, 19) %}
-                <option value="{{ i }}">Jornada {{ i }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit">Filtrar por jornada</button>
+          <select id="jornada" name="ID_jornada" class="select">
+            <!-- Asegúrate de que el nombre sea "ID_jornada" -->
+            {% for i in range(1, 19) %}
+            <option value="{{ i }}" class="option">Jornada {{ i }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="button">
+            <i class="ri-filter-3-line"></i> Filtrar
+          </button>
         </div>
-    </form>
-
+      </form>
+    </header>
 
     <!-- Recuadros de categoría con sus respectivos partidos -->
     {% for nombre_categoria, partidos in categorias.items() %}
     <div class="categoria">
-        <h2>{{ nombre_categoria }}</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Equipo Local</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>Equipo Visitante</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for partido in partidos %}
-                <tr>
-                    <!-- Escudo del equipo local -->
-                    <td><img src="{{ url_for('static', filename='images/escudos/' + partido['Equipo_Local'] + '.png') }}" alt="Escudo del equipo local" class="equipo-logo"> {{ partido['Equipo_Local'] }}</td>
-                    <td>{{ partido['Goles_Local'] }}</td>
-                    <td>-</td>
-                    <td>{{ partido['Goles_Visita'] }}</td>
-                    <!-- Escudo del equipo visitante -->
-                    <td><img src="{{ url_for('static', filename='images/escudos/' + partido['Equipo_Visitante'] + '.png') }}" alt="Escudo del equipo visitante" class="equipo-logo"> {{ partido['Equipo_Visitante'] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-            
-        </table>
+      <h2>{{ nombre_categoria }}</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Equipo Local</th>
+            <th>Resultado</th>
+            <th>Equipo Visitante</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for partido in partidos %}
+          <tr class="partido" data-target="detalle-{{ loop.index }}">
+            <!-- Escudo del equipo local -->
+            <td>
+              <img
+                src="{{ url_for('static', filename='images/escudos/' + partido['Equipo_Local'] + '.png') }}"
+                alt="Escudo del equipo local"
+                class="equipo-logo"
+              />
+              {{ partido['Equipo_Local'] }}
+            </td>
+            <td>{{ partido['Resultado'] }}</td>
+            <!-- Escudo del equipo visitante -->
+            <td>
+              <img
+                src="{{ url_for('static', filename='images/escudos/' + partido['Equipo_Visitante'] + '.png') }}"
+                alt="Escudo del equipo visitante"
+                class="equipo-logo"
+              />
+              {{ partido['Equipo_Visitante'] }}
+            </td>
+          </tr>
+          <tr
+            class="detalle"
+            id="detalle-{{ loop.index }}"
+            style="display: none"
+          >
+            <td colspan="3">
+              <!-- Detalles del partido, como goleadores y minutos -->
+              <h3>Goleadores</h3>
+              <ul>
+                <li>
+                  {{ partido['Equipo_Local'] }}: 2 goles (Minuto 10, Minuto 55)
+                </li>
+                <li>{{ partido['Equipo_Visitante'] }}: 1 gol (Minuto 30)</li>
+              </ul>
+              <h3>Detalles Adicionales</h3>
+              <p>Este es un ejemplo de detalles adicionales para el partido.</p>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
     {% endfor %}
 
-    <!-- Script JavaScript para manejar el cambio de jornada -->
-    <script>
-        function cambiarJornada() {
-        var jornada = document.getElementById("jornada").value;
-        console.log("Jornada seleccionada:", jornada); // Añade este console.log
-        // Redireccionar a la página de resultados de la jornada seleccionada
-        window.location.href = "/partidos/" + jornada;
-    }
-
-    </script>
-</body>
+    <script src="../static/js/resultadopartidos.js"></script>
+  </body>
 </html>

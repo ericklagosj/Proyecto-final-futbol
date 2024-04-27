@@ -72,6 +72,21 @@ main.table {
     outline: none;
 }
 
+/* Estilos generales de las celdas */
+th,
+td {
+    border-collapse: collapse;
+    padding: .3rem; /* Reducir el espacio interno */
+    text-align: left;
+}
+
+/* Estilos específicos para las celdas con solo números */
+th:not(:first-child):not(:last-child),
+td:not(:first-child):not(:last-child) {
+    min-width: 2rem; /* Ajustar el ancho mínimo */
+}
+
+
 /* Estilos del cuerpo de la tabla */
 .table__body {
     width: 95%;
@@ -140,7 +155,7 @@ tbody tr:hover {
 tbody tr td,
 tbody tr td p {
     transition: .2s ease-in-out;
-    padding-left: 60px; /* Ajusta el valor según sea necesario para centrar más a la derecha */
+    padding-left: 20px; /* Ajusta el valor según sea necesario para centrar más a la derecha */
 }
 
 /* Estilos de las imágenes de las celdas */
@@ -171,7 +186,8 @@ tbody tr.hide td img {
 @media (max-width: 1000px) {
     /* Estilos para las celdas que no son la primera de su tipo */
     td:not(:first-of-type) {
-        min-width: 12.1rem;
+        min-width: .1rem;
+        padding-left: 1px;
     }
 }
 

@@ -1,0 +1,119 @@
+/* Estilos generales */
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #003366;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    margin: 0;
+  }
+  
+  .form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .dropdown {
+    position: relative;
+  }
+  
+  .select {
+    padding: 10px 30px 10px 10px;
+    border: none;
+    border-radius: 50px;
+    background-color: #fff;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  
+  .option {
+    font-size: 16px;
+  }
+  
+  .button {
+    position: absolute;
+    top: 50%;
+    right: -80px;
+    transform: translateY(-50%);
+    background-color: #4d4f50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #001a33;
+  }
+  
+  /* Estilos de la tabla */
+  table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #003366;
+    color: #fff;
+  }
+  
+  /* Estilos de los recuadros de categoría */
+  .categoria {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos de los logos de equipo */
+  .equipo-logo {
+    width: 50px;
+    vertical-align: middle; /* Alineación vertical al centro */
+  }
+  
+  /* Estilos para iconos de Remix */
+  .ri {
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+  
+  /* Estilo para el detalle del partido */
+  .detalle {
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  /* Estilo para la fila del partido al hacer clic */
+  .partido.active {
+    background-color: #f0f0f0;
+  }
+  
+  /* Icono para indicar que se puede expandir/cerrar */
+  .toggle-icon {
+    float: right;
+    cursor: pointer;
+  }
+  

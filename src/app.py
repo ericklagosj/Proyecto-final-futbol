@@ -206,6 +206,144 @@ def crear_registro():
 
     return redirect(url_for('listar_jugadores'))
 
+
+#############################################################################
+# Route para manejar los enfrentamientos de equipos
+@app.route('/admin-enfrentamientos', methods=['GET', 'POST'])
+def administrar_enfrentamientos():
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        id_partido = request.form['id_partido']
+        goles_local = int(request.form['goles_local'])
+        goles_visitante = int(request.form['goles_visitante'])
+
+        # Determinar quién ganó, quién perdió o si hubo empate
+        if goles_local > goles_visitante:
+            resultado = 'local_gana'
+        elif goles_local < goles_visitante:
+            resultado = 'visitante_gana'
+        else:
+            resultado = 'empate'
+
+        # Actualizar los resultados en la base de datos
+        cur = mysql.connection.cursor()
+
+        # Actualizar tabla de partidos
+        cur.execute("""
+            UPDATE partido
+            SET Goles_Local = %s, Goles_Visita = %s, Resultado = %s
+            WHERE ID = %s
+        """, (goles_local, goles_visitante, resultado, id_partido))
+
+        # Actualizar tablas de posiciones
+        if resultado == 'local_gana':
+            # Equipo local gana
+            cur.execute("""
+                UPDATE tabla_juvenil_p
+                SET Puntos = Puntos + 3,
+                    P_Jugados = P_Jugados + 1,
+                    P_Ganados = P_Ganados + 1,
+                    Goles_Favor = Goles_Favor + %s,
+                    Goles_Contra = Goles_Contra + %s
+                WHERE Equipo_ID = (SELECT Equipo_Local_ID FROM partido WHERE ID = %s)
+            """, (goles_local, goles_visitante, id_partido))
+
+            # Equipo visitante pierde
+            cur.execute("""
+                UPDATE tabla_juvenil_p
+                SET P_Jugados = P_Jugados + 1,
+                    P_Perdidos = P_Perdidos + 1,
+                    Goles_Favor = Goles_Favor + %s,
+                    Goles_Contra = Goles_Contra + %s
+                WHERE Equipo_ID = (SELECT Equipo_Visitante_ID FROM partido WHERE ID = %s)
+            """, (goles_visitante, goles_local, id_partido))
+
+        elif resultado == 'visitante_gana':
+            # Equipo visitante gana
+            cur.execute("""
+                UPDATE tabla_juvenil_p
+                SET Puntos = Puntos + 3,
+                    P_Jugados = P_Jugados + 1,
+                    P_Ganados = P_Ganados + 1,
+                    Goles_Favor = Goles_Favor + %s,
+                    Goles_Contra = Goles_Contra + %s
+                WHERE Equipo_ID = (SELECT Equipo_Visitante_ID FROM partido WHERE ID = %s)
+            """, (goles_visitante, goles_local, id_partido))
+
+            # Equipo local pierde
+            cur.execute("""
+                UPDATE tabla_juvenil_p
+                SET P_Jugados = P_Jugados + 1,
+                    P_Perdidos = P_Perdidos + 1,
+                    Goles_Favor = Goles_Favor + %s,
+                    Goles_Contra = Goles_Contra + %s
+                WHERE Equipo_ID = (SELECT Equipo_Local_ID FROM partido WHERE ID = %s)
+            """, (goles_local, goles_visitante, id_partido))
+
+        else:
+            # Empate, ambos equipos suman 1 punto
+            cur.execute("""
+                UPDATE tabla_juvenil_p
+                SET Puntos = Puntos + 1,
+                    P_Jugados = P_Jugados + 1,
+                    P_Empatados = P_Empatados + 1,
+                    Goles_Favor = Goles_Favor + %s,
+                    Goles_Contra = Goles_Contra + %s
+                WHERE Equipo_ID IN (
+                    (SELECT Equipo_Local_ID FROM partido WHERE ID = %s),
+                    (SELECT Equipo_Visitante_ID FROM partido WHERE ID = %s)
+                )
+            """, (goles_local, goles_visitante, id_partido, id_partido))
+
+        mysql.connection.commit()
+        cur.close()
+
+        # Redireccionar a la misma página para evitar reenvíos de formulario
+        return redirect(url_for('administrar_enfrentamientos'))
+
+    else:
+        # Consultar las jornadas disponibles
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT ID, Nombre FROM jornada")
+        jornadas = cur.fetchall()
+
+        # Obtener el parámetro de filtrado por jornada
+        id_jornada_filtro = request.args.get('jornada')
+
+        # Consultar los enfrentamientos programados
+        if id_jornada_filtro:
+            cur.execute("""
+                SELECT p.ID, p.Fecha, j.Nombre AS Nombre_Jornada, p.Ubicacion, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Categoria, p.Goles_Local, p.Goles_Visita
+                FROM partido p
+                JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
+                JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
+                JOIN categoria c ON p.ID_categoria = c.ID
+                JOIN jornada j ON p.ID_jornada = j.ID
+                WHERE p.ID_jornada = %s
+            """, (id_jornada_filtro,))
+        else:
+            cur.execute("""
+                SELECT p.ID, p.Fecha, j.Nombre AS Nombre_Jornada, p.Ubicacion, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Categoria, p.Goles_Local, p.Goles_Visita
+                FROM partido p
+                JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
+                JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
+                JOIN categoria c ON p.ID_categoria = c.ID
+                JOIN jornada j ON p.ID_jornada = j.ID
+            """)
+        enfrentamientos = cur.fetchall()
+
+        # Obtener el nombre de la jornada actual
+        jornada_actual_id = int(id_jornada_filtro) if id_jornada_filtro else 0
+        jornada_actual_nombre = next((jornada['Nombre'] for jornada in jornadas if jornada['ID'] == jornada_actual_id), 'Todas las jornadas')
+
+        cur.close()
+
+        return render_template('admin_enfrentamientos.html', enfrentamientos=enfrentamientos, jornadas=jornadas, jornada_actual=jornada_actual_nombre)
+
+
+    
+##################################################################################################
+
 ######################################################
 #############Descargar formularios####################
 UPLOAD_FOLDER = 'archivos'
@@ -602,7 +740,8 @@ def tabla_posiciones():
         SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
                tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
                tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
+               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC,
+               (tr.Goles_Favor - tr.Goles_Contra) AS DIF
         FROM {} tr
         JOIN equipo e ON tr.Equipo_ID = e.ID
         ORDER BY tr.Posicion
@@ -614,6 +753,7 @@ def tabla_posiciones():
     return render_template('tabla_posiciones.html', tabla_posiciones=tabla_posiciones)
 
 
+##############################################################################################
 
 
 # Muestra la tabla general de segunda división

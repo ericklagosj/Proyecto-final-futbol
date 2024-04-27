@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Enfrentamientos</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/adminjugadores.css" />
+</head>
+<body>
+    <main class="table" id="customers_table">
+        <section class="table__header">
+            <h1>Administrar Enfrentamientos</h1>
+            <div class="input-group">
+                <input type="search" id="search-input" placeholder="Buscar Equipos..." />
+                <img src="/static/images/equipos/search.png" alt="" />
+            </div>
+        </section>
+        <!-- Mostrar la jornada actual -->
+        <h2>{{ jornada_actual }}</h2>
+        <!-- Filtro por jornada -->
+        <form action="{{ url_for('administrar_enfrentamientos') }}" method="get">
+            <label for="jornada">Filtrar por jornada:</label>
+            <select name="jornada" id="jornada">
+                <option value="">Todas las jornadas</option>
+                {% for jornada in jornadas %}
+                <option value="{{ jornada.ID }}" {% if jornada.ID == jornada_actual_id %}selected{% endif %}>{{ jornada.Nombre }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Filtrar</button>
+        </form>
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Jornada<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Ubicación<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Equipo Local<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Equipo Visitante<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Categoría<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Goles Local<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Goles Visitante<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enfrentamiento in enfrentamientos %}
+                    <tr>
+                        <form action="{{ url_for('administrar_enfrentamientos') }}" method="post">
+                            <input type="hidden" name="id_partido" value="{{ enfrentamiento.ID }}">
+                            <td>{{ enfrentamiento.Fecha }}</td>
+                            <td>{{ enfrentamiento.Nombre_Jornada }}</td>
+                            <td>{{ enfrentamiento.Ubicacion }}</td>
+                            <td>{{ enfrentamiento.Equipo_Local }}</td>
+                            <td>{{ enfrentamiento.Equipo_Visitante }}</td>
+                            <td>{{ enfrentamiento.Categoria }}</td>
+                            <td><input type="number" name="goles_local" value="{{ enfrentamiento.Goles_Local }}"></td>
+                            <td><input type="number" name="goles_visitante" value="{{ enfrentamiento.Goles_Visita }}"></td>
+                            <td><button type="submit">Actualizar</button></td>
+                        </form>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+<script src="/static/js/filtro.js"></script>
+<script src="/static/js/listar_jugadores.js"></script>
+</html>
