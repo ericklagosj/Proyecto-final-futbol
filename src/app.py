@@ -299,7 +299,7 @@ def administrar_enfrentamientos():
         cur.close()
 
         # Redireccionar a la misma página para evitar reenvíos de formulario
-        return redirect(url_for('administrar_enfrentamientos'))
+        return redirect(url_for('admin_enfrentamientos.html'))
 
     else:
         # Consultar las jornadas disponibles
@@ -341,7 +341,29 @@ def administrar_enfrentamientos():
         return render_template('admin_enfrentamientos.html', enfrentamientos=enfrentamientos, jornadas=jornadas, jornada_actual=jornada_actual_nombre)
 
 
-    
+##############################################################################################################
+#traspaso de jugadores
+@app.route('/traspaso-jugador', methods=['GET', 'POST'])
+def traspaso_jugador():
+    if request.method == 'POST':
+        # Obtener los datos del formulario
+        jugador_nombre = request.form.get('jugador_nombre')
+        jugador_ci = request.form.get('jugador_ci')
+        fecha_nacimiento = request.form.get('fecha_nacimiento')
+        domicilio = request.form.get('domicilio')
+        club_actual = request.form.get('club_actual')
+        club_destino = request.form.get('club_destino')
+        duracion_contrato = request.form.get('duracion_contrato')
+        pase_pagado_por_club = request.form.get('pase_pagado_por_club')
+        pase_pagado_por_jugador = request.form.get('pase_pagado_por_jugador')
+        
+        # Aquí podrías almacenar estos datos en tu base de datos si es necesario
+        
+        # Renderizar una plantilla de confirmación
+        return render_template('traspaso_confirmacion.html', jugador_nombre=jugador_nombre, club_actual=club_actual, club_destino=club_destino)
+    else:
+        # Renderizar el formulario de traspaso
+        return render_template('traspaso_jugador.html')
 ##################################################################################################
 
 ######################################################
