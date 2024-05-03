@@ -87,23 +87,23 @@
                 </tr>
             </thead>
             <tbody>
-              <tbody>
-                {% for i in range(1, 11) %}
+                {% for equipo in tabla_posiciones %}
                 <tr>
-                    <td>{{ i }}</td>
-                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].Club }} {% endif %}</td>
-                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PTS }} {% endif %}</td>
-                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PJ }} {% endif %}</td>
-                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PG }} {% endif %}</td>
-                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PE }} {% endif %}</td>
-                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].PP }} {% endif %}</td>
-                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].GF }} {% endif %}</td>
-                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].GC }} {% endif %}</td>
-                    <td>{% if i <= tabla_posiciones|length %} {{ tabla_posiciones[i-1].DIF }} {% endif %}</td>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ equipo.Club }}</td>
+                    <td>{{ equipo.PTS }}</td>
+                    <td>{{ equipo.PJ }}</td>
+                    <td>{{ equipo.PG }}</td>
+                    <td>{{ equipo.PE }}</td>
+                    <td>{{ equipo.PP }}</td>
+                    <td>{{ equipo.GF }}</td>
+                    <td>{{ equipo.GC }}</td>
+                    <td>{{ equipo.DIF }}</td>
                     <td></td>
                 </tr>
                 {% endfor %}
             </tbody>
+            
             
             </tbody>
         </table>

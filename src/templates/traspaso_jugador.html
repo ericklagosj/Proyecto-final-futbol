@@ -4,16 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traspaso de Jugador</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/traspaso_jugador.css" />
 </head>
 <body>
-    <h1>Traspaso de Jugador</h1>
-    <form action="/traspaso-jugador" method="post">
-        <label for="jugador_nombre">Nombre del Jugador:</label>
-        <input type="text" id="jugador_nombre" name="jugador_nombre" required><br>
-        
-        <!-- Otros campos del formulario -->
-        
-        <input type="submit" value="Enviar">
-    </form>
+    <main class="table" id="jugadores_table">
+        <section class="table__header">
+            <h1>Buscar Jugador</h1>
+            <div class="input-group">
+                <input type="search" id="buscar_jugador_input" placeholder="Buscar Jugador..." />
+                <ul id="sugerencias"></ul> <!-- Lista para mostrar sugerencias -->
+            </div>
+        </section>
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                    </tr>
+                </thead>
+                <tbody id="jugadores_encontrados">
+                    {% for jugador in jugadores %}
+                    <tr>
+                        <td>{{ jugador.nombre }}</td>
+                        <td>{{ jugador.apellido_paterno }}</td>
+                        <td>{{ jugador.apellido_materno }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#buscar_jugador_input').on('input', function(){
+                var busqueda = $(this).val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/buscar-jugador',
+                    data: { busqueda: busqueda },
+                    success: function(data){
+                        $('#sugerencias').empty(); // Limpiar la lista de sugerencias
+                        $.each(data, function(index, jugador){
+                            $('#sugerencias').append(`<li>${jugador.nombre}</li>`); // Agregar cada nombre como un elemento de lista
+                        });
+                    }
+                });
+            });
+
+            // Manejar clic en una sugerencia para llenar el campo de búsqueda
+            $(document).on('click', '#sugerencias li', function(){
+                var nombreJugador = $(this).text();
+                $('#buscar_jugador_input').val(nombreJugador); // Llenar el campo de búsqueda con el nombre seleccionado
+                $('#sugerencias').empty(); // Limpiar la lista de sugerencias
+            });
+        });
+    </script>
 </body>
 </html>

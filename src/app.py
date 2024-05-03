@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, render_template_string, send_from_directory
 from flask_mysqldb import MySQL
+import sqlite3 
 import os
 
 app = Flask(__name__, template_folder='./templates')
@@ -364,6 +365,27 @@ def traspaso_jugador():
     else:
         # Renderizar el formulario de traspaso
         return render_template('traspaso_jugador.html')
+    
+
+@app.route('/buscar-jugador', methods=['POST'])
+def buscar_jugador():
+    busqueda = request.form.get('busqueda')
+    
+    # Realizar la consulta a la base de datos MySQL para obtener los jugadores que coincidan con la búsqueda
+    cur = mysql.connection.cursor()
+
+    # Modificamos la consulta SQL para buscar en los campos Nombre, Apellido_Paterno y Apellido_Materno
+    cur.execute("SELECT Nombre, Apellido_Paterno, Apellido_Materno FROM jugador WHERE Nombre LIKE %s OR Apellido_Paterno LIKE %s OR Apellido_Materno LIKE %s", ('%' + busqueda + '%', '%' + busqueda + '%', '%' + busqueda + '%'))
+    jugadores = cur.fetchall()
+
+    # Formatear los resultados como una lista de diccionarios
+    resultados = [{'nombre': jugador[0], 'apellido_paterno': jugador[1], 'apellido_materno': jugador[2]} for jugador in jugadores]
+
+    # Devolver los resultados en formato JSON
+    return jsonify(resultados)
+
+
+
 ##################################################################################################
 
 ######################################################
