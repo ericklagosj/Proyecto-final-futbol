@@ -43,13 +43,11 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Apellido Paterno</th>
                         <th>Apellido Materno</th>
                         <th>Rut</th>
                         <th>Fecha de Nacimiento</th>
-                        <th>Posición</th>
                         <th>Equipo</th>
                         <th>Categoría</th>
                     </tr>
@@ -57,13 +55,11 @@
                 <tbody>
                     {% for jugador in jugadores %}
                     <tr>
-                        <td>{{ jugador['ID'] }}</td>
                         <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }}</a></td>
                         <td>{{ jugador['Apellido_Paterno'] }}</td>
                         <td>{{ jugador['Apellido_Materno'] }}</td>
                         <td>{{ jugador['rut'] }}</td>
                         <td>{{ jugador['Fecha_Nacimiento'] }}</td>
-                        <td>{{ jugador['Posicion_ID'] }}</td>
                         <td>{{ jugador['Equipo_ID'] }}</td>
                         <td>{{ jugador['Categoria_ID'] }}</td>
                     </tr>

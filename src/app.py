@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, render_template_string, send_from_directory
+from flask import Flask, flash, render_template, request, redirect, url_for, session, jsonify, render_template_string, send_from_directory
 from flask_mysqldb import MySQL
 import sqlite3 
 import os
@@ -343,46 +343,85 @@ def administrar_enfrentamientos():
 
 
 ##############################################################################################################
-#traspaso de jugadores
-@app.route('/traspaso-jugador', methods=['GET', 'POST'])
-def traspaso_jugador():
-    if request.method == 'POST':
-        # Obtener los datos del formulario
-        jugador_nombre = request.form.get('jugador_nombre')
-        jugador_ci = request.form.get('jugador_ci')
-        fecha_nacimiento = request.form.get('fecha_nacimiento')
-        domicilio = request.form.get('domicilio')
-        club_actual = request.form.get('club_actual')
-        club_destino = request.form.get('club_destino')
-        duracion_contrato = request.form.get('duracion_contrato')
-        pase_pagado_por_club = request.form.get('pase_pagado_por_club')
-        pase_pagado_por_jugador = request.form.get('pase_pagado_por_jugador')
-        
-        # Aquí podrías almacenar estos datos en tu base de datos si es necesario
-        
-        # Renderizar una plantilla de confirmación
-        return render_template('traspaso_confirmacion.html', jugador_nombre=jugador_nombre, club_actual=club_actual, club_destino=club_destino)
-    else:
-        # Renderizar el formulario de traspaso
-        return render_template('traspaso_jugador.html')
+@app.route('/realizar-traspaso', methods=["POST"])
+def realizar_traspaso():
+    jugador_id = request.form['jugador_id']
+    equipo_destino_id = request.form['equipo_destino_id']
     
-
-@app.route('/buscar-jugador', methods=['POST'])
-def buscar_jugador():
-    busqueda = request.form.get('busqueda')
-    
-    # Realizar la consulta a la base de datos MySQL para obtener los jugadores que coincidan con la búsqueda
+    # Obtener los datos del jugador
     cur = mysql.connection.cursor()
+    cur.execute("SELECT Nombre, Apellido_Paterno, Apellido_Materno, Equipo_ID FROM jugador WHERE ID = %s", (jugador_id,))
+    jugador = cur.fetchone()
 
-    # Modificamos la consulta SQL para buscar en los campos Nombre, Apellido_Paterno y Apellido_Materno
-    cur.execute("SELECT Nombre, Apellido_Paterno, Apellido_Materno FROM jugador WHERE Nombre LIKE %s OR Apellido_Paterno LIKE %s OR Apellido_Materno LIKE %s", ('%' + busqueda + '%', '%' + busqueda + '%', '%' + busqueda + '%'))
-    jugadores = cur.fetchall()
+    if not jugador:
+        return "Jugador no encontrado"
+    
+    # Actualizar el equipo del jugador en la base de datos
+    cur.execute("UPDATE jugador SET Equipo_ID = %s WHERE ID = %s", (equipo_destino_id, jugador_id))
+    mysql.connection.commit()
 
-    # Formatear los resultados como una lista de diccionarios
-    resultados = [{'nombre': jugador[0], 'apellido_paterno': jugador[1], 'apellido_materno': jugador[2]} for jugador in jugadores]
+    # Obtener el nombre del equipo destino
+    cur.execute("SELECT Nombre FROM equipo WHERE ID = %s", (equipo_destino_id,))
+    equipo_destino = cur.fetchone()
 
-    # Devolver los resultados en formato JSON
-    return jsonify(resultados)
+    # Renderizar la plantilla de confirmación de traspaso
+    return render_template('traspaso_confirmacion.html', jugador=jugador, equipo_destino=equipo_destino)
+
+
+
+
+
+@app.route('/transferir-jugador', methods=["GET", "POST"])
+def transferir_jugador():
+    if request.method == "POST":
+        rut_jugador = request.form['rut_jugador']
+        nuevo_equipo_id = request.form['nuevo_equipo_id']
+
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE jugador SET Equipo_ID = %s WHERE Rut = %s", (nuevo_equipo_id, rut_jugador))
+            mysql.connection.commit()
+        except mysql.connection.IntegrityError as e:
+            # Manejar el error de integridad (por ejemplo, equipo_id no existe)
+            return render_template('transferir.html', mensaje="Error: El RUT del jugador no existe o el ID del equipo no existe")
+
+        return redirect(url_for('listar_jugadores'))
+    else:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM equipo")
+        equipos = cur.fetchall()
+        return render_template('transferir.html', equipos=equipos)
+
+
+from flask import jsonify
+
+@app.route('/obtener-jugador-por-rut', methods=["GET"])
+def obtener_jugador_por_rut():
+    rut_jugador = request.args.get('rut_jugador')
+
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM jugador WHERE Rut = %s", (rut_jugador,))
+        jugador = cur.fetchone()
+        if jugador is not None:
+            # Formatear la fecha de nacimiento
+            jugador['Fecha_Nacimiento'] = jugador['Fecha_Nacimiento'].strftime('%Y-%m-%d')
+            cur.execute("SELECT Nombre FROM equipo WHERE ID = %s", (jugador['Equipo_ID'],))
+            equipo = cur.fetchone()
+            if equipo is not None:
+                jugador['Equipo_ID'] = equipo['Nombre']
+    except mysql.connection.IntegrityError as e:
+        return jsonify(error=str(e)), 400
+
+    if jugador is None:
+        return jsonify(error="No se encontró un jugador con ese RUT"), 404
+
+    return jsonify(jugador)
+
+
+
+
+
 
 
 
@@ -414,7 +453,7 @@ def descargar_archivo(nombre_archivo):
 @app.route('/listar-jugadores')
 def listar_jugadores(): 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM jugador")
+    cur.execute("SELECT jugador.*, equipo.Nombre AS Equipo_ID FROM jugador INNER JOIN equipo ON jugador.Equipo_ID = equipo.ID")
     jugadores = cur.fetchall()
 
     # Obtener el parámetro de consulta 'categoria'

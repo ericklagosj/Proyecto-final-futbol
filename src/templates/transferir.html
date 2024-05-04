@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transferir Jugador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $('#rut_jugador').change(function(){
+            $.get('/obtener-jugador-por-rut', {rut_jugador: $('#rut_jugador').val()}, function(data){
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    $('#nombre_jugador').val(data.Nombre + ' ' + data.Apellido_Paterno + ' ' + data.Apellido_Materno);
+                    $('#fecha_nacimiento').val(data.Fecha_Nacimiento);
+                    $('#equipo_actual').val(data.Equipo_ID);
+                }
+            });
+        });
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>San Ignacio________de_______20______</h1>
+        <h2>ASOCIACIÓN DE FÚTBOL VECINAL DE SAN IGNACIO</h2>
+        <h3>DOCUMENTO DE TRANSFERENCIA DE JUGADORES [NOMBRE CATEGORIA]</h3>
+        <form action="/transferir-jugador" method="post">
+            <label for="rut_jugador">C.I.N° del Jugador:</label>
+            <input type="text" id="rut_jugador" name="rut_jugador">
+            <label for="nombre_jugador">El Jugador:</label>
+            <input type="text" id="nombre_jugador" name="nombre_jugador" readonly>
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" readonly>
+            <label for="equipo_actual">Actualmente registrado en el Club Deportivo:</label>
+            <input type="text" id="equipo_actual" name="equipo_actual" readonly>
+            <label for="nuevo_equipo_id">Solicita ser transferido al Club deportivo:</label>
+            <select id="nuevo_equipo_id" name="nuevo_equipo_id">
+                {% for equipo in equipos %}
+                    <option value="{{equipo.ID}}">{{equipo.Nombre}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Transferir">
+        </form>
+    </div>
+</body>
+</html>
