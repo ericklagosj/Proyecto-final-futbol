@@ -60,8 +60,28 @@
                         <td>{{ jugador['Apellido_Materno'] }}</td>
                         <td>{{ jugador['rut'] }}</td>
                         <td>{{ jugador['Fecha_Nacimiento'] }}</td>
-                        <td>{{ jugador['Equipo_ID'] }}</td>
-                        <td>{{ jugador['Categoria_ID'] }}</td>
+                        <td>
+                            {% if jugador['Equipo_ID'] %}
+                                {% for equipo in equipos %}
+                                    {% if equipo['ID'] == jugador['Equipo_ID'] %}
+                                        {{ equipo['Nombre'] }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                No categorizado
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if jugador['Categoria_ID'] %}
+                                {% for categoria in categorias %}
+                                    {% if categoria['ID'] == jugador['Categoria_ID'] %}
+                                        {{ categoria['Nombre'] }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                No categorizado
+                            {% endif %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

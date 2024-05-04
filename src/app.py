@@ -453,25 +453,21 @@ def descargar_archivo(nombre_archivo):
 @app.route('/listar-jugadores')
 def listar_jugadores(): 
     cur = mysql.connection.cursor()
-    cur.execute("SELECT jugador.*, equipo.Nombre AS Equipo_ID FROM jugador INNER JOIN equipo ON jugador.Equipo_ID = equipo.ID")
+    cur.execute("SELECT jugador.*, equipo.Nombre AS NombreEquipo FROM jugador LEFT JOIN equipo ON jugador.Equipo_ID = equipo.ID")
     jugadores = cur.fetchall()
 
-    # Obtener el parámetro de consulta 'categoria'
-    categoria = request.args.get('categoria')
-    
-    # Definir la consulta base para obtener jugadores
-    consulta_jugadores = "SELECT * FROM jugador WHERE Equipo_ID = %s"
-    
-    # Si se proporciona la categoría, ajusta la consulta para filtrar jugadores por esa categoría
-    if categoria:
-        consulta_jugadores += " AND Categoria_ID = %s"
-        cur.execute(consulta_jugadores, (id, categoria))
-    else:
-        cur.execute(consulta_jugadores, (id,))
+    # Obtener los equipos y categorías para mostrar en la tabla
+    cur.execute("SELECT * FROM equipo")
+    equipos = cur.fetchall()
+
+    cur.execute("SELECT * FROM categoria")
+    categorias = cur.fetchall()
+
     cur.close()
-    
-    
-    return render_template("listar_jugadores.html", jugadores=jugadores)
+
+    return render_template("listar_jugadores.html", jugadores=jugadores, equipos=equipos, categorias=categorias)
+
+
 
 
 
