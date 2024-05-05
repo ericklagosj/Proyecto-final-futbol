@@ -47,28 +47,26 @@
       <section class="table__body">
         <table>
           <thead>
-            <!-- Encabezados de las columnas -->
             <tr>
-              <th>Nombre<span class="icon-arrow">&UpArrow;</span></th>
-              <th>Goles Anotados<span class="icon-arrow">&UpArrow;</span></th>
-              <th>
-                Tarjetas Amarillas<span class="icon-arrow">&UpArrow;</span>
-              </th>
-              <th>Tarjetas Rojas<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Nombre<span class="icon-arrow">↑</span></th>
+              <th>Goles Anotados<span class="icon-arrow">↑</span></th>
+              <th>Tarjetas Amarillas<span class="icon-arrow">↑</span></th>
+              <th>Tarjetas Rojas<span class="icon-arrow">↑</span></th>
+              <th>Asistencia<span class="icon-arrow">↑</span></th>
             </tr>
           </thead>
           <tbody>
             {% for jugador in jugadores %}
-            <!-- Datos de los equipos -->
             <tr>
               <td>{{jugador['Nombre'] }} {{jugador['Apellido_Paterno'] }} {{jugador['Apellido_Materno'] }}</td>
               <td>{{jugador['Goles_Anotados'] }}</td>
               <td>{{jugador['Tarjetas_Amarillas'] }}</td>
               <td>{{jugador['Tarjetas_Rojas'] }}</td>
+              <td>{{jugador['Asistencia'] }}%</td>
             </tr>
             {% endfor %}
           </tbody>
-        </table>
+          
       </section>
     </main>
     <!-- Script JavaScript -->

@@ -563,11 +563,10 @@ def obtener_jugador(id):
 
 
 # estadisticas jugadores
-    
 @app.route('/estadisticas-jugadores')
 def estadisticas_jugadores():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, e.Goles_Anotados, e.Asistencias, e.Tarjetas_Amarillas, e.Tarjetas_Rojas FROM jugador j JOIN est_jugador_c e ON j.ID = e.Jugador_ID")
+    cur.execute("SELECT j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, e.Goles_Anotados, e.Asistencias, e.Tarjetas_Amarillas, e.Tarjetas_Rojas, COALESCE(ROUND(a.Asistencia), 0) as Asistencia FROM jugador j JOIN est_jugador_c e ON j.ID = e.Jugador_ID LEFT JOIN (SELECT id_jugador, SUM(asistencia)/18*100 as Asistencia FROM asistencia GROUP BY id_jugador) a ON j.ID = a.id_jugador")
     jugadores = cur.fetchall()
     cur.close()
 
@@ -575,6 +574,8 @@ def estadisticas_jugadores():
         return render_template("estadisticas_jugadores.html", jugadores=jugadores)
     else:
         return jsonify({"error": "No se encontraron jugadores"}), 404
+
+
 
 
 from flask import request
