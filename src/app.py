@@ -381,16 +381,18 @@ def transferir_jugador():
             cur = mysql.connection.cursor()
             cur.execute("UPDATE jugador SET Equipo_ID = %s WHERE Rut = %s", (nuevo_equipo_id, rut_jugador))
             mysql.connection.commit()
+            flash('El jugador ha sido transferido exitosamente!')
         except mysql.connection.IntegrityError as e:
-            # Manejar el error de integridad (por ejemplo, equipo_id no existe)
-            return render_template('transferir.html', mensaje="Error: El RUT del jugador no existe o el ID del equipo no existe")
+            flash("Error: El RUT del jugador no existe o el ID del equipo no existe")
+            return render_template('transferir.html')
 
-        return redirect(url_for('listar_jugadores'))
+        return redirect(url_for('transferir_jugador'))
     else:
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM equipo")
         equipos = cur.fetchall()
         return render_template('transferir.html', equipos=equipos)
+
 
 
 from flask import jsonify
@@ -429,25 +431,17 @@ def obtener_jugador_por_rut():
 
 ######################################################
 #############Descargar formularios####################
-UPLOAD_FOLDER = 'archivos'
-# Verificar si el directorio de carga existe, si no, crearlo
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+from flask import send_from_directory
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    if 'archivo' not in request.files:
-        return redirect(request.url)
-    archivo = request.files['archivo']
-    if archivo.filename == '':
-        return redirect(request.url)
-    if archivo:
-        archivo.save(os.path.join(app.config['UPLOAD_FOLDER'], archivo.filename))
-        return render_template('formularios.html')
+@app.route('/descargar-reglamento')
+def descargar_reglamento():
+    return send_from_directory('documents', 'REGLAMENTO.docx', as_attachment=True)
 
-@app.route('/archivos/<nombre_archivo>')
-def descargar_archivo(nombre_archivo):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], nombre_archivo)
+
+@app.route('/formulario')
+def formulario():
+    return render_template('formularios.html')
+
 
 # Ruta para listar jugadores
 @app.route('/listar-jugadores')

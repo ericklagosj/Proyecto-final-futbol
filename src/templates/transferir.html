@@ -3,6 +3,31 @@
 <head>
     <title>Transferir Jugador</title>
     <style>
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            opacity: 1;
+            transition: opacity 0.6s; /* Duración de 0.6 segundos */
+        }
+
+        /* Hacer que el mensaje desaparezca después de 3 segundos */
+        .alert:after {
+            content: "";
+            display: table;
+            clear: both;
+            visibility: hidden;
+            animation: fadeout 3s forwards;
+        }
+
+        @keyframes fadeout {
+            from { opacity: 1; }
+            to   { opacity: 0; }
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -57,10 +82,30 @@
             });
         });
     });
+    // Espera a que el documento esté listo
+    document.addEventListener("DOMContentLoaded", function() {
+    // Comprueba si el elemento alerta existe
+    if (document.getElementById("alert")) {
+        // Configura un temporizador para eliminar el elemento alerta después de 6 segundos
+        setTimeout(function() {
+        document.getElementById("alert").remove();
+        }, 6000);
+    }
+    });
     </script>
 </head>
 <body>
+
     <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div id="alert" class="alert">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
         <h1>San Ignacio________de_______20______</h1>
         <h2>ASOCIACIÓN DE FÚTBOL VECINAL DE SAN IGNACIO</h2>
         <h3>DOCUMENTO DE TRANSFERENCIA DE JUGADORES CATEGORIA:_________</h3>
