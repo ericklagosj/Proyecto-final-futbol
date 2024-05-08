@@ -23,7 +23,12 @@ def home():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html') 
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT Nombre FROM usuarios WHERE id = 1")
+    usuario = cur.fetchone()
+    nombre_usuario = usuario[0] if usuario else "Nombre no encontrado"
+    return render_template('admin.html', nombre_usuario=nombre_usuario)
+
 
 ###Admin jugadores###
 # Ruta para obtener los datos de los jugadores y sus estadísticas
@@ -811,15 +816,17 @@ def tabla_posiciones():
 
     # Consulta para obtener los datos de la tabla correspondiente a la categoría seleccionada
     cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC,
-               (tr.Goles_Favor - tr.Goles_Contra) AS DIF
+        SELECT e.Nombre AS Club, tr.Puntos AS PTS, 
+            tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
+            tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
+            tr.Goles_Favor AS GF, tr.Goles_Contra AS GC,
+            (tr.Goles_Favor - tr.Goles_Contra) AS DIF
         FROM {} tr
         JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
+        ORDER BY tr.Puntos DESC, (tr.Goles_Favor - tr.Goles_Contra) DESC
     """.format(tabla))
+
+
 
     tabla_posiciones = cur.fetchall()
     cur.close()

@@ -34,8 +34,10 @@
 </head>
 <body>
 <main class="table" id="posiciones_table">
+    <h1>Tabla de Posiciones</h1>
     <section class="table__header">
-        <h1>Tabla de Posiciones</h1>
+        <!-- Muestra la categoría seleccionada -->
+        <h3 id="categoria_seleccionada"></h3>
         <!-- Barra de búsqueda -->
         <div class="input-group">
             <input type="search" placeholder="Buscar Equipos..." />
@@ -110,16 +112,29 @@
     </section>
 </main>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const categoryForm = document.getElementById("category-form");
-        const categorySelect = document.getElementById("category-select");
+document.addEventListener("DOMContentLoaded", function () {
+    const categoryForm = document.getElementById("category-form");
+    const categorySelect = document.getElementById("category-select");
+    const categoriaSeleccionadaElement = document.getElementById("categoria_seleccionada");
 
-        // Agregar un evento al cambio de selección en el menú desplegable
-        categorySelect.addEventListener("change", function () {
-            // Enviar automáticamente el formulario cuando se selecciona una categoría
-            categoryForm.submit();
-        });
+    // Agregar un evento al cambio de selección en el menú desplegable
+    categorySelect.addEventListener("change", function () {
+        // Enviar automáticamente el formulario cuando se selecciona una categoría
+        categoryForm.submit();
     });
+
+    // Actualizar el valor seleccionado en el menú desplegable para reflejar la categoría seleccionada
+    const categoriaSeleccionadaValue = window.location.search.split('=')[1];
+    if (categoriaSeleccionadaValue) {
+        categorySelect.value = categoriaSeleccionadaValue;
+    }
+
+    // Actualizar el texto de la categoría seleccionada después de que se haya actualizado el valor seleccionado
+    const categoriaSeleccionada = categorySelect.options[categorySelect.selectedIndex].text;
+    categoriaSeleccionadaElement.textContent = "Categoría: " + categoriaSeleccionada;
+
+});
+
 </script>
 <script src="/static/js/filtro.js"></script>
 <script src="/static/js/tablas.js"></script>

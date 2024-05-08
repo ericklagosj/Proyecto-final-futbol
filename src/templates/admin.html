@@ -32,15 +32,16 @@
 
         <!-- Contenido principal -->
         <div class="main-content">
-            <!-- Banner con opciones -->
             <div class="banner">
                 <div class="user-options">
-                    <span class="username">Usuario: [Nombre de Usuario]</span>
+                    {% if nombre_usuario %}
+                        <span class="username">Usuario: {{usuarios['Nombre']}}</span>
+                    {% else %}
+                        <span class="username">Usuario no encontrado</span>
+                    {% endif %}
                     <a href="{{ url_for('login') }}" class="logout">Cerrar Sesión</a>
                 </div>
             </div>
-
-            <!-- Contenido adicional -->
             <div class="content">
                 <h2>Bienvenido al Panel de Administrador</h2>
                 <p>¡Bienvenido! Aquí puedes gestionar los usuarios, configurar la aplicación, generar reportes, obtener ayuda y conocer más sobre esta aplicación.</p>
