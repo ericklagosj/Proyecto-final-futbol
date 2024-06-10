@@ -6643,6 +6643,62 @@ h6 {
   .bannerHeadline span {
     color: #b81e20; }
 
+    .bannerHeadline-cantarana {
+      font-family: "Oswald", sans-serif;
+      font-size: 55px;
+      color: white;
+      top: 90%;
+      left: 50%;
+      font-weight: 400;
+      text-transform: uppercase; }
+      .bannerHeadline-cantarana span {
+        color:#15CD4D; 
+      }
+
+        .bannerHeadline-ellucero {
+          font-family: "Oswald", sans-serif;
+          font-size: 55px;
+          color: white;
+          top: 90%;
+          left: 53%;
+          font-weight: 400;
+          text-transform: uppercase; }
+          .bannerHeadline-ellucero span {
+            color:#269abc;}
+
+            .bannerHeadline-maitenes {
+              font-family: "Oswald", sans-serif;
+              font-size: 55px;
+              color: white;
+              top: 90%;
+              left: 53%;
+              font-weight: 400;
+              text-transform: uppercase; }
+              .bannerHeadline-maitenes span {
+                color:#449d44;}
+
+                .bannerHeadline-realps {
+                  font-family: "Oswald", sans-serif;
+                  font-size: 48px;
+                  color: white;
+                  top: 90%;
+                  left: 51%;
+                  font-weight: 400;
+                  text-transform: uppercase; }
+                  .bannerHeadline-realps span {
+                    color:#d58512;}
+
+                    .bannerHeadline-sanmiguel {
+                      font-family: "Oswald", sans-serif;
+                      font-size: 48px;
+                      color: white;
+                      top: 90%;
+                      left: 48%;
+                      font-weight: 400;
+                      text-transform: uppercase; }
+                      .bannerHeadline-sanmiguel span {
+                        color:#3055a0}
+
 /* ---------- aside inner page -----------*/
 .widgetinner {
   position: relative;
@@ -8308,23 +8364,225 @@ ul.videoLive {
       position: absolute;
       content: "\f077"; } }
 
-.innerbanner {
+
+
+      .innerbanner-cantarana {
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+        background: url(/static/images/cantarrana/image1.jpg) center no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+      }
+      
+      .innerbanner-cantarana::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1; /* Asegúrate de que la capa esté delante del fondo pero detrás del contenido */
+      }
+      
+      .innerbanner-cantarana .banner-content {
+        position: relative;
+        z-index: 2; /* Asegúrate de que el contenido esté delante de la capa semi-transparente */
+        color: #fff; /* Color del texto para que se vea bien sobre el fondo oscuro */
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%); /* Centra el contenido verticalmente */
+      }
+      
+      .innerbanner .cantarana-logo {
+        width: 30px; /* Ajusta el tamaño del logo según sea necesario */
+        margin-bottom: 80px; /* Espacio entre el logo y el nombre del club */
+      }
+      
+
+      
+      /*el lucero*/
+      .innerbanner-lucero {
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+        background: url(/static/images/El_lucero/img10.jpg) center no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+      }
+      
+      /* Media query para dispositivos móviles */
+      @media (max-width: 768px) {
+        .innerbanner-lucero {
+          background-size: auto 100%; /* Ajusta el fondo para que siempre ocupe el 100% de la altura */
+          background-position: top center; /* Ajusta la posición para que se vea mejor en móviles */
+          background-attachment: scroll; /* Cambia a scroll para evitar problemas de parallax en móviles */
+        }
+      }
+
+      .innerbanner-lucero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1; /* Asegúrate de que la capa esté delante del fondo pero detrás del contenido */
+      }
+      
+      .innerbanner-lucero .banner-content {
+        position: relative;
+        z-index: 2; /* Asegúrate de que el contenido esté delante de la capa semi-transparente */
+        color: #fff; /* Color del texto para que se vea bien sobre el fondo oscuro */
+        text-align: center;
+        top: 50%;
+        transform: translateY(-50%); /* Centra el contenido verticalmente */
+      }
+      
+      .innerbanner-lucero .lucero-logo {
+        width: 230px; /* Ajusta el tamaño del logo según sea necesario */
+        margin-bottom: 80px; /* Espacio entre el logo y el nombre del club */
+      }
+      /*el lucero*/
+
+
+/*Los Maitenes*/
+.innerbanner-maitenes {
   height: 600px;
   position: relative;
   overflow: hidden;
-  background: url(/static/images/background/innerpageBg.jpg) center no-repeat;
-  /* Image Credit: Unsplash.me */
+  background: url(/static/images/El_lucero/img10.jpg) center no-repeat;
   background-size: cover;
-  background-attachment: fixed; }
+  background-attachment: fixed;
+}
 
-.innerbannerwrap {
-  position: relative; }
-  .innerbannerwrap .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0; }
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) {
+  .innerbanner-maitenes {
+    background-size: auto 100%; /* Ajusta el fondo para que siempre ocupe el 100% de la altura */
+    background-position: top center; /* Ajusta la posición para que se vea mejor en móviles */
+    background-attachment: scroll; /* Cambia a scroll para evitar problemas de parallax en móviles */
+  }
+}
+
+.innerbanner-maitenes::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1; /* Asegúrate de que la capa esté delante del fondo pero detrás del contenido */
+}
+
+.innerbanner-maitenes .banner-content {
+  position: relative;
+  z-index: 2; /* Asegúrate de que el contenido esté delante de la capa semi-transparente */
+  color: #fff; /* Color del texto para que se vea bien sobre el fondo oscuro */
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%); /* Centra el contenido verticalmente */
+}
+
+.innerbanner-maitenes .maitenes-logo {
+  width: 200px; /* Ajusta el tamaño del logo según sea necesario */
+  margin-bottom: 120px; /* Espacio entre el logo y el nombre del club */
+}
+/*Los Maitenes*/
+
+/*Real Pueblo Seco*/
+.innerbanner-realps {
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+  background: url(/static/images/El_lucero/img10.jpg) center no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) {
+  .innerbanner-realps {
+    background-size: auto 100%; /* Ajusta el fondo para que siempre ocupe el 100% de la altura */
+    background-position: top center; /* Ajusta la posición para que se vea mejor en móviles */
+    background-attachment: scroll; /* Cambia a scroll para evitar problemas de parallax en móviles */
+  }
+}
+
+.innerbanner-realps::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1; /* Asegúrate de que la capa esté delante del fondo pero detrás del contenido */
+}
+
+.innerbanner-realps .banner-content {
+  position: relative;
+  z-index: 2; /* Asegúrate de que el contenido esté delante de la capa semi-transparente */
+  color: #fff; /* Color del texto para que se vea bien sobre el fondo oscuro */
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%); /* Centra el contenido verticalmente */
+}
+
+.innerbanner-realps .realps-logo {
+  width: 245px; /* Ajusta el tamaño del logo según sea necesario */
+  margin-bottom: 120px; /* Espacio entre el logo y el nombre del club */
+}
+/*Real Pueblo Seco*/
+
+/*San Miguel*/
+.innerbanner-sanmiguel {
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+  background: url(/static/images/san-miguel/img12.jpg) center no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) {
+  .innerbanner-sanmiguel {
+    background-size: auto 100%; /* Ajusta el fondo para que siempre ocupe el 100% de la altura */
+    background-position: top center; /* Ajusta la posición para que se vea mejor en móviles */
+    background-attachment: scroll; /* Cambia a scroll para evitar problemas de parallax en móviles */
+  }
+}
+
+.innerbanner-sanmiguel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1; /* Asegúrate de que la capa esté delante del fondo pero detrás del contenido */
+}
+
+.innerbanner-sanmiguel .banner-content {
+  position: relative;
+  z-index: 2; /* Asegúrate de que el contenido esté delante de la capa semi-transparente */
+  color: #fff; /* Color del texto para que se vea bien sobre el fondo oscuro */
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%); /* Centra el contenido verticalmente */
+}
+
+.innerbanner-sanmiguel .sanmiguel-logo {
+  width: 265px; /* Ajusta el tamaño del logo según sea necesario */
+  margin-bottom: 100px; /* Espacio entre el logo y el nombre del club */
+}
+/*San Miguel*/
+
   .innerbannerwrap h2 {
     -webkit-transform: translate(-50%, -50%);
         -ms-transform: translate(-50%, -50%);
@@ -8332,8 +8590,6 @@ ul.videoLive {
     display: inline-block;
     text-align: center;
     position: absolute;
-    top: 50%;
-    left: 50%;
     color: #fff;
     z-index: 2; }
 
