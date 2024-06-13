@@ -16,7 +16,7 @@
 
     <!--=============== REMIXICONS ===============-->
     <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css"
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
 
@@ -37,105 +37,109 @@
       <nav class="nav container">
         <div class="nav__data">
           <a href="#" class="nav__logo">
-            <i class="ri-planet-line"></i> Asociacion Futbol San Ignacio
+            <i class="ri-code-s-slash-line"></i> Asociacion Deportiva 
           </a>
 
           <div class="nav__toggle" id="nav-toggle">
-            <i class="ri-menu-line nav__burger"></i>
-            <i class="ri-close-line nav__close"></i>
+            <i class="ri-menu-line nav__toggle-menu"></i>
+            <i class="ri-close-line nav__toggle-close"></i>
           </div>
         </div>
 
         <!--=============== NAV MENU ===============-->
         <div class="nav__menu" id="nav-menu">
           <ul class="nav__list">
-            <li><a href="index.html" class="nav__link">Inicio</a></li>
-
-            <li><a href="noticias.html" class="nav__link">Noticias</a></li>
+            <li>
+              <a href="#" class="nav__link">Inicio</a>
+            </li>
+            <li>
+              <a href="{{ url_for('noticias') }}" class="nav__link">
+                Noticias <i class="ri-newspaper-line"></i>
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('galeria') }}" class="nav__link">
+                Galeria <i class="ri-gallery-line"></i>
+              </a>
+            </li>
 
             <!--=============== DROPDOWN 1 ===============-->
             <li class="dropdown__item">
-              <div class="nav__link">
-                Partidos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+              <div class="nav__link dropdown__button">
+                Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
               </div>
 
-              <ul class="dropdown__menu">
-                <li>
-                  <a href="#" class="dropdown__link">
-                    <i class="ri-pie-chart-line"></i> Asistencias
-                  </a>
-                </li>
+              <div class="dropdown__container">
+                <div class="dropdown__content">
+                  <div class="dropdown__group">
+                    <div class="dropdown__icon">
+                      <i class="ri-flashlight-line"></i>
+                    </div>
 
-                <li>
-                  <a href="#" class="dropdown__link">
-                    <i class="ri-arrow-up-down-line"></i> Estadisticas
-                  </a>
-                </li>
+                    <span class="dropdown__title">Datos De Competencia</span>
 
-                <!--=============== DROPDOWN SUBMENU ===============-->
-                <li class="dropdown__subitem">
-                  <div class="dropdown__link">
-                    <i class="ri-bar-chart-line"></i> Traspasos
-                    <i class="ri-add-line dropdown__add"></i>
+                    <ul class="dropdown__list">
+                      <li>
+                        <a
+                          href="{{ url_for('resultados_partidos')}}"
+                          class="dropdown__link"
+                          >Resultados Partidos</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="{{ url_for('estadisticas_jugadores') }}"
+                          class="dropdown__link"
+                          >Estadisticas Jugadores</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="{{ url_for('mostrar_jugadores')}}"
+                          class="dropdown__link"
+                          >Asistencias Jugadores</a
+                        >
+                      </li>
+                    </ul>
                   </div>
 
-                  <ul class="dropdown__submenu">
+                  <div class="dropdown__group">
+                    <div class="dropdown__icon">
+                      <i class="ri-file-paper-2-line"></i>
+                    </div>
+
+                    <span class="dropdown__title">Posiciones</span>
+
+                    <ul class="dropdown__list">
+                      <li>
+                        <a
+                          href="{{ url_for('tabla_posiciones')}}"
+                          class="dropdown__link"
+                          >Primera Division</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="{{ url_for('tabla_posiciones_segunda') }}"
+                          class="dropdown__link"
+                          >Segunda Division</a
+                        >
+                      </li>
+                    </ul>
                     <li>
-                      <a href="#" class="dropdown__sublink">
-                        <i class="ri-file-list-line"></i> Posiciones
+                      <a href="{{ url_for('login') }}" class="nav__link">
+                        Acceso <i class="ri-login-box-line"></i>
                       </a>
                     </li>
-
-                    <li>
-                      <a href="#" class="dropdown__sublink">
-                        <i class="ri-cash-line"></i> Primera Division
-                      </a>
-                    </li>
-
-                    <li>
-                      <a href="#" class="dropdown__sublink">
-                        <i class="ri-refund-2-line"></i> Segunda Divisio
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-
-            <li><a href="#" class="nav__link">Equipos</a></li>
-
-            <!--=============== DROPDOWN 2 ===============-->
-            <li class="dropdown__item">
-              <div class="nav__link">
-                Posiciones <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                  </div>
+                </div>
               </div>
-
-              <ul class="dropdown__menu">
-                <li>
-                  <a href="#" class="dropdown__link">
-                    <i class="ri-user-line"></i> Primera Division
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="dropdown__link">
-                    <i class="ri-lock-line"></i> Segunda Division
-                  </a>
-                </li>
-
-                <li>
-                  <a href="#" class="dropdown__link">
-                    <i class="ri-message-3-line"></i> Messages
-                  </a>
-                </li>
-              </ul>
             </li>
-
-            <li><a href="#" class="nav__link">Contact</a></li>
           </ul>
         </div>
       </nav>
     </header>
+
     <div class="content">
       <section class="banner">
         <div class="banner-main-content">
@@ -255,7 +259,7 @@
           <h2>Historias destacadas</h2>
           <div class="container-top-left">
             <article>
-              <img src="/static/images/noticias/top-left.jpg" />
+              <img src="/static/images/noticias/bottom-left-1.jpg" />
 
               <div>
                 <h3>Los Mejores "BMWs" para Familias, Otorgados por la FIFA</h3>

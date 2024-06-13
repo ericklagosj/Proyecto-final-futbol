@@ -215,8 +215,6 @@ def crear_registro():
 
 #############################################################################
 # Route para manejar los enfrentamientos de equipos
-#############################################################################
-# Route para manejar los enfrentamientos de equipos
 @app.route('/admin-enfrentamientos', methods=['GET', 'POST'])
 def administrar_enfrentamientos():
     if request.method == 'POST':
@@ -307,7 +305,7 @@ def administrar_enfrentamientos():
         cur.close()
 
         # Redireccionar a la misma página para evitar reenvíos de formulario
-        return redirect(url_for('administrar_enfrentamientos'))
+        return redirect(url_for('admin_enfrentamientos.html'))
 
     else:
         # Consultar las jornadas disponibles
@@ -347,7 +345,6 @@ def administrar_enfrentamientos():
         cur.close()
 
         return render_template('admin_enfrentamientos.html', enfrentamientos=enfrentamientos, jornadas=jornadas, jornada_actual=jornada_actual_nombre)
-
 
 
 ##############################################################################################################
