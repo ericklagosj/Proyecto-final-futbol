@@ -1,6 +1,5 @@
 /*=============== GOOGLE FONTS ===============*/
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
-
 /*=============== VARIABLES CSS ===============*/
 :root {
   --header-height: 3.5rem;
@@ -14,9 +13,9 @@
   /*========== Font and typography ==========*/
   /*.5rem = 8px | 1rem = 16px ...*/
   --body-font: "Poppins", sans-serif;
-  --normal-font-size: 0.938rem;
-  --small-font-size: 0.813rem;
-  --smaller-font-size: 0.75rem;
+  --normal-font-size: .938rem;
+  --small-font-size: .813rem;
+  --smaller-font-size: .75rem;
   /*========== Font weight ==========*/
   --font-medium: 500;
   --font-semi-bold: 600;
@@ -24,12 +23,11 @@
   --z-tooltip: 10;
   --z-fixed: 100;
 }
-
 @media screen and (min-width: 1024px) {
   :root {
     --normal-font-size: 1rem;
-    --small-font-size: 0.875rem;
-    --smaller-font-size: 0.813rem;
+    --small-font-size: .875rem;
+    --smaller-font-size: .813rem;
   }
 }
 
@@ -68,9 +66,7 @@ a {
   left: 0;
   width: 100%;
   box-shadow: 0 2px 8px hsla(220, 68%, 12%, 0.1);
-  background-color: var(
-    --body-color
-  ) !important; /* Asegúrate de que esta propiedad esté presente */
+  background-color: var(--body-color);
   z-index: var(--z-fixed);
 }
 
@@ -78,14 +74,12 @@ a {
 .nav {
   height: var(--header-height);
 }
-
 .nav__data {
   height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .nav__logo {
   display: inline-flex;
   align-items: center;
@@ -94,23 +88,18 @@ a {
   font-weight: var(--font-semi-bold);
   transition: color 0.3s;
 }
-
 .nav__logo i {
   font-size: 1.25rem;
 }
-
 .nav__logo:hover {
   color: var(--first-color);
 }
-
 .nav__toggle {
   position: relative;
   width: 32px;
   height: 32px;
 }
-
-.nav__toggle-menu,
-.nav__toggle-close {
+.nav__toggle-menu, .nav__toggle-close {
   font-size: 1.25rem;
   color: var(--title-color);
   position: absolute;
@@ -120,11 +109,9 @@ a {
   cursor: pointer;
   transition: opacity 0.1s, transform 0.4s;
 }
-
 .nav__toggle-close {
   opacity: 0;
 }
-
 @media screen and (max-width: 1118px) {
   .nav__menu {
     background-color: var(--body-color);
@@ -139,16 +126,13 @@ a {
     opacity: 0;
     transition: top 0.4s, opacity 0.3s;
   }
-
   .nav__menu::-webkit-scrollbar {
     width: 0.5rem;
   }
-
   .nav__menu::-webkit-scrollbar-thumb {
     background-color: hsl(220, 12%, 70%);
   }
 }
-
 .nav__link {
   color: var(--title-color);
   font-weight: var(--font-semi-bold);
@@ -158,7 +142,6 @@ a {
   align-items: center;
   transition: background-color 0.3s;
 }
-
 .nav__link:hover {
   background-color: var(--first-color-lighten);
 }
@@ -185,65 +168,51 @@ a {
 .dropdown__button {
   cursor: pointer;
 }
-
 .dropdown__arrow {
   font-size: 1.5rem;
   font-weight: initial;
   transition: transform 0.4s;
 }
-
-.dropdown__content,
-.dropdown__group,
-.dropdown__list {
+.dropdown__content, .dropdown__group, .dropdown__list {
   display: grid;
 }
-
 .dropdown__container {
   background-color: var(--first-color-lighten);
   height: 0;
   overflow: hidden;
   transition: height 0.4s;
 }
-
 .dropdown__content {
   row-gap: 1.75rem;
 }
-
 .dropdown__group {
   padding-left: 2.5rem;
   row-gap: 0.5rem;
 }
-
 .dropdown__group:first-child {
   margin-top: 1.25rem;
 }
-
 .dropdown__group:last-child {
   margin-bottom: 1.25rem;
 }
-
 .dropdown__icon i {
   font-size: 1.25rem;
   color: var(--first-color);
 }
-
 .dropdown__title {
   font-size: var(--small-font-size);
   font-weight: var(--font-semi-bold);
   color: var(--title-color);
 }
-
 .dropdown__list {
   row-gap: 0.25rem;
 }
-
 .dropdown__link {
   font-size: var(--smaller-font-size);
   font-weight: var(--font-medium);
   color: var(--text-color);
   transition: color 0.3s;
 }
-
 .dropdown__link:hover {
   color: var(--title-color);
 }
@@ -260,7 +229,6 @@ a {
     padding-left: 1.5rem;
   }
 }
-
 /* For large devices */
 @media screen and (min-width: 1118px) {
   /* Nav */
@@ -269,35 +237,28 @@ a {
     display: flex;
     justify-content: space-between;
   }
-
   .nav__toggle {
     display: none;
   }
-
   .nav__list {
     display: flex;
     column-gap: 3rem;
     height: 100%;
   }
-
   .nav li {
     display: flex;
   }
-
   .nav__link {
     padding: 0;
   }
-
   .nav__link:hover {
     background-color: initial;
   }
-
   /* Dropdown */
   .dropdown__button {
     column-gap: 0.25rem;
     pointer-events: none;
   }
-
   .dropdown__container {
     height: max-content;
     position: absolute;
@@ -310,29 +271,23 @@ a {
     opacity: 0;
     transition: top 0.4s, opacity 0.3s;
   }
-
   .dropdown__content {
     grid-template-columns: repeat(4, max-content);
     column-gap: 6rem;
     max-width: 1120px;
     margin-inline: auto;
   }
-
   .dropdown__group {
     padding: 4rem 0;
     align-content: baseline;
     row-gap: 1.25rem;
   }
-
-  .dropdown__group:first-child,
-  .dropdown__group:last-child {
+  .dropdown__group:first-child, .dropdown__group:last-child {
     margin: 0;
   }
-
   .dropdown__list {
     row-gap: 0.75rem;
   }
-
   .dropdown__icon {
     width: 60px;
     height: 60px;
@@ -342,31 +297,24 @@ a {
     place-items: center;
     margin-bottom: 1rem;
   }
-
   .dropdown__icon i {
     font-size: 2rem;
   }
-
   .dropdown__title {
     font-size: var(--normal-font-size);
   }
-
   .dropdown__link {
     font-size: var(--small-font-size);
   }
-
   .dropdown__link:hover {
     color: var(--first-color);
   }
-
   .dropdown__item {
     cursor: pointer;
   }
-
   .dropdown__item:hover .dropdown__arrow {
     transform: rotate(180deg);
   }
-
   .dropdown__item:hover > .dropdown__container {
     top: 5.5rem;
     opacity: 1;
@@ -374,127 +322,8 @@ a {
     cursor: initial;
   }
 }
-
 @media screen and (min-width: 1152px) {
   .container {
     margin-inline: auto;
-  }
-}
-/*=============== BASE ===============*/
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-body {
-  font-family: var(--body-font);
-  font-size: var(--normal-font-size);
-  background-color: var(--body-color);
-}
-
-ul {
-  list-style: none;
-  /* Color highlighting when pressed on mobile devices */
-  /*-webkit-tap-highlight-color: transparent;*/
-}
-
-a {
-  text-decoration: none;
-}
-
-/*=============== REUSABLE CSS CLASSES ===============*/
-.container {
-  max-width: 1120px;
-  margin-inline: 1.5rem;
-}
-
-/*=============== HEADER ===============*/
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: var(--black-color);
-  box-shadow: 0 2px 16px hsla(220, 32%, 8%, 0.3);
-  z-index: var(--z-fixed);
-}
-
-/* FINAL CSS HEADER */
-
-/* Estilos generales */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f0f0f0;
-}
-
-h1 {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.table-container {
-  overflow-x: auto;
-  margin-top: calc(
-    var(--header-height) + -26px
-  ); /* Ajusta el valor según sea necesario */
-}
-
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-}
-
-th,
-td {
-  padding: 12px;
-  text-align: center;
-}
-
-thead {
-  background-color: #333;
-  color: #fff;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-/* Estilos para la barra negra */
-td:first-child:before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 4px; /* Ancho de la barra */
-  background-color: #000; /* Color de la barra */
-}
-
-/* Estilos específicos para dispositivos móviles */
-@media screen and (max-width: 767px) {
-  th,
-  td {
-    padding: 8px;
-    font-size: 12px;
-  }
-
-  thead {
-    display: none;
-  }
-
-  tbody td:before {
-    content: attr(data-label-abbr);
-    font-weight: bold;
-    display: block;
-  }
-
-  tbody td:last-child:before {
-    content: "%";
   }
 }
