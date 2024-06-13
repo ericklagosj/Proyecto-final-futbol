@@ -1,22 +1,190 @@
-<!-- Contenido de admin.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <!-- Cabecera -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administrador</title>
-    <link rel="stylesheet" href="../static/css/admin.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        .header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            position: fixed;
+            left: -250px; /* Inicialmente oculto */
+            top: 0;
+            height: 100%;
+            transition: left 0.3s;
+        }
+        .sidebar.active {
+            left: 0; /* Mostrar cuando está activo */
+        }
+        .sidebar h2 {
+            color: white;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .user-options {
+            display: flex;
+            align-items: center;
+        }
+        .user-options .username {
+            margin-right: 20px;
+        }
+        .user-options .logout {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            background-color: #dc3545;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .user-options .logout:hover {
+            background-color: #c82333;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            .menu-toggle {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #007bff;
+                color: white;
+                text-align: center;
+                padding: 10px;
+                cursor: pointer;
+                position: fixed;
+                top: 20px;
+                left: 5px;
+                width: 40px;
+                height: 40px;
+                z-index: 1001;
+                border-radius: 50%;
+            }
+            .menu-toggle img {
+                width: 20px;
+                height: 20px;
+            }
+            .menu-close {
+                display: none;
+                justify-content: center;
+                align-items: center;
+                background-color: #007bff;
+                color: white;
+                text-align: center;
+                padding: 10px;
+                cursor: pointer;
+                position: fixed;
+                top: 20px;
+                right: 25px;
+                width: 90px;
+                height: 30px;
+                z-index: 1001;
+                border-radius: 50%;
+            }
+            .menu-close img {
+                width: 25px;
+                height: 25px;
+            }
+            .sidebar {
+                left: -300px; /* Oculto inicialmente */
+            }
+            .sidebar.active {
+                left: 0; /* Mostrar cuando está activo */
+            }
+            .header h1 {
+                margin-left: 80px;
+            }
+        }
+
+        /* Hide menu-toggle in desktop view */
+        @media (min-width: 769px) {
+            .menu-toggle, .menu-close {
+                display: none;
+            }
+            .sidebar {
+                position: static;
+                width: 250px;
+                height: auto;
+                transition: none;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header con opción de cerrar sesión -->
     <header class="header">
+        <div class="menu-toggle">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/menu.png" alt="Menu">
+        </div>
         <h1>Panel de Administrador</h1>
     </header>
-
-    <!-- Contenedor principal -->
+    
     <div class="container">
-        <!-- Panel lateral -->
         <aside class="sidebar">
             <h2>Menú</h2>
             <ul>
@@ -29,8 +197,7 @@
                 <li><a href="{{ url_for('transferir_jugador') }}">Transferencia de jugadores</a></li>
             </ul>
         </aside>
-
-        <!-- Contenido principal -->
+        
         <div class="main-content">
             <div class="banner">
                 <div class="user-options">
@@ -49,5 +216,36 @@
             </div>
         </div>
     </div>
+
+    <div class="menu-close">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/delete-sign.png" alt="Cerrar">
+    </div>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.add('active');
+            document.querySelector('.menu-close').style.display = 'flex';
+            document.querySelector('.menu-toggle').style.display = 'none';
+        });
+
+        document.querySelector('.menu-close').addEventListener('click', function() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.remove('active');
+            document.querySelector('.menu-close').style.display = 'none';
+            document.querySelector('.menu-toggle').style.display = 'flex';
+        });
+
+        document.addEventListener('click', function(event) {
+            var sidebar = document.querySelector('.sidebar');
+            var menuToggle = document.querySelector('.menu-toggle');
+            var menuClose = document.querySelector('.menu-close');
+            if (!sidebar.contains(event.target) && !menuToggle.contains(event.target) && !menuClose.contains(event.target)) {
+                sidebar.classList.remove('active');
+                menuClose.style.display = 'none';
+                menuToggle.style.display = 'flex';
+            }
+        });
+    </script>
 </body>
 </html>
