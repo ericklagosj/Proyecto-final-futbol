@@ -31,7 +31,7 @@
         th:nth-child(3), td:nth-child(3) { width: 10%; } /* PTS */
         th:nth-child(4), td:nth-child(4) { width: 10%; } /* PJ */
         th:nth-child(5), td:nth-child(5) { width: 10%; } /* PG */
-        th:nth-child(6), td:nth-child(6) { width: 10%; } /* PE */
+        th:nth-child(6), td:nth-child(6) { width: 10%; } /* PE }
         th:nth-child(7), td:nth-child(7) { width: 10%; } /* PP */
         th:nth-child(8), td:nth-child(8) { width: 5%; } /* GF */
         th:nth-child(9), td:nth-child(9) { width: 5%; } /* GC */
@@ -76,21 +76,38 @@
                 text-align: center;
                 border-bottom: 1px solid #ddd;
             }
+
+            .titulo {
+                text-align: center;
+            }
+        }
+
+        /* Estilo personalizado para la columna de PTS */
+        .pts-column {
+            background-color: #1845c2;
+            font-weight: bold;
+            text-align: center; /* Centrar el texto */
+            color: #ffffff;
+        }
+
+        /* Estilo para resaltar los primeros tres lugares */
+        .highlight-row {
+            border-left: 5px solid #00ff00; /* Línea verde delgada al lado izquierdo */
         }
 
     </style>
 </head>
 <body>
 <main class="table" id="posiciones_table">
-    <h1>Tabla de Posiciones</h1>
+    <h1 class="titulo">Tabla de Posiciones</h1>
     <section class="table__header">
         <!-- Muestra la categoría seleccionada -->
         <h3 id="categoria_seleccionada"></h3>
-        <!-- Barra de búsqueda -->
+        <!-- Barra de búsqueda 
         <div class="input-group">
             <input type="search" placeholder="Buscar Equipos..." />
             <img src="/static/images/equipos/search.png" alt="" />
-        </div>
+        </div>-->
     
         <div class="category-filter">
             <form id="category-form" action="{{ url_for('tabla_posiciones') }}" method="get">
@@ -125,7 +142,7 @@
                 <tr>
                     <th style="width: 5%;">Pos</th>
                     <th style="width: 25%;">Club</th>
-                    <th style="width: 10%;">PTS</th>
+                    <th class="pts-column" style="width: 10%;">PTS</th>
                     <th style="width: 10%;">PJ</th>
                     <th style="width: 10%;">PG</th>
                     <th style="width: 10%;">PE</th>
@@ -138,14 +155,14 @@
             </thead>
             <tbody>
                 {% for equipo in tabla_posiciones %}
-                <tr>
+                <tr class="{% if loop.index <= 4 %}highlight-row{% endif %}">
                     <td>{{ loop.index }}</td>
                     <td>
                         <img src="{{ equipo.Imagen }}" class="club-logo" alt="Escudo del equipo">
                         <span class="club-name-full">{{ equipo.Club }}</span>
                         <span class="club-name-siglas">{{ equipo.Siglas }}</span>
                     </td>
-                    <td>{{ equipo.PTS }}</td>
+                    <td class="pts-column">{{ equipo.PTS }}</td>
                     <td>{{ equipo.PJ }}</td>
                     <td>{{ equipo.PG }}</td>
                     <td>{{ equipo.PE }}</td>

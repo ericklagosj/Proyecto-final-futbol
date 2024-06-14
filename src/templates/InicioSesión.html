@@ -8,33 +8,64 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f4f4f4; /* Fondo de color para desktop */
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            position: relative;
+        }
+        @media (max-width: 600px) {
+            body {
+                background-image: url('static/images/login/fondo11.jpg'); /* Imagen de fondo para móvil */
+                background-size: cover;
+                background-position: center;
+            }
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 10; /* Asegurar que esté encima de .caja */
+        }
+        .logo {
+            width: 90px;
+            height: auto;
+            margin-right: 10px; /* Espacio entre el logo y el título */
+        }
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0a0c8d;
         }
         .caja {
             max-width: 400px;
             width: 100%;
             margin: 20px;
             padding: 30px;
-            border: 1px solid #ccc;
+            border: 1px (0, 0, 0, 0.1); /* Borde más grueso y oscuro */
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             background-color: #fff;
             text-align: center;
+            position: relative;
+            padding-top: 40px; /* Espacio para el header */
         }
         .caja h1 {
-            font-size: 24px;
+            font-size: 20px;
             margin-bottom: 20px;
             color: #333;
         }
         .form-group {
             margin-bottom: 20px;
             text-align: left;
+            position: relative;
         }
         .form-group label {
             display: block;
@@ -44,9 +75,18 @@
         }
         .form-group input {
             width: 100%;
-            padding: 10px;
+            padding: 10px 10px 10px 40px; /* Espacio para el icono */
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box; /* Para asegurar que el padding no incremente el ancho total */
+        }
+        .form-group img {
+            position: absolute;
+            top: 35px;
+            left: 10px;
+            width: 20px; /* Control del tamaño del icono */
+            height: 20px; /* Control del tamaño del icono */
+            pointer-events: none;
         }
         .btn {
             width: 100%;
@@ -67,16 +107,51 @@
             margin-bottom: 20px;
             color: #ff0000;
         }
+
+        .subtitle {
+            font-size: 16px; /* Ajustar tamaño de la subtítulo */
+            font-weight: 300; /* Ajustar peso de la subtítulo */
+            color: #333;
+            display: flex; /* Para alinear ícono a la derecha */
+            align-items: center; /* Alinear verticalmente */
+            justify-content: center; /* Alinear horizontalmente */
+            margin-bottom: 10px; /* Espacio debajo de la subtítulo */
+        }
+
+        .subtitle img {
+            margin-left: 10px; /* Espacio entre la frase y el ícono */
+            width: 20px; /* Tamaño del ícono */
+            height: auto;
+        }
         
         /* Mobile Styles */
         @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+                top: 0; /* Ajustar la posición del header para móvil */
+                left: 50%;
+                transform: translateX(-50%);
+                margin-top: 20px;
+            }
+            .logo {
+                width: 100px; /* Ajustar el tamaño del logo para móvil */
+                margin-right: 0; /* Quitar margen derecho en móvil */
+            }
+            .header-title {
+                font-size: 20px; /* Ajustar el tamaño del título para móvil */
+                margin-top: 10px; /* Espacio entre el logo y el título en móvil */
+                text-align: center;
+            }
             .caja {
                 padding: 20px;
                 border: none;
                 box-shadow: none;
+                border: 1px (0, 0, 0, 0.1); /* Borde más grueso y oscuro */
+                padding-top: 20px; /* Ajustar el padding-top para móvil */
             }
             .caja h1 {
-                font-size: 20px;
+                font-size: 16px;
             }
             .form-group label {
                 font-size: 14px;
@@ -85,13 +160,25 @@
                 font-size: 16px;
                 padding: 10px;
             }
+            .form-group input {
+                padding: 10px 10px 10px 35px; /* Ajustar el padding para móvil */
+            }
+            .form-group img {
+                top: 32px; /* Ajustar la posición del icono para móvil */
+                width: 16px; /* Tamaño del icono para móvil */
+                height: 16px; /* Tamaño del icono para móvil */
+            }
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <img src="static/images/logo2.png" alt="Logo de la Asociación" class="logo">
+        <div class="header-title">ASOCIACIÓN DEPORTIVA</div>
+    </div>
     <!-- LOGIN -->
     <div class="caja">
-        <h1>Inicio de Sesión</h1>
+        <h1 class="subtitle">Por favor ingrese su información <img src="static/images/login/balong2.png" alt="Icono de pelota"></h1>
         <form class="form-control" action="acceso-login" method="post">
             <div class="alert" id="alerta-campos" role="alert">
                 <!-- Mensaje de error por campos vacíos -->
@@ -102,40 +189,16 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Correo:</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingrese su Correo" name="txtCorreo">
+                <img src="static/images/login/correo2.png" alt="Icono de Correo">
                 <small id="emailHelp" class="form-text text-muted"></small>
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Contraseña:</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Ingrese su Contraseña" name="txtPassword">
+                <img src="static/images/login/password2.png" alt="Icono de Contraseña">
             </div>
             <button type="submit" class="btn">Ingresar</button>
         </form>
     </div>
-
-    <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
-            var email = document.getElementById('exampleInputEmail1').value;
-            var password = document.getElementById('exampleInputPassword1').value;
-            var alertaCampos = document.getElementById('alerta-campos');
-            var alertaCredenciales = document.getElementById('alerta-credenciales');
-            
-            alertaCampos.style.display = 'none';
-            alertaCredenciales.style.display = 'none';
-
-            if (email === "" || password === "") {
-                event.preventDefault();
-                alertaCampos.style.display = 'block';
-                alertaCampos.textContent = 'Por favor, complete todos los campos.';
-            } else {
-                // Simulación de verificación de credenciales incorrectas
-                var credencialesValidas = email === "ericklj@gmail.com" && password === "123";
-                if (!credencialesValidas) {
-                    event.preventDefault();
-                    alertaCredenciales.style.display = 'block';
-                    alertaCredenciales.textContent = 'Correo o contraseña inválidos.';
-                }
-            }
-        });
-    </script>
 </body>
 </html>
