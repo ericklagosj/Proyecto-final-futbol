@@ -17,7 +17,7 @@ body {
 
 /* Estilos del contenedor principal */
 main.table {
-    width: 82vw;
+    width: 92vw;
     height: 90vh;
     background-color: #fff5;
     backdrop-filter: blur(7px);

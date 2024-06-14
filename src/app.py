@@ -472,13 +472,19 @@ def listar_jugadores():
 
 # Ruta para listar equipos
 @app.route('/listar-equipos')
-def listar_equipos(): 
+def listar_equipos():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM equipo")
+    # Realizar un JOIN entre las tablas equipo y division
+    cur.execute("""
+        SELECT equipo.ID, equipo.Nombre, equipo.Ciudad, division.Nombre AS Division_Nombre
+        FROM equipo
+        JOIN division ON equipo.Division_ID = division.ID
+    """)
     equipos = cur.fetchall()
     cur.close()
     
     return render_template("listar_equipos.html", equipos=equipos)
+
 
 
 @app.route('/equipo/<int:id>')
@@ -795,44 +801,43 @@ def mostrar_jugadores():
 # Muestra la tabla general de primera división
 @app.route('/tabla-posiciones')
 def tabla_posiciones():
-    # Obtener la categoría seleccionada
+    # Obtener la categoría seleccionada desde los parámetros de la URL
     categoria_seleccionada = request.args.get('categoria', 'all')
 
     # Determinar la tabla a consultar según la categoría seleccionada
     if categoria_seleccionada == 'all':
         tabla = 'torneo_regular'
-    elif categoria_seleccionada == '1':
-        tabla = 'tabla_juvenil_p'
-    elif categoria_seleccionada == '2':
-        tabla = 'tabla_adulta_p'
-    elif categoria_seleccionada == '3':
-        tabla = 'tabla_senior_p'
-    elif categoria_seleccionada == '4':
-        tabla = 'tabla_supersenior_p'
-    elif categoria_seleccionada == '5':
-        tabla = 'tabla_honor_p'
+    elif categoria_seleccionada in ['1', '2', '3', '4', '5']:
+        tabla = f'tabla_{categoria_seleccionada}_p'
+    else:
+        return "Categoría no válida"
 
+    # Conexión a la base de datos MySQL
     cur = mysql.connection.cursor()
 
-    # Consulta para obtener los datos de la tabla correspondiente a la categoría seleccionada
-    cur.execute("""
-        SELECT e.Nombre AS Club, tr.Puntos AS PTS, 
+    # Consulta SQL para obtener los datos de la tabla de posiciones
+    cur.execute(f"""
+        SELECT e.Nombre AS Club, e.Imagen AS Imagen, tr.Puntos AS PTS, 
             tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
             tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
             tr.Goles_Favor AS GF, tr.Goles_Contra AS GC,
             (tr.Goles_Favor - tr.Goles_Contra) AS DIF
-        FROM {} tr
+        FROM {tabla} tr
         JOIN equipo e ON tr.Equipo_ID = e.ID
         ORDER BY tr.Puntos DESC, (tr.Goles_Favor - tr.Goles_Contra) DESC
-    """.format(tabla))
-
-
+    """)
 
     tabla_posiciones = cur.fetchall()
+
     cur.close()
 
-    return render_template('tabla_posiciones.html', tabla_posiciones=tabla_posiciones)
+    # Asegurarse de que cada equipo tenga la ruta completa de la imagen
+    for equipo in tabla_posiciones:
+        equipo['Siglas'] = equipo['Club'][:3].upper()
+        equipo['Imagen'] = f"/static/images/equipos/{equipo['Imagen']}"
 
+    # Renderizar la plantilla HTML con los datos de la tabla de posiciones
+    return render_template('tabla_posiciones.html', tabla_posiciones=tabla_posiciones)
 
 ##############################################################################################
 

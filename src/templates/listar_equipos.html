@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ListadoEquipos</title>
-    <link rel=stylesheet href="/static/css/listar_equipos.css">
+    <title>Listado de Equipos</title>
+    <link rel="stylesheet" href="/static/css/listar_equipos.css">
 </head>
-
 <body>
     <main class="table" id="customers_table">
         <section class="table__header">
@@ -38,32 +36,24 @@
                 <thead>
                     <!-- Encabezados de las columnas -->
                     <tr>
-                        <th> Id <span class="icon-arrow">&UpArrow;</span></th>
                         <th> Nombre <span class="icon-arrow">&UpArrow;</span></th>
                         <th> Ciudad <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Año Fundacion <span class="icon-arrow">&UpArrow;</span></th>
                         <th> División <span class="icon-arrow">&UpArrow;</span></th>
-                        <th> Estadio <span class="icon-arrow">&UpArrow;</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for equipo in equipos %}
                     <!-- Datos de los equipos -->
                     <tr>
-                        <td>{{ equipo['ID'] }}</td>
                         <td><a href="{{ url_for('obtener_equipo', id=equipo['ID']) }}">{{ equipo['Nombre'] }}</a></td>
                         <td>{{ equipo['Ciudad'] }}</td>
-                        <td>{{ equipo['Ano_Fundacion'] }}</td>
-                        <td>{{ equipo['Division_ID'] }}</td>
-                        <td>{{ equipo['Estadio_ID'] }}</td>
+                        <td>{{ equipo['Division_Nombre'] }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </section>
     </main>
-
 </body>
 <script src="/static/js/listar_equipos.js"></script>
-
 </html>
