@@ -31,7 +31,7 @@
         th:nth-child(3), td:nth-child(3) { width: 10%; } /* PTS */
         th:nth-child(4), td:nth-child(4) { width: 10%; } /* PJ */
         th:nth-child(5), td:nth-child(5) { width: 10%; } /* PG */
-        th:nth-child(6), td:nth-child(6) { width: 10%; } /* PE }
+        th:nth-child(6), td:nth-child(6) { width: 10%; } /* PE */
         th:nth-child(7), td:nth-child(7) { width: 10%; } /* PP */
         th:nth-child(8), td:nth-child(8) { width: 5%; } /* GF */
         th:nth-child(9), td:nth-child(9) { width: 5%; } /* GC */
@@ -79,7 +79,7 @@
 
             .titulo {
                 text-align: center;
-                color: #ffffff;
+                color: #000000;
             }
         }
 
@@ -89,6 +89,7 @@
             font-weight: bold;
             text-align: center; /* Centrar el texto */
             color: #ffffff;
+            border-radius: 3px;
         }
 
         /* Estilo para resaltar los primeros tres lugares */
@@ -96,11 +97,31 @@
             border-left: 5px solid #00ff00; /* Línea verde delgada al lado izquierdo */
         }
 
+        /* Estilos para hacer la columna "Club" fija */
+        .sticky-column {
+            position: -webkit-sticky; /* Safari */
+            position: sticky;
+            left: 0;
+            background-color: #f2f2f2fa; /* Mantener el fondo de la columna */
+            z-index: 1; /* Asegura que la columna esté por encima de las otras columnas */
+        }
+
+        /* Fondo del encabezado */
+        .primera-fila {
+            background-color: #f2f2f2fa;
+        }
+
+        /* Color de fondo específico para la celda del encabezado "Club" */
+        th.sticky-column {
+            background-color: #d5d1defe;
+            z-index: 2; /* Asegura que la columna esté por encima de las otras columnas */
+        }
+
     </style>
 </head>
 <body>
 <main class="table" id="posiciones_table">
-    <h1 class="titulo">Tabla de Posiciones</h1>
+    <h1 class="titulo">Tabla Primera división</h1>
     <section class="table__header">
         <!-- Muestra la categoría seleccionada -->
         <h3 id="categoria_seleccionada"></h3>
@@ -140,9 +161,9 @@
     <section class="table__body">
         <table>
             <thead>
-                <tr>
+                <tr class="primera-fila">
                     <th style="width: 5%;">Pos</th>
-                    <th style="width: 25%;">Club</th>
+                    <th class="sticky-column" style="width: 25%;">Club</th>
                     <th class="pts-column" style="width: 10%;">PTS</th>
                     <th style="width: 10%;">PJ</th>
                     <th style="width: 10%;">PG</th>
@@ -157,8 +178,8 @@
             <tbody>
                 {% for equipo in tabla_posiciones %}
                 <tr class="{% if loop.index <= 4 %}highlight-row{% endif %}">
-                    <td>{{ loop.index }}</td>
-                    <td>
+                    <td class="primera-fila">{{ loop.index }}</td>
+                    <td class="sticky-column">
                         <img src="{{ equipo.Imagen }}" class="club-logo" alt="Escudo del equipo">
                         <span class="club-name-full">{{ equipo.Club }}</span>
                         <span class="club-name-siglas">{{ equipo.Siglas }}</span>
