@@ -476,14 +476,20 @@ def listar_equipos():
     cur = mysql.connection.cursor()
     # Realizar un JOIN entre las tablas equipo y division
     cur.execute("""
-        SELECT equipo.ID, equipo.Nombre, equipo.Ciudad, division.Nombre AS Division_Nombre
+        SELECT equipo.ID, equipo.Nombre, equipo.Ciudad, equipo.Imagen, division.Nombre AS Division_Nombre
         FROM equipo
         JOIN division ON equipo.Division_ID = division.ID
     """)
     equipos = cur.fetchall()
     cur.close()
-    
+
+    # Asegurarse de que cada equipo tenga la ruta completa de la imagen
+    for equipo in equipos:
+        equipo['Imagen'] = f"/static/images/equipos/{equipo['Imagen']}"
+
     return render_template("listar_equipos.html", equipos=equipos)
+
+
 
 
 

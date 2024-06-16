@@ -14,7 +14,7 @@
         height: auto !important;
         width: auto !important;
     }
-}
+} 
 
 /* Estilos del body */
 body {
@@ -27,7 +27,7 @@ body {
 
 /* Estilos del contenedor principal */
 main.table {
-    width: 82vw;
+    width: 94vw;
     height: 90vh;
     background-color: #fff5;
     backdrop-filter: blur(7px);
@@ -222,9 +222,96 @@ tbody tr.hide td img {
 @media (max-width: 1000px) {
     /* Estilos para las celdas que no son la primera de su tipo */
     td:not(:first-of-type) {
-        min-width: 12.1rem;
+        min-width: 8.8rem;
     }
 }
+
+/* Estilos específicos para la vista móvil */
+@media (max-width: 768px) {
+    /* Ajuste del ancho de las columnas del encabezado */
+    th {
+        padding: 6px; /* Ajuste de padding para encabezado */
+        font-size: 14px; /* Tamaño de letra para encabezado */
+    }
+    
+    /* Ajuste del ancho de las columnas del encabezado */
+    th:nth-child(1),
+    th:nth-child(2),
+    th:nth-child(3) {
+        width: 40%; /* Ancho personalizado para cada columna */
+    }
+
+    /* Estilos para el tamaño del logo en las celdas */
+    td img.team-logo {
+        width: 30px; /* Ancho del logo */
+        height: 30px; /* Altura del logo */
+        margin-right: 8px;
+    }
+
+    /* Estilos para la vista móvil */
+    .table__header h1 {
+        font-size: 18px;
+    }
+
+    .input-group input {
+        width: calc(100% - 40px);
+    }
+
+    .input-group img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .export__file-options label {
+        font-size: 12px;
+    }
+
+    .export__file-options img {
+        width: 16px;
+        height: 16px;
+    }
+
+    th, td {
+        padding: 8px; /* Ajuste de padding para celdas en móvil */
+        font-size: 14px; /* Tamaño de letra para celdas */
+        white-space: nowrap; /* Evitar el salto de línea */
+        overflow: hidden; /* Ocultar el exceso de contenido */
+        text-overflow: ellipsis; /* Mostrar puntos suspensivos si el contenido es demasiado largo */
+    }
+
+    td.sticky-column {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start; /* Alinear contenido a la izquierda */
+        text-align: left;
+        padding: 8px;
+        white-space: nowrap; /* Evitar el salto de línea */
+        overflow: hidden; /* Ocultar el exceso de contenido */
+        text-overflow: ellipsis; /* Mostrar puntos suspensivos si el contenido es demasiado largo */
+    }
+
+    .team-logo {
+        margin-right: 8px;
+    }
+
+    th.city {
+        display: none;
+        padding-left: 5px;
+    }
+
+    .table {
+        overflow-x: auto;
+        width: 100%; /* Ancho de la tabla ajustado al 100% */
+        margin: 0 auto; /* Centrar la tabla */
+    }
+
+    .table__body {
+        max-height: calc(98% - 1.6rem);
+    }
+}
+
+
+    
 
 /* Estilos de la flecha en el encabezado de la tabla */
 thead th span.icon-arrow {
@@ -345,3 +432,21 @@ tbody td.active {
     width: 2rem;
     height: auto;
 }
+
+/* Ajuste para columnas más estrechas */
+td.city, th.city {
+    width: 120px;
+}
+
+td.division, th.division {
+    width: 120px;
+}
+
+/* Ajuste para la columna de nombre siempre visible 
+td.sticky-column {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    background-color: #d5d1defe;
+    z-index: 1;
+}*/

@@ -120,111 +120,113 @@
     </style>
 </head>
 <body>
-<main class="table" id="posiciones_table">
-    <h1 class="titulo">Tabla Primera división</h1>
-    <section class="table__header">
-        <!-- Muestra la categoría seleccionada -->
-        <h3 id="categoria_seleccionada"></h3>
-        <!-- Barra de búsqueda 
-        <div class="input-group">
-            <input type="search" placeholder="Buscar Equipos..." />
-            <img src="/static/images/equipos/search.png" alt="" />
-        </div>-->
-    
-        <div class="category-filter">
-            <form id="category-form" action="{{ url_for('tabla_posiciones') }}" method="get">
-                <label for="category-select">Seleccionar Categoría:</label>
-                <select id="category-select" name="categoria">
-                    <option value="all">Todas</option>
-                    <option value="1">Juvenil</option>
-                    <option value="2">Adulta</option>
-                    <option value="3">Senior</option>
-                    <option value="4">Super Senior</option>
-                    <option value="5">Honor</option>
-                </select>
-                <input type="submit" style="display: none;"> 
-            </form>
-        </div>
-
-        <div class="export__file">
-            <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
-            <input type="checkbox" id="export-file" />
-            <div class="export__file-options">
-                <label>Exportar como &nbsp; &#10140;</label>
-                <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt=""></label>
-                <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt=""></label>
-                <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt=""></label>
-                <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt=""></label>
+    <main class="table" id="posiciones_table">
+        <h1 class="titulo">Tabla Primera división</h1>
+        <section class="table__header">
+            <!-- Muestra la categoría seleccionada -->
+            <h3 id="categoria_seleccionada"></h3>
+            <!-- Barra de búsqueda 
+            <div class="input-group">
+                <input type="search" placeholder="Buscar Equipos..." />
+                <img src="/static/images/equipos/search.png" alt="" />
+            </div>-->
+        
+            <div class="category-filter">
+                <form id="category-form" action="{{ url_for('tabla_posiciones') }}" method="get">
+                    <label for="category-select">Seleccionar Categoría:</label>
+                    <select id="category-select" name="categoria">
+                        <option value="all">Todas</option>
+                        <option value="1">Juvenil</option>
+                        <option value="2">Adulta</option>
+                        <option value="3">Senior</option>
+                        <option value="4">Super Senior</option>
+                        <option value="5">Honor</option>
+                    </select>
+                    <input type="submit" style="display: none;"> 
+                </form>
             </div>
-        </div>
-    </section>
-    <section class="table__body">
-        <table>
-            <thead>
-                <tr class="primera-fila">
-                    <th style="width: 5%;">Pos</th>
-                    <th class="sticky-column" style="width: 25%;">Club</th>
-                    <th class="pts-column" style="width: 10%;">PTS</th>
-                    <th style="width: 10%;">PJ</th>
-                    <th style="width: 10%;">PG</th>
-                    <th style="width: 10%;">PE</th>
-                    <th style="width: 10%;">PP</th>
-                    <th style="width: 5%;">GF</th>
-                    <th style="width: 5%;">GC</th>
-                    <th style="width: 10%;">DIF</th>
-                    <th style="width: 10%;">Últimos 5</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for equipo in tabla_posiciones %}
-                <tr class="{% if loop.index <= 4 %}highlight-row{% endif %}">
-                    <td class="primera-fila">{{ loop.index }}</td>
-                    <td class="sticky-column">
-                        <img src="{{ equipo.Imagen }}" class="club-logo" alt="Escudo del equipo">
-                        <span class="club-name-full">{{ equipo.Club }}</span>
-                        <span class="club-name-siglas">{{ equipo.Siglas }}</span>
-                    </td>
-                    <td class="pts-column">{{ equipo.PTS }}</td>
-                    <td>{{ equipo.PJ }}</td>
-                    <td>{{ equipo.PG }}</td>
-                    <td>{{ equipo.PE }}</td>
-                    <td>{{ equipo.PP }}</td>
-                    <td>{{ equipo.GF }}</td>
-                    <td>{{ equipo.GC }}</td>
-                    <td>{{ equipo.DIF }}</td>
-                    <td></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>
-</main>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const categoryForm = document.getElementById("category-form");
-    const categorySelect = document.getElementById("category-select");
-    const categoriaSeleccionadaElement = document.getElementById("categoria_seleccionada");
 
-    // Agregar un evento al cambio de selección en el menú desplegable
-    categorySelect.addEventListener("change", function () {
-        // Enviar automáticamente el formulario cuando se selecciona una categoría
-        categoryForm.submit();
+            <!-- Opciones de exportación -->
+            <div class="export__file">
+                <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
+                <input type="checkbox" id="export-file">
+                <div class="export__file-options">
+                    <label>Exportar como &nbsp; &#10140;</label>
+                    <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt=""></label>
+                    <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt=""></label>
+                    <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt=""></label>
+                    <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt=""></label>
+                </div>
+            </div>
+        </section>
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr class="primera-fila">
+                        <th style="width: 5%;">Pos</th>
+                        <th class="sticky-column" style="width: 25%;">Club</th>
+                        <th class="pts-column" style="width: 10%;">PTS</th>
+                        <th style="width: 10%;">PJ</th>
+                        <th style="width: 10%;">PG</th>
+                        <th style="width: 10%;">PE</th>
+                        <th style="width: 10%;">PP</th>
+                        <th style="width: 5%;">GF</th>
+                        <th style="width: 5%;">GC</th>
+                        <th style="width: 10%;">DIF</th>
+                        <th style="width: 10%;">Últimos 5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for equipo in tabla_posiciones %}
+                    <tr class="{% if loop.index <= 4 %}highlight-row{% endif %}">
+                        <td class="primera-fila">{{ loop.index }}</td>
+                        <td class="sticky-column">
+                            <img src="{{ equipo.Imagen }}" class="club-logo" alt="Escudo del equipo">
+                            <span class="club-name-full">{{ equipo.Club }}</span>
+                            <span class="club-name-siglas">{{ equipo.Siglas }}</span>
+                        </td>
+                        <td class="pts-column">{{ equipo.PTS }}</td>
+                        <td>{{ equipo.PJ }}</td>
+                        <td>{{ equipo.PG }}</td>
+                        <td>{{ equipo.PE }}</td>
+                        <td>{{ equipo.PP }}</td>
+                        <td>{{ equipo.GF }}</td>
+                        <td>{{ equipo.GC }}</td>
+                        <td>{{ equipo.DIF }}</td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const categoryForm = document.getElementById("category-form");
+        const categorySelect = document.getElementById("category-select");
+        const categoriaSeleccionadaElement = document.getElementById("categoria_seleccionada");
+
+        // Agregar un evento al cambio de selección en el menú desplegable
+        categorySelect.addEventListener("change", function () {
+            // Enviar automáticamente el formulario cuando se selecciona una categoría
+            categoryForm.submit();
+        });
+
+        // Actualizar el valor seleccionado en el menú desplegable para reflejar la categoría seleccionada
+        const categoriaSeleccionadaValue = window.location.search.split('=')[1];
+        if (categoriaSeleccionadaValue) {
+            categorySelect.value = categoriaSeleccionadaValue;
+        }
+
+        // Actualizar el texto de la categoría seleccionada después de que se haya actualizado el valor seleccionado
+        const categoriaSeleccionada = categorySelect.options[categorySelect.selectedIndex].text;
+        categoriaSeleccionadaElement.textContent = "Categoría: " + categoriaSeleccionada;
+
     });
 
-    // Actualizar el valor seleccionado en el menú desplegable para reflejar la categoría seleccionada
-    const categoriaSeleccionadaValue = window.location.search.split('=')[1];
-    if (categoriaSeleccionadaValue) {
-        categorySelect.value = categoriaSeleccionadaValue;
-    }
-
-    // Actualizar el texto de la categoría seleccionada después de que se haya actualizado el valor seleccionado
-    const categoriaSeleccionada = categorySelect.options[categorySelect.selectedIndex].text;
-    categoriaSeleccionadaElement.textContent = "Categoría: " + categoriaSeleccionada;
-
-});
-
-</script>
-<script src="/static/js/filtro.js"></script>
-<script src="/static/js/tablas.js"></script>
+    </script>
+    <script src="/static/js/filtro.js"></script>
+    <script src="/static/js/tablas.js"></script>
 </body>
+
 </html>
