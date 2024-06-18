@@ -17,9 +17,8 @@
     <form action="{{ url_for('resultados_partidos') }}" method="post" class="form">
         <div class="dropdown">
             <select id="jornada" name="ID_jornada" class="select">
-                <!-- Asegúrate de que el nombre sea "ID_jornada" -->
                 {% for i in range(1, 19) %}
-                    <option value="{{ i }}" class="option">Jornada {{ i }}</option>
+                    <option value="{{ i }}" class="option" {% if i == ID_jornada %}selected{% endif %}>Jornada {{ i }}</option>
                 {% endfor %}
             </select>
             <button type="submit" class="button">
@@ -32,50 +31,64 @@
 <!-- Recuadros de categoría con sus respectivos partidos -->
 {% for nombre_categoria, partidos in categorias.items() %}
 <div class="categoria">
-  <h2>{{ nombre_categoria }}</h2>
-  <div class="table-responsive">
-      <table>
-          <thead>
-              <tr>
-                  <th>Equipo Local</th>
-                  <th>Resultado</th>
-                  <th>Equipo Visitante</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for partido in partidos %}
-              <tr class="partido" data-target="detalle-{{ loop.index }}">
-                  <td>
-                      <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Local'] + '.png') }}"
-                          alt="Escudo del equipo local" class="equipo-logo" />
-                      {{ partido['Equipo_Local'] }}
-                  </td>
-                  <td>{{ partido['Goles_Local'] }} - {{ partido['Goles_Visita'] }}</td>
-                  <td>
-                      <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Visitante'] + '.png') }}"
-                          alt="Escudo del equipo visitante" class="equipo-logo" />
-                      {{ partido['Equipo_Visitante'] }}
-                  </td>
-              </tr>
-              <!-- Contenedor para los detalles del partido -->
-              <tr class="detalle-container" id="detalle-{{ loop.index }}-container" style="display: none;">
-                  <td colspan="3">
-                      <!-- Contenido de los detalles del partido -->
-                      <div id="detalle-{{ loop.index }}" class="detalle-content">
-                          <!-- Aquí se mostrarán los detalles del partido -->
-                      </div>
-                  </td>
-              </tr>
-              {% endfor %}
-          </tbody>
-      </table>
-  </div>
+    <h2>{{ nombre_categoria }}</h2>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Equipo Local</th>
+                    <th>Resultado</th>
+                    <th>Equipo Visitante</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for partido in partidos %}
+                <tr class="partido" data-target="detalle-{{ nombre_categoria }}-{{ loop.index }}">
+                    <td>
+                        <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Local'] + '.png') }}"
+                            alt="Escudo del equipo local" class="equipo-logo" />
+                        {{ partido['Equipo_Local'] }}
+                    </td>
+                    <td>{{ partido['Goles_Local'] }} - {{ partido['Goles_Visita'] }}</td>
+                    <td>
+                        <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Visitante'] + '.png') }}"
+                            alt="Escudo del equipo visitante" class="equipo-logo" />
+                        {{ partido['Equipo_Visitante'] }}
+                    </td>
+                </tr>
+                <!-- Contenedor para los detalles del partido -->
+                <tr class="detalle-container" id="detalle-{{ nombre_categoria }}-{{ loop.index }}-container" style="display: none;">
+                    <td colspan="3">
+                        <!-- Contenido de los detalles del partido -->
+                        <div id="detalle-{{ nombre_categoria }}-{{ loop.index }}" class="detalle-content">
+                            <h3>Jugadores que anotaron goles:</h3>
+                            <ul>
+                                {% if partido['Jugadores'] %}
+                                    {% for jugador in partido['Jugadores'] %}
+                                    <li>{{ jugador['Nombre'] }} ({{ jugador['Equipo'] }}) - Goles: {{ jugador['Goles'] }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li>No hay goles registrados en este partido.</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
-
-
-
 {% endfor %}
 
-<script src="../static/js/resultadopartidos.js"></script>
+<script>
+document.querySelectorAll('.partido').forEach(partido => {
+    partido.addEventListener('click', () => {
+        const targetId = partido.getAttribute('data-target');
+        const detailContainer = document.getElementById(targetId + '-container');
+        detailContainer.style.display = detailContainer.style.display === 'none' ? '' : 'none';
+    });
+});
+</script>
 </body>
 </html>

@@ -30,24 +30,68 @@ def admin():
     return render_template('admin.html', nombre_usuario=nombre_usuario)
 
 
-###Admin jugadores###
 # Ruta para obtener los datos de los jugadores y sus estadísticas
 @app.route('/admin-jugadores')
 def obtener_estadisticas_jugadores():
     cur = mysql.connection.cursor()
-    # Consulta para obtener los datos de los jugadores y sus estadísticas, incluyendo el nombre del equipo
     cur.execute("""
-        SELECT j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, e.Goles_Anotados, e.Tarjetas_Amarillas, e.Tarjetas_Rojas, eq.Nombre AS Nombre_Equipo, c.Nombre AS Nombre_Categoria
+        SELECT j.ID, j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, 
+               eq.Nombre AS Nombre_Equipo, c.Nombre AS Nombre_Categoria,
+               SUM(gj.Goles) AS Goles_Anotados,
+               SUM(gj.Tarjetas_Amarillas) AS Tarjetas_Amarillas,
+               SUM(gj.Tarjetas_Rojas) AS Tarjetas_Rojas,
+               GROUP_CONCAT(DISTINCT gj.Sanciones ORDER BY gj.Jornada) AS Sanciones
         FROM jugador j
-        LEFT JOIN est_jugador_c e ON j.ID = e.Jugador_ID
         LEFT JOIN equipo eq ON j.Equipo_ID = eq.ID
         LEFT JOIN categoria c ON j.Categoria_ID = c.ID
+        LEFT JOIN goles_jugador gj ON j.ID = gj.Jugador_ID
+        GROUP BY j.ID
     """)
-
     jugadores = cur.fetchall()
     cur.close()
-    # Renderiza la plantilla HTML y pasa los datos de los jugadores
     return render_template('adminjugadores.html', jugadores=jugadores)
+
+
+@app.route('/registrar-estadisticas', methods=['POST'])
+def registrar_estadisticas():
+    jugador_id = request.form['jugadorId']
+    jornada = request.form['jornada']
+    goles = request.form['goles']
+    amarillas = request.form['amarillas']
+    rojas = request.form['rojas']
+    sanciones = request.form['sanciones']
+
+    # Obtener el Partido_ID correspondiente
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        SELECT p.ID FROM partido p
+        JOIN jugador j ON j.Equipo_ID = p.Equipo_Local_ID OR j.Equipo_ID = p.Equipo_Visitante_ID
+        WHERE j.ID = %s AND p.ID_jornada = %s AND p.ID_categoria = j.Categoria_ID
+    """, (jugador_id, jornada))
+    partido = cur.fetchone()
+    
+    if partido:
+        partido_id = partido['ID']
+    else:
+        partido_id = None
+
+    # Registrar o actualizar las estadísticas del jugador
+    cur.execute("""
+        INSERT INTO goles_jugador (Jugador_ID, Jornada, Goles, Tarjetas_Amarillas, Tarjetas_Rojas, Sanciones, Partido_ID)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        ON DUPLICATE KEY UPDATE 
+            Goles = VALUES(Goles),
+            Tarjetas_Amarillas = VALUES(Tarjetas_Amarillas),
+            Tarjetas_Rojas = VALUES(Tarjetas_Rojas),
+            Sanciones = VALUES(Sanciones),
+            Partido_ID = VALUES(Partido_ID)
+    """, (jugador_id, jornada, goles, amarillas, rojas, sanciones, partido_id))
+    mysql.connection.commit()
+    cur.close()
+
+    return '', 200
+
+
 
 
 ######################################################################################################################
@@ -594,20 +638,22 @@ def estadisticas_jugadores():
 
 
 
+# Ruta para mostrar los resultados de los partidos
+from flask import Flask, render_template, request
+from flask_mysqldb import MySQL
+from collections import defaultdict
 
-from flask import request
-
-# Resultados de partidos por jornada
+# Ruta para mostrar los resultados de los partidos
 @app.route('/partidos', methods=['GET', 'POST'])
 def resultados_partidos():
-    if request.method == 'POST':
-        ID_jornada = request.form['ID_jornada']  # Obtén el valor de la jornada seleccionada del formulario
-    else:
-        ID_jornada = 1  # Valor por defecto si no se ha enviado el formulario
-
     cur = mysql.connection.cursor()
+    if request.method == 'POST':
+        ID_jornada = request.form.get('ID_jornada', 1)
+    else:
+        ID_jornada = 1
+
     cur.execute("""
-        SELECT p.Goles_Local, p.Goles_Visita, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria
+        SELECT p.Goles_Local, p.Goles_Visita, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria, p.ID AS Partido_ID
         FROM partido p
         JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
         JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
@@ -615,22 +661,42 @@ def resultados_partidos():
         WHERE p.ID_jornada = %s
     """, (ID_jornada,))
     partidos = cur.fetchall()
-    cur.close()
 
-    # Inicializar el diccionario de categorías
-    categorias = {}
+    cur.execute("""
+        SELECT gj.Partido_ID, j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, gj.Goles, e.Nombre AS Nombre_Equipo
+        FROM goles_jugador gj
+        INNER JOIN jugador j ON gj.Jugador_ID = j.ID
+        INNER JOIN equipo e ON j.Equipo_ID = e.ID
+        WHERE gj.Jornada = %s
+    """, (ID_jornada,))
+    goles_por_partido = cur.fetchall()
 
-    # Iterar sobre los partidos y agregarlos a las categorías correspondientes
+    categorias = defaultdict(list)
     for partido in partidos:
-        # Verificar si la categoría ya existe en el diccionario
-        if partido['Nombre_Categoria'] not in categorias:
-            # Si no existe, inicializar una lista vacía para esa categoría
-            categorias[partido['Nombre_Categoria']] = []
-        # Agregar el partido a la lista de la categoría correspondiente
-        categorias[partido['Nombre_Categoria']].append(partido)
+        categoria_nombre = partido['Nombre_Categoria']
+        partido_info = {
+            'Equipo_Local': partido['Equipo_Local'],
+            'Goles_Local': partido['Goles_Local'],
+            'Goles_Visita': partido['Goles_Visita'],
+            'Equipo_Visitante': partido['Equipo_Visitante'],
+            'Ubicacion': partido['Ubicacion'],
+            'Fecha': partido['Fecha'],
+            'Partido_ID': partido['Partido_ID'],
+            'Jugadores': []
+        }
+        for gol in goles_por_partido:
+            if gol['Partido_ID'] == partido['Partido_ID']:
+                jugador_info = {
+                    'Nombre': f"{gol['Nombre']} {gol['Apellido_Paterno']} {gol['Apellido_Materno']}",
+                    'Goles': gol['Goles'],
+                    'Equipo': gol['Nombre_Equipo']
+                }
+                partido_info['Jugadores'].append(jugador_info)
 
-    # Renderizar el template con las categorías
-    return render_template("resultados_partidos.html", categorias=categorias)
+        categorias[categoria_nombre].append(partido_info)
+
+    categorias = dict(categorias)
+    return render_template("resultados_partidos.html", categorias=categorias, ID_jornada=int(ID_jornada))
 
 ##################################################################################
 
