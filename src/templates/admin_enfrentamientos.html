@@ -28,6 +28,50 @@
             </select>
             <button type="submit">Filtrar</button>
         </form>
+
+            <!-- Mostrar mensajes flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul>
+                        {% for category, message in messages %}
+                            <li class="flash {{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+        <!-- Formulario para crear nuevo enfrentamiento -->
+        <form action="{{ url_for('administrar_enfrentamientos') }}" method="post">
+            <label for="equipo_local_id">Equipo Local:</label>
+            <select name="equipo_local_id" id="equipo_local_id" required>
+                {% for equipo in equipos %}
+                <option value="{{ equipo.ID }}">{{ equipo.Nombre }}</option>
+                {% endfor %}
+            </select>
+            <label for="equipo_visitante_id">Equipo Visitante:</label>
+            <select name="equipo_visitante_id" id="equipo_visitante_id" required>
+                {% for equipo in equipos %}
+                <option value="{{ equipo.ID }}">{{ equipo.Nombre }}</option>
+                {% endfor %}
+            </select>
+            <label for="id_categoria">Categoría:</label>
+            <select name="id_categoria" id="id_categoria" required>
+                {% for categoria in categorias %}
+                <option value="{{ categoria.ID }}">{{ categoria.Nombre }}</option>
+                {% endfor %}
+            </select>
+            <label for="id_jornada">Jornada:</label>
+            <select name="id_jornada" id="id_jornada" required>
+                {% for jornada in jornadas %}
+                <option value="{{ jornada.ID }}">{{ jornada.Nombre }}</option>
+                {% endfor %}
+            </select>
+            <label for="ubicacion">Ubicación:</label>
+            <input type="text" name="ubicacion" id="ubicacion" required>
+            <label for="fecha">Fecha:</label>
+            <input type="date" name="fecha" id="fecha" required>
+            <button type="submit">Crear Enfrentamiento</button>
+        </form>
         <section class="table__body">
             <table>
                 <thead>
@@ -65,6 +109,4 @@
         </section>
     </main>
 </body>
-<script src="/static/js/filtro.js"></script>
-<script src="/static/js/listar_jugadores.js"></script>
 </html>

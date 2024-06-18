@@ -353,3 +353,11 @@ thead th.active,tbody td.active {
     cursor: pointer;
 }
 
+.flash.error {
+    color: red;
+}
+
+.flash.success {
+    color: green;
+}
+
