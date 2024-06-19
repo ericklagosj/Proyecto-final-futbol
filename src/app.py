@@ -30,24 +30,68 @@ def admin():
     return render_template('admin.html', nombre_usuario=nombre_usuario)
 
 
-###Admin jugadores###
 # Ruta para obtener los datos de los jugadores y sus estadísticas
 @app.route('/admin-jugadores')
 def obtener_estadisticas_jugadores():
     cur = mysql.connection.cursor()
-    # Consulta para obtener los datos de los jugadores y sus estadísticas, incluyendo el nombre del equipo
     cur.execute("""
-        SELECT j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, e.Goles_Anotados, e.Tarjetas_Amarillas, e.Tarjetas_Rojas, eq.Nombre AS Nombre_Equipo, c.Nombre AS Nombre_Categoria
+        SELECT j.ID, j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, 
+               eq.Nombre AS Nombre_Equipo, c.Nombre AS Nombre_Categoria,
+               SUM(gj.Goles) AS Goles_Anotados,
+               SUM(gj.Tarjetas_Amarillas) AS Tarjetas_Amarillas,
+               SUM(gj.Tarjetas_Rojas) AS Tarjetas_Rojas,
+               GROUP_CONCAT(DISTINCT gj.Sanciones ORDER BY gj.Jornada) AS Sanciones
         FROM jugador j
-        LEFT JOIN est_jugador_c e ON j.ID = e.Jugador_ID
         LEFT JOIN equipo eq ON j.Equipo_ID = eq.ID
         LEFT JOIN categoria c ON j.Categoria_ID = c.ID
+        LEFT JOIN goles_jugador gj ON j.ID = gj.Jugador_ID
+        GROUP BY j.ID
     """)
-
     jugadores = cur.fetchall()
     cur.close()
-    # Renderiza la plantilla HTML y pasa los datos de los jugadores
     return render_template('adminjugadores.html', jugadores=jugadores)
+
+
+@app.route('/registrar-estadisticas', methods=['POST'])
+def registrar_estadisticas():
+    jugador_id = request.form['jugadorId']
+    jornada = request.form['jornada']
+    goles = request.form['goles']
+    amarillas = request.form['amarillas']
+    rojas = request.form['rojas']
+    sanciones = request.form['sanciones']
+
+    # Obtener el Partido_ID correspondiente
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        SELECT p.ID FROM partido p
+        JOIN jugador j ON j.Equipo_ID = p.Equipo_Local_ID OR j.Equipo_ID = p.Equipo_Visitante_ID
+        WHERE j.ID = %s AND p.ID_jornada = %s AND p.ID_categoria = j.Categoria_ID
+    """, (jugador_id, jornada))
+    partido = cur.fetchone()
+    
+    if partido:
+        partido_id = partido['ID']
+    else:
+        partido_id = None
+
+    # Registrar o actualizar las estadísticas del jugador
+    cur.execute("""
+        INSERT INTO goles_jugador (Jugador_ID, Jornada, Goles, Tarjetas_Amarillas, Tarjetas_Rojas, Sanciones, Partido_ID)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        ON DUPLICATE KEY UPDATE 
+            Goles = VALUES(Goles),
+            Tarjetas_Amarillas = VALUES(Tarjetas_Amarillas),
+            Tarjetas_Rojas = VALUES(Tarjetas_Rojas),
+            Sanciones = VALUES(Sanciones),
+            Partido_ID = VALUES(Partido_ID)
+    """, (jugador_id, jornada, goles, amarillas, rojas, sanciones, partido_id))
+    mysql.connection.commit()
+    cur.close()
+
+    return '', 200
+
+
 
 
 ######################################################################################################################
@@ -213,105 +257,99 @@ def crear_registro():
     return redirect(url_for('listar_jugadores'))
 
 
-#############################################################################
-# Route para manejar los enfrentamientos de equipos
 @app.route('/admin-enfrentamientos', methods=['GET', 'POST'])
 def administrar_enfrentamientos():
     if request.method == 'POST':
-        # Obtener datos del formulario
-        id_partido = request.form['id_partido']
-        goles_local = int(request.form['goles_local'])
-        goles_visitante = int(request.form['goles_visitante'])
+        try:
+            if 'id_partido' in request.form:
+                # Actualizar resultados del partido existente
+                id_partido = request.form['id_partido']
+                goles_local = int(request.form['goles_local'])
+                goles_visitante = int(request.form['goles_visitante'])
 
-        # Determinar quién ganó, quién perdió o si hubo empate
-        if goles_local > goles_visitante:
-            resultado = 'local_gana'
-        elif goles_local < goles_visitante:
-            resultado = 'visitante_gana'
-        else:
-            resultado = 'empate'
+                # Actualizar los resultados en la base de datos
+                cur = mysql.connection.cursor()
+                cur.execute("""
+                    UPDATE partido
+                    SET Goles_Local = %s, Goles_Visita = %s
+                    WHERE ID = %s
+                """, (goles_local, goles_visitante, id_partido))
+                mysql.connection.commit()
 
-        # Actualizar los resultados en la base de datos
-        cur = mysql.connection.cursor()
+                # Obtener el ID de los equipos y la categoría del partido
+                cur.execute("""
+                    SELECT Equipo_Local_ID, Equipo_Visitante_ID, ID_categoria
+                    FROM partido
+                    WHERE ID = %s
+                """, (id_partido,))
+                partido = cur.fetchone()
 
-        # Actualizar tabla de partidos
-        cur.execute("""
-            UPDATE partido
-            SET Goles_Local = %s, Goles_Visita = %s, Resultado = %s
-            WHERE ID = %s
-        """, (goles_local, goles_visitante, resultado, id_partido))
+                equipo_local_id = partido['Equipo_Local_ID']
+                equipo_visitante_id = partido['Equipo_Visitante_ID']
+                id_categoria = partido['ID_categoria']
 
-        # Actualizar tablas de posiciones
-        if resultado == 'local_gana':
-            # Equipo local gana
-            cur.execute("""
-                UPDATE tabla_juvenil_p
-                SET Puntos = Puntos + 3,
-                    P_Jugados = P_Jugados + 1,
-                    P_Ganados = P_Ganados + 1,
-                    Goles_Favor = Goles_Favor + %s,
-                    Goles_Contra = Goles_Contra + %s
-                WHERE Equipo_ID = (SELECT Equipo_Local_ID FROM partido WHERE ID = %s)
-            """, (goles_local, goles_visitante, id_partido))
+                # Actualizar la tabla de posiciones y el torneo regular
+                actualizar_tabla_posiciones(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, id_categoria)
+                actualizar_torneo_regular()
 
-            # Equipo visitante pierde
-            cur.execute("""
-                UPDATE tabla_juvenil_p
-                SET P_Jugados = P_Jugados + 1,
-                    P_Perdidos = P_Perdidos + 1,
-                    Goles_Favor = Goles_Favor + %s,
-                    Goles_Contra = Goles_Contra + %s
-                WHERE Equipo_ID = (SELECT Equipo_Visitante_ID FROM partido WHERE ID = %s)
-            """, (goles_visitante, goles_local, id_partido))
+                cur.close()
 
-        elif resultado == 'visitante_gana':
-            # Equipo visitante gana
-            cur.execute("""
-                UPDATE tabla_juvenil_p
-                SET Puntos = Puntos + 3,
-                    P_Jugados = P_Jugados + 1,
-                    P_Ganados = P_Ganados + 1,
-                    Goles_Favor = Goles_Favor + %s,
-                    Goles_Contra = Goles_Contra + %s
-                WHERE Equipo_ID = (SELECT Equipo_Visitante_ID FROM partido WHERE ID = %s)
-            """, (goles_visitante, goles_local, id_partido))
+                flash('Resultados del partido actualizados correctamente.', 'success')
 
-            # Equipo local pierde
-            cur.execute("""
-                UPDATE tabla_juvenil_p
-                SET P_Jugados = P_Jugados + 1,
-                    P_Perdidos = P_Perdidos + 1,
-                    Goles_Favor = Goles_Favor + %s,
-                    Goles_Contra = Goles_Contra + %s
-                WHERE Equipo_ID = (SELECT Equipo_Local_ID FROM partido WHERE ID = %s)
-            """, (goles_local, goles_visitante, id_partido))
+            else:
+                # Crear nuevo enfrentamiento
+                equipo_local_id = request.form['equipo_local_id']
+                equipo_visitante_id = request.form['equipo_visitante_id']
+                id_categoria = request.form['id_categoria']
+                id_jornada = request.form['id_jornada']
+                ubicacion = request.form['ubicacion']
+                fecha = request.form['fecha']
 
-        else:
-            # Empate, ambos equipos suman 1 punto
-            cur.execute("""
-                UPDATE tabla_juvenil_p
-                SET Puntos = Puntos + 1,
-                    P_Jugados = P_Jugados + 1,
-                    P_Empatados = P_Empatados + 1,
-                    Goles_Favor = Goles_Favor + %s,
-                    Goles_Contra = Goles_Contra + %s
-                WHERE Equipo_ID IN (
-                    (SELECT Equipo_Local_ID FROM partido WHERE ID = %s),
-                    (SELECT Equipo_Visitante_ID FROM partido WHERE ID = %s)
-                )
-            """, (goles_local, goles_visitante, id_partido, id_partido))
+                # Verificar si ya existe un enfrentamiento con los mismos equipos, jornada y categoría
+                cur = mysql.connection.cursor()
+                cur.execute("""
+                    SELECT * FROM partido
+                    WHERE Equipo_Local_ID = %s AND Equipo_Visitante_ID = %s AND ID_jornada = %s AND ID_categoria = %s
+                """, (equipo_local_id, equipo_visitante_id, id_jornada, id_categoria))
+                resultado = cur.fetchone()
 
-        mysql.connection.commit()
-        cur.close()
+                if resultado:
+                    flash('El enfrentamiento ya existe.', 'error')
+                else:
+                    # Insertar el nuevo enfrentamiento en la base de datos
+                    cur.execute("""
+                        INSERT INTO partido (Equipo_Local_ID, Equipo_Visitante_ID, ID_categoria, ID_jornada, Ubicacion, Fecha)
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    """, (equipo_local_id, equipo_visitante_id, id_categoria, id_jornada, ubicacion, fecha))
+                    mysql.connection.commit()
 
-        # Redireccionar a la misma página para evitar reenvíos de formulario
-        return redirect(url_for('admin_enfrentamientos.html'))
+                    flash('Enfrentamiento registrado correctamente.', 'success')
 
+                # Actualizar la tabla de posiciones y el torneo regular
+                actualizar_tabla_posiciones(equipo_local_id, equipo_visitante_id, 0, 0, id_categoria)
+                actualizar_torneo_regular()
+
+                cur.close()
+
+            return redirect(url_for('administrar_enfrentamientos'))
+
+        except Exception as e:
+            # Captura de errores generales para evitar errores 500
+            flash(f'Ocurrió un error: {str(e)}', 'error')
+            return redirect(url_for('administrar_enfrentamientos'))
     else:
         # Consultar las jornadas disponibles
         cur = mysql.connection.cursor()
         cur.execute("SELECT ID, Nombre FROM jornada")
         jornadas = cur.fetchall()
+
+        # Consultar los equipos disponibles
+        cur.execute("SELECT ID, Nombre FROM equipo")
+        equipos = cur.fetchall()
+
+        # Consultar las categorías disponibles
+        cur.execute("SELECT ID, Nombre FROM categoria")
+        categorias = cur.fetchall()
 
         # Obtener el parámetro de filtrado por jornada
         id_jornada_filtro = request.args.get('jornada')
@@ -338,14 +376,9 @@ def administrar_enfrentamientos():
             """)
         enfrentamientos = cur.fetchall()
 
-        # Obtener el nombre de la jornada actual
-        jornada_actual_id = int(id_jornada_filtro) if id_jornada_filtro else 0
-        jornada_actual_nombre = next((jornada['Nombre'] for jornada in jornadas if jornada['ID'] == jornada_actual_id), 'Todas las jornadas')
-
         cur.close()
 
-        return render_template('admin_enfrentamientos.html', enfrentamientos=enfrentamientos, jornadas=jornadas, jornada_actual=jornada_actual_nombre)
-
+        return render_template('admin_enfrentamientos.html', enfrentamientos=enfrentamientos, jornadas=jornadas, equipos=equipos, categorias=categorias)
 
 ##############################################################################################################
 @app.route('/realizar-traspaso', methods=["POST"])
@@ -476,14 +509,20 @@ def listar_equipos():
     cur = mysql.connection.cursor()
     # Realizar un JOIN entre las tablas equipo y division
     cur.execute("""
-        SELECT equipo.ID, equipo.Nombre, equipo.Ciudad, division.Nombre AS Division_Nombre
+        SELECT equipo.ID, equipo.Nombre, equipo.Ciudad, equipo.Imagen, division.Nombre AS Division_Nombre
         FROM equipo
         JOIN division ON equipo.Division_ID = division.ID
     """)
     equipos = cur.fetchall()
     cur.close()
-    
+
+    # Asegurarse de que cada equipo tenga la ruta completa de la imagen
+    for equipo in equipos:
+        equipo['Imagen'] = f"/static/images/equipos/{equipo['Imagen']}"
+
     return render_template("listar_equipos.html", equipos=equipos)
+
+
 
 
 
@@ -577,7 +616,30 @@ def obtener_jugador(id):
 @app.route('/estadisticas-jugadores')
 def estadisticas_jugadores():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, e.Goles_Anotados, e.Asistencias, e.Tarjetas_Amarillas, e.Tarjetas_Rojas, COALESCE(ROUND(a.Asistencia), 0) as Asistencia FROM jugador j JOIN est_jugador_c e ON j.ID = e.Jugador_ID LEFT JOIN (SELECT id_jugador, SUM(asistencia)/18*100 as Asistencia FROM asistencia GROUP BY id_jugador) a ON j.ID = a.id_jugador")
+    cur.execute("""
+        SELECT 
+            j.Nombre, 
+            j.Apellido_Paterno, 
+            j.Apellido_Materno, 
+            COALESCE(SUM(g.Goles), 0) AS Goles_Anotados, 
+            COALESCE(SUM(g.Tarjetas_Amarillas), 0) AS Tarjetas_Amarillas, 
+            COALESCE(SUM(g.Tarjetas_Rojas), 0) AS Tarjetas_Rojas, 
+            COALESCE(ROUND(a.Asistencia), 0) AS Asistencia 
+        FROM 
+            jugador j 
+            LEFT JOIN goles_jugador g ON j.ID = g.Jugador_ID 
+            LEFT JOIN (
+                SELECT 
+                    id_jugador, 
+                    SUM(asistencia)/18*100 AS Asistencia 
+                FROM 
+                    asistencia 
+                GROUP BY 
+                    id_jugador
+            ) a ON j.ID = a.id_jugador
+        GROUP BY 
+            j.ID
+    """)
     jugadores = cur.fetchall()
     cur.close()
 
@@ -589,19 +651,22 @@ def estadisticas_jugadores():
 
 
 
-from flask import request
+# Ruta para mostrar los resultados de los partidos
+from flask import Flask, render_template, request
+from flask_mysqldb import MySQL
+from collections import defaultdict
 
-# Resultados de partidos por jornada
+# Ruta para mostrar los resultados de los partidos
 @app.route('/partidos', methods=['GET', 'POST'])
 def resultados_partidos():
-    if request.method == 'POST':
-        ID_jornada = request.form['ID_jornada']  # Obtén el valor de la jornada seleccionada del formulario
-    else:
-        ID_jornada = 1  # Valor por defecto si no se ha enviado el formulario
-
     cur = mysql.connection.cursor()
+    if request.method == 'POST':
+        ID_jornada = request.form.get('ID_jornada', 1)
+    else:
+        ID_jornada = 1
+
     cur.execute("""
-        SELECT p.Goles_Local, p.Goles_Visita, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria
+        SELECT p.Goles_Local, p.Goles_Visita, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria, p.ID AS Partido_ID
         FROM partido p
         JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
         JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
@@ -609,22 +674,42 @@ def resultados_partidos():
         WHERE p.ID_jornada = %s
     """, (ID_jornada,))
     partidos = cur.fetchall()
-    cur.close()
 
-    # Inicializar el diccionario de categorías
-    categorias = {}
+    cur.execute("""
+        SELECT gj.Partido_ID, j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, gj.Goles, e.Nombre AS Nombre_Equipo
+        FROM goles_jugador gj
+        INNER JOIN jugador j ON gj.Jugador_ID = j.ID
+        INNER JOIN equipo e ON j.Equipo_ID = e.ID
+        WHERE gj.Jornada = %s
+    """, (ID_jornada,))
+    goles_por_partido = cur.fetchall()
 
-    # Iterar sobre los partidos y agregarlos a las categorías correspondientes
+    categorias = defaultdict(list)
     for partido in partidos:
-        # Verificar si la categoría ya existe en el diccionario
-        if partido['Nombre_Categoria'] not in categorias:
-            # Si no existe, inicializar una lista vacía para esa categoría
-            categorias[partido['Nombre_Categoria']] = []
-        # Agregar el partido a la lista de la categoría correspondiente
-        categorias[partido['Nombre_Categoria']].append(partido)
+        categoria_nombre = partido['Nombre_Categoria']
+        partido_info = {
+            'Equipo_Local': partido['Equipo_Local'],
+            'Goles_Local': partido['Goles_Local'],
+            'Goles_Visita': partido['Goles_Visita'],
+            'Equipo_Visitante': partido['Equipo_Visitante'],
+            'Ubicacion': partido['Ubicacion'],
+            'Fecha': partido['Fecha'],
+            'Partido_ID': partido['Partido_ID'],
+            'Jugadores': []
+        }
+        for gol in goles_por_partido:
+            if gol['Partido_ID'] == partido['Partido_ID']:
+                jugador_info = {
+                    'Nombre': f"{gol['Nombre']} {gol['Apellido_Paterno']} {gol['Apellido_Materno']}",
+                    'Goles': gol['Goles'],
+                    'Equipo': gol['Nombre_Equipo']
+                }
+                partido_info['Jugadores'].append(jugador_info)
 
-    # Renderizar el template con las categorías
-    return render_template("resultados_partidos.html", categorias=categorias)
+        categorias[categoria_nombre].append(partido_info)
+
+    categorias = dict(categorias)
+    return render_template("resultados_partidos.html", categorias=categorias, ID_jornada=int(ID_jornada))
 
 ##################################################################################
 
@@ -790,12 +875,138 @@ def mostrar_jugadores():
 
     return render_template('asistencia.html', jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_jornadas_asistidas=total_jornadas_asistidas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornadas=jornadas, total_asistencia_partidos=total_asistencia_partidos, total_asistencias_posibles=total_asistencias_posibles)
 
+#########################################################################################################################
 
+
+@app.route('/actualizar-asistencia', methods=['POST'])
+def actualizar_asistencia():
+    id_jugador = request.form.get('id_jugador')
+    jornada = request.form.get('jornada')
+    asistencia = request.form.get('asistencia')
+
+    cur = mysql.connection.cursor()
+    cur.execute("""
+        INSERT INTO asistencia (id_jugador, jornada, asistencia)
+        VALUES (%s, %s, %s)
+        ON DUPLICATE KEY UPDATE asistencia = %s
+        """, (id_jugador, jornada, asistencia, asistencia))
+    mysql.connection.commit()
+    cur.close()
+
+    return jsonify({'status': 'success'})
+
+@app.route('/asistencia-jugadores_admin')
+def mostrar_jugadores_admin():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT id, nombre, Apellido_Paterno, Apellido_Materno FROM jugador")
+
+    jugadores = cur.fetchall()
+
+    # Obtener la lista de todas las jornadas disponibles
+    cur.execute("SELECT DISTINCT jornada FROM asistencia")
+    jornadas = [res['jornada'] for res in cur.fetchall()]
+    jornadas.sort()  # Ordenar las jornadas
+
+    asistencia_jornadas = {}
+    total_jornadas_asistidas = {}
+    total_asistencias_por_jornada = {f'J{j}': 0 for j in jornadas}
+    asistencia_total = {}  
+
+    # Obtener la asistencia de cada jugador para cada jornada
+    for jugador in jugadores:
+        cur.execute("SELECT jornada, SUM(asistencia) AS total FROM asistencia WHERE id_jugador = %s GROUP BY jornada", (jugador['id'],))
+        asistencia_result = cur.fetchall()
+
+        # Crear un diccionario para mantener la asistencia del jugador por jornada
+        jugador_asistencia = {res['jornada']: res['total'] for res in asistencia_result}
+
+        # Calcular el total de asistencias para el jugador
+        total_asistencias = sum(asistencia['total'] for asistencia in asistencia_result)
+        asistencia_total[jugador['id']] = total_asistencias
+
+        # Actualizar el total de asistencias por jornada para todos los jugadores
+        for jornada in jornadas:
+            total_asistencias_por_jornada[f'J{jornada}'] += jugador_asistencia.get(jornada, 0)
+
+        # Actualizar la asistencia del jugador para todas las jornadas
+        asistencia_jornadas[jugador['id']] = jugador_asistencia
+        total_jornadas_asistidas[jugador['id']] = total_asistencias
+
+    cur.close()
+
+    total_asistencia_partidos = sum(total_asistencias_por_jornada.values())
+    # Calcular el total de asistencias posibles (18 jornadas)
+    total_asistencias_posibles = 18
+
+    return render_template('admin_asistencia.html', jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_jornadas_asistidas=total_jornadas_asistidas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornadas=jornadas, total_asistencia_partidos=total_asistencia_partidos, total_asistencias_posibles=total_asistencias_posibles)
 
 ########### TABLAS DE POSICIONES ############
 #############################################
 #############################################
 #############################################
+
+def actualizar_tabla_posiciones(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, id_categoria):
+    # Determinar la tabla de posiciones a actualizar según la categoría
+    tabla_posiciones = f'tabla_{id_categoria}_p'
+
+    cur = mysql.connection.cursor()
+
+    # Actualizar los goles a favor y en contra
+    cur.execute(f"""
+        UPDATE {tabla_posiciones}
+        SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+        WHERE Equipo_ID = %s
+    """, (goles_local, goles_visitante, equipo_local_id))
+    cur.execute(f"""
+        UPDATE {tabla_posiciones}
+        SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+        WHERE Equipo_ID = %s
+    """, (goles_visitante, goles_local, equipo_visitante_id))
+
+    # Actualizar partidos jugados, ganados, empatados y perdidos
+    cur.execute(f"""
+        UPDATE {tabla_posiciones}
+        SET P_Jugados = P_Jugados + 1
+        WHERE Equipo_ID = %s OR Equipo_ID = %s
+    """, (equipo_local_id, equipo_visitante_id))
+
+    if goles_local > goles_visitante:
+        # El equipo local ganó
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+            WHERE Equipo_ID = %s
+        """, (equipo_local_id,))
+        # El equipo visitante perdió
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Perdidos = P_Perdidos + 1
+            WHERE Equipo_ID = %s
+        """, (equipo_visitante_id,))
+    elif goles_local < goles_visitante:
+        # El equipo visitante ganó
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+            WHERE Equipo_ID = %s
+        """, (equipo_visitante_id,))
+        # El equipo local perdió
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Perdidos = P_Perdidos + 1
+            WHERE Equipo_ID = %s
+        """, (equipo_local_id,))
+    else:
+        # Empate
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Empatados = P_Empatados + 1, Puntos = Puntos + 1
+            WHERE Equipo_ID = %s OR Equipo_ID = %s
+        """, (equipo_local_id, equipo_visitante_id))
+
+    mysql.connection.commit()
+    cur.close()
+
 
 
 # Muestra la tabla general de primera división
@@ -817,14 +1028,19 @@ def tabla_posiciones():
 
     # Consulta SQL para obtener los datos de la tabla de posiciones
     cur.execute(f"""
-        SELECT e.Nombre AS Club, e.Imagen AS Imagen, tr.Puntos AS PTS, 
-            tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-            tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-            tr.Goles_Favor AS GF, tr.Goles_Contra AS GC,
-            (tr.Goles_Favor - tr.Goles_Contra) AS DIF
+        SELECT e.Nombre AS Club, e.Imagen AS Imagen, 
+               SUM(COALESCE(tr.Puntos, 0)) AS PTS, 
+               MAX(tr.P_Jugados) AS PJ, 
+               MAX(tr.P_Ganados) AS PG, 
+               MAX(tr.P_Empatados) AS PE, 
+               MAX(tr.P_Perdidos) AS PP, 
+               MAX(tr.Goles_Favor) AS GF, 
+               MAX(tr.Goles_Contra) AS GC,
+               MAX(tr.Goles_Favor - tr.Goles_Contra) AS DIF
         FROM {tabla} tr
         JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Puntos DESC, (tr.Goles_Favor - tr.Goles_Contra) DESC
+        GROUP BY e.Nombre, e.Imagen
+        ORDER BY PTS DESC, DIF DESC
     """)
 
     tabla_posiciones = cur.fetchall()
@@ -838,6 +1054,161 @@ def tabla_posiciones():
 
     # Renderizar la plantilla HTML con los datos de la tabla de posiciones
     return render_template('tabla_posiciones.html', tabla_posiciones=tabla_posiciones)
+
+
+
+def guardar_enfrentamiento(equipo_local_id, equipo_visitante_id, goles_local, goles_visita):
+    try:
+        cur = mysql.connection.cursor()
+
+        # Lógica para guardar el enfrentamiento en la tabla 'partidos'
+        cur.execute("""
+            INSERT INTO partidos (Equipo_Local_ID, Equipo_Visitante_ID, Goles_local, Goles_visita)
+            VALUES (%s, %s, %s, %s)
+        """, (equipo_local_id, equipo_visitante_id, goles_local, goles_visita))
+        mysql.connection.commit()
+
+        # Después de guardar el enfrentamiento, actualizar la tabla 'torneo_regular'
+        actualizar_torneo_regular()
+
+        cur.close()
+
+    except Exception as e:
+        print(f"Error al guardar enfrentamiento: {e}")
+
+def actualizar_torneo_regular():
+    try:
+        cur = mysql.connection.cursor()
+
+        # Actualizar todas las estadísticas necesarias en la tabla torneo_regular
+        cur.execute("""
+            UPDATE torneo_regular AS tr
+            JOIN (
+                SELECT Equipo_ID,
+                       COUNT(*) AS P_Jugados,
+                       SUM(CASE WHEN Resultado = 'ganado' THEN 1 ELSE 0 END) AS P_Ganados,
+                       SUM(CASE WHEN Resultado = 'empatado' THEN 1 ELSE 0 END) AS P_Empatados,
+                       SUM(CASE WHEN Resultado = 'perdido' THEN 1 ELSE 0 END) AS P_Perdidos,
+                       SUM(Goles_local) AS Goles_Favor,
+                       SUM(Goles_visita) AS Goles_Contra
+                FROM partidos
+                GROUP BY Equipo_ID
+            ) AS p ON tr.Equipo_ID = p.Equipo_ID
+            SET tr.P_Jugados = p.P_Jugados,
+                tr.P_Ganados = p.P_Ganados,
+                tr.P_Empatados = p.P_Empatados,
+                tr.P_Perdidos = p.P_Perdidos,
+                tr.Goles_Favor = p.Goles_Favor,
+                tr.Goles_Contra = p.Goles_Contra,
+                tr.DIF = p.Goles_Favor - p.Goles_Contra
+        """)
+        mysql.connection.commit()
+
+        cur.close()
+    except Exception as e:
+        print(f"Error al actualizar torneo regular: {e}")
+
+
+
+def actualizar_tabla_posiciones(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, id_categoria):
+    try:
+        # Determinar la tabla de posiciones a actualizar según la categoría
+        tabla_posiciones = f'tabla_{id_categoria}_p'
+
+        cur = mysql.connection.cursor()
+
+        # Actualizar los goles a favor y en contra
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+            WHERE Equipo_ID = %s
+        """, (goles_local, goles_visitante, equipo_local_id))
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+            WHERE Equipo_ID = %s
+        """, (goles_visitante, goles_local, equipo_visitante_id))
+
+        # Actualizar partidos jugados, ganados, empatados y perdidos
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Jugados = P_Jugados + 1
+            WHERE Equipo_ID = %s OR Equipo_ID = %s
+        """, (equipo_local_id, equipo_visitante_id))
+
+        if goles_local > goles_visitante:
+            # El equipo local ganó
+            cur.execute(f"""
+                UPDATE {tabla_posiciones}
+                SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+                WHERE Equipo_ID = %s
+            """, (equipo_local_id,))
+            # El equipo visitante perdió
+            cur.execute(f"""
+                UPDATE {tabla_posiciones}
+                SET P_Perdidos = P_Perdidos + 1
+                WHERE Equipo_ID = %s
+            """, (equipo_visitante_id,))
+        elif goles_local < goles_visitante:
+            # El equipo visitante ganó
+            cur.execute(f"""
+                UPDATE {tabla_posiciones}
+                SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+                WHERE Equipo_ID = %s
+            """, (equipo_visitante_id,))
+            # El equipo local perdió
+            cur.execute(f"""
+                UPDATE {tabla_posiciones}
+                SET P_Perdidos = P_Perdidos + 1
+                WHERE Equipo_ID = %s
+            """, (equipo_local_id,))
+        else:
+            # Empate
+            cur.execute(f"""
+                UPDATE {tabla_posiciones}
+                SET P_Empatados = P_Empatados + 1, Puntos = Puntos + 1
+                WHERE Equipo_ID = %s OR Equipo_ID = %s
+            """, (equipo_local_id, equipo_visitante_id))
+
+        mysql.connection.commit()
+        cur.close()
+
+    except Exception as e:
+        print(f"Error al actualizar tabla de posiciones: {e}")
+
+
+
+def actualizar_puntos_torneo_regular():
+    try:
+        cur = mysql.connection.cursor()
+
+        # Recorremos cada tabla de categoría
+        for tabla_num in range(1, 6):
+            tabla_name = f"tabla_{tabla_num}_p"
+
+            # Consulta para sumar los puntos por equipo en la tabla actual
+            cur.execute(f"""
+                SELECT Equipo_ID, SUM(Puntos) AS Total_Puntos
+                FROM {tabla_name}
+                GROUP BY Equipo_ID
+            """)
+            puntos_por_equipo = cur.fetchall()
+
+            # Actualizar la tabla torneo_regular con los puntos calculados
+            for equipo_id, total_puntos in puntos_por_equipo:
+                cur.execute("""
+                    UPDATE torneo_regular
+                    SET Puntos = COALESCE(Puntos, 0) + %s
+                    WHERE Equipo_ID = %s
+                """, (total_puntos, equipo_id))
+
+        mysql.connection.commit()
+        cur.close()
+
+    except Exception as e:
+        print(f"Error al actualizar puntos en torneo_regular: {e}")
+
+
 
 ##############################################################################################
 

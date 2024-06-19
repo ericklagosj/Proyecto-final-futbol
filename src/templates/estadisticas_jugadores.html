@@ -1,191 +1,180 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>ListadoEquipos</title>
+    <title class="titulo">Estadísticas Jugadores</title>
     <link rel="stylesheet" type="text/css" href="/static/css/estadisticas_jugadores.css" />
 
     <!--=============== REMIXICONS ===============-->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
-  </head>
+    <style>
+      /* Aquí va el CSS para ajustar las imágenes */
+      /* CSS para ajustar las imágenes */
+      img {
+        max-width: 16%;
+        height: auto;
+        display: block;
+        margin-inline: auto;
+      }
 
-  <body>
+      /* Ocultar imágenes en filas de datos */
+      tbody tr img {
+        display: none;
+      }
+
+  
+      .header img {
+        max-width: 40px; /* Ajusta este valor según necesites */
+        height: auto;
+      }
+    </style>
+
+  </head>
+<body>
 
     <!--=============== HEADER ===============-->
     <header class="header">
-      <nav class="nav container">
-        <div class="nav__data">
-          <a href="#" class="nav__logo">
-            <i class="ri-code-s-slash-line"></i> Asociacion Deportiva 
-          </a>
+        <nav class="nav container">
+            <div class="nav__data">
+                <a href="#" class="nav__logo">
+                  <img src="/static/images/logo.png" alt="Logo de la Asociación Deportiva" />
+                    Asociación Deportiva 
+                </a>
 
-          <div class="nav__toggle" id="nav-toggle">
-            <i class="ri-menu-line nav__toggle-menu"></i>
-            <i class="ri-close-line nav__toggle-close"></i>
-          </div>
-        </div>
-
-        <!--=============== NAV MENU ===============-->
-        <div class="nav__menu" id="nav-menu">
-          <ul class="nav__list">
-            <li>
-              <a href="#" class="nav__link">Inicio</a>
-            </li>
-            <li>
-              <a href="{{ url_for('noticias') }}" class="nav__link">
-                Noticias <i class="ri-newspaper-line"></i>
-              </a>
-            </li>
-            <li>
-              <a href="{{ url_for('galeria') }}" class="nav__link">
-                Galeria <i class="ri-gallery-line"></i>
-              </a>
-            </li>
-
-            <!--=============== DROPDOWN 1 ===============-->
-            <li class="dropdown__item">
-              <div class="nav__link dropdown__button">
-                Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
-              </div>
-
-              <div class="dropdown__container">
-                <div class="dropdown__content">
-                  <div class="dropdown__group">
-                    <div class="dropdown__icon">
-                      <i class="ri-flashlight-line"></i>
-                    </div>
-
-                    <span class="dropdown__title">Datos De Competencia</span>
-
-                    <ul class="dropdown__list">
-                      <li>
-                        <a
-                          href="{{ url_for('resultados_partidos')}}"
-                          class="dropdown__link"
-                          >Resultados Partidos</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          href="{{ url_for('estadisticas_jugadores') }}"
-                          class="dropdown__link"
-                          >Estadisticas Jugadores</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          href="{{ url_for('mostrar_jugadores')}}"
-                          class="dropdown__link"
-                          >Asistencias Jugadores</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="dropdown__group">
-                    <div class="dropdown__icon">
-                      <i class="ri-file-paper-2-line"></i>
-                    </div>
-
-                    <span class="dropdown__title">Posiciones</span>
-
-                    <ul class="dropdown__list">
-                      <li>
-                        <a
-                          href="{{ url_for('tabla_posiciones')}}"
-                          class="dropdown__link"
-                          >Primera Division</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          href="{{ url_for('tabla_posiciones_segunda') }}"
-                          class="dropdown__link"
-                          >Segunda Division</a
-                        >
-                      </li>
-                    </ul>
-                    <li>
-                      <a href="{{ url_for('login') }}" class="nav__link">
-                        Acceso <i class="ri-login-box-line"></i>
-                      </a>
-                    </li>
-                  </div>
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line nav__toggle-menu"></i>
+                    <i class="ri-close-line nav__toggle-close"></i>
                 </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
+            </div>
+
+            <!--=============== NAV MENU ===============-->
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li>
+                        <a href="{{ url_for('home') }}" class="nav__link">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('noticias') }}" class="nav__link">
+                            Noticias <i class="ri-newspaper-line"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('galeria') }}" class="nav__link">
+                            Galería <i class="ri-gallery-line"></i>
+                        </a>
+                    </li>
+                    <!--=============== DROPDOWN 1 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link dropdown__button">
+                            Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+
+                        <div class="dropdown__container">
+                            <div class="dropdown__content">
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-flashlight-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Datos De Competencia</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="{{ url_for('resultados_partidos')}}" class="dropdown__link">Resultados Partidos</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('estadisticas_jugadores') }}" class="dropdown__link">Estadísticas Jugadores</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('mostrar_jugadores')}}" class="dropdown__link">Asistencias Jugadores</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-file-paper-2-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Posiciones</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="{{ url_for('tabla_posiciones')}}" class="dropdown__link">Primera División</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('tabla_posiciones_segunda') }}" class="dropdown__link">Segunda División</a>
+                                        </li>
+                                    </ul>
+                                    <li>
+                                        <a href="{{ url_for('login') }}" class="nav__link">
+                                            Acceso <i class="ri-login-box-line"></i>
+                                        </a>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </header>
     <div class="content">
-     <main class="table" id="customers_table">
-      <section class="table__header">
-        <!-- Encabezado de la tabla -->
-        <h1>Estadisticas Jugadores</h1>
-        <!-- Barra de búsqueda -->
-        <div class="input-group">
-          <input type="search" placeholder="Buscar Estadisticas..." />
-          <img src="/static/images/equipos/search.png" alt="" />
-        </div>
-        <!-- Opciones de exportación -->
-        <div class="export__file">
-          <label
-            for="export-file"
-            class="export__file-btn"
-            title="Exportar Archivo"
-          ></label>
-          <input type="checkbox" id="export-file" />
-          <div class="export__file-options">
-            <label>Exportar como &nbsp; &#10140;</label>
-            <label for="export-file" id="toPDF"
-              >PDF <img src="/static/images/equipos/pdf.png" alt=""
-            /></label>
-            <label for="export-file" id="toJSON"
-              >JSON <img src="/static/images/equipos/json.png" alt=""
-            /></label>
-            <label for="export-file" id="toCSV"
-              >CSV <img src="/static/images/equipos/csv.png" alt=""
-            /></label>
-            <label for="export-file" id="toEXCEL"
-              >EXCEL <img src="/static/images/equipos/excel.png" alt=""
-            /></label>
-          </div>
-        </div>
-      </section>
-      <!-- Cuerpo de la tabla -->
-      <section class="table__body">
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre<span class="icon-arrow">↑</span></th>
-              <th>Goles Anotados<span class="icon-arrow">↑</span></th>
-              <th>Tarjetas Amarillas<span class="icon-arrow">↑</span></th>
-              <th>Tarjetas Rojas<span class="icon-arrow">↑</span></th>
-              <th>Asistencia<span class="icon-arrow">↑</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for jugador in jugadores %}
-            <tr>
-              <td>{{jugador['Nombre'] }} {{jugador['Apellido_Paterno'] }} {{jugador['Apellido_Materno'] }}</td>
-              <td>{{jugador['Goles_Anotados'] }}</td>
-              <td>{{jugador['Tarjetas_Amarillas'] }}</td>
-              <td>{{jugador['Tarjetas_Rojas'] }}</td>
-              <td>{{jugador['Asistencia'] }}%</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-          
-      </section>
-     </main>
+        <main class="table" id="customers_table">
+            <section class="table__header">
+                <!-- Encabezado de la tabla -->
+                <h1>Estadísticas Jugadores</h1>
+                <!-- Barra de búsqueda -->
+                <div class="input-group">
+                    <input type="search" placeholder="Buscar Estadísticas..." />
+                    <img src="/static/images/equipos/search.png" alt="" />
+                </div>
+                <!-- Opciones de exportación -->
+                <div class="export__file">
+                    <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
+                    <input type="checkbox" id="export-file" />
+                    <div class="export__file-options">
+                        <label>Exportar como &nbsp; &#10140;</label>
+                        <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt="" /></label>
+                        <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt="" /></label>
+                        <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt="" /></label>
+                        <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt="" /></label>
+                    </div>
+                </div>
+            </section>
+            <!-- Cuerpo de la tabla -->
+            <section class="table__body">
+              <table>
+                  <thead>
+                      <tr>
+                          <th>Nombre<span class="icon-arrow">↑</span></th>
+                          <th>Goles <img src="/static/images/equipos/balon.png" alt="Amarilla"><span class="icon-arrow"></span><span class="icon-arrow">↑</span></th>
+                          <th>Tarjetas <img src="/static/images/equipos/tarjeta-amarilla.png" alt="Amarilla"><span class="icon-arrow">↑</span></th>
+                          <th>Tarjetas <img src="/static/images/equipos/tarjeta-roja.png" alt="Roja"><span class="icon-arrow">↑</span></th>
+                          <th>Asistencia<span class="icon-arrow">↑</span></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for jugador in jugadores %}
+                      <tr>
+                          <td>{{jugador['Nombre'] }} {{jugador['Apellido_Paterno'] }} {{jugador['Apellido_Materno'] }}</td>
+                          <td><img src="/static/images/equipos/balon.png" alt="Goles"> {{jugador['Goles_Anotados'] }}</td>
+                          <td>{{jugador['Tarjetas_Amarillas'] }} <img src="/static/images/equipos/tarjeta-amarilla.png" alt="Amarilla"></td>
+                          <td>{{jugador['Tarjetas_Rojas'] }} <img src="/static/images/equipos/tarjeta-roja.png" alt="Roja"></td>
+                          <td>{{jugador['Asistencia'] }}%</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+            </section>
+
+        </main>
     </div>
     
     <!-- Script JavaScript -->
     <script src="static/js/estadisticas_jugadores.js"></script>
   </body>
-  
 </html>

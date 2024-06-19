@@ -5,29 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estadísticas de Jugadores</title>
     <link rel="stylesheet" type="text/css" href="/static/css/adminjugadores.css" />
-
 </head>
 <body>
-
     <main class="table" id="customers_table">
         <section class="table__header">
-            <h1>Estadisticas de jugadores</h1>
+            <h1>Estadísticas de jugadores</h1>
             <div class="input-group">
                 <input type="search" id="search-input" placeholder="Buscar Jugadores..." />
                 <img src="/static/images/equipos/search.png" alt="" />
             </div>
-            <!-- Opciones de exportación 
-            <div class="export__file">
-                <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
-                <input type="checkbox" id="export-file">
-                <div class="export__file-options">
-                    <label>Exportar como &nbsp; &#10140;</label>
-                    <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt=""></label>
-                    <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt=""></label>
-                    <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt=""></label>
-                    <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt=""></label>
-                </div>
-            </div>-->
             <div class="category-filter">
                 <label for="category-select">Seleccionar Categoría:</label>
                 <select id="category-select">
@@ -39,9 +25,7 @@
                     <option value="5">Honor</option>
                 </select>
             </div>
-    
         </section>
-    
         <section class="table__body">
             <table>
                 <thead>
@@ -52,6 +36,8 @@
                         <th>Goles Anotados<span class="icon-arrow">&UpArrow;</span></th>
                         <th>Tarjetas Amarillas<span class="icon-arrow">&UpArrow;</span></th>
                         <th>Tarjetas Rojas<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Sanciones<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Acciones<span class="icon-arrow">&UpArrow;</span></th>
                     </tr>
                 </thead>
                 {% for jugador in jugadores %}
@@ -59,26 +45,12 @@
                     <td>{{ jugador.Nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
                     <td>{{ jugador.Nombre_Equipo }}</td>
                     <td>{{ jugador.Nombre_Categoria }}</td>
+                    <td>{{ jugador.Goles_Anotados }}</td>
+                    <td>{{ jugador.Tarjetas_Amarillas }}</td>
+                    <td>{{ jugador.Tarjetas_Rojas }}</td>
+                    <td>{{ jugador.Sanciones }}</td>
                     <td>
-                        <div class="btn-group">
-                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'goles', 'aumentar')">+</button>
-                            <span>{{ jugador.Goles_Anotados }}</span>
-                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'goles', 'disminuir')">-</button>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'amarillas', 'aumentar')">+</button>
-                            <span>{{ jugador.Tarjetas_Amarillas }}</span>
-                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'amarillas', 'disminuir')">-</button>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="btn-group">
-                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'rojas', 'aumentar')">+</button>
-                            <span>{{ jugador.Tarjetas_Rojas }}</span>
-                            <button onclick="actualizarEstadisticas('{{ jugador.Nombre }}', '{{ jugador.Apellido_Paterno }}', '{{ jugador.Apellido_Materno }}', 'rojas', 'disminuir')">-</button>
-                        </div>
+                        <button onclick="abrirFormularioEstadisticas('{{ jugador.ID }}')">Registrar Estadísticas</button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -86,32 +58,59 @@
         </section>
     </main>
 
+    <!-- Modal para registrar estadísticas -->
+    <div id="modalEstadisticas" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarFormularioEstadisticas()">&times;</span>
+            <h2>Registrar Estadísticas</h2>
+            <form id="formEstadisticas">
+                <input type="hidden" id="jugadorId" name="jugadorId">
+                <label for="jornada">Jornada:</label>
+                <select id="jornada" name="jornada">
+                    {% for i in range(1, 19) %}
+                        <option value="{{ i }}">Jornada {{ i }}</option>
+                    {% endfor %}
+                </select>
+                <label for="goles">Goles:</label>
+                <input type="number" id="goles" name="goles" min="0">
+                <label for="amarillas">Tarjetas Amarillas:</label>
+                <input type="number" id="amarillas" name="amarillas" min="0">
+                <label for="rojas">Tarjetas Rojas:</label>
+                <input type="number" id="rojas" name="rojas" min="0">
+                <label for="sanciones">Sanciones:</label>
+                <input type="text" id="sanciones" name="sanciones">
+                <button type="button" onclick="registrarEstadisticas()">Registrar</button>
+            </form>
+        </div>
+    </div>
+
     <script>
-    function actualizarEstadisticas(nombre, apellidoPaterno, apellidoMaterno, tipo, accion) {
-        var formData = new FormData();
-        formData.append('nombre', nombre);
-        formData.append('apellido_paterno', apellidoPaterno);
-        formData.append('apellido_materno', apellidoMaterno);
-        formData.append('tipo', tipo);
-        formData.append('accion', accion);
-    
-        fetch('/actualizar-estadisticas', {
+    function abrirFormularioEstadisticas(jugadorId) {
+        document.getElementById("jugadorId").value = jugadorId;
+        document.getElementById("modalEstadisticas").style.display = "block";
+    }
+
+    function cerrarFormularioEstadisticas() {
+        document.getElementById("modalEstadisticas").style.display = "none";
+    }
+
+    function registrarEstadisticas() {
+        var formData = new FormData(document.getElementById("formEstadisticas"));
+        
+        fetch('/registrar-estadisticas', {
             method: 'POST',
             body: formData
         })
         .then(response => {
             if (response.ok) {
-                // Actualización exitosa, puedes realizar alguna acción adicional si lo deseas
-                console.log('Actualización exitosa');
-                // Por ejemplo, recargar la página para ver los cambios actualizados
+                console.log('Registro exitoso');
                 location.reload();
             } else {
-                // Error al actualizar, puedes mostrar un mensaje de error o realizar alguna acción adicional
-                console.error('Error al actualizar');
+                console.error('Error al registrar estadísticas');
             }
         })
         .catch(error => {
-            console.error('Error al actualizar:', error);
+            console.error('Error al registrar estadísticas:', error);
         });
     }
     </script>
