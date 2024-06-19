@@ -7,23 +7,38 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            background-image: url('/static/images/login/fondo11.jpg');
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+        .logo-container {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
         }
-        h1{
+        .logo {
+            width: 250px;
+            height: auto;
+        }
+        h1 {
             font-size: 4.5em;
-            
+            margin: 0;
+            text-align: center;
         }
         h2 {
             font-size: 2em;
             margin-top: 20px;
+            text-align: center;
         }
         .container {
             text-align: center;
+            margin-top: 20px;
         }
         .descargar {
             display: flex;
@@ -49,6 +64,21 @@
             background-color: #45a049;
         }
         @media (max-width: 600px) {
+            body {
+                background-image: url('/static/images/login/fondo11.jpg');
+                background-size: cover;
+                background-position: center;
+            }
+            .logo {
+                width: 300px; /* Aumentar el tamaño del logo en móvil */
+                height: 300px;
+            }
+            .logo-container {
+                display: flex;
+                justify-content: center;
+                width: 80%;
+                margin-top: 0;
+            }
             .descargar img {
                 width: 100px;
                 height: 80px;
@@ -56,16 +86,18 @@
             .descargar a {
                 font-size: 2.5em;
             }
-            h1{
+            h1 {
                 font-size: 4em;
-            
             }
         }
     </style>
 </head>
 <body>
+    <div class="logo-container">
+        <img src="/static/images/logo2.png" alt="Logo" class="logo">
+    </div>
     <div class="container">
-        <h1>ASOCIACIÓN DE FÚTBOL</h1> 
+        <h1>ASOCIACIÓN DE FÚTBOL</h1>
         <h1>VECINAL DE SAN IGNACIO</h1>
         <h2>REGLAMENTO Y BASES DEL CAMPEONATO</h2>
         <div class="descargar">

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asistencia de Jugadores</title>
+    <link rel="stylesheet" href="../static/css/asistencia.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__data">
+                <a href="#" class="nav__logo">
+                    <i class="ri-code-s-slash-line"></i> Asociacion Deportiva
+                </a>
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line nav__toggle-menu"></i>
+                    <i class="ri-close-line nav__toggle-close"></i>
+                </div>
+            </div>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li><a href="{{ url_for('home') }}" class="nav__link">Inicio</a></li>
+                    <li><a href="{{ url_for('noticias') }}" class="nav__link">Noticias <i class="ri-newspaper-line"></i></a></li>
+                    <li><a href="{{ url_for('galeria') }}" class="nav__link">Galeria <i class="ri-gallery-line"></i></a></li>
+                    <li class="dropdown__item">
+                        <div class="nav__link dropdown__button">
+                            Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+                        <div class="dropdown__container">
+                            <div class="dropdown__content">
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon"><i class="ri-flashlight-line"></i></div>
+                                    <span class="dropdown__title">Datos De Competencia</span>
+                                    <ul class="dropdown__list">
+                                        <li><a href="{{ url_for('resultados_partidos')}}" class="dropdown__link">Resultados Partidos</a></li>
+                                        <li><a href="{{ url_for('estadisticas_jugadores') }}" class="dropdown__link">Estadisticas Jugadores</a></li>
+                                        <li><a href="{{ url_for('mostrar_jugadores')}}" class="dropdown__link">Asistencias Jugadores</a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon"><i class="ri-file-paper-2-line"></i></div>
+                                    <span class="dropdown__title">Posiciones</span>
+                                    <ul class="dropdown__list">
+                                        <li><a href="{{ url_for('tabla_posiciones')}}" class="dropdown__link">Primera Division</a></li>
+                                        <li><a href="{{ url_for('tabla_posiciones_segunda') }}" class="dropdown__link">Segunda Division</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <h1>Asistencia de Jugadores</h1>
+    <div class="table-container">
+        <h2 class="h22">Asistencia Jugadores</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    {% for jornada in jornadas %}
+                    <th>J{{ jornada }}</th>
+                    {% endfor %}
+                    <th>Total</th>
+                    <th>%</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for jugador in jugadores %}
+                <tr>
+                    <td data-label-abbr="ID">{{ jugador.id }}</td>
+                    <td data-label-abbr="Nombre">{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
+                    {% for jornada in jornadas %}
+                    <td data-label-abbr="J{{ jornada }}">
+                        <form method="post" action="/actualizar-asistencia">
+                            <input type="hidden" name="id_jugador" value="{{ jugador.id }}">
+                            <input type="hidden" name="jornada" value="{{ jornada }}">
+                            <input type="number" name="asistencia" min="0" max="1" value="{{ asistencia_jornadas[jugador.id].get(jornada, 0) }}">
+                            <button type="submit">Guardar</button>
+                        </form>
+                    </td>
+                    {% endfor %}
+                    <td data-label-abbr="Total">{{ asistencia_total.get(jugador.id, 0) }}</td>
+                    <td data-label-abbr="%">
+                        {% if total_asistencias_posibles > 0 %}
+                            {{ '%.1f' % (asistencia_total.get(jugador.id, 0) / total_asistencias_posibles * 100) }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+
+                fetch('/actualizar-asistencia', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('Asistencia actualizada correctamente');
+                    } else {
+                        alert('Error al actualizar la asistencia');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al actualizar la asistencia');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
