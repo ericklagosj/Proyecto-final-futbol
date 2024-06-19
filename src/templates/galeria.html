@@ -4,20 +4,296 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/static/css/galeria.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Galeria</title>
   </head>
   <body>
-    <div class="container">
-      <h1>Galeria De Imagenes</h1>
+    <!--=============== HEADER ===============-->
+    <header class="header">
+      <nav class="nav container">
+        <div class="nav__data">
+          <a href="#" class="nav__logo">
+            <i class="ri-code-s-slash-line"></i> Asociacion Deportiva
+          </a>
 
-      <div class="image-container">
-        <div class="image"><img src="/static/images/galeria/f1.jpeg" alt="" /></div>
-        <div class="image"><img src="/static/images/galeria/f2.jpeg" alt="" /></div>
-        <div class="image"><img src="/static/images/galeria/f3.jpeg" alt="" /></div>
-        <div class="image"><img src="/static/images/galeria/f4.jpeg" alt="" /></div>
-        <div class="image"><img src="/static/images/galeria/f5.jpeg" alt="" /></div>
-        <div class="image"><img src="/static/images/galeria/f6.jpeg" alt="" /></div>
+          <div class="nav__toggle" id="nav-toggle">
+            <i class="ri-menu-line nav__toggle-menu"></i>
+            <i class="ri-close-line nav__toggle-close"></i>
+          </div>
+        </div>
+
+        <!--=============== NAV MENU ===============-->
+        <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+            <li>
+              <a href="#" class="nav__link">Inicio</a>
+            </li>
+            <li>
+              <a href="{{ url_for('noticias') }}" class="nav__link">
+                Noticias <i class="ri-newspaper-line"></i>
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('galeria') }}" class="nav__link">
+                Galeria <i class="ri-gallery-line"></i>
+              </a>
+            </li>
+
+            <!--=============== DROPDOWN 1 ===============-->
+            <li class="dropdown__item">
+              <div class="nav__link dropdown__button">
+                Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+              </div>
+
+              <div class="dropdown__container">
+                <div class="dropdown__content">
+                  <div class="dropdown__group">
+                    <div class="dropdown__icon">
+                      <i class="ri-flashlight-line"></i>
+                    </div>
+
+                    <span class="dropdown__title">Datos De Competencia</span>
+
+                    <ul class="dropdown__list">
+                      <li>
+                        <a
+                          href="{{ url_for('resultados_partidos')}}"
+                          class="dropdown__link"
+                          >Resultados Partidos</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="{{ url_for('estadisticas_jugadores') }}"
+                          class="dropdown__link"
+                          >Estadisticas Jugadores</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="{{ url_for('mostrar_jugadores')}}"
+                          class="dropdown__link"
+                          >Asistencias Jugadores</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="dropdown__group">
+                    <div class="dropdown__icon">
+                      <i class="ri-file-paper-2-line"></i>
+                    </div>
+
+                    <span class="dropdown__title">Posiciones</span>
+
+                    <ul class="dropdown__list">
+                      <li>
+                        <a
+                          href="{{ url_for('tabla_posiciones')}}"
+                          class="dropdown__link"
+                          >Primera Division</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="{{ url_for('tabla_posiciones_segunda') }}"
+                          class="dropdown__link"
+                          >Segunda Division</a
+                        >
+                      </li>
+                    </ul>
+                    <li>
+                      <a href="{{ url_for('login') }}" class="nav__link">
+                        Acceso <i class="ri-login-box-line"></i>
+                      </a>
+                    </li>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <section class="header-section">
+      <div class="contain">
+        <div class="header-content">
+          <h1>Asociacion Deportiva</h1>
+          <h2>Calendario</h2>
+          <div class="filters">
+            <button id="filter-by-match">FILTRAR POR PARTIDO</button>
+            <label for="competition-select">Competiciones:</label>
+            <select id="competition-select">
+              <option value="all">Todas las competiciones</option>
+              <option value="amistoso">Amistoso</option>
+              <option value="laliga">LaLiga</option>
+              <!-- Otras competiciones -->
+            </select>
+            <label for="stadium-select">Estadio:</label>
+            <select id="stadium-select">
+              <option value="all">Todos los partidos</option>
+              <option value="casa">En casa</option>
+              <option value="fuera">Fuera</option>
+            </select>
+            <button id="reset-filters">REINICIAR</button>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="calendar-section">
+      <div class="container">
+        <div class="calendar-month">
+          <h3>Julio 2024</h3>
+          <div class="match-row">
+            <div class="match-date">MIÉ. 31 JUL.</div>
+            <div class="match-details">
+              <span class="match-time">01:00</span>
+              <span class="match-type">Amistoso</span>
+              <span class="match-stadium">Estadio Quiriquina</span>
+            </div>
+            <div class="match-teams">
+              <span class="team">Quiriquina</span>
+              <span class="vs">vs.</span>
+              <span class="team">Pueblo Seco</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calendar-month">
+          <h3>Agosto 2024</h3>
+          <div class="match-row">
+            <div class="match-date">VIE. 02 AGO.</div>
+            <div class="match-details">
+              <span class="match-time">Hora por anunciarse</span>
+              <span class="match-type">Amistoso</span>
+              <span class="match-stadium">MetLife Stadium</span>
+            </div>
+            <div class="match-teams">
+              <span class="team">FC Barcelona</span>
+              <span class="vs">vs.</span>
+              <span class="team">Real Madrid</span>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-date">LUN. 05 AGO.</div>
+            <div class="match-details">
+              <span class="match-time">Hora por anunciarse</span>
+              <span class="match-type">Amistoso</span>
+              <span class="match-stadium">M&T Bank Stadium</span>
+            </div>
+            <div class="match-teams">
+              <span class="team">FC Barcelona</span>
+              <span class="vs">vs.</span>
+              <span class="team">Milan</span>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-date">DOM. 18 AGO.</div>
+            <div class="match-details">
+              <span class="match-time">Fecha y hora por anunciarse</span>
+              <span class="match-type">LaLiga</span>
+              <span class="match-stadium">Jornada 1 - Mestalla</span>
+            </div>
+            <div class="match-teams">
+              <span class="team">Valencia CF</span>
+              <span class="vs">vs.</span>
+              <span class="team">FC Barcelona</span>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-date">DOM. 25 AGO.</div>
+            <div class="match-details">
+              <span class="match-time">Fecha y hora por anunciarse</span>
+              <span class="match-type">LaLiga</span>
+              <span class="match-stadium"
+                >Jornada 2 - Estadi Olimpic Lluis Companys</span
+              >
+            </div>
+            <div class="match-teams">
+              <span class="team">FC Barcelona</span>
+              <span class="vs">vs.</span>
+              <span class="team">Athletic Club</span>
+            </div>
+          </div>
+          <div class="match-row">
+            <div class="match-date">MIÉ. 28 AGO.</div>
+            <div class="match-details">
+              <span class="match-time">Fecha y hora por anunciarse</span>
+              <span class="match-type">LaLiga</span>
+              <span class="match-stadium">Jornada 3 - Estadio de Vallecas</span>
+            </div>
+            <div class="match-teams">
+              <span class="team">Rayo Vallecano</span>
+              <span class="vs">vs.</span>
+              <span class="team">FC Barcelona</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Continuar con los otros meses -->
+      </div>
+    </section>
+
+    <script>
+      document
+        .getElementById("reset-filters")
+        .addEventListener("click", function () {
+          document.getElementById("competition-select").value = "all";
+          document.getElementById("stadium-select").value = "all";
+        });
+
+      document
+        .getElementById("competition-select")
+        .addEventListener("change", function () {
+          filterMatches();
+        });
+
+      document
+        .getElementById("stadium-select")
+        .addEventListener("change", function () {
+          filterMatches();
+        });
+
+      function filterMatches() {
+        const competition = document.getElementById("competition-select").value;
+        const stadium = document.getElementById("stadium-select").value;
+        const rows = document.querySelectorAll(".match-row");
+        rows.forEach((row) => {
+          const matchType = row
+            .querySelector(".match-type")
+            .textContent.toLowerCase();
+          const matchStadium = row
+            .querySelector(".match-stadium")
+            .textContent.toLowerCase();
+          const matchTeams = row
+            .querySelector(".match-teams")
+            .textContent.toLowerCase();
+          const isCompetitionMatch =
+            competition === "all" || matchType.includes(competition);
+          const isStadiumMatch =
+            stadium === "all" ||
+            matchStadium.includes(stadium) ||
+            matchTeams.includes(stadium);
+          if (isCompetitionMatch && isStadiumMatch) {
+            row.style.display = "flex";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      }
+    </script>
+    <script src="/static/js/noticias.js" async defer></script>
   </body>
 </html>

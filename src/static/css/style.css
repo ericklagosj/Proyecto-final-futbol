@@ -11905,3 +11905,186 @@ footer > p {
   vertical-align: middle; /* Alinea verticalmente el logo con el texto */
   display: inline-block; /* Hace que el logo se comporte como un bloque en línea */
 }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  width: 85%;
+  margin: auto;
+  overflow: hidden;
+}
+
+.header-section {
+  background: #1b6d85;
+  color: #000;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.header-content h1 {
+  margin-bottom: 10px;
+}
+
+.header-content .filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-content select,
+.header-content button {
+  padding: 5px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.header-content button {
+  background-color: #ff3333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.header-content button:hover {
+  background-color: #cc0000;
+}
+
+.results-section {
+  background-color: #fff;
+  padding: 20px 0;
+}
+
+.results-header {
+  border-bottom: 2px solid #333;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.results-header h3 {
+  color: #ff3333;
+}
+
+.results-table {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.result-date {
+  font-weight: bold;
+  flex: 1;
+}
+
+.result-competition {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.competition-logo {
+  width: 30px;
+  margin-right: 10px;
+}
+
+.result-details {
+  flex: 2;
+}
+
+.result-score {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 2;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.team-logo {
+  width: 30px;
+}
+
+.score-box {
+  font-size: 24px;
+  font-weight: bold;
+  background-color: #007bff;
+  color: #fff;
+  padding: 0 10px;
+  border-radius: 5px;
+}
+
+.result-link a {
+  color: #ff3333;
+  text-decoration: none;
+}
+
+.result-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .results-table {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .result-row {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .result-score {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .team,
+  .score-box {
+    flex: 1;
+    text-align: center;
+  }
+
+  .result-link a {
+    display: block;
+    margin-top: 10px;
+  }
+}

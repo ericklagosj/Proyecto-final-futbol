@@ -1,25 +1,18 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>ListadoEquipos</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/estadisticas_jugadores.css" />
-
-    <!--=============== REMIXICONS ===============-->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-
+    <title>Calendario Partidos</title>
+    <link rel="stylesheet" href="../static/css/calendario.css" />
   </head>
-
   <body>
-
     <!--=============== HEADER ===============-->
     <header class="header">
       <nav class="nav container">
         <div class="nav__data">
           <a href="#" class="nav__logo">
-            <i class="ri-code-s-slash-line"></i> Asociacion Deportiva 
+            <i class="ri-code-s-slash-line"></i> Asociacion Deportiva
           </a>
 
           <div class="nav__toggle" id="nav-toggle">
@@ -42,6 +35,11 @@
             <li>
               <a href="{{ url_for('galeria') }}" class="nav__link">
                 Galeria <i class="ri-gallery-line"></i>
+              </a>
+            </li>
+            <li>
+              <a href="{{ url_for('calendario') }}" class="nav__link">
+                Calendario <i class="ri-gallery-line"></i>
               </a>
             </li>
 
@@ -121,71 +119,5 @@
         </div>
       </nav>
     </header>
-    <div class="content">
-     <main class="table" id="customers_table">
-      <section class="table__header">
-        <!-- Encabezado de la tabla -->
-        <h1>Estadisticas Jugadores</h1>
-        <!-- Barra de búsqueda -->
-        <div class="input-group">
-          <input type="search" placeholder="Buscar Estadisticas..." />
-          <img src="/static/images/equipos/search.png" alt="" />
-        </div>
-        <!-- Opciones de exportación -->
-        <div class="export__file">
-          <label
-            for="export-file"
-            class="export__file-btn"
-            title="Exportar Archivo"
-          ></label>
-          <input type="checkbox" id="export-file" />
-          <div class="export__file-options">
-            <label>Exportar como &nbsp; &#10140;</label>
-            <label for="export-file" id="toPDF"
-              >PDF <img src="/static/images/equipos/pdf.png" alt=""
-            /></label>
-            <label for="export-file" id="toJSON"
-              >JSON <img src="/static/images/equipos/json.png" alt=""
-            /></label>
-            <label for="export-file" id="toCSV"
-              >CSV <img src="/static/images/equipos/csv.png" alt=""
-            /></label>
-            <label for="export-file" id="toEXCEL"
-              >EXCEL <img src="/static/images/equipos/excel.png" alt=""
-            /></label>
-          </div>
-        </div>
-      </section>
-      <!-- Cuerpo de la tabla -->
-      <section class="table__body">
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre<span class="icon-arrow">↑</span></th>
-              <th>Goles Anotados<span class="icon-arrow">↑</span></th>
-              <th>Tarjetas Amarillas<span class="icon-arrow">↑</span></th>
-              <th>Tarjetas Rojas<span class="icon-arrow">↑</span></th>
-              <th>Asistencia<span class="icon-arrow">↑</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for jugador in jugadores %}
-            <tr>
-              <td>{{jugador['Nombre'] }} {{jugador['Apellido_Paterno'] }} {{jugador['Apellido_Materno'] }}</td>
-              <td>{{jugador['Goles_Anotados'] }}</td>
-              <td>{{jugador['Tarjetas_Amarillas'] }}</td>
-              <td>{{jugador['Tarjetas_Rojas'] }}</td>
-              <td>{{jugador['Asistencia'] }}%</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-          
-      </section>
-     </main>
-    </div>
-    
-    <!-- Script JavaScript -->
-    <script src="static/js/estadisticas_jugadores.js"></script>
   </body>
-  
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-05-2024 a las 03:58:20
+-- Tiempo de generación: 15-06-2024 a las 05:48:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -207,32 +207,33 @@ CREATE TABLE `equipo` (
   `Ano_Fundacion` year(4) DEFAULT NULL,
   `Division_ID` int(11) DEFAULT NULL,
   `Estadio_ID` int(11) DEFAULT NULL,
-  `Categoria_ID` int(11) NOT NULL
+  `Categoria_ID` int(11) NOT NULL,
+  `Imagen` varchar(55) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `equipo`
 --
 
-INSERT INTO `equipo` (`ID`, `Nombre`, `Ciudad`, `Ano_Fundacion`, `Division_ID`, `Estadio_ID`, `Categoria_ID`) VALUES
-(1, 'Los Tilos', 'Los Tilos', '0000', 1, 1, 1),
-(2, 'Selva Negra', 'Selva Negra', '0000', 1, 2, 1),
-(3, 'Cantarrana', 'Cantarrana', '0000', 1, 3, 1),
-(4, 'Santa Juana', 'Santa Juana', '0000', 1, 4, 1),
-(5, 'Alianza', 'Alianza', '0000', 1, 5, 1),
-(6, 'Quiriquina', 'Quiriquina', '0000', 1, 6, 1),
-(7, 'El Quillay', 'El Quillay', '0000', 1, 7, 1),
-(8, 'Renacer', 'Renacer', '0000', 1, 8, 1),
-(9, 'Pueblo Seco', 'Pueblo Seco', '0000', 1, 9, 1),
-(10, 'La Greda', 'La Greda', '0000', 1, 10, 1),
-(11, 'San Ignacio', 'San Ignacio', '0000', 2, 11, 2),
-(12, 'Unión Barrio Alto', 'Unión Barrio Alto', '0000', 2, 12, 2),
-(13, 'San Miguel', 'San Miguel', '0000', 2, 13, 2),
-(14, 'El Lucero', 'El Lucero', '0000', 2, 14, 2),
-(15, 'Simón Bolívar', 'Simón Bolívar', '0000', 2, 15, 2),
-(16, 'Los Maitenes', 'Los Maitenes', '0000', 2, 16, 2),
-(17, 'Las Quilas', 'Las Quilas', '0000', 2, 17, 2),
-(18, 'Real Pueblo Seco', 'Real Pueblo Seco', '0000', 2, 18, 2);
+INSERT INTO `equipo` (`ID`, `Nombre`, `Ciudad`, `Ano_Fundacion`, `Division_ID`, `Estadio_ID`, `Categoria_ID`, `Imagen`) VALUES
+(1, 'Los Tilos', 'Los Tilos', '0000', 1, 1, 1, 'Los Tilos.png'),
+(2, 'Selva Negra', 'Selva Negra', '0000', 1, 2, 1, 'Selva Negra.png'),
+(3, 'Cantarrana', 'Cantarrana', '0000', 1, 3, 1, 'canta-rana.jpg'),
+(4, 'Santa Juana', 'Santa Juana', '0000', 1, 4, 1, 'Santa Juana.png'),
+(5, 'Alianza', 'Alianza', '0000', 1, 5, 1, 'Alianza.png'),
+(6, 'Quiriquina', 'Quiriquina', '0000', 1, 6, 1, 'Quiriquina.png'),
+(7, 'El Quillay', 'El Quillay', '0000', 1, 7, 1, 'El Quillay.png'),
+(8, 'Renacer', 'Renacer', '0000', 1, 8, 1, 'Renacer.png'),
+(9, 'Pueblo Seco', 'Pueblo Seco', '0000', 1, 9, 1, 'pueblo-seco.png'),
+(10, 'La Greda', 'La Greda', '0000', 1, 10, 1, 'La Greda.png'),
+(11, 'San Ignacio', 'San Ignacio', '0000', 2, 11, 2, 'La Greda.png'),
+(12, 'Unión Barrio Alto', 'Unión Barrio Alto', '0000', 2, 12, 2, 'La Greda.png'),
+(13, 'San Miguel', 'San Miguel', '0000', 2, 13, 2, 'La Greda.png'),
+(14, 'El Lucero', 'El Lucero', '0000', 2, 14, 2, 'La Greda.png'),
+(15, 'Simón Bolívar', 'Simón Bolívar', '0000', 2, 15, 2, 'La Greda.png'),
+(16, 'Los Maitenes', 'Los Maitenes', '0000', 2, 16, 2, 'La Greda.png'),
+(17, 'Las Quilas', 'Las Quilas', '0000', 2, 17, 2, 'La Greda.png'),
+(18, 'Real Pueblo Seco', 'Real Pueblo Seco', '0000', 2, 18, 2, 'La Greda.png');
 
 -- --------------------------------------------------------
 
@@ -478,91 +479,99 @@ INSERT INTO `jornada` (`ID`, `Nombre`) VALUES
 CREATE TABLE `jugador` (
   `ID` int(11) NOT NULL,
   `Nombre` varchar(100) DEFAULT NULL,
+  `Apellido_Paterno` varchar(50) NOT NULL,
+  `Apellido_Materno` varchar(50) NOT NULL,
+  `rut` varchar(12) NOT NULL,
   `Fecha_Nacimiento` date DEFAULT NULL,
   `Posicion_ID` int(11) DEFAULT NULL,
   `Categoria_ID` int(11) DEFAULT NULL,
-  `Equipo_ID` int(11) DEFAULT NULL,
-  `Apellido_Paterno` varchar(50) DEFAULT NULL,
-  `Apellido_Materno` varchar(50) DEFAULT NULL,
-  `rut` varchar(12) NOT NULL
+  `Equipo_ID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `jugador`
 --
 
-INSERT INTO `jugador` (`ID`, `Nombre`, `Fecha_Nacimiento`, `Posicion_ID`, `Categoria_ID`, `Equipo_ID`, `Apellido_Paterno`, `Apellido_Materno`, `rut`) VALUES
-(2, 'Pedro', '2000-01-01', 1, 1, 10, ' De Paul', 'Pascual', '21.454.151-7'),
-(3, 'José', '1978-01-01', 1, 1, 7, 'Murillo', 'Raphina', '20.454.151-7'),
-(4, 'Luis', '2000-01-01', 2, 4, 1, 'Puyol', 'Salvo', '21.454.151-6'),
-(5, 'Juan', '2006-01-01', 2, 1, 7, 'Vela', 'Veloso', '16.845.948-7'),
-(6, 'Pedro ', '2000-01-01', 2, 1, 13, 'Caceres', 'Mandril', '19.845.948-9'),
-(7, 'José ', '1995-01-01', 2, 1, 3, 'Varas', 'Roger', '20.154.957-7'),
-(8, 'Rodrigo', '1999-01-01', 2, 1, 1, 'Barbosa', 'Roque', '21.155-415-1'),
-(9, 'Juan', '1997-01-01', 2, 1, 4, 'Garrido', 'Garrido', '17-897-256-k'),
-(51, 'Maximo', '1808-03-08', 1, 1, 2, 'carles', 'dukovski', '5.235.789-9'),
-(52, 'dtyutyutdu', '1808-03-08', 1, 1, 2, 'carles', 'dukovski', '5.235.789-8'),
-(54, 'roger', '1990-03-03', 2, 1, 3, 'mujica', 'alvareez', '20.689.489-2'),
-(55, 'Patricio Hernán', '1990-03-06', 3, 1, 12, 'Chavéz ', 'Benavente', '11.958.762-k'),
-(57, 'luis', '2011-01-28', NULL, 1, 1, 'jara', 'jaramillo', '15.506.150-8'),
-(58, 'Andres', '2013-01-24', NULL, 1, 1, 'Ferrer', 'Sandoval', '22.548.789-7'),
-(59, 'Emilio', '2002-01-25', NULL, 2, 2, 'Escobar', '', '25.245.250-0'),
-(60, 'gaspar', '2010-02-25', NULL, 1, 1, 'marquez', 'henriquez', '20.458.164-1'),
-(61, 'Rodrigo', '1983-01-13', NULL, 3, 1, 'Echeverria', 'Carrasco', '15.124.153-7'),
-(62, 'Matias', '1982-07-17', NULL, 3, 1, 'Cancino', 'Cofre', '16.489.156-1'),
-(63, 'Jose', '1974-02-17', NULL, 4, 1, 'Facundo', 'Kaf', '11.256.155-k'),
-(64, 'Javier|', '1977-02-27', NULL, 5, 1, 'Ramirez', 'Roy', '10.518.151-1'),
-(65, 'gabriel', '2024-03-22', NULL, 1, 1, 'Torres', 'alvareez', '200.151.154-'),
-(66, 'diego', '2012-06-02', NULL, 1, 5, 'Torres', 'Benavente', '20.111.440-6'),
-(77, 'Pedro José', '1999-05-12', 1, 1, 1, 'González', 'Sánchez', '11.243.535-9'),
-(78, 'Juan Carlos', '2001-08-25', 2, 1, 2, 'Hernández', 'López', '22.456.789-0'),
-(79, 'Diego Andrés', '1998-03-17', 3, 2, 3, 'Martínez', 'Pérez', '33.987.654-1'),
-(80, 'Carlos Luis', '2000-11-08', 1, 2, 4, 'Gómez', 'Rodríguez', '44.654.987-2'),
-(81, 'José Luis', '1997-07-20', 2, 1, 5, 'Pérez', 'González', '55.789.654-3'),
-(82, 'Juan Andrés', '2002-02-14', 3, 2, 6, 'López', 'Martínez', '66.321.987-4'),
-(83, 'Luis Miguel', '1996-09-30', 1, 1, 7, 'González', 'Hernández', '77.456.789-5'),
-(84, 'Pedro Pablo', '2003-04-05', 2, 2, 8, 'Rodríguez', 'Sánchez', '88.789.654-6'),
-(85, 'Andrés José', '1995-12-18', 3, 1, 9, 'Martínez', 'Gómez', '99.987.654-7'),
-(86, 'Miguel Juan', '2004-01-21', 1, 1, 10, 'Sánchez', 'López', '10.321.987-8'),
-(87, 'María Alejandra', '1998-06-02', 2, 3, 11, 'Hernández', 'Gómez', '12.456.789-0'),
-(88, 'Ana María', '2000-12-15', 3, 3, 12, 'López', 'Rodríguez', '13.987.654-1'),
-(89, 'José Luis', '1997-07-20', 2, 1, 13, 'Pérez', 'González', '14.654.321-2'),
-(90, 'Juan Pablo', '2002-10-10', 1, 4, 14, 'González', 'Martínez', '15.789.654-3'),
-(91, 'María José', '1996-11-30', 3, 4, 15, 'Gómez', 'Hernández', '16.654.321-4'),
-(92, 'Pedro Luis', '2003-09-25', 2, 5, 16, 'Martínez', 'Sánchez', '17.987.654-5'),
-(93, 'Luis Andrés', '1995-04-14', 1, 5, 17, 'Rodríguez', 'López', '18.654.321-6'),
-(94, 'Ana María', '1999-03-20', 3, 3, 18, 'Hernández', 'Gómez', '19.987.654-7'),
-(95, 'Pablo Andrés', '2005-08-10', 2, 2, 1, 'López', 'Pérez', '20.654.321-8'),
-(96, 'Carlos Eduardo', '2001-01-15', 1, 4, 2, 'González', 'Martínez', '21.987.654-0'),
-(97, 'María Alejandra', '1998-06-02', 2, 4, 3, 'Gómez', 'Hernández', '22.654.321-1'),
-(98, 'Juan Pablo', '2002-10-10', 3, 5, 4, 'Hernández', 'Rodríguez', '23.987.654-2'),
-(99, 'Ana María', '1996-11-30', 1, 5, 5, 'Martínez', 'Sánchez', '24.654.321-3'),
-(100, 'Pedro Luis', '2003-09-25', 2, 3, 6, 'Sánchez', 'López', '25.987.654-4'),
-(101, 'Luis Andrés', '1995-04-14', 3, 3, 7, 'López', 'González', '26.654.321-5'),
-(102, 'Ana María', '1999-03-20', 1, 1, 8, 'Gómez', 'Martínez', '27.987.654-6'),
-(103, 'Pablo Andrés', '2005-08-10', 2, 1, 9, 'Martínez', 'Hernández', '28.654.321-7'),
-(104, 'Carlos Eduardo', '2001-01-15', 3, 2, 10, 'Hernández', 'López', '29.987.654-8'),
-(105, 'María Alejandra', '1998-06-02', 1, 2, 11, 'López', 'Gómez', '30.654.321-9'),
-(106, 'Juan Pablo', '2002-10-10', 2, 3, 12, 'Gómez', 'Martínez', '31.987.654-0'),
-(107, 'Ana María', '1996-11-30', 3, 3, 13, 'Martínez', 'Hernández', '32.654.321-1'),
-(108, 'Pedro Luis', '2003-09-25', 1, 4, 14, 'Hernández', 'López', '33.987.654-2'),
-(109, 'Luis Andrés', '1995-04-14', 2, 4, 15, 'López', 'González', '34.654.321-3'),
-(110, 'Ana María', '1999-03-20', 3, 5, 16, 'González', 'Martínez', '35.987.654-4'),
-(111, 'Pablo Andrés', '2005-08-10', 1, 5, 17, 'Martínez', 'Hernández', '36.654.321-5'),
-(112, 'Carlos Eduardo', '2001-01-15', 2, 3, 18, 'Hernández', 'López', '37.987.654-6'),
-(113, 'María Alejandra', '1998-06-02', 3, 3, 1, 'López', 'Gómez', '38.654.321-7'),
-(114, 'Juan Pablo', '2002-10-10', 1, 1, 2, 'Gómez', 'Martínez', '39.987.654-8'),
-(115, 'Ana María', '1996-11-30', 2, 2, 3, 'Martínez', 'Hernández', '40.654.321-9'),
-(116, 'Pedro Luis', '2003-09-25', 3, 3, 4, 'Hernández', 'López', '41.987.654-0'),
-(117, 'Luis Andrés', '1995-04-14', 1, 3, 5, 'López', 'González', '42.654.321-1'),
-(118, 'Ana María', '1999-03-20', 2, 4, 6, 'González', 'Martínez', '43.987.654-2'),
-(119, 'Pablo Andrés', '2005-08-10', 3, 5, 7, 'Martínez', 'Hernández', '44.654.321-3'),
-(120, 'Carlos Eduardo', '2001-01-15', 1, 1, 8, 'Hernández', 'López', '45.987.654-4'),
-(121, 'María Alejandra', '1998-06-02', 2, 2, 9, 'López', 'Gómez', '46.654.321-5'),
-(122, 'Juan Pablo', '2002-10-10', 3, 3, 10, 'Gómez', 'Martínez', '47.987.654-6'),
-(123, 'Ana María', '1996-11-30', 1, 3, 11, 'Martínez', 'Hernández', '48.654.321-7'),
-(124, 'Pedro Luis', '2003-09-25', 2, 4, 12, 'Hernández', 'López', '49.987.654-8'),
-(125, 'Luis Andrés', '1995-04-14', 3, 5, 13, 'López', 'González', '50.654.321-9');
+INSERT INTO `jugador` (`ID`, `Nombre`, `Apellido_Paterno`, `Apellido_Materno`, `rut`, `Fecha_Nacimiento`, `Posicion_ID`, `Categoria_ID`, `Equipo_ID`) VALUES
+(1, 'Thomas', 'Acuña', '', '23.490.298-9', '2008-01-01', 1, 1, 5),
+(2, 'Felipe', 'Acuña Alarcon ', '', '22.837.640-k', '2008-01-01', 1, 1, 5),
+(3, 'Matias', 'Acuña Leyton', '', '22.375.393-0', '2008-01-01', 1, 1, 5),
+(4, 'Matias', 'Aedo Sepúlveda', '', '22.102.965-8', '2008-01-01', 1, 1, 5),
+(5, 'Benjamin', 'Aranibal Marchant', '', '22.309.720-0', '2008-01-01', 1, 1, 5),
+(6, 'Vicente', 'Brevis Vasquez', '', '22.449.875-6', '2008-01-01', 1, 1, 5),
+(7, 'Juan Pablo', 'Contreras', '', '22.866.348-4', '2008-01-01', 1, 1, 5),
+(8, 'Vicente', 'Godoy Palma', '', '22.074.956-8', '2008-01-01', 1, 1, 5),
+(9, 'Martin', 'Gutierrez', '', '22.813.024-9', '2008-01-01', 1, 1, 5),
+(10, 'Hector', 'Lagos Garrido', '', '22.248.046-9', '2008-01-01', 1, 1, 5),
+(11, 'Renato', 'Luna ', '', '22.874.655-k', '2008-01-01', 1, 1, 5),
+(12, 'Felipe', 'Mendez Boguez', '', '22.792.541-8', '2008-01-01', 1, 1, 5),
+(13, 'Bastian', 'Muñoz', '', '22.497.248-2', '2008-01-01', 1, 1, 5),
+(14, 'Vicente', 'Navarrete', '', '23.161.484-2', '2008-01-01', 1, 1, 5),
+(15, 'Fabian', 'Novoa Mella', '', '22.375.710-3', '2008-01-01', 1, 1, 5),
+(16, 'Bastian', 'Palma', '', '22.786.510-5', '2008-01-01', 1, 1, 5),
+(17, 'Vicente', 'Riquelme Valencia', '', '23.221.778-2', '2008-01-01', 1, 1, 5),
+(18, 'Giovani', 'Rubilar Toledo', '', '22.704.887-4', '2008-01-01', 1, 1, 5),
+(19, 'Francisco', 'Rubio Rosas', '', '22.377.158-0', '2008-01-01', 1, 1, 5),
+(20, 'Jonathan', 'Sandoval', '', '22.166.449-3', '2008-01-01', 1, 1, 5),
+(21, 'Rubén', 'Solis', '', '22.595.983-8', '2008-01-01', 1, 1, 5),
+(22, 'Marco', 'Solis Correa', '', '22.595.954-4', '2008-01-01', 1, 1, 5),
+(23, 'Bastian', 'Urrejola Perez', '', '22.279.051-4', '2008-01-01', 1, 1, 5),
+(24, 'Vicente', 'Vega Concha', '', '23.133.521-8', '2008-01-01', 1, 1, 5),
+(25, 'Mario', 'Aedo Urra', '', '22.618.799-5', '2008-01-01', 1, 1, 8),
+(26, 'Carlos', 'Baeza Baeza', '', '22.532.476', '2008-01-01', 1, 1, 8),
+(27, 'Rodrigo', 'Contreras Baeza', '', '22.223.483-2', '2008-01-01', 1, 1, 8),
+(28, 'Luis', 'Jara Ruiz', '', '22.085.402.7', '2008-01-01', 1, 1, 8),
+(29, 'Jorge', 'Lagos Oyarzún', '', '22.373.369-7', '2008-01-01', 1, 1, 8),
+(30, 'Benjamin', 'Muñoz Otarola', '', '22.980.577-0', '2008-01-01', 1, 1, 8),
+(31, 'Jorge', 'Orellana Navarrete', '', '22.641.146-1', '2008-01-01', 1, 1, 8),
+(32, 'Maximiliano', 'Osorio jara', '', '22.017.672-k', '2008-01-01', 1, 1, 8),
+(33, 'Juan ', 'Rodríguez Higuera ', '', '22.089.564-5', '2008-01-01', 1, 1, 8),
+(34, 'Vicente', 'Roman Matus', '', '22.852.989-3', '2008-01-01', 1, 1, 8),
+(35, 'Vicente', 'Rosales Herrera', '', '22.520.823-9', '2008-01-01', 1, 1, 8),
+(36, 'Guillermo ', 'Rosales Rivas', '', '22.597.016-5', '2008-01-01', 1, 1, 8),
+(37, 'Cristian', 'Saavedra Navarrete', '', '22.938.570-4', '2008-01-01', 1, 1, 8),
+(38, 'Claudio ', 'Sandoval Araya', '', '22.667.692-9', '2008-01-01', 1, 1, 8),
+(39, 'Carlos', 'Sandoval Sepulveda', '', '22.363.174-6', '2008-01-01', 1, 1, 8),
+(40, 'Joel', 'Soto Lazo', '', '23.213.500-K', '2008-01-01', 1, 1, 8),
+(41, 'Gabriel ', 'Toro Narvaez ', '', '22.778.426-1', '2008-01-01', 1, 1, 8),
+(42, 'Diego', 'Yañez Alcarruz', '', '22.401.371-k', '2008-01-01', 1, 1, 8),
+(43, 'Luis Ignacio', 'Ruiz', '', '22.085.402-7', '2008-01-01', 1, 1, 8),
+(44, 'Thomas', 'Aedo  ', '', '23.866.395-3', '2008-01-01', 1, 1, 10),
+(45, 'Javier', 'Aedo Espinoza', '', '22.278.798-k', '2008-01-01', 1, 1, 10),
+(46, 'Leonardo', 'Barrera Aedo', '', '23.565.750-3', '2008-01-01', 1, 1, 10),
+(47, 'Vicente', 'Briones Reyes', '', '22.094.510-3', '2008-01-01', 1, 1, 10),
+(48, 'Alan ', 'Cortés Poblete', '', '23.873.106-1', '2008-01-01', 1, 1, 10),
+(49, 'Bejamin', 'Cortes Ramirez', '', '22.188.064-1', '2008-01-01', 1, 1, 10),
+(50, 'Tomas', 'Franco Sepúlveda', '', '23.778.392-1', '2008-01-01', 1, 1, 10),
+(51, 'Boris', 'Ortiz Lavín', '', '22.513.867-2', '2008-01-01', 1, 1, 10),
+(52, 'José', 'Parra Osorio', '', '22.793.174-4', '2008-01-01', 1, 1, 10),
+(53, 'Matias', 'Perez Sepúlveda', '', '22.521.787-4', '2008-01-01', 1, 1, 10),
+(54, 'José', 'Salazar Ponce', '', '22.777.675-7', '2008-01-01', 1, 1, 10),
+(55, 'Damian', 'Sandoval Polanco', '', '23.003.858-9', '2008-01-01', 1, 1, 10),
+(56, 'Cristopher', 'Sandoval Soto', '', '22.042.537-1', '2008-01-01', 1, 1, 10),
+(57, 'Matias', 'Troncoso Rivas', '', '22.517.232-3', '2008-01-01', 1, 1, 10),
+(58, 'Fernando', 'Troncoso Salazar', '', '22.420.036-6', '2008-01-01', 1, 1, 10),
+(59, 'Cristobal', 'Venegas Chavez', '', '23.866.146-3', '2008-01-01', 1, 1, 10),
+(60, 'Ignacio', 'Venegas Gutiérrez', '', '22.358.685-6', '2008-01-01', 1, 1, 10),
+(61, 'Diego', 'Barriga Pavez', '', '22.362.268-2', '2008-01-01', 1, 1, 3),
+(62, 'Cristopher', 'Benavente S.', '', '22.433.419-2', '2008-01-01', 1, 1, 3),
+(63, 'Tomas', 'Cadiz Alvarez', '', '22.623.788-7', '2008-01-01', 1, 1, 3),
+(64, 'Felipe', 'Campos Godoy', '', '22.123.517-7', '2008-01-01', 1, 1, 3),
+(65, 'Victor', 'Contreras Mora', '', '22.210.394-0', '2008-01-01', 1, 1, 3),
+(66, 'Daniel', 'Diaz Alarcon ', '', '22.490.929-2', '2008-01-01', 1, 1, 3),
+(67, 'Francisco', 'Godoy Bustamante', '', '22.234.907-0', '2008-01-01', 1, 1, 3),
+(68, 'Lucas', 'Gonzalez ', '', '22.167.081-7', '2008-01-01', 1, 1, 3),
+(69, 'Francisco', 'Gonzalez Pedrero', '', '22.649.887-7', '2008-01-01', 1, 1, 3),
+(70, 'Alonso', 'Otárola Riquelme', '', '22.436.172-6', '2008-01-01', 1, 1, 3),
+(71, 'Patricio', 'Palma Jara', '', '22.262.127-5', '2008-01-01', 1, 1, 3),
+(72, 'Amaro', 'Pinto Soto', '', '22.212.427-1', '2008-01-01', 1, 1, 3),
+(73, 'Rafael', 'Ponce Astroza', '', '22.943.301-1', '2008-01-01', 1, 1, 3),
+(74, 'Maximiliano', 'Rios', '', '22.168.436-2', '2008-01-01', 1, 1, 3),
+(75, 'Matias', 'Riquelme Cerda', '', '22.555.504-5', '2008-01-01', 1, 1, 3),
+(76, 'Rodrigo', 'Sandoval Sandoval', '', '22.540.395-3', '2008-01-01', 1, 1, 3),
+(77, 'Manuel', 'Sepulveda Alarcón', '', '22.657.413-1', '2008-01-01', 1, 1, 3),
+(78, 'Cristopher', 'Sepulveda Riquelme', '', '22.374.095-5', '2008-01-01', 1, 1, 3),
+(79, 'Lucas', 'Soto Gutiérrez', '', '22.578.902-9', '2008-01-01', 1, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -601,20 +610,20 @@ CREATE TABLE `partido` (
 --
 
 INSERT INTO `partido` (`ID`, `Goles_Local`, `Goles_Visita`, `Ubicacion`, `Fecha`, `Equipo_Local_ID`, `Equipo_Visitante_ID`, `ID_categoria`, `ID_jornada`, `Resultado`) VALUES
-(1, 10, 7, 'Estadio X', '2024-03-30', 1, 2, 1, 1, 'local_gana'),
+(1, 3, 3, 'Estadio X', '2024-03-30', 1, 2, 1, 1, 'empate'),
 (2, 3, 2, 'Estadio Y', '2024-03-31', 3, 4, 1, 1, 'local_gana'),
-(3, 1, 0, 'Estadio Z', '2024-03-31', 5, 6, 1, 1, 'local_gana'),
+(3, 4, 4, 'Estadio Z', '2024-03-31', 5, 6, 1, 1, 'empate'),
 (4, 7, 0, 'Estadio X', '2024-03-30', 1, 2, 2, 1, ''),
-(5, 2, 3, 'Estadio Y', '2024-03-31', 3, 4, 2, 1, 'Perdió'),
+(5, 2, 3, 'Estadio Y', '2024-03-31', 3, 4, 2, 1, 'visitante_gana'),
 (6, 1, 0, 'Estadio Z', '2024-03-31', 5, 6, 2, 1, ''),
 (7, 8, 6, 'Estadio X', '2024-03-30', 1, 2, 3, 1, ''),
 (8, 2, 0, 'Estadio Y', '2024-03-31', 3, 4, 3, 1, ''),
 (9, 1, 4, 'Estadio Z', '2024-03-31', 5, 6, 3, 1, ''),
 (10, 3, 4, 'Estadio X', '2024-03-30', 1, 2, 1, 2, 'visitante_gana'),
-(11, 2, 3, 'Estadio Y', '2024-03-31', 3, 4, 1, 2, 'visitante_gana'),
-(12, 0, 5, 'Estadio Z', '2024-03-31', 5, 6, 1, 2, ''),
-(13, 1, 2, 'Estadio A', '2024-04-01', 7, 8, 2, 3, ''),
-(14, 0, 1, 'Estadio B', '2024-04-02', 9, 10, 2, 3, ''),
+(11, 3, 3, 'Estadio Y', '2024-03-31', 3, 4, 1, 2, 'empate'),
+(12, 5, 0, 'Estadio Z', '2024-03-31', 5, 6, 1, 2, 'local_gana'),
+(13, 3, 2, 'Estadio A', '2024-04-01', 7, 8, 2, 3, 'local_gana'),
+(14, 2, 1, 'Estadio B', '2024-04-02', 9, 10, 2, 3, 'local_gana'),
 (15, 2, 0, 'Estadio C', '2024-04-02', 11, 12, 2, 3, ''),
 (16, 1, 1, 'Estadio D', '2024-04-01', 13, 14, 3, 3, ''),
 (17, 3, 2, 'Estadio E', '2024-04-03', 15, 16, 3, 3, ''),
@@ -628,7 +637,7 @@ INSERT INTO `partido` (`ID`, `Goles_Local`, `Goles_Visita`, `Ubicacion`, `Fecha`
 (25, 3, 1, 'Estadio M', '2024-04-01', 13, 14, 1, 5, ''),
 (26, 1, 0, 'Estadio N', '2024-04-02', 15, 16, 1, 5, ''),
 (27, 2, 2, 'Estadio O', '2024-04-02', 17, 18, 1, 5, ''),
-(28, 0, 2, 'Estadio P', '2024-04-01', 1, 2, 2, 5, ''),
+(28, 0, 2, 'Estadio P', '2024-04-01', 1, 2, 2, 5, 'visitante_gana'),
 (29, 2, 1, 'Estadio Q', '2024-04-03', 3, 4, 2, 5, ''),
 (30, 1, 0, 'Estadio R', '2024-04-03', 5, 6, 2, 5, ''),
 (31, 1, 2, 'Estadio S', '2024-04-01', 7, 8, 3, 6, ''),
@@ -713,150 +722,10 @@ INSERT INTO `roles` (`id`, `Tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tabla_adulta_p`
+-- Estructura de tabla para la tabla `tabla_1_p`
 --
 
-CREATE TABLE `tabla_adulta_p` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
-  `Posicion` int(11) DEFAULT NULL,
-  `Equipo_ID` int(11) DEFAULT NULL,
-  `Puntos` int(11) DEFAULT NULL,
-  `P_Jugados` int(11) DEFAULT NULL,
-  `P_Ganados` int(11) DEFAULT NULL,
-  `P_Empatados` int(11) DEFAULT NULL,
-  `P_Perdidos` int(11) DEFAULT NULL,
-  `Goles_Favor` int(11) DEFAULT NULL,
-  `Goles_Contra` int(11) DEFAULT NULL,
-  `ID_DIVISION` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tabla_adulta_p`
---
-
-INSERT INTO `tabla_adulta_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
-(1, 1, 1, 50, 10, 10, 0, 0, 20, 10, 1),
-(2, 2, 2, 40, 10, 9, 1, 0, 15, 12, 1),
-(3, 3, 3, 35, 10, 9, 0, 1, 18, 15, 1),
-(4, 4, 4, 30, 10, 8, 2, 0, 20, 10, 1),
-(5, 5, 5, 28, 10, 7, 3, 0, 15, 12, 1),
-(6, 6, 6, 26, 10, 7, 1, 2, 18, 15, 1),
-(7, 7, 7, 22, 10, 6, 2, 2, 20, 10, 1),
-(8, 8, 8, 20, 10, 5, 3, 2, 15, 12, 1),
-(9, 9, 9, 18, 10, 4, 2, 4, 20, 10, 1),
-(10, 10, 10, 14, 10, 3, 3, 4, 15, 12, 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tabla_adulta_s`
---
-
-CREATE TABLE `tabla_adulta_s` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
-  `Posicion` int(11) DEFAULT NULL,
-  `Equipo_ID` int(11) DEFAULT NULL,
-  `Puntos` int(11) DEFAULT NULL,
-  `P_Jugados` int(11) DEFAULT NULL,
-  `P_Ganados` int(11) DEFAULT NULL,
-  `P_Empatados` int(11) DEFAULT NULL,
-  `P_Perdidos` int(11) DEFAULT NULL,
-  `Goles_Favor` int(11) DEFAULT NULL,
-  `Goles_Contra` int(11) DEFAULT NULL,
-  `ID_DIVISION` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tabla_adulta_s`
---
-
-INSERT INTO `tabla_adulta_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
-(1, 1, 11, 50, 10, 10, 0, 0, 20, 10, 2),
-(2, 2, 12, 40, 10, 9, 1, 0, 15, 12, 2),
-(3, 3, 13, 35, 10, 9, 0, 1, 18, 15, 2),
-(4, 4, 14, 30, 10, 8, 2, 0, 20, 10, 2),
-(5, 5, 15, 28, 10, 7, 3, 0, 15, 12, 2),
-(6, 6, 16, 26, 10, 7, 1, 2, 18, 15, 2),
-(7, 7, 17, 22, 10, 6, 2, 2, 20, 10, 2),
-(8, 8, 18, 20, 10, 5, 3, 2, 15, 12, 2);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tabla_honor_p`
---
-
-CREATE TABLE `tabla_honor_p` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
-  `Posicion` int(11) DEFAULT NULL,
-  `Equipo_ID` int(11) DEFAULT NULL,
-  `Puntos` int(11) DEFAULT NULL,
-  `P_Jugados` int(11) DEFAULT NULL,
-  `P_Ganados` int(11) DEFAULT NULL,
-  `P_Empatados` int(11) DEFAULT NULL,
-  `P_Perdidos` int(11) DEFAULT NULL,
-  `Goles_Favor` int(11) DEFAULT NULL,
-  `Goles_Contra` int(11) DEFAULT NULL,
-  `ID_DIVISION` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tabla_honor_p`
---
-
-INSERT INTO `tabla_honor_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
-(1, 1, 1, 50, 10, 10, 0, 0, 20, 10, 1),
-(2, 2, 2, 40, 10, 9, 1, 0, 15, 12, 1),
-(3, 3, 3, 35, 10, 9, 0, 1, 18, 15, 1),
-(4, 4, 4, 30, 10, 8, 2, 0, 20, 10, 1),
-(5, 5, 5, 28, 10, 7, 3, 0, 15, 12, 1),
-(6, 6, 6, 26, 10, 7, 1, 2, 18, 15, 1),
-(7, 7, 7, 22, 10, 6, 2, 2, 20, 10, 1),
-(8, 8, 8, 20, 10, 5, 3, 2, 15, 12, 1),
-(9, 9, 9, 18, 10, 4, 2, 4, 20, 10, 1),
-(10, 10, 10, 14, 10, 3, 3, 4, 15, 12, 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tabla_honor_s`
---
-
-CREATE TABLE `tabla_honor_s` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
-  `Posicion` int(11) DEFAULT NULL,
-  `Equipo_ID` int(11) DEFAULT NULL,
-  `Puntos` int(11) DEFAULT NULL,
-  `P_Jugados` int(11) DEFAULT NULL,
-  `P_Ganados` int(11) DEFAULT NULL,
-  `P_Empatados` int(11) DEFAULT NULL,
-  `P_Perdidos` int(11) DEFAULT NULL,
-  `Goles_Favor` int(11) DEFAULT NULL,
-  `Goles_Contra` int(11) DEFAULT NULL,
-  `ID_DIVISION` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `tabla_honor_s`
---
-
-INSERT INTO `tabla_honor_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
-(1, 1, 11, 50, 10, 10, 0, 0, 20, 10, 2),
-(2, 2, 12, 40, 10, 9, 1, 0, 15, 12, 2),
-(3, 3, 13, 35, 10, 9, 0, 1, 18, 15, 2),
-(4, 4, 14, 30, 10, 8, 2, 0, 20, 10, 2),
-(5, 5, 15, 28, 10, 7, 3, 0, 15, 12, 2),
-(6, 6, 16, 26, 10, 7, 1, 2, 18, 15, 2),
-(7, 7, 17, 22, 10, 6, 2, 2, 20, 10, 2),
-(8, 8, 18, 20, 10, 5, 3, 2, 15, 12, 2);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tabla_juvenil_p`
---
-
-CREATE TABLE `tabla_juvenil_p` (
+CREATE TABLE `tabla_1_p` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Equipo_ID` int(11) DEFAULT NULL,
   `Puntos` int(11) DEFAULT NULL,
@@ -871,28 +740,28 @@ CREATE TABLE `tabla_juvenil_p` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tabla_juvenil_p`
+-- Volcado de datos para la tabla `tabla_1_p`
 --
 
-INSERT INTO `tabla_juvenil_p` (`ID`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`, `Dif_Goles`) VALUES
-(1, 1, 3, 3, 1, 0, 2, 16, 15, 1, 0),
-(2, 2, 6, 3, 2, 0, 1, 15, 16, 1, 0),
-(3, 3, 0, 1, 0, 0, 1, 2, 3, 1, 0),
-(4, 4, 3, 1, 1, 0, 0, 3, 2, 1, 0),
-(5, 5, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-(6, 6, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-(7, 7, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-(8, 8, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-(9, 9, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-(10, 10, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+INSERT INTO `tabla_1_p` (`ID`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`, `Dif_Goles`) VALUES
+(1, 1, 11, 8, 3, 2, 3, 28, 25, 1, 0),
+(2, 2, 11, 8, 3, 2, 3, 25, 28, 1, 0),
+(3, 3, 2, 4, 0, 2, 2, 10, 12, 1, 0),
+(4, 4, 8, 4, 2, 2, 0, 12, 10, 1, 0),
+(5, 5, 4, 4, 1, 1, 2, 10, 13, 1, 0),
+(6, 6, 7, 4, 2, 1, 1, 13, 10, 1, 0),
+(7, 7, 30, 8, 8, 0, 0, 44, 31, 1, 0),
+(8, 8, 0, 8, 0, 0, 8, 16, 24, 1, 0),
+(9, 9, 3, 1, 1, 0, 0, 2, 1, 1, 0),
+(10, 10, 0, 1, 0, 0, 1, 1, 2, 1, 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tabla_juvenil_s`
+-- Estructura de tabla para la tabla `tabla_1_s`
 --
 
-CREATE TABLE `tabla_juvenil_s` (
+CREATE TABLE `tabla_1_s` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Posicion` int(11) DEFAULT NULL,
   `Equipo_ID` int(11) DEFAULT NULL,
@@ -907,10 +776,10 @@ CREATE TABLE `tabla_juvenil_s` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tabla_juvenil_s`
+-- Volcado de datos para la tabla `tabla_1_s`
 --
 
-INSERT INTO `tabla_juvenil_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
+INSERT INTO `tabla_1_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
 (1, 1, 11, 50, 10, 10, 0, 0, 20, 10, 2),
 (2, 2, 12, 40, 10, 9, 1, 0, 15, 12, 2),
 (3, 3, 13, 35, 10, 9, 0, 1, 18, 15, 2),
@@ -923,10 +792,47 @@ INSERT INTO `tabla_juvenil_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugad
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tabla_senior_p`
+-- Estructura de tabla para la tabla `tabla_2_p`
 --
 
-CREATE TABLE `tabla_senior_p` (
+CREATE TABLE `tabla_2_p` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `Posicion` int(11) DEFAULT NULL,
+  `Equipo_ID` int(11) DEFAULT NULL,
+  `Puntos` int(11) DEFAULT NULL,
+  `P_Jugados` int(11) DEFAULT NULL,
+  `P_Ganados` int(11) DEFAULT NULL,
+  `P_Empatados` int(11) DEFAULT NULL,
+  `P_Perdidos` int(11) DEFAULT NULL,
+  `Goles_Favor` int(11) DEFAULT NULL,
+  `Goles_Contra` int(11) DEFAULT NULL,
+  `ID_DIVISION` int(11) DEFAULT NULL,
+  `ID_categoria` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_2_p`
+--
+
+INSERT INTO `tabla_2_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`, `ID_categoria`) VALUES
+(1, 1, 1, 50, 10, 10, 0, 0, 20, 10, 1, 2),
+(2, 2, 2, 40, 10, 9, 1, 0, 15, 12, 1, 2),
+(3, 3, 3, 35, 10, 9, 0, 1, 18, 15, 1, 2),
+(4, 4, 4, 52, 10, 8, 2, 0, 20, 10, 1, 2),
+(5, 5, 5, 28, 10, 7, 3, 0, 15, 12, 1, 2),
+(6, 6, 6, 26, 10, 7, 1, 2, 18, 15, 1, 2),
+(7, 7, 7, 22, 10, 6, 2, 2, 20, 10, 1, 2),
+(8, 8, 8, 20, 10, 5, 3, 2, 15, 12, 1, 2),
+(9, 9, 9, 18, 10, 4, 2, 4, 20, 10, 1, 2),
+(10, 10, 10, 56, 10, 3, 3, 4, 15, 12, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_2_s`
+--
+
+CREATE TABLE `tabla_2_s` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Posicion` int(11) DEFAULT NULL,
   `Equipo_ID` int(11) DEFAULT NULL,
@@ -941,10 +847,44 @@ CREATE TABLE `tabla_senior_p` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tabla_senior_p`
+-- Volcado de datos para la tabla `tabla_2_s`
 --
 
-INSERT INTO `tabla_senior_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
+INSERT INTO `tabla_2_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
+(1, 1, 11, 50, 10, 10, 0, 0, 20, 10, 2),
+(2, 2, 12, 40, 10, 9, 1, 0, 15, 12, 2),
+(3, 3, 13, 35, 10, 9, 0, 1, 18, 15, 2),
+(4, 4, 14, 30, 10, 8, 2, 0, 20, 10, 2),
+(5, 5, 15, 28, 10, 7, 3, 0, 15, 12, 2),
+(6, 6, 16, 26, 10, 7, 1, 2, 18, 15, 2),
+(7, 7, 17, 22, 10, 6, 2, 2, 20, 10, 2),
+(8, 8, 18, 20, 10, 5, 3, 2, 15, 12, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_3_p`
+--
+
+CREATE TABLE `tabla_3_p` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `Posicion` int(11) DEFAULT NULL,
+  `Equipo_ID` int(11) DEFAULT NULL,
+  `Puntos` int(11) DEFAULT NULL,
+  `P_Jugados` int(11) DEFAULT NULL,
+  `P_Ganados` int(11) DEFAULT NULL,
+  `P_Empatados` int(11) DEFAULT NULL,
+  `P_Perdidos` int(11) DEFAULT NULL,
+  `Goles_Favor` int(11) DEFAULT NULL,
+  `Goles_Contra` int(11) DEFAULT NULL,
+  `ID_DIVISION` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_3_p`
+--
+
+INSERT INTO `tabla_3_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
 (1, 1, 1, 43, 10, 10, 0, 0, 20, 10, 1),
 (2, 2, 2, 40, 10, 9, 1, 0, 15, 12, 1),
 (3, 3, 3, 35, 10, 9, 0, 1, 18, 15, 1),
@@ -959,10 +899,10 @@ INSERT INTO `tabla_senior_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugado
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tabla_senior_s`
+-- Estructura de tabla para la tabla `tabla_3_s`
 --
 
-CREATE TABLE `tabla_senior_s` (
+CREATE TABLE `tabla_3_s` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Posicion` int(11) DEFAULT NULL,
   `Equipo_ID` int(11) DEFAULT NULL,
@@ -977,11 +917,11 @@ CREATE TABLE `tabla_senior_s` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tabla_senior_s`
+-- Volcado de datos para la tabla `tabla_3_s`
 --
 
-INSERT INTO `tabla_senior_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
-(1, 1, 11, 50, 10, 10, 0, 0, 20, 10, 2),
+INSERT INTO `tabla_3_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
+(1, 1, 11, 58, 10, 10, 0, 0, 20, 10, 2),
 (2, 2, 12, 40, 10, 9, 1, 0, 15, 12, 2),
 (3, 3, 13, 35, 10, 9, 0, 1, 18, 15, 2),
 (4, 4, 14, 30, 10, 8, 2, 0, 20, 10, 2),
@@ -993,10 +933,10 @@ INSERT INTO `tabla_senior_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugado
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tabla_supersenior_p`
+-- Estructura de tabla para la tabla `tabla_4_p`
 --
 
-CREATE TABLE `tabla_supersenior_p` (
+CREATE TABLE `tabla_4_p` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Posicion` int(11) DEFAULT NULL,
   `Equipo_ID` int(11) DEFAULT NULL,
@@ -1011,10 +951,10 @@ CREATE TABLE `tabla_supersenior_p` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tabla_supersenior_p`
+-- Volcado de datos para la tabla `tabla_4_p`
 --
 
-INSERT INTO `tabla_supersenior_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
+INSERT INTO `tabla_4_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
 (1, 1, 1, 50, 10, 10, 0, 0, 20, 10, 1),
 (2, 2, 2, 40, 10, 9, 1, 0, 15, 12, 1),
 (3, 3, 3, 35, 10, 9, 0, 1, 18, 15, 1),
@@ -1029,10 +969,10 @@ INSERT INTO `tabla_supersenior_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_J
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tabla_supersenior_s`
+-- Estructura de tabla para la tabla `tabla_4_s`
 --
 
-CREATE TABLE `tabla_supersenior_s` (
+CREATE TABLE `tabla_4_s` (
   `ID` bigint(20) UNSIGNED NOT NULL,
   `Posicion` int(11) DEFAULT NULL,
   `Equipo_ID` int(11) DEFAULT NULL,
@@ -1047,10 +987,80 @@ CREATE TABLE `tabla_supersenior_s` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `tabla_supersenior_s`
+-- Volcado de datos para la tabla `tabla_4_s`
 --
 
-INSERT INTO `tabla_supersenior_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
+INSERT INTO `tabla_4_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
+(1, 1, 11, 50, 10, 10, 0, 0, 20, 10, 2),
+(2, 2, 12, 40, 10, 9, 1, 0, 15, 12, 2),
+(3, 3, 13, 35, 10, 9, 0, 1, 18, 15, 2),
+(4, 4, 14, 30, 10, 8, 2, 0, 20, 10, 2),
+(5, 5, 15, 28, 10, 7, 3, 0, 15, 12, 2),
+(6, 6, 16, 26, 10, 7, 1, 2, 18, 15, 2),
+(7, 7, 17, 22, 10, 6, 2, 2, 20, 10, 2),
+(8, 8, 18, 20, 10, 5, 3, 2, 15, 12, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_5_p`
+--
+
+CREATE TABLE `tabla_5_p` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `Posicion` int(11) DEFAULT NULL,
+  `Equipo_ID` int(11) DEFAULT NULL,
+  `Puntos` int(11) DEFAULT NULL,
+  `P_Jugados` int(11) DEFAULT NULL,
+  `P_Ganados` int(11) DEFAULT NULL,
+  `P_Empatados` int(11) DEFAULT NULL,
+  `P_Perdidos` int(11) DEFAULT NULL,
+  `Goles_Favor` int(11) DEFAULT NULL,
+  `Goles_Contra` int(11) DEFAULT NULL,
+  `ID_DIVISION` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_5_p`
+--
+
+INSERT INTO `tabla_5_p` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
+(1, 1, 1, 50, 10, 10, 0, 0, 20, 10, 1),
+(2, 2, 2, 40, 10, 9, 1, 0, 15, 12, 1),
+(3, 3, 3, 35, 10, 9, 0, 1, 18, 15, 1),
+(4, 4, 4, 30, 10, 8, 2, 0, 20, 10, 1),
+(5, 5, 5, 28, 10, 7, 3, 0, 15, 12, 1),
+(6, 6, 6, 26, 10, 7, 1, 2, 18, 15, 1),
+(7, 7, 7, 22, 10, 6, 2, 2, 20, 10, 1),
+(8, 8, 8, 20, 10, 5, 3, 2, 15, 12, 1),
+(9, 9, 9, 18, 10, 4, 2, 4, 20, 10, 1),
+(10, 10, 10, 14, 10, 3, 3, 4, 15, 12, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tabla_5_s`
+--
+
+CREATE TABLE `tabla_5_s` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
+  `Posicion` int(11) DEFAULT NULL,
+  `Equipo_ID` int(11) DEFAULT NULL,
+  `Puntos` int(11) DEFAULT NULL,
+  `P_Jugados` int(11) DEFAULT NULL,
+  `P_Ganados` int(11) DEFAULT NULL,
+  `P_Empatados` int(11) DEFAULT NULL,
+  `P_Perdidos` int(11) DEFAULT NULL,
+  `Goles_Favor` int(11) DEFAULT NULL,
+  `Goles_Contra` int(11) DEFAULT NULL,
+  `ID_DIVISION` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tabla_5_s`
+--
+
+INSERT INTO `tabla_5_s` (`ID`, `Posicion`, `Equipo_ID`, `Puntos`, `P_Jugados`, `P_Ganados`, `P_Empatados`, `P_Perdidos`, `Goles_Favor`, `Goles_Contra`, `ID_DIVISION`) VALUES
 (1, 1, 11, 50, 10, 10, 0, 0, 20, 10, 2),
 (2, 2, 12, 40, 10, 9, 1, 0, 15, 12, 2),
 (3, 3, 13, 35, 10, 9, 0, 1, 18, 15, 2),
@@ -1154,15 +1164,16 @@ CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL,
   `correo` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `id_rol` int(11) DEFAULT NULL
+  `id_rol` int(11) DEFAULT NULL,
+  `Nombre` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `correo`, `password`, `id_rol`) VALUES
-(1, 'ericklj@gmail.com', '123', 1);
+INSERT INTO `usuarios` (`id`, `correo`, `password`, `id_rol`, `Nombre`) VALUES
+(1, 'ericklj@gmail.com', '123', 1, 'Erick Lagos');
 
 --
 -- Índices para tablas volcadas
@@ -1320,81 +1331,82 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `tabla_adulta_p`
+-- Indices de la tabla `tabla_1_p`
 --
-ALTER TABLE `tabla_adulta_p`
+ALTER TABLE `tabla_1_p`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Equipo_ID` (`Equipo_ID`),
   ADD KEY `ID_DIVISION` (`ID_DIVISION`);
 
 --
--- Indices de la tabla `tabla_adulta_s`
+-- Indices de la tabla `tabla_1_s`
 --
-ALTER TABLE `tabla_adulta_s`
+ALTER TABLE `tabla_1_s`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Equipo_ID` (`Equipo_ID`),
   ADD KEY `ID_DIVISION` (`ID_DIVISION`);
 
 --
--- Indices de la tabla `tabla_honor_p`
+-- Indices de la tabla `tabla_2_p`
 --
-ALTER TABLE `tabla_honor_p`
+ALTER TABLE `tabla_2_p`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `Equipo_ID` (`Equipo_ID`),
+  ADD KEY `ID_DIVISION` (`ID_DIVISION`),
+  ADD KEY `tabla_adulta_p_ibfk_3` (`ID_categoria`);
+
+--
+-- Indices de la tabla `tabla_2_s`
+--
+ALTER TABLE `tabla_2_s`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Equipo_ID` (`Equipo_ID`),
   ADD KEY `ID_DIVISION` (`ID_DIVISION`);
 
 --
--- Indices de la tabla `tabla_honor_s`
+-- Indices de la tabla `tabla_3_p`
 --
-ALTER TABLE `tabla_honor_s`
+ALTER TABLE `tabla_3_p`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Equipo_ID` (`Equipo_ID`),
   ADD KEY `ID_DIVISION` (`ID_DIVISION`);
 
 --
--- Indices de la tabla `tabla_juvenil_p`
+-- Indices de la tabla `tabla_3_s`
 --
-ALTER TABLE `tabla_juvenil_p`
+ALTER TABLE `tabla_3_s`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Equipo_ID` (`Equipo_ID`),
   ADD KEY `ID_DIVISION` (`ID_DIVISION`);
 
 --
--- Indices de la tabla `tabla_juvenil_s`
+-- Indices de la tabla `tabla_4_p`
 --
-ALTER TABLE `tabla_juvenil_s`
+ALTER TABLE `tabla_4_p`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Equipo_ID` (`Equipo_ID`),
   ADD KEY `ID_DIVISION` (`ID_DIVISION`);
 
 --
--- Indices de la tabla `tabla_senior_p`
+-- Indices de la tabla `tabla_4_s`
 --
-ALTER TABLE `tabla_senior_p`
+ALTER TABLE `tabla_4_s`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Equipo_ID` (`Equipo_ID`),
   ADD KEY `ID_DIVISION` (`ID_DIVISION`);
 
 --
--- Indices de la tabla `tabla_senior_s`
+-- Indices de la tabla `tabla_5_p`
 --
-ALTER TABLE `tabla_senior_s`
+ALTER TABLE `tabla_5_p`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Equipo_ID` (`Equipo_ID`),
   ADD KEY `ID_DIVISION` (`ID_DIVISION`);
 
 --
--- Indices de la tabla `tabla_supersenior_p`
+-- Indices de la tabla `tabla_5_s`
 --
-ALTER TABLE `tabla_supersenior_p`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `Equipo_ID` (`Equipo_ID`),
-  ADD KEY `ID_DIVISION` (`ID_DIVISION`);
-
---
--- Indices de la tabla `tabla_supersenior_s`
---
-ALTER TABLE `tabla_supersenior_s`
+ALTER TABLE `tabla_5_s`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `Equipo_ID` (`Equipo_ID`),
   ADD KEY `ID_DIVISION` (`ID_DIVISION`);
@@ -1535,7 +1547,7 @@ ALTER TABLE `jornada`
 -- AUTO_INCREMENT de la tabla `jugador`
 --
 ALTER TABLE `jugador`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de la tabla `noticia`
@@ -1562,63 +1574,63 @@ ALTER TABLE `roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_adulta_p`
+-- AUTO_INCREMENT de la tabla `tabla_1_p`
 --
-ALTER TABLE `tabla_adulta_p`
+ALTER TABLE `tabla_1_p`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_adulta_s`
+-- AUTO_INCREMENT de la tabla `tabla_1_s`
 --
-ALTER TABLE `tabla_adulta_s`
+ALTER TABLE `tabla_1_s`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_honor_p`
+-- AUTO_INCREMENT de la tabla `tabla_2_p`
 --
-ALTER TABLE `tabla_honor_p`
+ALTER TABLE `tabla_2_p`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_honor_s`
+-- AUTO_INCREMENT de la tabla `tabla_2_s`
 --
-ALTER TABLE `tabla_honor_s`
+ALTER TABLE `tabla_2_s`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_juvenil_p`
+-- AUTO_INCREMENT de la tabla `tabla_3_p`
 --
-ALTER TABLE `tabla_juvenil_p`
+ALTER TABLE `tabla_3_p`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_juvenil_s`
+-- AUTO_INCREMENT de la tabla `tabla_3_s`
 --
-ALTER TABLE `tabla_juvenil_s`
+ALTER TABLE `tabla_3_s`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_senior_p`
+-- AUTO_INCREMENT de la tabla `tabla_4_p`
 --
-ALTER TABLE `tabla_senior_p`
+ALTER TABLE `tabla_4_p`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_senior_s`
+-- AUTO_INCREMENT de la tabla `tabla_4_s`
 --
-ALTER TABLE `tabla_senior_s`
+ALTER TABLE `tabla_4_s`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_supersenior_p`
+-- AUTO_INCREMENT de la tabla `tabla_5_p`
 --
-ALTER TABLE `tabla_supersenior_p`
+ALTER TABLE `tabla_5_p`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `tabla_supersenior_s`
+-- AUTO_INCREMENT de la tabla `tabla_5_s`
 --
-ALTER TABLE `tabla_supersenior_s`
+ALTER TABLE `tabla_5_s`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
@@ -1709,126 +1721,12 @@ ALTER TABLE `est_jugador_c`
   ADD CONSTRAINT `est_jugador_c_ibfk_1` FOREIGN KEY (`Jugador_ID`) REFERENCES `jugador` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `goles_jornada`
---
-ALTER TABLE `goles_jornada`
-  ADD CONSTRAINT `goles_jornada_ibfk_1` FOREIGN KEY (`ID_jornada`) REFERENCES `jornada` (`ID`),
-  ADD CONSTRAINT `goles_jornada_ibfk_2` FOREIGN KEY (`ID_jugador`) REFERENCES `jugador` (`ID`);
-
---
 -- Filtros para la tabla `jugador`
 --
 ALTER TABLE `jugador`
   ADD CONSTRAINT `jugador_ibfk_1` FOREIGN KEY (`Posicion_ID`) REFERENCES `posicion` (`ID`),
   ADD CONSTRAINT `jugador_ibfk_2` FOREIGN KEY (`Categoria_ID`) REFERENCES `categoria` (`ID`),
   ADD CONSTRAINT `jugador_ibfk_3` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `partido`
---
-ALTER TABLE `partido`
-  ADD CONSTRAINT `partido_ibfk_1` FOREIGN KEY (`Equipo_Local_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `partido_ibfk_2` FOREIGN KEY (`Equipo_Visitante_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `partido_ibfk_3` FOREIGN KEY (`ID_categoria`) REFERENCES `categoria` (`ID`),
-  ADD CONSTRAINT `partido_ibfk_4` FOREIGN KEY (`ID_jornada`) REFERENCES `jornada` (`ID`);
-
---
--- Filtros para la tabla `tabla_adulta_p`
---
-ALTER TABLE `tabla_adulta_p`
-  ADD CONSTRAINT `tabla_adulta_p_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_adulta_p_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `tabla_adulta_s`
---
-ALTER TABLE `tabla_adulta_s`
-  ADD CONSTRAINT `tabla_adulta_s_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_adulta_s_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `tabla_honor_p`
---
-ALTER TABLE `tabla_honor_p`
-  ADD CONSTRAINT `tabla_honor_p_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_honor_p_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `tabla_honor_s`
---
-ALTER TABLE `tabla_honor_s`
-  ADD CONSTRAINT `tabla_honor_s_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_honor_s_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `tabla_juvenil_p`
---
-ALTER TABLE `tabla_juvenil_p`
-  ADD CONSTRAINT `tabla_juvenil_p_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_juvenil_p_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `tabla_juvenil_s`
---
-ALTER TABLE `tabla_juvenil_s`
-  ADD CONSTRAINT `tabla_juvenil_s_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_juvenil_s_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `tabla_senior_p`
---
-ALTER TABLE `tabla_senior_p`
-  ADD CONSTRAINT `tabla_senior_p_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_senior_p_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `tabla_senior_s`
---
-ALTER TABLE `tabla_senior_s`
-  ADD CONSTRAINT `tabla_senior_s_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_senior_s_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `tabla_supersenior_p`
---
-ALTER TABLE `tabla_supersenior_p`
-  ADD CONSTRAINT `tabla_supersenior_p_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_supersenior_p_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `tabla_supersenior_s`
---
-ALTER TABLE `tabla_supersenior_s`
-  ADD CONSTRAINT `tabla_supersenior_s_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `tabla_supersenior_s_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `torneo_regular`
---
-ALTER TABLE `torneo_regular`
-  ADD CONSTRAINT `fk_division` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`),
-  ADD CONSTRAINT `torneo_regular_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`);
-
---
--- Filtros para la tabla `torneo_regular_segunda`
---
-ALTER TABLE `torneo_regular_segunda`
-  ADD CONSTRAINT `torneo_regular_segunda_ibfk_1` FOREIGN KEY (`Equipo_ID`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `torneo_regular_segunda_ibfk_2` FOREIGN KEY (`ID_DIVISION`) REFERENCES `division` (`ID`);
-
---
--- Filtros para la tabla `transferencia`
---
-ALTER TABLE `transferencia`
-  ADD CONSTRAINT `transferencia_ibfk_1` FOREIGN KEY (`ID_Jugador`) REFERENCES `jugador` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `transferencia_ibfk_2` FOREIGN KEY (`Equipo_Origen`) REFERENCES `equipo` (`ID`),
-  ADD CONSTRAINT `transferencia_ibfk_3` FOREIGN KEY (`Equipo_Destino`) REFERENCES `equipo` (`ID`);
-
---
--- Filtros para la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD CONSTRAINT `fk_rol` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
