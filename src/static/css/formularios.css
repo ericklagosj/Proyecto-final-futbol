@@ -135,19 +135,14 @@ a {
     background-color: var(--body-color);
     position: absolute;
     left: 0;
-    top: 2.5rem; /* Ajusta según sea necesario */
+    top: 2.5rem;
     width: 100%;
-    height: calc(100vh - 3.5rem); /* Ajusta según sea necesario */
+    height: calc(100vh - 3.5rem);
     overflow: auto;
-    padding: 1.5rem 4rem; /* Ajusta según sea necesario */
+    padding-block: 1.5rem 4rem;
     pointer-events: none;
     opacity: 0;
     transition: top 0.4s, opacity 0.3s;
-    z-index: 101; /* Ajusta el z-index para que esté por encima de otras secciones */
-  }
-
-  .dropdown__container {
-    z-index: 102; /* Asegúrate de que el menú desplegable tenga un z-index superior al menú deslizante */
   }
 
   .nav__menu::-webkit-scrollbar {
@@ -421,165 +416,29 @@ a {
 
 /*=============== HEADER ===============*/
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: var(--black-color);
-  box-shadow: 0 2px 16px hsla(220, 32%, 8%, 0.3);
-  z-index: var(--z-fixed);
-}
-
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 130px;
+    background-color: var(--black-color);
+    box-shadow: 0 2px 16px hsla(220, 32%, 8%, 0.3);
+    z-index: var(--z-fixed);
+    display: flex; /* Flexbox para centrar contenido */
+    justify-content: flex-start; /* Alinea al inicio */
+    align-items: center; /* Centra verticalmente */
+    padding-left: 1.5rem; /* Espacio a la izquierda */
+    padding-top: 0.5rem; /* Controla el espacio superior */
+    padding-bottom: 1.5rem; /* Controla el espacio inferior */
+  }
+  
+  .nav__data {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    max-width: 1120px; /* Ajusta este valor según el tamaño máximo deseado del contenedor */
+  }
+  
 /* FINAL CSS HEADER */
-
-
-
-/* Estilos generales */
-body {
-  font-family: "Roboto", sans-serif;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 0;
-}
-
-.selector {
-  background-color: #003366;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-}
-
-h1 {
-  margin: 0;
-}
-
-.form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.dropdown {
-  position: relative;
-}
-
-.select {
-  padding: 10px 30px 10px 10px;
-  border: none;
-  border-radius: 50px;
-  background-color: #fff;
-  color: #333;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-.option {
-  font-size: 16px;
-}
-
-.button {
-  position: absolute;
-  top: 50%;
-  right: -80px;
-  transform: translateY(-50%);
-  background-color: #4d4f50;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #001a33;
-}
-
-/* Estilos de la tabla */
-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 10px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #003366;
-  color: #fff;
-}
-
-/* Estilos de los recuadros de categoría */
-.categoria {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos de los logos de equipo */
-.equipo-logo {
-  width: 50px;
-  vertical-align: middle; /* Alineación vertical al centro */
-}
-
-/* Estilos para iconos de Remix */
-.ri {
-  vertical-align: middle;
-  margin-right: 5px;
-}
-
-/* Estilo para el detalle del partido */
-.detalle {
-  background-color: #f9f9f9;
-  color: #333;
-}
-
-/* Estilo para la fila del partido al hacer clic */
-.partido.active {
-  background-color: #f0f0f0;
-}
-
-/* Icono para indicar que se puede expandir/cerrar */
-.toggle-icon {
-  float: right;
-  cursor: pointer;
-}
-
-/* Estilos responsivos */
-@media only screen and (max-width: 768px) {
-  .button {
-      right: -60px; /* Ajuste para dispositivos móviles */
-      padding: 8px 16px; /* Ajuste del padding */
-  }
-
-  table {
-      font-size: 14px; /* Tamaño de fuente reducido para dispositivos móviles */
-  }
-
-  .categoria {
-      padding: 15px; /* Ajuste del padding */
-  }
-
-  .equipo-logo {
-      width: 40px; /* Ajuste del tamaño del logo */
-  }
-
-  .toggle-icon {
-      display: block; /* Mostrar el icono de manera bloque en dispositivos móviles */
-      text-align: right; /* Alinear a la derecha */
-      margin-top: 5px; /* Margen superior para separación */
-  }
-
-  .detalle {
-      padding: 10px; /* Ajuste del padding */
-  }
-}
-
-/* Otros estilos responsivos se pueden agregar según sea necesario */

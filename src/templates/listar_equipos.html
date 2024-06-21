@@ -6,8 +6,144 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Listado de Equipos</title>
     <link rel="stylesheet" href="/static/css/listar_equipos.css">
+
+    <style>
+        /* Estilos básicos */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .nav__toggle {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .nav__toggle-menu,
+        .nav__toggle-close {
+            font-size: 2rem; /* Ajusta el tamaño según tus necesidades */
+            display: none; /* Oculta ambos íconos por defecto */
+        }
+
+        .nav__toggle-menu {
+            display: inline-block; /* Mostrar el ícono del menú por defecto */
+        }
+
+        .show-icon .nav__toggle-menu {
+            display: none;
+        }
+
+        .show-icon .nav__toggle-close {
+            display: inline-block;
+        }
+
+        .nav__menu {
+            display: none; /* Ocultar menú por defecto */
+        }
+
+        .show-menu {
+            display: block; /* Mostrar menú cuando se active */
+        }
+    </style>
+
 </head>
 <body>
+
+    <!--=============== HEADER ===============-->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav__data">
+                <a href="{{ url_for('home') }}" class="nav__logo">
+                  <img src="/static/images/logo.png" alt="Logo de la Asociación Deportiva" />
+                    Asociación Deportiva 
+                </a>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line nav__toggle-menu"></i>
+                    <i class="ri-close-line nav__toggle-close"></i>
+                </div>
+            </div>
+
+            <!--=============== NAV MENU ===============-->
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li>
+                        <a href="{{ url_for('home') }}" class="nav__link">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('noticias') }}" class="nav__link">
+                            Noticias <i class="ri-newspaper-line"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('galeria') }}" class="nav__link">
+                            Galería <i class="ri-gallery-line"></i>
+                        </a>
+                    </li>
+                    <!--=============== DROPDOWN 1 ===============-->
+                    <li class="dropdown__item">
+                        <div class="nav__link dropdown__button">
+                            Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
+                        </div>
+
+                        <div class="dropdown__container">
+                            <div class="dropdown__content">
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-flashlight-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Datos De Competencia</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="{{ url_for('resultados_partidos')}}" class="dropdown__link">Resultados Partidos</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('estadisticas_jugadores') }}" class="dropdown__link">Estadísticas Jugadores</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('mostrar_jugadores')}}" class="dropdown__link">Asistencias Jugadores</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="dropdown__group">
+                                    <div class="dropdown__icon">
+                                        <i class="ri-file-paper-2-line"></i>
+                                    </div>
+
+                                    <span class="dropdown__title">Posiciones</span>
+
+                                    <ul class="dropdown__list">
+                                        <li>
+                                            <a href="{{ url_for('tabla_posiciones')}}" class="dropdown__link">Primera División</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url_for('tabla_posiciones_segunda') }}" class="dropdown__link">Segunda División</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('login') }}" class="nav__link">
+                            Acceso <i class="ri-login-box-line"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
     <main class="table" id="customers_table">
         <section class="table__header">
             <!-- Encabezado de la tabla -->
@@ -58,5 +194,22 @@
         </section>
     </main>
     <script src="/static/js/listar_equipos.js"></script>
+
+    <script>
+        const showMenu = (toggleId, navId) => {
+          const toggle = document.getElementById(toggleId),
+            nav = document.getElementById(navId);
+
+          toggle.addEventListener("click", () => {
+            // Add show-menu class to nav menu
+            nav.classList.toggle("show-menu");
+            // Add show-icon to show and hide menu icon
+            toggle.classList.toggle("show-icon");
+          });
+        };
+
+        showMenu("nav-toggle", "nav-menu");
+    </script>
+
 </body>
 </html>
