@@ -12036,13 +12036,33 @@ body {
 }
 
 .score-box {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
-  background-color: #007bff;
   color: #fff;
   padding: 0 10px;
   border-radius: 5px;
 }
+
+
+.categoria h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color:#000;
+  text-align: center;
+}
+
+.result {
+  font-size: 24px;
+  width: 80px;
+  height: 30px;
+  font-weight: bold;
+  background: linear-gradient(to right, #000080, #0000CD); /* Degradado de azul marino oscuro a azul más claro */
+  color: #fff; /* Blanco para buen contraste */
+  padding: 0 5px;
+  border-radius: 5px;
+}
+
+
 
 .result-link a {
   color: #ff3333;
@@ -12051,6 +12071,30 @@ body {
 
 .result-link a:hover {
   text-decoration: underline;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  color: #000;
+}
+
+.temporada{
+  font-size: 20px;
+  font-weight: bold;
+  color:#f9f9f9;
+
+}
+
+.filtro_button{
+  background-color: #ff3333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 16px;
+
 }
 
 @media (max-width: 768px) {

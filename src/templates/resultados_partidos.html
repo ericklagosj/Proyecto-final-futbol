@@ -9,111 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <!-- Remix Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css">
-
-    <style>
-        /* CSS para ajustar las imágenes */
-        .imglogo {
-            max-width: 13%; /* Ajusta este valor según necesites */
-            height: auto;
-            display: block;
-            margin-inline: left;
-        }
-    
-        .header img {
-          max-width: 40px; /* Ajusta este valor según necesites */
-          height: auto;
-        }
-    </style>
 </head>
 <body>
 <header>
-    <nav class="nav container">
-        <div class="nav__data">
-            <a href="{{ url_for('home') }}" class="nav__logo">
-              <img src="/static/images/logo.png" alt="Logo de la Asociación Deportiva" class="imglogo"/>
-                Asociación Deportiva 
-            </a>
-
-            <div class="nav__toggle" id="nav-toggle">
-                <i class="ri-menu-line nav__toggle-menu"></i>
-                <i class="ri-close-line nav__toggle-close"></i>
-            </div>
-        </div>
-
-        <!--=============== NAV MENU ===============-->
-        <div class="nav__menu" id="nav-menu">
-            <ul class="nav__list">
-                <li>
-                    <a href="{{ url_for('home') }}" class="nav__link">Inicio</a>
-                </li>
-                <li>
-                    <a href="{{ url_for('noticias') }}" class="nav__link">
-                        Noticias <i class="ri-newspaper-line"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ url_for('galeria') }}" class="nav__link">
-                        Galería <i class="ri-gallery-line"></i>
-                    </a>
-                </li>
-                <!--=============== DROPDOWN 1 ===============-->
-                <li class="dropdown__item">
-                    <div class="nav__link dropdown__button">
-                        Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
-                    </div>
-
-                    <div class="dropdown__container">
-                        <div class="dropdown__content">
-                            <div class="dropdown__group">
-                                <div class="dropdown__icon">
-                                    <i class="ri-flashlight-line"></i>
-                                </div>
-
-                                <span class="dropdown__title">Datos De Competencia</span>
-
-                                <ul class="dropdown__list">
-                                    <li>
-                                        <a href="{{ url_for('resultados_partidos')}}" class="dropdown__link">Resultados Partidos</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url_for('estadisticas_jugadores') }}" class="dropdown__link">Estadísticas Jugadores</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url_for('mostrar_jugadores')}}" class="dropdown__link">Asistencias Jugadores</a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="dropdown__group">
-                                <div class="dropdown__icon">
-                                    <i class="ri-file-paper-2-line"></i>
-                                </div>
-
-                                <span class="dropdown__title">Posiciones</span>
-
-                                <ul class="dropdown__list">
-                                    <li>
-                                        <a href="{{ url_for('tabla_posiciones')}}" class="dropdown__link">Primera División</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ url_for('tabla_posiciones_segunda') }}" class="dropdown__link">Segunda División</a>
-                                    </li>
-                                </ul>
-                                <li>
-                                    <a href="{{ url_for('login') }}" class="nav__link">
-                                        Acceso <i class="ri-login-box-line"></i>
-                                    </a>
-                                </li>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
-
-<div class="selector">
     <h1>Resultados de Partidos</h1>
     <!-- Formulario para filtrar por jornada -->
     <form action="{{ url_for('resultados_partidos') }}" method="post" class="form">
@@ -128,7 +26,7 @@
             </button>
         </div>
     </form>
-</div>
+</header>
 
 <!-- Recuadros de categoría con sus respectivos partidos -->
 {% for nombre_categoria, partidos in categorias.items() %}
@@ -192,8 +90,5 @@ document.querySelectorAll('.partido').forEach(partido => {
     });
 });
 </script>
-
-<script src="static/js/resultadopartidos.js"></script>
-
 </body>
 </html>
