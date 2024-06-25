@@ -223,9 +223,13 @@ def actualizar_estadisticas():
 
 #########################################
 
+@app.route('/calendario')
+def calendario():
+    return render_template('galeria.html')  
+
 @app.route('/galeria')
 def galeria():
-    return render_template('galeria.html')   
+    return render_template('galeria_fotos.html') 
 
 @app.route('/noticias')
 def noticias():
