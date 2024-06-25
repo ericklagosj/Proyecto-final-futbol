@@ -584,39 +584,70 @@ def listar_equipos():
 @app.route('/equipo/<int:id>')
 def obtener_equipo(id):
     cur = mysql.connection.cursor()
+    
+    # Obtener información del equipo
     cur.execute("SELECT * FROM equipo WHERE id = %s", (id,))
     equipo = cur.fetchone()
-    
+
+    if not equipo:
+        # Si no se encuentra el equipo, devuelve un mensaje de error y un código de estado 404
+        return jsonify({"error": "Equipo no encontrado"}), 404
+
     # Obtener el parámetro de consulta 'categoria'
     categoria = request.args.get('categoria')
     
     # Consulta para obtener los datos de la tabla categoria
     cur.execute("SELECT * FROM categoria")
     categorias = cur.fetchall()
+
+    # Definir la consulta base para obtener jugadores con JOIN para obtener el nombre de la categoría y las estadísticas
+    consulta_jugadores = """
+        SELECT 
+            j.ID, 
+            j.Nombre, 
+            j.Apellido_Paterno, 
+            j.Apellido_Materno, 
+            j.Rut, 
+            j.Fecha_Nacimiento, 
+            j.Categoria_ID, 
+            c.Nombre AS Categoria,
+            COALESCE(SUM(g.Goles), 0) AS Goles_Anotados, 
+            COALESCE(SUM(g.Tarjetas_Amarillas), 0) AS Tarjetas_Amarillas, 
+            COALESCE(SUM(g.Tarjetas_Rojas), 0) AS Tarjetas_Rojas, 
+            COALESCE(ROUND(a.Asistencia), 0) AS Asistencia 
+        FROM 
+            jugador j 
+            LEFT JOIN categoria c ON j.Categoria_ID = c.ID
+            LEFT JOIN goles_jugador g ON j.ID = g.Jugador_ID 
+            LEFT JOIN (
+                SELECT 
+                    id_jugador, 
+                    SUM(asistencia)/18*100 AS Asistencia 
+                FROM 
+                    asistencia 
+                GROUP BY 
+                    id_jugador
+            ) a ON j.ID = a.id_jugador
+        WHERE 
+            j.Equipo_ID = %s
+    """
     
-    # Definir la consulta base para obtener jugadores
-    consulta_jugadores = "SELECT * FROM jugador WHERE Equipo_ID = %s"
+    params = [id]
     
     # Si se proporciona la categoría, ajusta la consulta para filtrar jugadores por esa categoría
     if categoria:
-        consulta_jugadores += " AND Categoria_ID = %s"
-        cur.execute(consulta_jugadores, (id, categoria))
-    else:
-        cur.execute(consulta_jugadores, (id,))
+        consulta_jugadores += " AND j.Categoria_ID = %s"
+        params.append(categoria)
     
+    consulta_jugadores += " GROUP BY j.ID, c.Nombre"
+    
+    cur.execute(consulta_jugadores, params)
     jugadores = cur.fetchall()
-    
     cur.close()
 
-    if equipo:
-        # Definir equipo_id aquí para pasarlo a la plantilla
-        equipo_id = id
+    # Renderiza la plantilla HTML correspondiente al equipo y pasa la información del equipo, jugadores, categorías y equipo_id
+    return render_template(f"equipos/equipo{id}.html", equipo=equipo, jugadores=jugadores, equipo_id=id, categorias=categorias, categoria=categoria)
 
-        # Renderiza la plantilla HTML correspondiente al equipo y pasa la información del equipo, jugadores, categorías y equipo_id
-        return render_template(f"equipos/equipo{id}.html", equipo=equipo, jugadores=jugadores, equipo_id=equipo_id, categorias=categorias, categoria=categoria)
-    else:
-        # Si no se encuentra el equipo, devuelve un mensaje de error y un código de estado 404
-        return jsonify({"error": "equipo no encontrado"}), 404
 
 
 @app.route('/jugador/<int:id>')

@@ -74,8 +74,8 @@ _________________________________
 
 /* Estilos del contenedor principal */
 main.table {
-  width: 82vw;
-  height: 90vh;
+  width: 95vw;
+  height: 95vh;
   background-color: #fff5;
   backdrop-filter: blur(7px);
   box-shadow: 0 .4rem .8rem #0005;
@@ -161,7 +161,15 @@ main.table {
 
 /* Estilos generales de la tabla */
 table {
-  width: 100%;
+  width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+  border-collapse: collapse; /* Combina los bordes de las celdas */
+}
+
+th, td {
+  text-align: center; /* Centra el texto horizontalmente en las celdas */
+  align-items: center;
+  padding: 8px; /* Espaciado interno para las celdas */
+  border: 1px solid #ddd; /* Borde de 1px y color gris claro */
 }
 
 /* Estilos de las imágenes en las celdas */
@@ -179,7 +187,7 @@ th,
 td {
   border-collapse: collapse;
   padding: 1rem;
-  text-align: left;
+  text-align: center;
 }
 
 /* Estilos del encabezado de la tabla */

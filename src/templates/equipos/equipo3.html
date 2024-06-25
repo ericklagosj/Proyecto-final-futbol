@@ -212,22 +212,28 @@
                 <thead>
                     <tr>
                         <th>Nombre <span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Rut <span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Fecha Nacimiento <span class="icon-arrow">&UpArrow;</span></th>
                         <th>Categoría <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Goles<img src="/static/images/equipos/balon.png" alt="Goles" style="width: 20px; height: 20px;"> <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Tarjetas <img src="/static/images/equipos/tarjeta-amarilla.png" alt="Amarilla" style="width: 20px; height: 20px;"> <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Tarjetas <img src="/static/images/equipos/tarjeta-roja.png" alt="Roja" style="width: 20px; height: 20px;"> <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Asistencia <span class="icon-arrow">&UpArrow;</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for jugador in jugadores %}
                     <tr class="player-row">
                         <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{ jugador['Apellido_Materno'] }}</a></td>
-                        <td>{{ jugador['rut'] }}</td>
-                        <td>{{ jugador['Fecha_Nacimiento'] }}</td>
-                        <td>{{ jugador['Categoria_ID'] }}</td>
+                        <td>{{ jugador['Categoria'] }}</td>
+                        <td>{{ jugador['Goles_Anotados'] }}</td>
+                        <td>{{ jugador['Tarjetas_Amarillas'] }}</td>
+                        <td>{{ jugador['Tarjetas_Rojas'] }}</td>
+                        <td>{{ jugador['Asistencia'] }}%</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            
+            
         </section>
     </main>
     
