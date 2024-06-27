@@ -1,1 +1,120 @@
-hola
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Últimas Fotos</title>
+    <link rel="stylesheet" href="static/css/galeria_fotos.css">
+</head>
+<body>
+    <header>
+        <h1>Últimas fotos</h1>
+    </header>
+    <main>
+        <div class="gallery">
+            <div class="photo">
+                <img src="static/images/galeria/f1.jpeg" alt="Asociacion de Futbol" onclick="openLightbox();currentSlide(1)">
+                <div class="info">
+                    <p>Asociacion de Futbol</p>
+                    <div class="details">
+                        <span>PRIMER EQUIPO</span>
+                        <span>13 jun. 24</span>
+                    </div>
+                </div>
+            </div>
+            <div class="photo">
+                <img src="static/images/galeria/f2.jpeg" alt="Asociacion de Futbol" onclick="openLightbox();currentSlide(2)">
+                <div class="info">
+                    <p>Asociacion de Futbol</p>
+                    <div class="details">
+                        <span>PRIMER EQUIPO</span>
+                        <span>12 jun. 24</span>
+                    </div>
+                </div>
+            </div>
+            <div class="photo">
+                <img src="static/images/galeria/f3.jpeg" alt="Asociacion de Futbol" onclick="openLightbox();currentSlide(3)">
+                <div class="info">
+                    <p>Asociacion de Futbol</p>
+                    <div class="details">
+                        <span>PRIMER EQUIPO</span>
+                        <span>03 jun. 24</span>
+                    </div>
+                </div>
+            </div>
+            <div class="photo">
+                <img src="static/images/galeria/f4.jpeg" alt="Asociacion de Futbol" onclick="openLightbox();currentSlide(4)">
+                <div class="info">
+                    <p>Asociacion de Futbol</p>
+                    <div class="details">
+                        <span>PRIMER EQUIPO</span>
+                        <span>29 may. 24</span>
+                    </div>
+                </div>
+            </div>
+            <div class="photo">
+                <img src="static/images/galeria/f5.jpeg" alt="Asociacion de Futbol" onclick="openLightbox();currentSlide(5)">
+                <div class="info">
+                    <p>Asociacion de Futbol</p>
+                    <div class="details">
+                        <span>PRIMER EQUIPO</span>
+                        <span>25 may. 24</span>
+                    </div>
+                </div>
+            </div>
+            <div class="photo">
+                <img src="static/images/galeria/f6.jpeg" alt="Asociacion de Futbol" onclick="openLightbox();currentSlide(6)">
+                <div class="info">
+                    <p>Asociacion de Futbol</p>
+                    <div class="details">
+                        <span>PRIMER EQUIPO</span>
+                        <span>24 may. 24</span>
+                    </div>
+                </div>
+            </div>
+            <div class="photo">
+                <img src="static/images/galeria/f1.jpeg" alt="Asociacion de Futbol" onclick="openLightbox();currentSlide(7)">
+                <div class="info">
+                    <p>Asociacion de Futbol</p>
+                    <div class="details">
+                        <span>PRIMER EQUIPO</span>
+                        <span>23 may. 24</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox" class="lightbox">
+            <span class="close" onclick="closeLightbox()">&times;</span>
+            <div class="lightbox-content">
+                <div class="slide">
+                    <img src="static/images/galeria/f1.jpeg" alt="Flick, presente en el entrenamiento del Barça Atlètic">
+                </div>
+                <div class="slide">
+                    <img src="static/images/galeria/f2.jpeg" alt="Gavi sigue con su recuperación">
+                </div>
+                <div class="slide">
+                    <img src="static/images/galeria/f3.jpeg" alt="Balde sigue con su recuperación">
+                </div>
+                <div class="slide">
+                    <img src="static/images/galeria/f4.jpeg" alt="Acuerdo con Hansi Flick hasta el 30 de junio de 2026">
+                </div>
+                <div class="slide">
+                    <img src="static/images/galeria/f5.jpeg" alt="Las imágenes de la victoria ante el Sevilla">
+                </div>
+                <div class="slide">
+                    <img src="static/images/galeria/f6.jpeg" alt="El entrenamiento del primer equipo (25-05-2024)">
+                </div>
+                <div class="slide">
+                    <img src="static/images/galeria/f1.jpeg" alt="En el horizonte, el último partido de Liga">
+                </div>
+            </div>
+            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+            <a class="next" onclick="changeSlide(1)">&#10095;</a>
+        </div>
+    </main>
+
+    <script src="static/js/galeria_fotos.js"></script>
+</body>
+</html>
