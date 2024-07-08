@@ -1,232 +1,383 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tabla de Posiciones</title>
     <link rel="stylesheet" type="text/css" href="/static/css/tablas.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css"
+      rel="stylesheet"
+    />
     <style>
-        /* CSS personalizado para la tabla de posiciones */
+      /* CSS personalizado para la tabla de posiciones */
 
-        /* Estilos generales de la tabla y las celdas */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+      /* Estilos generales de la tabla y las celdas */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
 
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
 
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
 
-        /* Estilos específicos para las columnas */
-        th:nth-child(1), td:nth-child(1) { width: 3%; } /* Pos */
-        th:nth-child(2), td:nth-child(2) { width: 25%; } /* Club */
-        th:nth-child(3), td:nth-child(3) { width: 10%; } /* PTS */
-        th:nth-child(4), td:nth-child(4) { width: 10%; } /* PJ */
-        th:nth-child(5), td:nth-child(5) { width: 10%; } /* PG */
-        th:nth-child(6), td:nth-child(6) { width: 10%; } /* PE */
-        th:nth-child(7), td:nth-child(7) { width: 10%; } /* PP */
-        th:nth-child(8), td:nth-child(8) { width: 5%; } /* GF */
-        th:nth-child(9), td:nth-child(9) { width: 5%; } /* GC */
-        th:nth-child(10), td:nth-child(10) { width: 10%; } /* DIF */
-        th:nth-child(11), td:nth-child(11) { width: 10%; } /* Últimos 5 */
+      /* Estilos específicos para las columnas */
+      th:nth-child(1),
+      td:nth-child(1) {
+        width: 3%;
+      } /* Pos */
+      th:nth-child(2),
+      td:nth-child(2) {
+        width: 25%;
+      } /* Club */
+      th:nth-child(3),
+      td:nth-child(3) {
+        width: 10%;
+      } /* PTS */
+      th:nth-child(4),
+      td:nth-child(4) {
+        width: 10%;
+      } /* PJ */
+      th:nth-child(5),
+      td:nth-child(5) {
+        width: 10%;
+      } /* PG */
+      th:nth-child(6),
+      td:nth-child(6) {
+        width: 10%;
+      } /* PE */
+      th:nth-child(7),
+      td:nth-child(7) {
+        width: 10%;
+      } /* PP */
+      th:nth-child(8),
+      td:nth-child(8) {
+        width: 5%;
+      } /* GF */
+      th:nth-child(9),
+      td:nth-child(9) {
+        width: 5%;
+      } /* GC */
+      th:nth-child(10),
+      td:nth-child(10) {
+        width: 10%;
+      } /* DIF */
+      th:nth-child(11),
+      td:nth-child(11) {
+        width: 10%;
+      } /* Últimos 5 */
 
-        /* Alineación vertical de los números de posición */
-        td:first-child {
-            vertical-align: middle;
-            text-align: center;
-        }
+      /* Alineación vertical de los números de posición */
+      td:first-child {
+        vertical-align: middle;
+        text-align: center;
+      }
 
-        /* Ajustes para la imagen del escudo */
-        .club-logo {
-            height: 20px;
-            width: 20px;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
+      /* Ajustes para la imagen del escudo */
+      .club-logo {
+        height: 20px;
+        width: 20px;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
 
-        /* Mostrar nombres completos por defecto */
+      /* Mostrar nombres completos por defecto */
+      .club-name-full {
+        display: inline;
+      }
+
+      .club-name-siglas {
+        display: none;
+      }
+
+      /* En pantallas pequeñas, mostrar las siglas y ocultar los nombres completos */
+      @media (max-width: 768px) {
         .club-name-full {
-            display: inline;
+          display: none;
         }
 
         .club-name-siglas {
-            display: none;
+          display: inline;
         }
 
-        /* En pantallas pequeñas, mostrar las siglas y ocultar los nombres completos */
-        @media (max-width: 768px) {
-            .club-name-full {
-                display: none;
-            }
-
-            .club-name-siglas {
-                display: inline;
-            }
-
-            th, td {
-                padding: 10px;
-                text-align: center;
-                border-bottom: 1px solid #ddd;
-            }
-
-            .titulo {
-                text-align: center;
-                color: #000000;
-            }
+        th,
+        td {
+          padding: 10px;
+          text-align: center;
+          border-bottom: 1px solid #ddd;
         }
 
-        /* Estilo personalizado para la columna de PTS */
-        .pts-column {
-            background-color: #0755ff;
-            font-weight: bold;
-            text-align: center; /* Centrar el texto */
-            color: #ffffff;
-            border-radius: 3px;
+        .titulo {
+          text-align: center;
+          color: #000000;
         }
+      }
 
-        /* Estilo para resaltar los primeros tres lugares */
-        .highlight-row {
-            border-left: 5px solid #00ff00; /* Línea verde delgada al lado izquierdo */
-        }
+      /* Estilo personalizado para la columna de PTS */
+      .pts-column {
+        background-color: #0755ff;
+        font-weight: bold;
+        text-align: center; /* Centrar el texto */
+        color: #ffffff;
+        border-radius: 3px;
+      }
 
-        /* Estilos para hacer la columna "Club" fija */
-        .sticky-column {
-            position: -webkit-sticky; /* Safari */
-            position: sticky;
-            left: 0;
-            background-color: #f2f2f2fa; /* Mantener el fondo de la columna */
-            z-index: 1; /* Asegura que la columna esté por encima de las otras columnas */
-        }
+      /* Estilo para resaltar los primeros tres lugares */
+      .highlight-row {
+        border-left: 5px solid #00ff00; /* Línea verde delgada al lado izquierdo */
+      }
 
-        /* Fondo del encabezado */
-        .primera-fila {
-            background-color: #f2f2f2fa;
-        }
+      /* Estilos para hacer la columna "Club" fija */
+      .sticky-column {
+        position: -webkit-sticky; /* Safari */
+        position: sticky;
+        left: 0;
+        background-color: #f2f2f2fa; /* Mantener el fondo de la columna */
+        z-index: 1; /* Asegura que la columna esté por encima de las otras columnas */
+      }
 
-        /* Color de fondo específico para la celda del encabezado "Club" */
-        th.sticky-column {
-            background-color: #d5d1defe;
-            z-index: 2; /* Asegura que la columna esté por encima de las otras columnas */
-        }
+      /* Fondo del encabezado */
+      .primera-fila {
+        background-color: #f2f2f2fa;
+      }
 
+      /* Color de fondo específico para la celda del encabezado "Club" */
+      th.sticky-column {
+        background-color: #d5d1defe;
+        z-index: 2; /* Asegura que la columna esté por encima de las otras columnas */
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <header>
+      <div class="announcement-bar">
+        <div id="next-matches">
+          <!-- Los partidos se cargarán aquí mediante JavaScript -->
+        </div>
+      </div>
+      <nav class="navbar">
+        <div class="navbar-container">
+          <div class="navbar-toggle" id="mobile-menu">
+            <i class="ri-menu-line"></i>
+          </div>
+          <div class="navbar-logo">
+            <img src="/static/images/logo.png" alt="Logo" />
+          </div>
+        </div>
+        <div class="navbar-links" id="navbar-links">
+          <a href="{{ url_for('home') }}"> INICIO</a>
+          <a href="{{ url_for('noticias') }}"> NOTICIAS</a>
+          <a href="{{ url_for('calendario') }}"> CALENDARIO</a>
+          <div class="dropdown">
+            <button class="dropbtn">
+              POSICIONES <i class="ri-arrow-down-s-line"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{{ url_for('tabla_posiciones')}}">PRIMERA DIVISION</a>
+              <a href="{{ url_for('tabla_posiciones_segunda') }}"
+                >SEGUNDA DIVISION</a
+              >
+            </div>
+          </div>
+          <a href="{{ url_for('mostrar_jugadores')}}"> ASISTENCIA</a>
+          <a href="{{ url_for('estadisticas_jugadores') }}"> ESTADISTICAS</a>
+          <a href="{{ url_for('resultados_partidos')}}"> PARTIDOS</a>
+          <a href="{{ url_for('galeria') }}"> GALERIA</a>
+          <a href="#"> REGLAMENTO</a>
+        </div>
+        <div class="navbar-actions" id="navbar-actions">
+          <a href="{{ url_for('login') }}" class="highlight"
+            ><i class="ri-user-line"></i> LogIn</a
+          >
+          <div class="navbar-search" id="navbar-search">
+            <input type="text" placeholder="Buscar..." />
+            <i class="ri-search-line"></i>
+          </div>
+        </div>
+      </nav>
+    </header>
     <main class="table" id="posiciones_table">
-        <h1 class="titulo">Tabla Primera división</h1>
-        <section class="table__header">
-            <!-- Muestra la categoría seleccionada -->
-            <h3 id="categoria_seleccionada"></h3>
-            <!-- Barra de búsqueda 
+      <h1 class="titulo">Tabla Primera división</h1>
+      <section class="table__header">
+        <!-- Muestra la categoría seleccionada -->
+        <h3 id="categoria_seleccionada"></h3>
+        <!-- Barra de búsqueda 
             <div class="input-group">
                 <input type="search" placeholder="Buscar Equipos..." />
                 <img src="/static/images/equipos/search.png" alt="" />
             </div>-->
-        
-            <div class="category-filter">
-                <form id="category-form" action="{{ url_for('tabla_posiciones') }}" method="get">
-                    <label for="category-select">Seleccionar Categoría:</label>
-                    <select id="category-select" name="categoria">
-                        <option value="all">Todas</option>
-                        <option value="1">Juvenil</option>
-                        <option value="2">Adulta</option>
-                        <option value="3">Senior</option>
-                        <option value="4">Super Senior</option>
-                        <option value="5">Honor</option>
-                    </select>
-                    <input type="submit" style="display: none;"> 
-                </form>
-            </div>
 
-            <!-- Opciones de exportación -->
-            <div class="export__file">
-                <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
-                <input type="checkbox" id="export-file">
-                <div class="export__file-options">
-                    <label>Exportar como &nbsp; &#10140;</label>
-                    <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt=""></label>
-                    <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt=""></label>
-                    <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt=""></label>
-                    <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt=""></label>
-                </div>
-            </div>
-        </section>
-        <section class="table__body">
-            <table>
-                <thead>
-                    <tr class="primera-fila">
-                        <th style="width: 5%;">Pos</th>
-                        <th class="sticky-column" style="width: 25%;">Club</th>
-                        <th class="pts-column" style="width: 10%;">PTS</th>
-                        <th style="width: 10%;">PJ</th>
-                        <th style="width: 10%;">PG</th>
-                        <th style="width: 10%;">PE</th>
-                        <th style="width: 10%;">PP</th>
-                        <th style="width: 5%;">GF</th>
-                        <th style="width: 5%;">GC</th>
-                        <th style="width: 10%;">DIF</th>
-                        <th style="width: 10%;">Últimos 5</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for equipo in tabla_posiciones %}
-                    <tr class="{% if loop.index <= 4 %}highlight-row{% endif %}">
-                        <td class="primera-fila">{{ loop.index }}</td>
-                        <td class="sticky-column">
-                            <img src="{{ equipo.Imagen }}" class="club-logo" alt="Escudo del equipo">
-                            <span class="club-name-full">{{ equipo.Club }}</span>
-                            <span class="club-name-siglas">{{ equipo.Siglas }}</span>
-                        </td>
-                        <td class="pts-column">{{ equipo.PTS }}</td>
-                        <td>{{ equipo.PJ }}</td>
-                        <td>{{ equipo.PG }}</td>
-                        <td>{{ equipo.PE }}</td>
-                        <td>{{ equipo.PP }}</td>
-                        <td>{{ equipo.GF }}</td>
-                        <td>{{ equipo.GC }}</td>
-                        <td>{{ equipo.DIF }}</td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
+        <div class="category-filter">
+          <form
+            id="category-form"
+            action="{{ url_for('tabla_posiciones') }}"
+            method="get"
+          >
+            <label for="category-select">Seleccionar Categoría:</label>
+            <select id="category-select" name="categoria">
+              <option value="all">Todas</option>
+              <option value="1">Juvenil</option>
+              <option value="2">Adulta</option>
+              <option value="3">Senior</option>
+              <option value="4">Super Senior</option>
+              <option value="5">Honor</option>
+            </select>
+            <input type="submit" style="display: none" />
+          </form>
+        </div>
+
+        <!-- Opciones de exportación -->
+        <div class="export__file">
+          <label
+            for="export-file"
+            class="export__file-btn"
+            title="Exportar Archivo"
+          ></label>
+          <input type="checkbox" id="export-file" />
+          <div class="export__file-options">
+            <label>Exportar como &nbsp; &#10140;</label>
+            <label for="export-file" id="toPDF"
+              >PDF <img src="/static/images/equipos/pdf.png" alt=""
+            /></label>
+            <label for="export-file" id="toJSON"
+              >JSON <img src="/static/images/equipos/json.png" alt=""
+            /></label>
+            <label for="export-file" id="toCSV"
+              >CSV <img src="/static/images/equipos/csv.png" alt=""
+            /></label>
+            <label for="export-file" id="toEXCEL"
+              >EXCEL <img src="/static/images/equipos/excel.png" alt=""
+            /></label>
+          </div>
+        </div>
+      </section>
+      <section class="table__body">
+        <table>
+          <thead>
+            <tr class="primera-fila">
+              <th style="width: 5%">Pos</th>
+              <th class="sticky-column" style="width: 25%">Club</th>
+              <th class="pts-column" style="width: 10%">PTS</th>
+              <th style="width: 10%">PJ</th>
+              <th style="width: 10%">PG</th>
+              <th style="width: 10%">PE</th>
+              <th style="width: 10%">PP</th>
+              <th style="width: 5%">GF</th>
+              <th style="width: 5%">GC</th>
+              <th style="width: 10%">DIF</th>
+              <th style="width: 10%">Últimos 5</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for equipo in tabla_posiciones %}
+            <tr class="{% if loop.index <= 4 %}highlight-row{% endif %}">
+              <td class="primera-fila">{{ loop.index }}</td>
+              <td class="sticky-column">
+                <img
+                  src="{{ equipo.Imagen }}"
+                  class="club-logo"
+                  alt="Escudo del equipo"
+                />
+                <span class="club-name-full">{{ equipo.Club }}</span>
+                <span class="club-name-siglas">{{ equipo.Siglas }}</span>
+              </td>
+              <td class="pts-column">{{ equipo.PTS }}</td>
+              <td>{{ equipo.PJ }}</td>
+              <td>{{ equipo.PG }}</td>
+              <td>{{ equipo.PE }}</td>
+              <td>{{ equipo.PP }}</td>
+              <td>{{ equipo.GF }}</td>
+              <td>{{ equipo.GC }}</td>
+              <td>{{ equipo.DIF }}</td>
+              <td></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
     </main>
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-logo">
+          <img src="/static/images/logo.png" alt="Logo" />
+        </div>
+        <div class="footer-lang">
+          <a href="#">ASOCIACION DEPORTIVA</a>
+        </div>
+        <div class="footer-top-link">
+          <a href="#">Back to the top <i class="ri-arrow-up-s-line"></i></a>
+        </div>
+      </div>
+      <div class="footer-contact">
+        <p>Dirección: Calle Falsa 123, Ciudad, País</p>
+        <p>Teléfono: +123 456 7890</p>
+      </div>
+      <div class="footer-subscribe">
+        <h3>Suscríbete a nuestro boletín</h3>
+        <form id="subscribe-form">
+          <input type="email" placeholder="Ingresa tu email" required />
+          <button type="submit">Suscribirse</button>
+        </form>
+      </div>
+      <div class="footer-social">
+        <a href="#"><i class="ri-youtube-line"></i></a>
+        <a href="#"><i class="ri-instagram-line"></i></a>
+        <a href="#"><i class="ri-twitter-line"></i></a>
+        <a href="#"><i class="ri-facebook-circle-line"></i></a>
+        <a href="#"><i class="ri-linkedin-line"></i></a>
+        <a href="#"><i class="ri-twitch-line"></i></a>
+      </div>
+      <div class="footer-bottom">
+        <a href="#">ACCESSIBILITY</a>
+        <a href="#">FAIR PROCESSING NOTICE</a>
+        <a href="#">COOKIE POLICY</a>
+        <a href="#">PRIVACY POLICY</a>
+        <a href="#">TERMS OF USE</a>
+        <a href="#">CONTACT US</a>
+        <a href="#">SITEMAP</a>
+      </div>
+    </footer>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
+      document.addEventListener("DOMContentLoaded", function () {
         const categoryForm = document.getElementById("category-form");
         const categorySelect = document.getElementById("category-select");
-        const categoriaSeleccionadaElement = document.getElementById("categoria_seleccionada");
+        const categoriaSeleccionadaElement = document.getElementById(
+          "categoria_seleccionada"
+        );
 
         // Agregar un evento al cambio de selección en el menú desplegable
         categorySelect.addEventListener("change", function () {
-            // Enviar automáticamente el formulario cuando se selecciona una categoría
-            categoryForm.submit();
+          // Enviar automáticamente el formulario cuando se selecciona una categoría
+          categoryForm.submit();
         });
 
         // Actualizar el valor seleccionado en el menú desplegable para reflejar la categoría seleccionada
-        const categoriaSeleccionadaValue = window.location.search.split('=')[1];
+        const categoriaSeleccionadaValue = window.location.search.split("=")[1];
         if (categoriaSeleccionadaValue) {
-            categorySelect.value = categoriaSeleccionadaValue;
+          categorySelect.value = categoriaSeleccionadaValue;
         }
 
         // Actualizar el texto de la categoría seleccionada después de que se haya actualizado el valor seleccionado
-        const categoriaSeleccionada = categorySelect.options[categorySelect.selectedIndex].text;
-        categoriaSeleccionadaElement.textContent = "Categoría: " + categoriaSeleccionada;
-
-    });
-
+        const categoriaSeleccionada =
+          categorySelect.options[categorySelect.selectedIndex].text;
+        categoriaSeleccionadaElement.textContent =
+          "Categoría: " + categoriaSeleccionada;
+      });
     </script>
     <script src="/static/js/filtro.js"></script>
     <script src="/static/js/tablas.js"></script>
-</body>
-
+  </body>
 </html>

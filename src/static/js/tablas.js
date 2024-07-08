@@ -1,234 +1,275 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", (event) => {
+  // Smooth Scroll to Top
+  document
+    .querySelector(".footer-top-link a")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+  // Toggle mobile menu
+  document.getElementById("mobile-menu").addEventListener("click", function () {
+    document.getElementById("navbar-links").classList.toggle("active");
+    document.getElementById("navbar-actions").classList.toggle("active");
+    document.getElementById("navbar-search").classList.toggle("active");
+  });
+
+  // Form Submission (Example)
+  document
+    .querySelector("#subscribe-form")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Simulate form submission
+      const email = document.querySelector("#subscribe-form input").value;
+      if (email) {
+        alert(`Suscripción exitosa con el email: ${email}`);
+        // Here you would typically send the email to your server
+        document.querySelector("#subscribe-form").reset();
+      } else {
+        alert("Por favor, ingrese un email válido.");
+      }
+    });
+});
+
+/* FIN SCRIPT NAVBAR */
+
+document.addEventListener("DOMContentLoaded", function () {
   const search = document.querySelector(".input-group input"),
-      table_rows = document.querySelectorAll("tbody tr"),
-      table_headings = document.querySelectorAll("thead th"),
-      posiciones_table = document.querySelector("#posiciones_table");
+    table_rows = document.querySelectorAll("tbody tr"),
+    table_headings = document.querySelectorAll("thead th"),
+    posiciones_table = document.querySelector("#posiciones_table");
 
   // 1. Buscando datos específicos de la tabla HTML
   if (search) {
-      search.addEventListener("input", searchTable);
+    search.addEventListener("input", searchTable);
   }
 
   function searchTable() {
-      table_rows.forEach((row, i) => {
-          let table_data = row.textContent.toLowerCase(),
-              search_data = search.value.toLowerCase();
+    table_rows.forEach((row, i) => {
+      let table_data = row.textContent.toLowerCase(),
+        search_data = search.value.toLowerCase();
 
-          row.classList.toggle("hide", table_data.indexOf(search_data) < 0);
-          row.style.setProperty("--delay", i / 25 + "s");
-      });
+      row.classList.toggle("hide", table_data.indexOf(search_data) < 0);
+      row.style.setProperty("--delay", i / 25 + "s");
+    });
 
-      document.querySelectorAll("tbody tr:not(.hide)").forEach((visible_row, i) => {
-          visible_row.style.backgroundColor =
-              i % 2 == 0 ? "transparent" : "#0000000b";
+    document
+      .querySelectorAll("tbody tr:not(.hide)")
+      .forEach((visible_row, i) => {
+        visible_row.style.backgroundColor =
+          i % 2 == 0 ? "transparent" : "#0000000b";
       });
   }
 
   // 2. Ordenando datos de la tabla HTML
   if (table_headings) {
-      table_headings.forEach((head, i) => {
-          let sort_asc = true;
-          head.onclick = () => {
-              table_headings.forEach((head) => head.classList.remove("active"));
-              head.classList.add("active");
+    table_headings.forEach((head, i) => {
+      let sort_asc = true;
+      head.onclick = () => {
+        table_headings.forEach((head) => head.classList.remove("active"));
+        head.classList.add("active");
 
-              document
-                  .querySelectorAll("td")
-                  .forEach((td) => td.classList.remove("active"));
-              table_rows.forEach((row) => {
-                  row.querySelectorAll("td")[i].classList.add("active");
-              });
+        document
+          .querySelectorAll("td")
+          .forEach((td) => td.classList.remove("active"));
+        table_rows.forEach((row) => {
+          row.querySelectorAll("td")[i].classList.add("active");
+        });
 
-              head.classList.toggle("asc", sort_asc);
-              sort_asc = head.classList.contains("asc") ? false : true;
+        head.classList.toggle("asc", sort_asc);
+        sort_asc = head.classList.contains("asc") ? false : true;
 
-              sortTable(i, sort_asc);
-          };
-      });
+        sortTable(i, sort_asc);
+      };
+    });
   }
 
   function sortTable(column, sort_asc) {
-      [...table_rows]
-          .sort((a, b) => {
-              let first_row = a
-                      .querySelectorAll("td")
-                  [column].textContent.toLowerCase(),
-                  second_row = b.querySelectorAll("td")[column].textContent.toLowerCase();
+    [...table_rows]
+      .sort((a, b) => {
+        let first_row = a
+            .querySelectorAll("td")
+            [column].textContent.toLowerCase(),
+          second_row = b
+            .querySelectorAll("td")
+            [column].textContent.toLowerCase();
 
-              return sort_asc ?
-                  first_row < second_row ?
-                  1 :
-                  -1 :
-                  first_row < second_row ?
-                  -1 :
-                  1;
-          })
-          .map((sorted_row) =>
-              document.querySelector("tbody").appendChild(sorted_row)
-          );
+        return sort_asc
+          ? first_row < second_row
+            ? 1
+            : -1
+          : first_row < second_row
+          ? -1
+          : 1;
+      })
+      .map((sorted_row) =>
+        document.querySelector("tbody").appendChild(sorted_row)
+      );
   }
 
   // 3. Convirtiendo tabla HTML a PDF
   const pdf_btn = document.querySelector("#toPDF");
   if (pdf_btn) {
-      pdf_btn.onclick = () => {
-          toPDF(posiciones_table);
-      };
+    pdf_btn.onclick = () => {
+      toPDF(posiciones_table);
+    };
   }
 
   const toPDF = function (table) {
-      const html_code = `
+    const html_code = `
           <!DOCTYPE html>
           <link rel="stylesheet" type="text/css" href="style.css">
           <main class="table" id="posiciones_table">${table.innerHTML}</main>`;
 
-      const new_window = window.open();
-      new_window.document.write(html_code);
+    const new_window = window.open();
+    new_window.document.write(html_code);
 
-      setTimeout(() => {
-          new_window.print();
-          new_window.close();
-      }, 400);
+    setTimeout(() => {
+      new_window.print();
+      new_window.close();
+    }, 400);
   };
 
   // 4. Convirtiendo tabla HTML a JSON
   const json_btn = document.querySelector("#toJSON");
   if (json_btn) {
-      json_btn.onclick = () => {
-          const json = toJSON(posiciones_table);
-          downloadFile(json, "json");
-      };
+    json_btn.onclick = () => {
+      const json = toJSON(posiciones_table);
+      downloadFile(json, "json");
+    };
   }
 
   const toJSON = function (table) {
-      let table_data = [],
-          t_head = [],
-          t_headings = table.querySelectorAll("th"),
-          t_rows = table.querySelectorAll("tbody tr");
+    let table_data = [],
+      t_head = [],
+      t_headings = table.querySelectorAll("th"),
+      t_rows = table.querySelectorAll("tbody tr");
 
-      for (let t_heading of t_headings) {
-          let actual_head = t_heading.textContent.trim().split(" ");
+    for (let t_heading of t_headings) {
+      let actual_head = t_heading.textContent.trim().split(" ");
 
-          t_head.push(
-              actual_head
-                  .splice(0, actual_head.length - 1)
-                  .join(" ")
-                  .toLowerCase()
-          );
-      }
+      t_head.push(
+        actual_head
+          .splice(0, actual_head.length - 1)
+          .join(" ")
+          .toLowerCase()
+      );
+    }
 
-      t_rows.forEach((row) => {
-          const row_object = {},
-              t_cells = row.querySelectorAll("td");
+    t_rows.forEach((row) => {
+      const row_object = {},
+        t_cells = row.querySelectorAll("td");
 
-          t_cells.forEach((t_cell, cell_index) => {
-              const img = t_cell.querySelector("img");
-              if (img) {
-                  row_object["customer image"] = decodeURIComponent(img.src);
-              }
-              row_object[t_head[cell_index]] = t_cell.textContent.trim();
-          });
-          table_data.push(row_object);
+      t_cells.forEach((t_cell, cell_index) => {
+        const img = t_cell.querySelector("img");
+        if (img) {
+          row_object["customer image"] = decodeURIComponent(img.src);
+        }
+        row_object[t_head[cell_index]] = t_cell.textContent.trim();
       });
+      table_data.push(row_object);
+    });
 
-      return JSON.stringify(table_data, null, 4);
+    return JSON.stringify(table_data, null, 4);
   };
 
   // 5. Convirtiendo tabla HTML a archivo CSV
   const csv_btn = document.querySelector("#toCSV");
   if (csv_btn) {
-      csv_btn.onclick = () => {
-          const csv = toCSV(posiciones_table);
-          downloadFile(csv, "csv", "customer orders");
-      };
+    csv_btn.onclick = () => {
+      const csv = toCSV(posiciones_table);
+      downloadFile(csv, "csv", "customer orders");
+    };
   }
 
   const toCSV = function (table) {
-      const t_heads = table.querySelectorAll("th"),
-          tbody_rows = table.querySelectorAll("tbody tr");
+    const t_heads = table.querySelectorAll("th"),
+      tbody_rows = table.querySelectorAll("tbody tr");
 
-      const headings =
-          [...t_heads]
-              .map((head) => {
-                  let actual_head = head.textContent.trim().split(" ");
-                  return actual_head
-                      .splice(0, actual_head.length - 1)
-                      .join(" ")
-                      .toLowerCase();
-              })
-              .join(",") +
-          "," +
-          "image name";
+    const headings =
+      [...t_heads]
+        .map((head) => {
+          let actual_head = head.textContent.trim().split(" ");
+          return actual_head
+            .splice(0, actual_head.length - 1)
+            .join(" ")
+            .toLowerCase();
+        })
+        .join(",") +
+      "," +
+      "image name";
 
-      const table_data = [...tbody_rows]
-          .map((row) => {
-              const cells = row.querySelectorAll("td"),
-                  img = decodeURIComponent(row.querySelector("img").src),
-                  data_without_img = [...cells]
-                      .map((cell) => cell.textContent.replace(/,/g, ".").trim())
-                      .join(",");
+    const table_data = [...tbody_rows]
+      .map((row) => {
+        const cells = row.querySelectorAll("td"),
+          img = decodeURIComponent(row.querySelector("img").src),
+          data_without_img = [...cells]
+            .map((cell) => cell.textContent.replace(/,/g, ".").trim())
+            .join(",");
 
-              return data_without_img + "," + img;
-          })
-          .join("\n");
+        return data_without_img + "," + img;
+      })
+      .join("\n");
 
-      return headings + "\n" + table_data;
+    return headings + "\n" + table_data;
   };
 
   // 6. Convirtiendo tabla HTML a archivo de Excel
   const excel_btn = document.querySelector("#toEXCEL");
   if (excel_btn) {
-      excel_btn.onclick = () => {
-          const excel = toExcel(posiciones_table);
-          downloadFile(excel, "excel");
-      };
+    excel_btn.onclick = () => {
+      const excel = toExcel(posiciones_table);
+      downloadFile(excel, "excel");
+    };
   }
 
   const toExcel = function (table) {
-      const t_heads = table.querySelectorAll("th"),
-          tbody_rows = table.querySelectorAll("tbody tr");
+    const t_heads = table.querySelectorAll("th"),
+      tbody_rows = table.querySelectorAll("tbody tr");
 
-      const headings =
-          [...t_heads]
-              .map((head) => {
-                  let actual_head = head.textContent.trim().split(" ");
-                  return actual_head
-                      .splice(0, actual_head.length - 1)
-                      .join(" ")
-                      .toLowerCase();
-              })
-              .join("\t") +
-          "\t" +
-          "image name";
+    const headings =
+      [...t_heads]
+        .map((head) => {
+          let actual_head = head.textContent.trim().split(" ");
+          return actual_head
+            .splice(0, actual_head.length - 1)
+            .join(" ")
+            .toLowerCase();
+        })
+        .join("\t") +
+      "\t" +
+      "image name";
 
-      const table_data = [...tbody_rows]
-          .map((row) => {
-              const cells = row.querySelectorAll("td"),
-                  img = decodeURIComponent(row.querySelector("img").src),
-                  data_without_img = [...cells]
-                      .map((cell) => cell.textContent.trim())
-                      .join("\t");
+    const table_data = [...tbody_rows]
+      .map((row) => {
+        const cells = row.querySelectorAll("td"),
+          img = decodeURIComponent(row.querySelector("img").src),
+          data_without_img = [...cells]
+            .map((cell) => cell.textContent.trim())
+            .join("\t");
 
-              return data_without_img + "\t" + img;
-          })
-          .join("\n");
+        return data_without_img + "\t" + img;
+      })
+      .join("\n");
 
-      return headings + "\n" + table_data;
+    return headings + "\n" + table_data;
   };
 
   const downloadFile = function (data, fileType, fileName = "") {
-      const a = document.createElement("a");
-      a.download = fileName;
-      const mime_types = {
-          json: "application/json",
-          csv: "text/csv",
-          excel: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      };
-      a.href = `
+    const a = document.createElement("a");
+    a.download = fileName;
+    const mime_types = {
+      json: "application/json",
+      csv: "text/csv",
+      excel:
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    };
+    a.href = `
           data:${mime_types[fileType]};charset=utf-8,${encodeURIComponent(data)}
       `;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   };
 });

@@ -9,7 +9,7 @@
   --first-color: hsl(220, 68%, 54%);
   --first-color-lighten: hsl(220, 68%, 97%);
   --title-color: hsl(220, 48%, 28%);
-  --text-color: hsl(220, 12%, 45%);
+  --text-color: hsl(0, 0%, 0%);
   --body-color: hsl(220, 100%, 99%);
   /*========== Font and typography ==========*/
   /*.5rem = 8px | 1rem = 16px ...*/
@@ -47,6 +47,7 @@ body {
   color: var(--text-color);
 }
 
+
 ul {
   list-style: none;
 }
@@ -72,6 +73,10 @@ a {
     --body-color
   ) !important; /* Asegúrate de que esta propiedad esté presente */
   z-index: var(--z-fixed);
+}
+
+.content{
+  margin-top: 6.5rem;
 }
 
 /*=============== NAV ===============*/

@@ -4,9 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calendario Partidos</title>
-    <link rel="stylesheet" href="../static/css/calendario.css" />
+    <link rel="stylesheet" href="static/css/calendario.css" />
   </head>
   <body>
+    <style>
+      /* Aquí va el CSS para ajustar las imágenes */
+      /* CSS para ajustar las imágenes */
+      img {
+        max-width: 16%;
+        height: auto;
+        display: block;
+        margin-inline: auto;
+      }
+
+      /* Ocultar imágenes en filas de datos */
+      tbody tr img {
+        display: none;
+      }
+
+      .header img {
+        max-width: 40px; /* Ajusta este valor según necesites */
+        height: auto;
+      }
+    </style>
+
     <!--=============== HEADER ===============-->
     <header class="header">
       <nav class="nav container">
