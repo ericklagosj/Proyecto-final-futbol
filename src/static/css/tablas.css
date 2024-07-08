@@ -172,6 +172,7 @@ body {
 
   .navbar-toggle {
     display: block;
+    margin-left: -40px; /* Ajusta el margen izquierdo según sea necesario */
   }
 
   .navbar-links {
@@ -235,6 +236,18 @@ body {
     text-align: left;
     padding-left: 40px;
   }
+
+  .navbar-logo {
+    position: absolute;
+    right: 20px;
+    top: 26px;
+    transform: translateY(-50%);
+    z-index: 1000; /* Asegura que el logo esté por encima del menú desplegable */
+  }
+
+  .navbar-logo img {
+    height: 20px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -244,7 +257,7 @@ body {
   }
 
   .navbar-logo img {
-    height: 30px;
+    height: 49px;
   }
 
   .navbar-links a,
@@ -258,6 +271,7 @@ body {
     font-size: 14px;
   }
 }
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
