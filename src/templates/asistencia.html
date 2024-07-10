@@ -1,167 +1,161 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Asistencia de Jugadores</title>
     <link rel="stylesheet" href="../static/css/asistencia.css" />
     <!--=============== REMIXICONS ===============-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!--=============== HEADER ===============-->
-    <header class="header">
-      <nav class="nav container">
-        <div class="nav__data">
-          <a href="#" class="nav__logo">
-            <i class="ri-code-s-slash-line"></i> Asociacion Deportiva
-          </a>
-
-          <div class="nav__toggle" id="nav-toggle">
-            <i class="ri-menu-line nav__toggle-menu"></i>
-            <i class="ri-close-line nav__toggle-close"></i>
-          </div>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <div id="next-matches">
+                <!-- Los partidos se cargarán aquí mediante JavaScript -->
+            </div>
         </div>
-
-        <!--=============== NAV MENU ===============-->
-        <div class="nav__menu" id="nav-menu">
-          <ul class="nav__list">
-            <li>
-              <a href="{{ url_for('home') }}" class="nav__link">Inicio</a>
-            </li>
-            <li>
-              <a href="{{ url_for('noticias') }}" class="nav__link">
-                Noticias <i class="ri-newspaper-line"></i>
-              </a>
-            </li>
-            <li>
-              <a href="{{ url_for('galeria') }}" class="nav__link">
-                Galeria <i class="ri-gallery-line"></i>
-              </a>
-            </li>
-
-            <!--=============== DROPDOWN 1 ===============-->
-            <li class="dropdown__item">
-              <div class="nav__link dropdown__button">
-                Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
-              </div>
-
-              <div class="dropdown__container">
-                <div class="dropdown__content">
-                  <div class="dropdown__group">
-                    <div class="dropdown__icon">
-                      <i class="ri-flashlight-line"></i>
-                    </div>
-
-                    <span class="dropdown__title">Datos De Competencia</span>
-
-                    <ul class="dropdown__list">
-                      <li>
-                        <a
-                          href="{{ url_for('resultados_partidos')}}"
-                          class="dropdown__link"
-                          >Resultados Partidos</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          href="{{ url_for('estadisticas_jugadores') }}"
-                          class="dropdown__link"
-                          >Estadisticas Jugadores</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          href="{{ url_for('mostrar_jugadores')}}"
-                          class="dropdown__link"
-                          >Asistencias Jugadores</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="dropdown__group">
-                    <div class="dropdown__icon">
-                      <i class="ri-file-paper-2-line"></i>
-                    </div>
-
-                    <span class="dropdown__title">Posiciones</span>
-
-                    <ul class="dropdown__list">
-                      <li>
-                        <a
-                          href="{{ url_for('tabla_posiciones')}}"
-                          class="dropdown__link"
-                          >Primera Division</a
-                        >
-                      </li>
-                      <li>
-                        <a
-                          href="{{ url_for('tabla_posiciones_segunda') }}"
-                          class="dropdown__link"
-                          >Segunda Division</a
-                        >
-                      </li>
-                    </ul>
-                    <li>
-                      <a href="{{ url_for('login') }}" class="nav__link">
-                        Acceso <i class="ri-login-box-line"></i>
-                      </a>
-                    </li>
-                  </div>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-toggle" id="mobile-menu">
+                    <i class="ri-menu-line"></i>
                 </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
+                <div class="navbar-logo">
+                    <img src="/static/images/logo.png" alt="Logo" />
+                </div>
+            </div>
+            <div class="navbar-links" id="navbar-links">
+                <a href="{{ url_for('home') }}"> INICIO</a>
+                <a href="{{ url_for('noticias') }}"> NOTICIAS</a>
+                <a href="{{ url_for('calendario') }}"> CALENDARIO</a>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        POSICIONES <i class="ri-arrow-down-s-line"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('tabla_posiciones')}}">PRIMERA DIVISION</a>
+                        <a href="{{ url_for('tabla_posiciones_segunda') }}">SEGUNDA DIVISION</a>
+                    </div>
+                </div>
+                <a href="{{ url_for('mostrar_jugadores')}}"> ASISTENCIA</a>
+                <a href="{{ url_for('estadisticas_jugadores') }}"> ESTADISTICAS</a>
+                <a href="{{ url_for('resultados_partidos')}}"> PARTIDOS</a>
+                <a href="{{ url_for('galeria') }}"> GALERIA</a>
+                <a href="#"> REGLAMENTO</a>
+            </div>
+            <div class="navbar-actions" id="navbar-actions">
+                <a href="{{ url_for('login') }}" class="highlight"><i class="ri-user-line"></i> LogIn</a>
+                <div class="navbar-search" id="navbar-search">
+                    <input type="text" placeholder="Buscar..." />
+                    <i class="ri-search-line"></i>
+                </div>
+            </div>
+        </nav>
     </header>
-
     <h1>Asistencia de Jugadores</h1>
     <div class="table-container">
-      <h2 class="h22">Asistencia Jugadores</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            {% for jornada in jornadas %}
-            <th>J{{ jornada }}</th>
-            {% endfor %}
-            <th>Total</th>
-            <th>%</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for jugador in jugadores %}
-          <tr>
-            <td data-label-abbr="ID">{{ jugador.id }}</td>
-            <td data-label-abbr="Nombre">
-              {{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{
-              jugador.Apellido_Materno }}
-            </td>
-            {% for jornada in jornadas %}
-            <td data-label-abbr="J{{ jornada }}">
-              {{ asistencia_jornadas[jugador.id].get(jornada, 0) }}
-            </td>
-            {% endfor %}
-            <td data-label-abbr="Total">
-              {{ asistencia_total.get(jugador.id, 0) }}
-            </td>
-            <td data-label-abbr="%">
-              {% if total_asistencias_posibles > 0 %} {{ '%.1f' %
-              (asistencia_total.get(jugador.id, 0) / total_asistencias_posibles
-              * 100) }}% {% else %} 0% {% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+        <h2 class="h22">Asistencia Jugadores</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    {% for jornada in jornadas %}
+                    <th>J{{ jornada }}</th>
+                    {% endfor %}
+                    <th>Total</th>
+                    <th>%</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for jugador in jugadores %}
+                <tr>
+                    <td data-label-abbr="ID">{{ jugador.id }}</td>
+                    <td data-label-abbr="Nombre">{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
+                    {% for jornada in jornadas %}
+                    <td data-label-abbr="J{{ jornada }}">{{ asistencia_jornadas[jugador.id].get(jornada, 0) }}</td>
+                    {% endfor %}
+                    <td data-label-abbr="Total">{{ asistencia_total.get(jugador.id, 0) }}</td>
+                    <td data-label-abbr="%">{% if total_asistencias_posibles > 0 %} {{ '%.1f' % (asistencia_total.get(jugador.id, 0) / total_asistencias_posibles * 100) }}% {% else %} 0% {% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-logo">
+                <img src="/static/images/logo.png" alt="Logo" />
+            </div>
+            <div class="footer-lang">
+                <a href="#">ASOCIACION DEPORTIVA</a>
+            </div>
+            <div class="footer-top-link">
+                <a href="#">Back to the top <i class="ri-arrow-up-s-line"></i></a>
+            </div>
+        </div>
+        <div class="footer-contact">
+            <p>Dirección: Calle Falsa 123, Ciudad, País</p>
+            <p>Teléfono: +123 456 7890</p>
+        </div>
+        <div class="footer-subscribe">
+            <h3>Suscríbete a nuestro boletín</h3>
+            <form id="subscribe-form">
+                <input type="email" placeholder="Ingresa tu email" required />
+                <button type="submit">Suscribirse</button>
+            </form>
+        </div>
+        <div class="footer-social">
+            <a href="https://www.youtube.com/"><i class="ri-youtube-line"></i></a>
+            <a href="https://www.instagram.com"><i class="ri-instagram-line"></i></a>
+            <a href="https://www.x.com"><i class="ri-twitter-line"></i></a>
+            <a href="https://www.facebook.com"><i class="ri-facebook-circle-line"></i></a>
+            <a href="https://www.linkedin.com"><i class="ri-linkedin-line"></i></a>
+            <a href="https://www.twitch.com"><i class="ri-twitch-line"></i></a>
+        </div>
+        <div class="footer-bottom">
+            <a href="#">REGLAMENTO</a>
+            <a href="#">PARTIDOS</a>
+            <a href="#">GALERIA</a>
+            <a href="#">CONTACTO</a>
+        </div>
+    </footer>
     <!--=============== MAIN JS ===============-->
-    <script src="/static/js/galeria.js" async defer></script>
-  </body>
+    <script src="static/js/asistencia.js" async defer></script>
+</body>
 </html>
+
+<!-- JS -->
+<script>
+document.addEventListener("DOMContentLoaded", (event) => {
+    // Smooth Scroll to Top
+    document.querySelector(".footer-top-link a").addEventListener("click", function (event) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Toggle mobile menu
+    document.getElementById("mobile-menu").addEventListener("click", function () {
+        document.getElementById("navbar-links").classList.toggle("active");
+        document.getElementById("navbar-actions").classList.toggle("active");
+        document.getElementById("navbar-search").classList.toggle("active");
+    });
+
+    // Form Submission (Example)
+    document.querySelector("#subscribe-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        // Simulate form submission
+        const email = document.querySelector("#subscribe-form input").value;
+        if (email) {
+            alert(`Suscripción exitosa con el email: ${email}`);
+            // Here you would typically send the email to your server
+            document.querySelector("#subscribe-form").reset();
+        } else {
+            alert("Por favor, ingrese un email válido.");
+        }
+    });
+});
+</script>
