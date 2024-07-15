@@ -26,7 +26,53 @@
     />
   </head>
   <body>
-
+    <header>
+      <div class="announcement-bar">
+        <div id="next-matches">
+          <!-- Los partidos se cargarán aquí mediante JavaScript -->
+        </div>
+      </div>
+      <nav class="navbar">
+        <div class="navbar-container">
+          <div class="navbar-toggle" id="mobile-menu">
+            <i class="ri-menu-line"></i>
+          </div>
+          <div class="navbar-logo">
+            <img src="/static/images/logo.png" alt="Logo" class="logo-img" />
+          </div>
+        </div>
+        <div class="navbar-links" id="navbar-links">
+          <a href="{{ url_for('home') }}"> INICIO</a>
+          <a href="{{ url_for('noticias') }}"> NOTICIAS</a>
+          <a href="{{ url_for('calendario') }}"> CALENDARIO</a>
+          <div class="dropdown">
+            <button class="dropbtn">
+              POSICIONES <i class="ri-arrow-down-s-line"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{{ url_for('tabla_posiciones')}}">PRIMERA DIVISION</a>
+              <a href="{{ url_for('tabla_posiciones_segunda') }}"
+                >SEGUNDA DIVISION</a
+              >
+            </div>
+          </div>
+          <a href="{{ url_for('mostrar_jugadores')}}"> ASISTENCIA</a>
+          <a href="{{ url_for('estadisticas_jugadores') }}"> ESTADISTICAS</a>
+          <a href="{{ url_for('resultados_partidos')}}"> PARTIDOS</a>
+          <a href="{{ url_for('galeria') }}"> GALERIA</a>
+          <a href="#"> REGLAMENTO</a>
+        </div>
+        <div class="navbar-actions" id="navbar-actions">
+          <a href="{{ url_for('login') }}" class="highlight"
+            ><i class="ri-user-line"></i> LogIn</a
+          >
+          <div class="navbar-search" id="navbar-search">
+            <input type="text" placeholder="Buscar..." />
+            <i class="ri-search-line"></i>
+          </div>
+        </div>
+      </nav>
+    </header>
     <div class="content">
       <main class="table" id="customers_table">
         <section class="table__header">
@@ -73,6 +119,7 @@
                   <img
                     src="/static/images/equipos/balon.png"
                     alt="Amarilla"
+                    class="table-img"
                   /><span class="icon-arrow"></span
                   ><span class="icon-arrow">↑</span>
                 </th>
@@ -81,6 +128,7 @@
                   <img
                     src="/static/images/equipos/tarjeta-amarilla.png"
                     alt="Amarilla"
+                    class="table-img"
                   /><span class="icon-arrow">↑</span>
                 </th>
                 <th>
@@ -88,6 +136,7 @@
                   <img
                     src="/static/images/equipos/tarjeta-roja.png"
                     alt="Roja"
+                    class="table-img"
                   /><span class="icon-arrow">↑</span>
                 </th>
                 <th>Asistencia<span class="icon-arrow">↑</span></th>
@@ -97,28 +146,28 @@
               {% for jugador in jugadores %}
               <tr>
                 <td>
-                  {{jugador['Nombre'] }} {{jugador['Apellido_Paterno'] }}
-                  {{jugador['Apellido_Materno'] }}
+                  {{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{
+                  jugador['Apellido_Materno'] }}
                 </td>
                 <td>
                   <img src="/static/images/equipos/balon.png" alt="Goles" />
-                  {{jugador['Goles_Anotados'] }}
+                  {{ jugador['Goles_Anotados'] }}
                 </td>
                 <td>
-                  {{jugador['Tarjetas_Amarillas'] }}
+                  {{ jugador['Tarjetas_Amarillas'] }}
                   <img
                     src="/static/images/equipos/tarjeta-amarilla.png"
                     alt="Amarilla"
                   />
                 </td>
                 <td>
-                  {{jugador['Tarjetas_Rojas'] }}
+                  {{ jugador['Tarjetas_Rojas'] }}
                   <img
                     src="/static/images/equipos/tarjeta-roja.png"
                     alt="Roja"
                   />
                 </td>
-                <td>{{jugador['Asistencia'] }}%</td>
+                <td>{{ jugador['Asistencia'] }}%</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -126,6 +175,48 @@
         </section>
       </main>
     </div>
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-logo">
+          <img src="/static/images/logo.png" alt="Logo" />
+        </div>
+        <div class="footer-lang">
+          <a href="#">ASOCIACION DEPORTIVA</a>
+        </div>
+        <div class="footer-top-link">
+          <a href="#">Back to the top <i class="ri-arrow-up-s-line"></i></a>
+        </div>
+      </div>
+      <div class="footer-contact">
+        <p>Dirección: Calle Falsa 123, Ciudad, País</p>
+        <p>Teléfono: +123 456 7890</p>
+      </div>
+      <div class="footer-subscribe">
+        <h3>Suscríbete a nuestro boletín</h3>
+        <form id="subscribe-form">
+          <input type="email" placeholder="Ingresa tu email" required />
+          <button type="submit">Suscribirse</button>
+        </form>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.youtube.com/"><i class="ri-youtube-line"></i></a>
+        <a href="https://www.instagram.com"
+          ><i class="ri-instagram-line"></i
+        ></a>
+        <a href="https://www.x.com"><i class="ri-twitter-line"></i></a>
+        <a href="https://www.facebook.com"
+          ><i class="ri-facebook-circle-line"></i
+        ></a>
+        <a href="https://www.linkedin.com"><i class="ri-linkedin-line"></i></a>
+        <a href="https://www.twitch.com"><i class="ri-twitch-line"></i></a>
+      </div>
+      <div class="footer-bottom">
+        <a href="#">REGLAMENTO</a>
+        <a href="#">PARTIDOS</a>
+        <a href="#">GALERIA</a>
+        <a href="#">CONTACTO</a>
+      </div>
+    </footer>
 
     <!-- Script JavaScript -->
     <script src="static/js/estadisticas_jugadores.js"></script>

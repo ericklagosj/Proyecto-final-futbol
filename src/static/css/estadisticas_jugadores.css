@@ -1,24 +1,387 @@
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #f4f4f9;
+}
+
+.announcement-bar {
+  background-color: #022855;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #041e42;
+  padding: 10px 6px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.navbar-logo img {
+  height: 40px;
+}
+
+.navbar-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-left: 20px; /* Ajusta el margen izquierdo según sea necesario */
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links a,
+.dropbtn {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-links a:hover,
+.dropbtn:hover {
+  background-color: #022855;
+  border-radius: 5px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #022855;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-content a:last-child {
+  border-bottom: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #041e42;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-actions a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-actions a.highlight {
+  background-color: #d9534f;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.navbar-actions a i {
+  margin-right: 5px;
+}
+
+.navbar-search {
+  position: relative;
+}
+
+.navbar-search input {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.navbar-search i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #041e42;
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-toggle {
+    display: block;
+    margin-left: -40px;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-links a,
+  .dropbtn {
+    width: 100%;
+    text-align: left;
+    padding-left: 20px;
+    display: block;
+  }
+
+  .navbar-actions {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+  }
+
+  .navbar-actions a {
+    width: 100%;
+    text-align: left;
+    padding-left: 20px;
+  }
+
+  .navbar-search {
+    width: 100%;
+    padding: 10px 20px;
+    display: none;
+  }
+
+  .navbar-search input {
+    width: calc(100% - 40px);
+  }
+
+  .dropdown-content {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .dropdown-content a {
+    padding-left: 40px;
+  }
+
+  .navbar-links.active,
+  .navbar-actions.active,
+  .navbar-search.active {
+    display: flex;
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
+  .dropdown-content a {
+    text-align: left;
+    padding-left: 40px;
+  }
+
+  .navbar-logo {
+    position: absolute;
+    right: 20px;
+    top: 26px;
+    transform: translateY(-50%);
+    z-index: 1000;
+  }
+
+  .navbar-logo img {
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .announcement-bar {
+    font-size: 12px;
+    padding: 5px 0;
+  }
+
+  .navbar-logo img {
+    height: 40px;
+  }
+
+  .navbar-links a,
+  .dropbtn,
+  .navbar-actions a {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .navbar-search input {
+    font-size: 14px;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.footer {
+  padding: 20px;
+  background-color: #00274d;
+  color: #fff;
+  text-align: center;
+  width: 98%; /* Ocupa todo el ancho disponible */
+}
+
+/* Estilos específicos para el footer */
+.footer-top,
+.footer-contact,
+.footer-subscribe,
+.footer-social,
+.footer-bottom {
+  margin-bottom: 20px;
+}
+
+.footer-logo img {
+  width: 100px;
+}
+
+.footer-lang a,
+.footer-top-link a,
+.footer-bottom a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-lang a:hover,
+.footer-top-link a:hover,
+.footer-bottom a:hover {
+  text-decoration: underline;
+}
+
+.footer-subscribe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-subscribe input {
+  flex: 1; /* Ocupa todo el espacio disponible */
+  padding: 10px;
+  margin: 0 10px 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.footer-subscribe button {
+  padding: 10px 20px;
+  background-color: #0056b3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.footer-subscribe button:hover {
+  background-color: #004494;
+}
+
+.footer-social {
+  margin-bottom: 10px;
+}
+
+.footer-social a {
+  color: #fff;
+  margin: 0 10px;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  color: #ccc;
+}
+
+/* FIN CSS NAVBAR Y FOOTER */
 
 /* Aquí va el CSS para ajustar las imágenes */
-      /* CSS para ajustar las imágenes */
-      img {
-        max-width: 16%;
-        height: auto;
-        display: block;
-        margin-inline: auto;
-      }
+/* CSS para ajustar las imágenes */
+img.table-img {
+  width: 80px;
+  height: 80px;
+  display: block;
+  margin: 0 auto; /* Esto centrará horizontalmente las imágenes */
+}
 
-      /* Ocultar imágenes en filas de datos */
-      tbody tr img {
-        display: none;
-      }
+/* Ocultar imágenes en filas de datos */
+tbody tr img {
+  display: none;
+}
 
-      .header img {
-        max-width: 40px; /* Ajusta este valor según necesites */
-        height: auto;
-      }
+.header img {
+  max-width: 40px; /* Ajusta este valor según necesites */
+  height: auto;
+}
 
-.content{
+.content {
   margin-top: 6.5rem;
 }
 
@@ -38,7 +401,7 @@
     height: auto !important;
     width: auto !important;
   }
-} 
+}
 
 /* Estilos del body */
 body {
@@ -55,8 +418,8 @@ main.table {
   height: 90vh;
   background-color: #fff5;
   backdrop-filter: blur(7px);
-  box-shadow: 0 .4rem .8rem #0005;
-  border-radius: .8rem;
+  box-shadow: 0 0.4rem 0.8rem #0005;
+  border-radius: 0.8rem;
   overflow: hidden;
 }
 
@@ -65,7 +428,7 @@ main.table {
   width: 100%;
   height: 10%;
   background-color: #fff4;
-  padding: .8rem 1rem;
+  padding: 0.8rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,19 +439,19 @@ main.table {
   width: 35%;
   height: 100%;
   background-color: #fff5;
-  padding: 0 .8rem;
+  padding: 0 0.8rem;
   border-radius: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 /* Estilos del grupo de entrada de búsqueda al pasar el cursor */
 .table__header .input-group:hover {
   width: 45%;
   background-color: #fff8;
-  box-shadow: 0 .1rem .4rem #0002;
+  box-shadow: 0 0.1rem 0.4rem #0002;
 }
 
 /* Estilos de la imagen del grupo de entrada de búsqueda */
@@ -100,7 +463,7 @@ main.table {
 /* Estilos del input de búsqueda */
 .table__header .input-group input {
   width: 100%;
-  padding: 0 .5rem 0 .3rem;
+  padding: 0 0.5rem 0 0.3rem;
   background-color: transparent;
   border: none;
   outline: none;
@@ -111,8 +474,8 @@ main.table {
   width: 95%;
   max-height: calc(89% - 1.6rem);
   background-color: #fffb;
-  margin: .8rem auto;
-  border-radius: .6rem;
+  margin: 0.8rem auto;
+  border-radius: 0.6rem;
   overflow: auto;
   overflow: overlay;
 }
@@ -125,7 +488,7 @@ main.table {
 
 /* Estilos del pulgar de la barra de desplazamiento */
 .table__body::-webkit-scrollbar-thumb {
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   background-color: #0004;
   visibility: hidden;
 }
@@ -146,7 +509,6 @@ td img {
   height: auto; /* Ajusta la altura automáticamente */
   margin-right: 5px; /* Espacio a la derecha de las imágenes */
 }
-
 
 /* Estilos generales de las celdas */
 table,
@@ -179,8 +541,8 @@ tbody tr:nth-child(even) {
 
 /* Transiciones de las filas */
 tbody tr {
-  --delay: .1s;
-  transition: .5s ease-in-out var(--delay), background-color 0s;
+  --delay: 0.1s;
+  transition: 0.5s ease-in-out var(--delay), background-color 0s;
 }
 
 /* Estilos de las filas ocultas */
@@ -198,7 +560,7 @@ tbody tr:hover {
 tbody tr td,
 tbody tr td p,
 tbody tr td img {
-  transition: .2s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
 /* Estilos de las celdas ocultas */
@@ -206,19 +568,19 @@ tbody tr.hide td,
 tbody tr.hide td p {
   padding: 0;
   font: 0 / 0 sans-serif;
-  transition: .2s ease-in-out .5s;
+  transition: 0.2s ease-in-out 0.5s;
 }
 
 /* Estilos de las imágenes de las celdas ocultas */
 tbody tr.hide td img {
   width: 0;
   height: 0;
-  transition: .2s ease-in-out .5s;
+  transition: 0.2s ease-in-out 0.5s;
 }
 
 /* Estilos de los estados */
 .status {
-  padding: .4rem 0;
+  padding: 0.4rem 0;
   border-radius: 2rem;
   text-align: center;
 }
@@ -326,8 +688,8 @@ thead th span.icon-arrow {
   border: 1.4px solid transparent;
   text-align: center;
   font-size: 1rem;
-  margin-left: .5rem;
-  transition: .2s ease-in-out;
+  margin-left: 0.5rem;
+  transition: 0.2s ease-in-out;
 }
 
 /* Estilos de la flecha en el encabezado de la tabla al pasar el cursor */
@@ -367,9 +729,10 @@ tbody td.active {
   display: inline-block;
   width: 2rem;
   height: 2rem;
-  background: #fff6 url(/static/images/equipos/export.png) center / 80% no-repeat;
+  background: #fff6 url(/static/images/equipos/export.png) center / 80%
+    no-repeat;
   border-radius: 50%;
-  transition: .2s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
 /* Estilos del botón de exportación de archivo al pasar el cursor */
@@ -389,14 +752,14 @@ tbody td.active {
   position: absolute;
   right: 0;
   width: 12rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   text-align: center;
   opacity: 0;
-  transform: scale(.8);
+  transform: scale(0.8);
   transform-origin: top right;
-  box-shadow: 0 .2rem .5rem #0004;
-  transition: .2s;
+  box-shadow: 0 0.2rem 0.5rem #0004;
+  transition: 0.2s;
 }
 
 /* Estilos de las opciones de exportación de archivo al estar seleccionado el input */
@@ -410,12 +773,12 @@ tbody td.active {
 .export__file .export__file-options label {
   display: block;
   width: 100%;
-  padding: .6rem 0;
+  padding: 0.6rem 0;
   background-color: #f2f2f2;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  transition: .2s ease-in-out;
+  transition: 0.2s ease-in-out;
 }
 
 /* Estilos de la primera etiqueta de las opciones de exportación de archivo */

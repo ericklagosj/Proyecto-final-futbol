@@ -1,3 +1,375 @@
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #f4f4f9;
+}
+
+.announcement-bar {
+  background-color: #022855;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #041e42;
+  padding: 10px 6px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.navbar-logo img {
+  height: 40px;
+}
+
+.navbar-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-left: 20px; /* Ajusta el margen izquierdo según sea necesario */
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links a,
+.dropbtn {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-links a:hover,
+.dropbtn:hover {
+  background-color: #022855;
+  border-radius: 5px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #022855;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-content a:last-child {
+  border-bottom: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #041e42;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-actions a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  text-align: center;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-actions a.highlight {
+  background-color: #d9534f;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.navbar-actions a i {
+  margin-right: 5px;
+}
+
+.navbar-search {
+  position: relative;
+}
+
+.navbar-search input {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.navbar-search i {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #041e42;
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar-toggle {
+    display: block;
+    margin-left: -40px;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navbar-links a,
+  .dropbtn {
+    width: 100%;
+    text-align: left;
+    padding-left: 20px;
+    display: block;
+  }
+
+  .navbar-actions {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+  }
+
+  .navbar-actions a {
+    width: 100%;
+    text-align: left;
+    padding-left: 20px;
+  }
+
+  .navbar-search {
+    width: 100%;
+    padding: 10px 20px;
+    display: none;
+  }
+
+  .navbar-search input {
+    width: calc(100% - 40px);
+  }
+
+  .dropdown-content {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .dropdown-content a {
+    padding-left: 40px;
+  }
+
+  .navbar-links.active,
+  .navbar-actions.active,
+  .navbar-search.active {
+    display: flex;
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
+  .dropdown-content a {
+    text-align: left;
+    padding-left: 40px;
+  }
+
+  .navbar-logo {
+    position: absolute;
+    right: 20px;
+    top: 26px;
+    transform: translateY(-50%);
+    z-index: 1000;
+  }
+
+  .navbar-logo img {
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .announcement-bar {
+    font-size: 12px;
+    padding: 5px 0;
+  }
+
+  .navbar-logo img {
+    height: 40px;
+  }
+
+  .navbar-links a,
+  .dropbtn,
+  .navbar-actions a {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .navbar-search input {
+    font-size: 14px;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.contenido {
+  flex: 1; /* Ocupa todo el espacio restante */
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+/* Fin css navbar */
+
+.footer {
+  padding: 20px;
+  background-color: #00274d;
+  color: #fff;
+  text-align: center;
+  width: 95%; /* Ocupa todo el ancho disponible */
+}
+
+/* Estilos específicos para el footer */
+.footer-top,
+.footer-contact,
+.footer-subscribe,
+.footer-social,
+.footer-bottom {
+  margin-bottom: 20px;
+}
+
+.footer-logo img {
+  width: 100px;
+}
+
+.footer-lang a,
+.footer-top-link a,
+.footer-bottom a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-lang a:hover,
+.footer-top-link a:hover,
+.footer-bottom a:hover {
+  text-decoration: underline;
+}
+
+.footer-subscribe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-subscribe input {
+  flex: 1; /* Ocupa todo el espacio disponible */
+  padding: 10px;
+  margin: 0 10px 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.footer-subscribe button {
+  padding: 10px 20px;
+  background-color: #0056b3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.footer-subscribe button:hover {
+  background-color: #004494;
+}
+
+.footer-social {
+  margin-bottom: 10px;
+}
+
+.footer-social a {
+  color: #fff;
+  margin: 0 10px;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  color: #ccc;
+}
+
+/* FIN CSS NAVBAR Y FOOTER */
+
 /* Estilos generales */
 body {
   font-family: "Roboto", sans-serif;
@@ -22,10 +394,13 @@ h1 {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en múltiples líneas en pantallas pequeñas */
 }
 
 .dropdown {
   position: relative;
+  width: 100%; /* Asegura que el dropdown ocupe todo el ancho en dispositivos móviles */
+  max-width: 300px; /* Limita el ancho máximo */
 }
 
 .select {
@@ -37,6 +412,8 @@ h1 {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  width: 100%; /* Asegura que el select ocupe todo el ancho disponible */
+  box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
 }
 
 .option {
@@ -65,12 +442,15 @@ table {
   width: 100%;
   margin-top: 20px;
   border-collapse: collapse;
+  table-layout: fixed; /* Fija el layout de la tabla para que se ajuste mejor en pantallas pequeñas */
 }
 
-th, td {
+th,
+td {
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid #ddd;
+  word-wrap: break-word; /* Permite que el contenido se ajuste y no se desborde */
 }
 
 th {
@@ -119,30 +499,102 @@ th {
 /* Estilos responsivos */
 @media only screen and (max-width: 768px) {
   .button {
-      right: -60px; /* Ajuste para dispositivos móviles */
-      padding: 8px 16px; /* Ajuste del padding */
+    right: -60px; /* Ajuste para dispositivos móviles */
+    padding: 8px 16px; /* Ajuste del padding */
   }
 
   table {
-      font-size: 14px; /* Tamaño de fuente reducido para dispositivos móviles */
+    font-size: 14px; /* Tamaño de fuente reducido para dispositivos móviles */
   }
 
   .categoria {
-      padding: 15px; /* Ajuste del padding */
+    padding: 15px; /* Ajuste del padding */
   }
 
   .equipo-logo {
-      width: 40px; /* Ajuste del tamaño del logo */
+    width: 40px; /* Ajuste del tamaño del logo */
   }
 
   .toggle-icon {
-      display: block; /* Mostrar el icono de manera bloque en dispositivos móviles */
-      text-align: right; /* Alinear a la derecha */
-      margin-top: 5px; /* Margen superior para separación */
+    display: block; /* Mostrar el icono de manera bloque en dispositivos móviles */
+    text-align: right; /* Alinear a la derecha */
+    margin-top: 5px; /* Margen superior para separación */
   }
 
   .detalle {
-      padding: 10px; /* Ajuste del padding */
+    padding: 10px; /* Ajuste del padding */
+  }
+
+  /* Ajustes adicionales para la cabecera y el formulario */
+  header {
+    padding: 15px; /* Reduce el padding en dispositivos móviles */
+  }
+
+  .form {
+    flex-direction: column; /* Coloca los elementos en una columna en dispositivos móviles */
+    align-items: stretch; /* Asegura que los elementos ocupen todo el ancho disponible */
+    padding: 0 20px; /* Añade padding lateral */
+  }
+
+  .dropdown {
+    width: 100%;
+    margin-bottom: 10px; /* Añade espacio entre los elementos del formulario */
+  }
+
+  .button {
+    position: static; /* Elimina la posición absoluta */
+    width: 100%; /* Asegura que el botón ocupe todo el ancho */
+    margin-top: 10px; /* Añade espacio superior */
+    text-align: center; /* Centra el texto del botón */
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .button {
+    right: -40px; /* Ajuste para dispositivos móviles más pequeños */
+    padding: 6px 12px; /* Ajuste del padding */
+  }
+
+  table {
+    font-size: 12px; /* Tamaño de fuente aún más reducido para dispositivos muy pequeños */
+  }
+
+  .categoria {
+    padding: 10px; /* Ajuste del padding */
+  }
+
+  .equipo-logo {
+    width: 30px; /* Ajuste del tamaño del logo */
+  }
+
+  .toggle-icon {
+    display: block; /* Mostrar el icono de manera bloque en dispositivos móviles */
+    text-align: right; /* Alinear a la derecha */
+    margin-top: 5px; /* Margen superior para separación */
+  }
+
+  .detalle {
+    padding: 5px; /* Ajuste del padding */
+  }
+
+  header {
+    padding: 10px; /* Reduce aún más el padding en dispositivos muy pequeños */
+  }
+
+  .form {
+    padding: 0 10px; /* Añade padding lateral */
+  }
+
+  .dropdown {
+    width: 100%;
+    margin-bottom: 10px; /* Añade espacio entre los elementos del formulario */
+  }
+
+  .button {
+    position: static; /* Elimina la posición absoluta */
+    width: 100%; /* Asegura que el botón ocupe todo el ancho */
+    margin-top: 10px; /* Añade espacio superior */
+    text-align: center; /* Centra el texto del botón */
   }
 }
 

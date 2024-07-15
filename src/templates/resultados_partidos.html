@@ -5,90 +5,223 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/resultadopartido.css">
     <title>Resultados de Partidos</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Remix Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.css">
+   <!--=============== REMIXICONS ===============-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css"
+      rel="stylesheet"
+    />
 </head>
 <body>
-<header>
-    <h1>Resultados de Partidos</h1>
-    <!-- Formulario para filtrar por jornada -->
-    <form action="{{ url_for('resultados_partidos') }}" method="post" class="form">
-        <div class="dropdown">
-            <select id="jornada" name="ID_jornada" class="select">
-                {% for i in range(1, 19) %}
-                    <option value="{{ i }}" class="option" {% if i == ID_jornada %}selected{% endif %}>Jornada {{ i }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit" class="button">
-                <i class="ri-filter-3-line"></i> Filtrar
-            </button>
+    
+    <header>
+      <div class="announcement-bar">
+        <div id="next-matches">
+          <!-- Los partidos se cargarán aquí mediante JavaScript -->
         </div>
-    </form>
-</header>
+      </div>
+      <nav class="navbar">
+        <div class="navbar-container">
+          <div class="navbar-toggle" id="mobile-menu">
+            <i class="ri-menu-line"></i>
+          </div>
+          <div class="navbar-logo">
+            <img src="/static/images/logo.png" alt="Logo" class="logo-img" />
+          </div>
+        </div>
+        <div class="navbar-links" id="navbar-links">
+          <a href="{{ url_for('home') }}"> INICIO</a>
+          <a href="{{ url_for('noticias') }}"> NOTICIAS</a>
+          <a href="{{ url_for('calendario') }}"> CALENDARIO</a>
+          <div class="dropdown">
+            <button class="dropbtn">
+              POSICIONES <i class="ri-arrow-down-s-line"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{{ url_for('tabla_posiciones')}}">PRIMERA DIVISION</a>
+              <a href="{{ url_for('tabla_posiciones_segunda') }}"
+                >SEGUNDA DIVISION</a
+              >
+            </div>
+          </div>
+          <a href="{{ url_for('mostrar_jugadores')}}"> ASISTENCIA</a>
+          <a href="{{ url_for('estadisticas_jugadores') }}"> ESTADISTICAS</a>
+          <a href="{{ url_for('resultados_partidos')}}"> PARTIDOS</a>
+          <a href="{{ url_for('galeria') }}"> GALERIA</a>
+          <a href="#"> REGLAMENTO</a>
+        </div>
+        <div class="navbar-actions" id="navbar-actions">
+          <a href="{{ url_for('login') }}" class="highlight"
+            ><i class="ri-user-line"></i> LogIn</a
+          >
+          <div class="navbar-search" id="navbar-search">
+            <input type="text" placeholder="Buscar..." />
+            <i class="ri-search-line"></i>
+          </div>
+        </div>
+      </nav>
+    </header>
 
-<!-- Recuadros de categoría con sus respectivos partidos -->
-{% for nombre_categoria, partidos in categorias.items() %}
-<div class="categoria">
-    <h2>{{ nombre_categoria }}</h2>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th>Equipo Local</th>
-                    <th>Resultado</th>
-                    <th>Equipo Visitante</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for partido in partidos %}
-                <tr class="partido" data-target="detalle-{{ nombre_categoria }}-{{ loop.index }}">
-                    <td>
-                        <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Local'] + '.png') }}"
-                            alt="Escudo del equipo local" class="equipo-logo" />
-                        {{ partido['Equipo_Local'] }}
-                    </td>
-                    <td>{{ partido['Goles_Local'] }} - {{ partido['Goles_Visita'] }}</td>
-                    <td>
-                        <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Visitante'] + '.png') }}"
-                            alt="Escudo del equipo visitante" class="equipo-logo" />
-                        {{ partido['Equipo_Visitante'] }}
-                    </td>
-                </tr>
-                <!-- Contenedor para los detalles del partido -->
-                <tr class="detalle-container" id="detalle-{{ nombre_categoria }}-{{ loop.index }}-container" style="display: none;">
-                    <td colspan="3">
-                        <!-- Contenido de los detalles del partido -->
-                        <div id="detalle-{{ nombre_categoria }}-{{ loop.index }}" class="detalle-content">
-                            <h3>Jugadores que anotaron goles:</h3>
-                            <ul>
-                                {% if partido['Jugadores'] %}
-                                    {% for jugador in partido['Jugadores'] %}
-                                    <li>{{ jugador['Nombre'] }} ({{ jugador['Equipo'] }}) - Goles: {{ jugador['Goles'] }}</li>
-                                    {% endfor %}
-                                {% else %}
-                                    <li>No hay goles registrados en este partido.</li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div>
+        <!-- Formulario para filtrar por jornada -->
+        <form action="{{ url_for('resultados_partidos') }}" method="post" class="form">
+            <div class="dropdown">
+                <select id="jornada" name="ID_jornada" class="select">
+                    {% for i in range(1, 19) %}
+                        <option value="{{ i }}" class="option" {% if i == ID_jornada %}selected{% endif %}>Jornada {{ i }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="button">
+                    <i class="ri-filter-3-line"></i> Filtrar
+                </button>
+            </div>
+        </form>
     </div>
-</div>
-{% endfor %}
 
-<script>
-document.querySelectorAll('.partido').forEach(partido => {
-    partido.addEventListener('click', () => {
-        const targetId = partido.getAttribute('data-target');
-        const detailContainer = document.getElementById(targetId + '-container');
-        detailContainer.style.display = detailContainer.style.display === 'none' ? '' : 'none';
+    <!-- Recuadros de categoría con sus respectivos partidos -->
+    {% for nombre_categoria, partidos in categorias.items() %}
+    <div class="categoria">
+        <h2>{{ nombre_categoria }}</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Equipo Local</th>
+                        <th>Resultado</th>
+                        <th>Equipo Visitante</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for partido in partidos %}
+                    <tr class="partido" data-target="detalle-{{ nombre_categoria }}-{{ loop.index }}">
+                        <td>
+                            <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Local'] + '.png') }}" alt="Escudo del equipo local" class="equipo-logo" />
+                            {{ partido['Equipo_Local'] }}
+                        </td>
+                        <td>{{ partido['Goles_Local'] }} - {{ partido['Goles_Visita'] }}</td>
+                        <td>
+                            <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Visitante'] + '.png') }}" alt="Escudo del equipo visitante" class="equipo-logo" />
+                            {{ partido['Equipo_Visitante'] }}
+                        </td>
+                    </tr>
+                    <!-- Contenedor para los detalles del partido -->
+                    <tr class="detalle-container" id="detalle-{{ nombre_categoria }}-{{ loop.index }}-container" style="display: none;">
+                        <td colspan="3">
+                            <!-- Contenido de los detalles del partido -->
+                            <div id="detalle-{{ nombre_categoria }}-{{ loop.index }}" class="detalle-content">
+                                <h3>Jugadores que anotaron goles:</h3>
+                                <ul>
+                                    {% if partido['Jugadores'] %}
+                                        {% for jugador in partido['Jugadores'] %}
+                                        <li>{{ jugador['Nombre'] }} ({{ jugador['Equipo'] }}) - Goles: {{ jugador['Goles'] }}</li>
+                                        {% endfor %}
+                                    {% else %}
+                                        <li>No hay goles registrados en este partido.</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-logo">
+          <img src="/static/images/logo.png" alt="Logo" />
+        </div>
+        <div class="footer-lang">
+          <a href="#">ASOCIACION DEPORTIVA</a>
+        </div>
+        <div class="footer-top-link">
+          <a href="#">Back to the top <i class="ri-arrow-up-s-line"></i></a>
+        </div>
+      </div>
+      <div class="footer-contact">
+        <p>Dirección: Calle Falsa 123, Ciudad, País</p>
+        <p>Teléfono: +123 456 7890</p>
+      </div>
+      <div class="footer-subscribe">
+        <h3>Suscríbete a nuestro boletín</h3>
+        <form id="subscribe-form">
+          <input type="email" placeholder="Ingresa tu email" required />
+          <button type="submit">Suscribirse</button>
+        </form>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.youtube.com/"><i class="ri-youtube-line"></i></a>
+        <a href="https://www.instagram.com"
+          ><i class="ri-instagram-line"></i
+        ></a>
+        <a href="https://www.x.com"><i class="ri-twitter-line"></i></a>
+        <a href="https://www.facebook.com"
+          ><i class="ri-facebook-circle-line"></i
+        ></a>
+        <a href="https://www.linkedin.com"><i class="ri-linkedin-line"></i></a>
+        <a href="https://www.twitch.com"><i class="ri-twitch-line"></i></a>
+      </div>
+      <div class="footer-bottom">
+        <a href="#">REGLAMENTO</a>
+        <a href="#">PARTIDOS</a>
+        <a href="#">GALERIA</a>
+        <a href="#">CONTACTO</a>
+      </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+  // Smooth Scroll to Top
+  document
+    .querySelector(".footer-top-link a")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+  // Toggle mobile menu
+  document.getElementById("mobile-menu").addEventListener("click", function () {
+    document.getElementById("navbar-links").classList.toggle("active");
+    document.getElementById("navbar-actions").classList.toggle("active");
+    document.getElementById("navbar-search").classList.toggle("active");
+  });
+
+  // Form Submission (Example)
+  document
+    .querySelector("#subscribe-form")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Simulate form submission
+      const email = document.querySelector("#subscribe-form input").value;
+      if (email) {
+        alert(`Suscripción exitosa con el email: ${email}`);
+        // Here you would typically send the email to your server
+        document.querySelector("#subscribe-form").reset();
+      } else {
+        alert("Por favor, ingrese un email válido.");
+      }
     });
 });
-</script>
+
+
+        document.querySelectorAll('.partido').forEach(partido => {
+            partido.addEventListener('click', () => {
+                const targetId = partido.getAttribute('data-target');
+                const detailContainer = document.getElementById(targetId + '-container');
+                detailContainer.style.display = detailContainer.style.display === 'none' ? '' : 'none';
+            });
+        });
+    </script>
 </body>
 </html>
