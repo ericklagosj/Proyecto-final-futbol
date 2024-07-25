@@ -1,3 +1,20 @@
+document.addEventListener("DOMContentLoaded", (event) => {
+  // Smooth Scroll to Top
+  document
+    .querySelector(".footer-top-link a")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+  // Toggle mobile menu
+  document.getElementById("mobile-menu").addEventListener("click", function () {
+    document.getElementById("navbar-links").classList.toggle("active");
+    document.getElementById("navbar-actions").classList.toggle("active");
+    document.getElementById("navbar-search").classList.toggle("active");
+  });
+});
+
 /*=============== SHOW MENU ===============*/
 const showMenu = (toggleId, navId) => {
   const toggle = document.getElementById(toggleId),
