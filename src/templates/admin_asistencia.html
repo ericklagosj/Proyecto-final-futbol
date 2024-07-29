@@ -6,56 +6,115 @@
     <title>Asistencia de Jugadores</title>
     <link rel="stylesheet" href="../static/css/asistencia.css" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <style>
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn-s {
+            background-color: green;
+        }
+        .btn-n {
+            background-color: red;
+        }
+        .btn-selected {
+            background-color: yellow;
+            color: black;
+        }
+
+        /* Estilos para el cuadro de diálogo */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .modal-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .button-container {
+            text-align: center;
+        }
+        .confirm-btn {
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 18px;
+            margin: 0 10px;
+            cursor: pointer;
+            border: none;
+        }
+        .confirm {
+            background-color: green;
+            color: white;
+        }
+        .cancel {
+            background-color: red;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav container">
-            <div class="nav__data">
-                <a href="#" class="nav__logo">
-                    <i class="ri-code-s-slash-line"></i> Asociacion Deportiva
-                </a>
-                <div class="nav__toggle" id="nav-toggle">
-                    <i class="ri-menu-line nav__toggle-menu"></i>
-                    <i class="ri-close-line nav__toggle-close"></i>
-                </div>
-            </div>
-            <div class="nav__menu" id="nav-menu">
-                <ul class="nav__list">
-                    <li><a href="{{ url_for('home') }}" class="nav__link">Inicio</a></li>
-                    <li><a href="{{ url_for('noticias') }}" class="nav__link">Noticias <i class="ri-newspaper-line"></i></a></li>
-                    <li><a href="{{ url_for('galeria') }}" class="nav__link">Galeria <i class="ri-gallery-line"></i></a></li>
-                    <li class="dropdown__item">
-                        <div class="nav__link dropdown__button">
-                            Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
-                        </div>
-                        <div class="dropdown__container">
-                            <div class="dropdown__content">
-                                <div class="dropdown__group">
-                                    <div class="dropdown__icon"><i class="ri-flashlight-line"></i></div>
-                                    <span class="dropdown__title">Datos De Competencia</span>
-                                    <ul class="dropdown__list">
-                                        <li><a href="{{ url_for('resultados_partidos')}}" class="dropdown__link">Resultados Partidos</a></li>
-                                        <li><a href="{{ url_for('estadisticas_jugadores') }}" class="dropdown__link">Estadisticas Jugadores</a></li>
-                                        <li><a href="{{ url_for('mostrar_jugadores')}}" class="dropdown__link">Asistencias Jugadores</a></li>
-                                    </ul>
-                                </div>
-                                <div class="dropdown__group">
-                                    <div class="dropdown__icon"><i class="ri-file-paper-2-line"></i></div>
-                                    <span class="dropdown__title">Posiciones</span>
-                                    <ul class="dropdown__list">
-                                        <li><a href="{{ url_for('tabla_posiciones')}}" class="dropdown__link">Primera Division</a></li>
-                                        <li><a href="{{ url_for('tabla_posiciones_segunda') }}" class="dropdown__link">Segunda Division</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    
     <h1>Asistencia de Jugadores</h1>
+
+    <form method="post" action="/asistencia-jugadores_admin">
+        <label for="equipo_id">Equipo:</label>
+        <select name="equipo_id" id="equipo_id" required>
+            <option value="">Seleccione un equipo</option>
+            {% for equipo in equipos %}
+            <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="categoria_id">Categoría:</label>
+        <select name="categoria_id" id="categoria_id" required>
+            <option value="">Seleccione una categoría</option>
+            {% for categoria in categorias %}
+            <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="jornada">Jornada:</label>
+        <input type="number" name="jornada" id="jornada" min="1" max="18" required>
+
+        <button type="submit">Filtrar</button>
+    </form>
+
+    {% if jugadores %}
     <div class="table-container">
         <h2 class="h22">Asistencia Jugadores</h2>
         <table>
@@ -63,11 +122,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    {% for jornada in jornadas %}
-                    <th>J{{ jornada }}</th>
-                    {% endfor %}
-                    <th>Total</th>
-                    <th>%</th>
+                    <th>J{{ jornada_seleccionada }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,53 +130,96 @@
                 <tr>
                     <td data-label-abbr="ID">{{ jugador.id }}</td>
                     <td data-label-abbr="Nombre">{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
-                    {% for jornada in jornadas %}
-                    <td data-label-abbr="J{{ jornada }}">
-                        <form method="post" action="/actualizar-asistencia">
+                    <td data-label-abbr="J{{ jornada_seleccionada }}">
+                        <form method="post" action="/actualizar-asistencia" id="asistencia-form-{{ jugador.id }}">
                             <input type="hidden" name="id_jugador" value="{{ jugador.id }}">
-                            <input type="hidden" name="jornada" value="{{ jornada }}">
-                            <input type="number" name="asistencia" min="0" max="1" value="{{ asistencia_jornadas[jugador.id].get(jornada, 0) }}">
-                            <button type="submit">Guardar</button>
+                            <input type="hidden" name="jornada" value="{{ jornada_seleccionada }}">
+                            <button type="button" class="btn btn-s {% if asistencia_jornadas[jugador.id].get(jornada_seleccionada, 0) == 1 %}btn-selected{% endif %}" onclick="showConfirmDialog({{ jugador.id }}, '{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}', 1, this)">Sí</button>
+                            <button type="button" class="btn btn-n {% if asistencia_jornadas[jugador.id].get(jornada_seleccionada, 0) == 0 %}btn-selected{% endif %}" onclick="showConfirmDialog({{ jugador.id }}, '{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}', 0, this)">No</button>
                         </form>
-                    </td>
-                    {% endfor %}
-                    <td data-label-abbr="Total">{{ asistencia_total.get(jugador.id, 0) }}</td>
-                    <td data-label-abbr="%">
-                        {% if total_asistencias_posibles > 0 %}
-                            {{ '%.1f' % (asistencia_total.get(jugador.id, 0) / total_asistencias_posibles * 100) }}%
-                        {% else %}
-                            0%
-                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <script>
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData(this);
+    {% endif %}
 
-                fetch('/actualizar-asistencia', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert('Asistencia actualizada correctamente');
-                    } else {
-                        alert('Error al actualizar la asistencia');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al actualizar la asistencia');
-                });
+    <!-- Cuadro de diálogo de confirmación -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">Confirmación</div>
+            <div class="modal-body">
+                <p id="confirmText"></p>
+            </div>
+            <div class="button-container">
+                <button id="confirmYes" class="confirm-btn confirm">Confirmar</button>
+                <button id="confirmNo" class="confirm-btn cancel">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showConfirmDialog(id_jugador, nombre_jugador, asistencia, button) {
+            var modal = document.getElementById("confirmModal");
+            var confirmText = document.getElementById("confirmText");
+            var confirmYes = document.getElementById("confirmYes");
+            var confirmNo = document.getElementById("confirmNo");
+            
+            confirmText.innerHTML = `¿Estás seguro de que quieres actualizar la asistencia de <strong>${nombre_jugador}</strong>?`;
+
+            confirmYes.onclick = function() {
+                updateAsistencia(id_jugador, asistencia, button);
+                modal.style.display = "none";
+            }
+
+            confirmNo.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            modal.style.display = "block";
+        }
+
+        function updateAsistencia(id_jugador, asistencia, button) {
+            var form = document.getElementById('asistencia-form-' + id_jugador);
+            var buttons = form.querySelectorAll('button');
+            
+            // Reset all buttons in the form
+            buttons.forEach(btn => btn.classList.remove('btn-selected'));
+
+            // Set the selected button to yellow
+            button.classList.add('btn-selected');
+
+            // Create a new form data object
+            var formData = new FormData(form);
+            formData.set('asistencia', asistencia);
+
+            // Send the data to the server
+            fetch('/actualizar-asistencia', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Asistencia actualizada', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
-        });
+        }
+
+        // Close modal when the user clicks on <span> (x)
+        document.querySelector(".close").onclick = function() {
+            document.getElementById("confirmModal").style.display = "none";
+        }
+
+        // Close modal when the user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("confirmModal")) {
+                document.getElementById("confirmModal").style.display = "none";
+            }
+        }
     </script>
 </body>
 </html>

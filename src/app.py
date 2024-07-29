@@ -981,50 +981,56 @@ def actualizar_asistencia():
 
     return jsonify({'status': 'success'})
 
-@app.route('/asistencia-jugadores_admin')
+@app.route('/asistencia-jugadores_admin', methods=['GET', 'POST'])
 def mostrar_jugadores_admin():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT id, nombre, Apellido_Paterno, Apellido_Materno FROM jugador")
 
-    jugadores = cur.fetchall()
+    # Obtener equipos y categorías
+    cur.execute("SELECT id, nombre FROM equipo")
+    equipos = cur.fetchall()
+    cur.execute("SELECT id, nombre FROM categoria")
+    categorias = cur.fetchall()
 
-    # Obtener la lista de todas las jornadas disponibles
-    cur.execute("SELECT DISTINCT jornada FROM asistencia")
-    jornadas = [res['jornada'] for res in cur.fetchall()]
-    jornadas.sort()  # Ordenar las jornadas
+    equipo_id = request.form.get('equipo_id')
+    categoria_id = request.form.get('categoria_id')
+    jornada_seleccionada = request.form.get('jornada')
 
+    jugadores = []
     asistencia_jornadas = {}
-    total_jornadas_asistidas = {}
-    total_asistencias_por_jornada = {f'J{j}': 0 for j in jornadas}
-    asistencia_total = {}  
+    asistencia_total = {}
+    total_asistencias_posibles = 0
+    total_asistencias_por_jornada = {}
 
-    # Obtener la asistencia de cada jugador para cada jornada
-    for jugador in jugadores:
-        cur.execute("SELECT jornada, SUM(asistencia) AS total FROM asistencia WHERE id_jugador = %s GROUP BY jornada", (jugador['id'],))
-        asistencia_result = cur.fetchall()
+    if equipo_id and categoria_id and jornada_seleccionada:
+        # Filtrar jugadores por equipo y categoría
+        cur.execute("SELECT id, nombre, Apellido_Paterno, Apellido_Materno FROM jugador WHERE equipo_id = %s AND categoria_id = %s", (equipo_id, categoria_id))
+        jugadores = cur.fetchall()
 
-        # Crear un diccionario para mantener la asistencia del jugador por jornada
-        jugador_asistencia = {res['jornada']: res['total'] for res in asistencia_result}
+        jornada_seleccionada = int(jornada_seleccionada)
 
-        # Calcular el total de asistencias para el jugador
-        total_asistencias = sum(asistencia['total'] for asistencia in asistencia_result)
-        asistencia_total[jugador['id']] = total_asistencias
+        for jugador in jugadores:
+            cur.execute("SELECT asistencia FROM asistencia WHERE id_jugador = %s AND jornada = %s", (jugador['id'], jornada_seleccionada))
+            asistencia = cur.fetchone()
+            asistencia_jornadas[jugador['id']] = {jornada_seleccionada: asistencia['asistencia'] if asistencia else 0}
+            asistencia_total[jugador['id']] = asistencia_jornadas[jugador['id']][jornada_seleccionada]
 
-        # Actualizar el total de asistencias por jornada para todos los jugadores
-        for jornada in jornadas:
-            total_asistencias_por_jornada[f'J{jornada}'] += jugador_asistencia.get(jornada, 0)
-
-        # Actualizar la asistencia del jugador para todas las jornadas
-        asistencia_jornadas[jugador['id']] = jugador_asistencia
-        total_jornadas_asistidas[jugador['id']] = total_asistencias
+        total_asistencias_por_jornada[f'J{jornada_seleccionada}'] = sum(asistencia_total.values())
+        total_asistencias_posibles = len(jugadores) * jornada_seleccionada  # Asumiendo que cada jugador debe asistir a cada jornada
 
     cur.close()
+    return render_template('admin_asistencia.html', equipos=equipos, categorias=categorias, jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornada_seleccionada=jornada_seleccionada if equipo_id and categoria_id and jornada_seleccionada else None, total_asistencias_posibles=total_asistencias_posibles)
 
-    total_asistencia_partidos = sum(total_asistencias_por_jornada.values())
-    # Calcular el total de asistencias posibles (18 jornadas)
-    total_asistencias_posibles = 18
+@app.route('/actualizar_asist', methods=['POST'])
+def actualizar_asist():
+    id_jugador = request.form.get('id_jugador')
+    jornada = request.form.get('jornada')
+    asistencia = request.form.get('asistencia')
 
-    return render_template('admin_asistencia.html', jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_jornadas_asistidas=total_jornadas_asistidas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornadas=jornadas, total_asistencia_partidos=total_asistencia_partidos, total_asistencias_posibles=total_asistencias_posibles)
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO asistencia (id_jugador, jornada, asistencia) VALUES (%s, %s, %s) ON DUPLICATE KEY UPDATE asistencia = VALUES(asistencia)", (id_jugador, jornada, asistencia))
+    mysql.connection.commit()
+    cur.close()
+    return '', 204  # Sin contenido
 
 ########### TABLAS DE POSICIONES ############
 #############################################
