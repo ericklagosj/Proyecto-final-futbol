@@ -941,13 +941,13 @@ def mostrar_jugadores():
         # Crear un diccionario para mantener la asistencia del jugador por jornada
         jugador_asistencia = {res['jornada']: res['total'] for res in asistencia_result}
 
-        # Calcular el total de asistencias para el jugador
-        total_asistencias = sum(asistencia['total'] for asistencia in asistencia_result)
+        # Calcular el total de asistencias para el jugador, manejando posibles valores None
+        total_asistencias = sum(res['total'] if res['total'] is not None else 0 for res in asistencia_result)
         asistencia_total[jugador['id']] = total_asistencias
 
         # Actualizar el total de asistencias por jornada para todos los jugadores
         for jornada in jornadas:
-            total_asistencias_por_jornada[f'J{jornada}'] += jugador_asistencia.get(jornada, 0)
+            total_asistencias_por_jornada[f'J{jornada}'] += jugador_asistencia.get(jornada, 0) or 0
 
         # Actualizar la asistencia del jugador para todas las jornadas
         asistencia_jornadas[jugador['id']] = jugador_asistencia
@@ -1011,14 +1011,26 @@ def mostrar_jugadores_admin():
         for jugador in jugadores:
             cur.execute("SELECT asistencia FROM asistencia WHERE id_jugador = %s AND jornada = %s", (jugador['id'], jornada_seleccionada))
             asistencia = cur.fetchone()
-            asistencia_jornadas[jugador['id']] = {jornada_seleccionada: asistencia['asistencia'] if asistencia else 0}
+            asistencia_jornadas[jugador['id']] = {jornada_seleccionada: asistencia['asistencia'] if asistencia and asistencia['asistencia'] is not None else 0}
             asistencia_total[jugador['id']] = asistencia_jornadas[jugador['id']][jornada_seleccionada]
 
+        # Asegurarse de que los valores sean enteros y reemplazar None por 0
+        asistencia_total = {key: (valor if valor is not None else 0) for key, valor in asistencia_total.items()}
+        
+        # Sumar los valores
         total_asistencias_por_jornada[f'J{jornada_seleccionada}'] = sum(asistencia_total.values())
         total_asistencias_posibles = len(jugadores) * jornada_seleccionada  # Asumiendo que cada jugador debe asistir a cada jornada
 
     cur.close()
-    return render_template('admin_asistencia.html', equipos=equipos, categorias=categorias, jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornada_seleccionada=jornada_seleccionada if equipo_id and categoria_id and jornada_seleccionada else None, total_asistencias_posibles=total_asistencias_posibles)
+    return render_template('admin_asistencia.html', 
+                           equipos=equipos, 
+                           categorias=categorias, 
+                           jugadores=jugadores, 
+                           asistencia_jornadas=asistencia_jornadas, 
+                           total_asistencias_por_jornada=total_asistencias_por_jornada, 
+                           asistencia_total=asistencia_total, 
+                           jornada_seleccionada=jornada_seleccionada if equipo_id and categoria_id and jornada_seleccionada else None, 
+                           total_asistencias_posibles=total_asistencias_posibles)
 
 @app.route('/actualizar_asist', methods=['POST'])
 def actualizar_asist():

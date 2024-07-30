@@ -7,6 +7,79 @@
     <link rel="stylesheet" href="../static/css/asistencia.css" />
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet" />
     <style>
+/* Estilos generales del formulario de filtro */
+        .filter-form {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 1200px; /* Ampliar el ancho máximo para versión desktop */
+            margin: auto;
+            margin-bottom: 20px;
+        }
+
+        /* Contenedor del formulario de filtro */
+        .filter-form .form-row {
+            display: flex;
+            flex-wrap: wrap; /* Permitir que los elementos se envuelvan si es necesario */
+            gap: 10px; /* Espacio entre elementos */
+            align-items: center; /* Alinear verticalmente */
+        }
+
+        /* Estilo para cada elemento del formulario */
+        .filter-form label {
+            display: block;
+            margin: 0;
+            font-weight: bold;
+            flex: 1 1 200px; /* Flexibilidad para los labels */
+        }
+
+        .filter-form select,
+        .filter-form input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            flex: 2 1 200px; /* Flexibilidad para los campos de entrada */
+        }
+
+        .filter-form button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            flex: 1 1 100px; /* Flexibilidad para el botón */
+        }
+
+        .filter-form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilo para el botón de filtrar en móvil */
+        @media (max-width: 768px) {
+            .filter-form button {
+                width: 100%;
+            }
+        }
+
+        /* Estilo para el contenedor del botón de filtrar */
+        .filter-form .button-container {
+            margin-top: 15px;
+            text-align: right; /* Alinear el botón a la derecha */
+        }
+
+        /* Estilo para el botón de filtrar en la versión de escritorio */
+        @media (min-width: 769px) {
+            .filter-form .button-container {
+                text-align: right; /* Alinear el botón a la derecha en versión desktop */
+            }
+        }
+
+
         .btn {
             padding: 10px 20px;
             border: none;
@@ -91,32 +164,39 @@
 <body>
     <h1>Asistencia de Jugadores</h1>
 
-    <form method="post" action="/asistencia-jugadores_admin">
-        <label for="equipo_id">Equipo:</label>
-        <select name="equipo_id" id="equipo_id" required>
-            <option value="">Seleccione un equipo</option>
-            {% for equipo in equipos %}
-            <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
-            {% endfor %}
-        </select>
-
-        <label for="categoria_id">Categoría:</label>
-        <select name="categoria_id" id="categoria_id" required>
-            <option value="">Seleccione una categoría</option>
-            {% for categoria in categorias %}
-            <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
-            {% endfor %}
-        </select>
-
-        <label for="jornada">Jornada:</label>
-        <input type="number" name="jornada" id="jornada" min="1" max="18" required>
-
-        <button type="submit">Filtrar</button>
+    <form class="filter-form" method="post" action="/asistencia-jugadores_admin">
+        <div class="form-row">
+            <div>
+                <label for="equipo_id">Equipo:</label>
+                <select name="equipo_id" id="equipo_id" required>
+                    <option value="">Seleccione un equipo</option>
+                    {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="categoria_id">Categoría:</label>
+                <select name="categoria_id" id="categoria_id" required>
+                    <option value="">Seleccione una categoría</option>
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="jornada">Jornada:</label>
+                <input type="number" name="jornada" id="jornada" min="1" max="18" required>
+            </div>
+        </div>
+        <div class="button-container">
+            <button type="submit">Filtrar</button>
+        </div>
     </form>
+    
 
     {% if jugadores %}
     <div class="table-container">
-        <h2 class="h22">Asistencia Jugadores</h2>
         <table>
             <thead>
                 <tr>
