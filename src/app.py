@@ -653,47 +653,38 @@ def obtener_equipo(id):
 @app.route('/jugador/<int:id>')
 def obtener_jugador(id):
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM jugador WHERE id = %s", (id,))
+    
+    # Obtener información del jugador
+    cur.execute("SELECT * FROM jugador WHERE ID = %s", (id,))
     jugador = cur.fetchone()
 
     if not jugador:
         cur.close()
         return jsonify({"error": "Jugador no encontrado"}), 404
 
-    # Obtener el parámetro de consulta 'categoria'
-    categoria = request.args.get('categoria')
-
-    # Consulta para obtener los datos de la tabla categoria
-    cur.execute("SELECT * FROM categoria")
-    categorias = cur.fetchall()
-
-    # Consulta para obtener el equipo del jugador
+    # Obtener el equipo del jugador
     cur.execute("SELECT * FROM equipo WHERE ID = %s", (jugador['Equipo_ID'],))
     equipo = cur.fetchone()
 
-    # Consulta para obtener las estadísticas del jugador
-    cur.execute("SELECT * FROM est_jugador_c WHERE Jugador_ID = %s", (id,))
+    # Obtener el nombre de la categoría del jugador
+    cur.execute("SELECT Nombre FROM categoria WHERE ID = %s", (jugador['Categoria_ID'],))
+    categoria = cur.fetchone()
+
+    # Obtener estadísticas del jugador
+    cur.execute("""
+        SELECT 
+            COALESCE(SUM(Goles), 0) AS Goles_Anotados, 
+            COALESCE(SUM(Tarjetas_Amarillas), 0) AS Tarjetas_Amarillas, 
+            COALESCE(SUM(Tarjetas_Rojas), 0) AS Tarjetas_Rojas 
+        FROM goles_jugador 
+        WHERE Jugador_ID = %s
+    """, (id,))
     estadisticas = cur.fetchone()
-
-    # Definir la consulta base para obtener jugadores
-    consulta_jugadores = "SELECT * FROM jugador WHERE Equipo_ID = %s"
-
-    # Si se proporciona la categoría, ajusta la consulta para filtrar jugadores por esa categoría
-    if categoria:
-        consulta_jugadores += " AND Categoria_ID = %s"
-        cur.execute(consulta_jugadores, (id, categoria))
-    else:
-        cur.execute(consulta_jugadores, (id,))
-
-    jugadores = cur.fetchall()
 
     cur.close()
 
-    if jugador:
-        # Cerrar el cursor
-
-        # Renderizar la plantilla HTML y pasar los datos del jugador y sus estadísticas
-        return render_template("detallesjugadores.html", jugador=jugador, jugadores=jugadores, categorias=categorias, equipo=equipo, estadisticas=estadisticas)
+    # Renderizar la plantilla HTML y pasar los datos del jugador, equipo, categoría y estadísticas
+    return render_template("detallesjugadores.html", jugador=jugador, equipo=equipo, categoria=categoria, estadisticas=estadisticas)
 
 
 

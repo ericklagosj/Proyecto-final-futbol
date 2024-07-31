@@ -6863,11 +6863,13 @@ h6 {
     visibility: visible; } }
 
 .footer-type01 {
+  margin-top: 180px;
   background-color: #ECECEC;
   padding: 70px 0 0; }
 
 .footer-type02 {
-  padding: 30px 0;
+  margin-top: 10px;
+  padding-top: 30px;
   background: url(/static/images/background/heroesBg.jpg) center / cover;
   background-size: cover;
   background-position: center;

@@ -1,24 +1,45 @@
-.banner {
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    flex: 1;
+}
+
+.footer-type01 {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    height: 120px;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+.footer-logo {
+    width: 140px;
+    height: auto;
 }
 
 .playerDpage {
-    padding-top: 120px; /* Añadir relleno superior para separar del banner */
-    position: relative; /* Establecer posición relativa */
-    z-index: 1; /* Establecer el índice z para que esté por encima del banner */
+    padding-top: 120px; /* Separación del banner */
+    position: relative; /* Para mantener el contenido en su lugar */
+    z-index: 1; /* Para que esté sobre otros elementos */
 }
 
 .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 5px; /* Ajusta la separación entre secciones */
+    margin-bottom: 5px; /* Separación entre secciones */
 }
 
 .player-details-section,
 .player-stats-section {
-    flex-basis: 80%; /* Ajusta el ancho de las secciones */
-    margin-bottom: 3px; /* Ajusta la separación entre secciones */
+    flex-basis: 80%; /* Ancho de las secciones */
+    margin-bottom: 3px; /* Separación entre secciones */
 }
 
 .player-details,
@@ -40,7 +61,7 @@
 .stat-icon img {
     width: 16px; /* Ancho del icono */
     height: 16px; /* Altura del icono */
-    vertical-align: middle; /* Alinea verticalmente el icono con el texto */
+    vertical-align: middle; /* Alineación vertical del icono */
 }
 
 .stat-label {
@@ -54,40 +75,38 @@
 }
 
 .icon {
-    width: 20px; /* Ajusta el tamaño de los iconos */
+    width: 20px; /* Tamaño de los iconos */
     height: 20px;
 }
 
 /* Ajustes de diseño para pantallas de tamaño pequeño (móviles) */
 @media screen and (max-width: 768px) {
     .row {
-        margin-bottom: 5px; /* Reducir la separación entre filas */
+        margin-bottom: 5px; /* Reducir separación entre filas */
     }
 
     .player-details-section,
     .player-stats-section {
-        width: 90%; /* Ajustar el ancho de los cuadros */
+        width: 90%; /* Ancho de los cuadros */
         margin: 0 auto; /* Centrar los cuadros */
     }
 
     .player-details {
-        background-color: #f1f1f1; /* Cambiar el color de fondo */
-        padding: 20px; /* Añadir un relleno interno */
-        border-radius: 10px; /* Añadir bordes redondeados */
-        margin-bottom: 2px; /* Añadir separación inferior */
+        background-color: #f1f1f1; /* Color de fondo */
+        padding: 20px; /* Relleno interno */
+        border-radius: 10px; /* Bordes redondeados */
+        margin-bottom: 2px; /* Separación inferior */
     }
 
     .player-stats {
-        background-color: #f1f1f1; /* Cambiar el color de fondo */
-        padding: 20px; /* Añadir un relleno interno */
-        border-radius: 10px; /* Añadir bordes redondeados */
+        background-color: #f1f1f1; /* Color de fondo */
+        padding: 20px; /* Relleno interno */
+        border-radius: 10px; /* Bordes redondeados */
         text-align: center; /* Centrar el contenido */
     }
 
     .stats-header {
         font-size: 24px; /* Tamaño de fuente más grande */
-        margin-bottom: 5px; /* Añadir separación inferior */
+        margin-bottom: 5px; /* Separación inferior */
     }
 }
-
-
