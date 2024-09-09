@@ -155,92 +155,11 @@
 </script>
 
 
-<div class="selector">
-  <h1>Asociación Deportiva</h1>
-      <h2>Resultados Partidos</h2>
-      <div class="filters">
-        <label for="season-select" class="temporada">Seleccionar temporada:</label>
-        <select id="season-select">
-          <option value="2023-24">2023/24</option>
-          <option value="2022-23">2022/23</option>
-          <!-- Otras temporadas -->
-        </select>
-        <!--<label for="competition-select">Competición:</label>
-        <select id="competition-select">
-          <option value="all">Todas</option>
-          <option value="liga">Liga</option>
-          <option value="champions">Champions League</option>
-           Otras competiciones 
-        </select> 
-        <button id="reset-filters">Reiniciar Filtros</button>-->
-      </div>
-  <!-- Formulario para filtrar por jornada -->
-  <form action="{{ url_for('home') }}" method="post" class="form">
-      <div class="dropdown">
-          <select id="jornada" name="ID_jornada" class="select">
-              {% for i in range(1, 19) %}
-                  <option value="{{ i }}" class="option" {% if i == ID_jornada %}selected{% endif %}>Jornada {{ i }}</option>
-              {% endfor %}
-          </select>
-          <button type="submit" class="button">
-              <i class="ri-filter-3-line">Filtrar</i> 
-          </button>
-      </div>
-  </form>
-</div>
 
-<!-- Recuadros de categoría con sus respectivos partidos -->
-{% for nombre_categoria, partidos in categorias.items() %}
-<div class="categoria">
-  <h2>{{ nombre_categoria }}</h2>
-  <div class="table-responsive">
-      <table>
-          <thead>
-              <tr>
-                  <th>Equipo Local</th>
-                  <th>Resultado</th>
-                  <th>Equipo Visitante</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for partido in partidos %}
-              <tr class="partido" data-target="detalle-{{ nombre_categoria }}-{{ loop.index }}">
-                  <td>
-                      <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Local'] + '.png') }}"
-                          alt="Escudo del equipo local" class="equipo-logo" />
-                      {{ partido['Equipo_Local'] }}
-                  </td>
-                  <td class="result">{{ partido['Goles_Local'] }} - {{ partido['Goles_Visita'] }}</td>
-                  <td>
-                      <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Visitante'] + '.png') }}"
-                          alt="Escudo del equipo visitante" class="equipo-logo" />
-                      {{ partido['Equipo_Visitante'] }}
-                  </td>
-              </tr>
-              <!-- Contenedor para los detalles del partido -->
-              <tr class="detalle-container" id="detalle-{{ nombre_categoria }}-{{ loop.index }}-container" style="display: none;">
-                  <td colspan="3">
-                      <!-- Contenido de los detalles del partido -->
-                      <div id="detalle-{{ nombre_categoria }}-{{ loop.index }}" class="detalle-content">
-                          <h3>Jugadores que anotaron goles:</h3>
-                          <ul>
-                              {% if partido['Jugadores'] %}
-                                  {% for jugador in partido['Jugadores'] %}
-                                  <li>{{ jugador['Nombre'] }} ({{ jugador['Equipo'] }}) - Goles: {{ jugador['Goles'] }}</li>
-                                  {% endfor %}
-                              {% else %}
-                                  <li>No hay goles registrados en este partido.</li>
-                              {% endif %}
-                          </ul>
-                      </div>
-                  </td>
-              </tr>
-              {% endfor %}
-          </tbody>
-      </table>
-  </div>
-</div>
-{% endfor %}
+
+
+
+
 
 <script>
   document.querySelectorAll('.partido').forEach(partido => {
