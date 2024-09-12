@@ -1,215 +1,252 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Listado de Equipos</title>
-    <link rel="stylesheet" href="/static/css/listar_equipos.css">
+    <link rel="stylesheet" href="/static/css/listar_equipos.css" />
+    <!----- FONT AWESOME CSS FOR ICONS FONTS ------>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+
+    <!--=============== REMIXICONS ===============-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <!-- google fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
-        /* Estilos básicos */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
+      /* Estilos básicos */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+      }
 
-        .nav__toggle {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
+      .nav__toggle {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
 
-        .nav__toggle-menu,
-        .nav__toggle-close {
-            font-size: 2rem; /* Ajusta el tamaño según tus necesidades */
-            display: none; /* Oculta ambos íconos por defecto */
-        }
+      .nav__toggle-menu,
+      .nav__toggle-close {
+        font-size: 2rem; /* Ajusta el tamaño según tus necesidades */
+        display: none; /* Oculta ambos íconos por defecto */
+      }
 
-        .nav__toggle-menu {
-            display: inline-block; /* Mostrar el ícono del menú por defecto */
-        }
+      .nav__toggle-menu {
+        display: inline-block; /* Mostrar el ícono del menú por defecto */
+      }
 
-        .show-icon .nav__toggle-menu {
-            display: none;
-        }
+      .show-icon .nav__toggle-menu {
+        display: none;
+      }
 
-        .show-icon .nav__toggle-close {
-            display: inline-block;
-        }
+      .show-icon .nav__toggle-close {
+        display: inline-block;
+      }
 
-        .nav__menu {
-            display: none; /* Ocultar menú por defecto */
-        }
+      .nav__menu {
+        display: none; /* Ocultar menú por defecto */
+      }
 
-        .show-menu {
-            display: block; /* Mostrar menú cuando se active */
-        }
+      .show-menu {
+        display: block; /* Mostrar menú cuando se active */
+      }
     </style>
-
-</head>
-<body>
-
+  </head>
+  <body>
     <!--=============== HEADER ===============-->
-    <header class="header">
-        <nav class="nav container">
-            <div class="nav__data">
-                <a href="{{ url_for('home') }}" class="nav__logo">
-                  <img src="/static/images/logo.png" alt="Logo de la Asociación Deportiva" />
-                    Asociación Deportiva 
-                </a>
-
-                <div class="nav__toggle" id="nav-toggle">
-                    <i class="ri-menu-line nav__toggle-menu"></i>
-                    <i class="ri-close-line nav__toggle-close"></i>
-                </div>
+    <header>
+      <div class="announcement-bar">
+        <div id="next-matches">
+          <!-- Los partidos se cargarán aquí mediante JavaScript -->
+        </div>
+      </div>
+      <nav class="navbar">
+        <div class="navbar-container">
+          <div class="navbar-toggle" id="mobile-menu">
+            <i class="ri-menu-line"></i>
+          </div>
+          <div class="navbar-logo">
+            <img src="/static/images/logo.png" alt="Logo" />
+          </div>
+        </div>
+        <div class="navbar-links" id="navbar-links">
+          <a href="{{ url_for('home') }}"> INICIO</a>
+          <a href="{{ url_for('noticias') }}"> NOTICIAS</a>
+          <a href="{{ url_for('calendario') }}"> CALENDARIO</a>
+          <div class="dropdown">
+            <button class="dropbtn">
+              POSICIONES <i class="ri-arrow-down-s-line"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="{{ url_for('tabla_posiciones')}}">PRIMERA DIVISION</a>
+              <a href="{{ url_for('tabla_posiciones_segunda') }}"
+                >SEGUNDA DIVISION</a
+              >
             </div>
-
-            <!--=============== NAV MENU ===============-->
-            <div class="nav__menu" id="nav-menu">
-                <ul class="nav__list">
-                    <li>
-                        <a href="{{ url_for('home') }}" class="nav__link">Inicio</a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('noticias') }}" class="nav__link">
-                            Noticias <i class="ri-newspaper-line"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('galeria') }}" class="nav__link">
-                            Galería <i class="ri-gallery-line"></i>
-                        </a>
-                    </li>
-                    <!--=============== DROPDOWN 1 ===============-->
-                    <li class="dropdown__item">
-                        <div class="nav__link dropdown__button">
-                            Equipos <i class="ri-arrow-down-s-line dropdown__arrow"></i>
-                        </div>
-
-                        <div class="dropdown__container">
-                            <div class="dropdown__content">
-                                <div class="dropdown__group">
-                                    <div class="dropdown__icon">
-                                        <i class="ri-flashlight-line"></i>
-                                    </div>
-
-                                    <span class="dropdown__title">Datos De Competencia</span>
-
-                                    <ul class="dropdown__list">
-                                        <li>
-                                            <a href="{{ url_for('resultados_partidos')}}" class="dropdown__link">Resultados Partidos</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ url_for('estadisticas_jugadores') }}" class="dropdown__link">Estadísticas Jugadores</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ url_for('mostrar_jugadores')}}" class="dropdown__link">Asistencias Jugadores</a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="dropdown__group">
-                                    <div class="dropdown__icon">
-                                        <i class="ri-file-paper-2-line"></i>
-                                    </div>
-
-                                    <span class="dropdown__title">Posiciones</span>
-
-                                    <ul class="dropdown__list">
-                                        <li>
-                                            <a href="{{ url_for('tabla_posiciones')}}" class="dropdown__link">Primera División</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ url_for('tabla_posiciones_segunda') }}" class="dropdown__link">Segunda División</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('login') }}" class="nav__link">
-                            Acceso <i class="ri-login-box-line"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+          </div>
+          <a href="{{ url_for('mostrar_jugadores')}}"> ASISTENCIA</a>
+          <a href="{{ url_for('estadisticas_jugadores') }}"> ESTADISTICAS</a>
+          <a href="{{ url_for('resultados_partidos')}}"> PARTIDOS</a>
+          <a href="{{ url_for('galeria') }}"> GALERIA</a>
+          <a href="#"> REGLAMENTO</a>
+        </div>
+        <div class="navbar-actions" id="navbar-actions">
+          <a href="{{ url_for('login') }}" class="highlight"
+            ><i class="ri-user-line"></i> LogIn</a
+          >
+          <div class="navbar-search" id="navbar-search">
+            <input type="text" placeholder="Buscar..." />
+            <i class="ri-search-line"></i>
+          </div>
+        </div>
+      </nav>
     </header>
 
     <main class="table" id="customers_table">
-        <section class="table__header">
-            <!-- Encabezado de la tabla -->
-            <h1>LISTADO DE EQUIPOS</h1>
-            <!-- Barra de búsqueda -->
-            <div class="input-group">
-                <input type="search" placeholder="Buscar Equipos...">
-                <img src="/static/images/equipos/search.png" alt="">
-            </div>
-            <!-- Opciones de exportación -->
-            <div class="export__file">
-                <label for="export-file" class="export__file-btn" title="Exportar Archivo"></label>
-                <input type="checkbox" id="export-file">
-                <div class="export__file-options">
-                    <label>Exportar como &nbsp; &#10140;</label>
-                    <label for="export-file" id="toPDF">PDF <img src="/static/images/equipos/pdf.png" alt=""></label>
-                    <label for="export-file" id="toJSON">JSON <img src="/static/images/equipos/json.png" alt=""></label>
-                    <label for="export-file" id="toCSV">CSV <img src="/static/images/equipos/csv.png" alt=""></label>
-                    <label for="export-file" id="toEXCEL">EXCEL <img src="/static/images/equipos/excel.png" alt=""></label>
-                </div>
-            </div>
-        </section>
-        <!-- Cuerpo de la tabla -->
-        <section class="table__body">
-            <table>
-                <thead>
-                    <!-- Encabezados de las columnas -->
-                    <tr>
-                        <th>Nombre <span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Ciudad <span class="icon-arrow">&UpArrow;</span></th>
-                        <th>División <span class="icon-arrow">&UpArrow;</span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for equipo in equipos %}
-                    <!-- Datos de los equipos -->
-                    <tr>
-                        <td class="sticky-column">
-                            <img src="{{ equipo['Imagen'] }}" class="team-logo" alt="Escudo del equipo">
-                            <a href="{{ url_for('obtener_equipo', id=equipo['ID']) }}">{{ equipo['Nombre'] }}</a>
-                        </td>
-                        <td>{{ equipo['Ciudad'] }}</td>
-                        <td>{{ equipo['Division_Nombre'] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
+      <section class="table__header">
+        <!-- Encabezado de la tabla -->
+        <h1>LISTADO DE EQUIPOS</h1>
+        <!-- Barra de búsqueda -->
+        <div class="input-group">
+          <input type="search" placeholder="Buscar Equipos..." />
+          <img src="/static/images/equipos/search.png" alt="" />
+        </div>
+        <!-- Opciones de exportación -->
+        <div class="export__file">
+          <label
+            for="export-file"
+            class="export__file-btn"
+            title="Exportar Archivo"
+          ></label>
+          <input type="checkbox" id="export-file" />
+          <div class="export__file-options">
+            <label>Exportar como &nbsp; &#10140;</label>
+            <label for="export-file" id="toPDF"
+              >PDF <img src="/static/images/equipos/pdf.png" alt=""
+            /></label>
+            <label for="export-file" id="toJSON"
+              >JSON <img src="/static/images/equipos/json.png" alt=""
+            /></label>
+            <label for="export-file" id="toCSV"
+              >CSV <img src="/static/images/equipos/csv.png" alt=""
+            /></label>
+            <label for="export-file" id="toEXCEL"
+              >EXCEL <img src="/static/images/equipos/excel.png" alt=""
+            /></label>
+          </div>
+        </div>
+      </section>
+      <!-- Cuerpo de la tabla -->
+      <section class="table__body">
+        <table>
+          <thead>
+            <!-- Encabezados de las columnas -->
+            <tr>
+              <th>Nombre <span class="icon-arrow">&UpArrow;</span></th>
+              <th>Ciudad <span class="icon-arrow">&UpArrow;</span></th>
+              <th>División <span class="icon-arrow">&UpArrow;</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for equipo in equipos %}
+            <!-- Datos de los equipos -->
+            <tr>
+              <td class="sticky-column">
+                <img
+                  src="{{ equipo['Imagen'] }}"
+                  class="team-logo"
+                  alt="Escudo del equipo"
+                />
+                <a href="{{ url_for('obtener_equipo', id=equipo['ID']) }}"
+                  >{{ equipo['Nombre'] }}</a
+                >
+              </td>
+              <td>{{ equipo['Ciudad'] }}</td>
+              <td>{{ equipo['Division_Nombre'] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
     </main>
+
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-logo">
+          <img src="/static/images/logo.png" alt="Logo" />
+        </div>
+        <div class="footer-lang">
+          <a href="#">ASOCIACION DEPORTIVA</a>
+        </div>
+        <div class="footer-top-link">
+          <a href="#">Back to the top <i class="ri-arrow-up-s-line"></i></a>
+        </div>
+      </div>
+      <div class="footer-contact">
+        <p>Dirección: Calle Falsa 123, Ciudad, País</p>
+        <p>Teléfono: +123 456 7890</p>
+      </div>
+      <div class="footer-subscribe">
+        <h3>Suscríbete a nuestro boletín</h3>
+        <form id="subscribe-form">
+          <input type="email" placeholder="Ingresa tu email" required />
+          <button type="submit">Suscribirse</button>
+        </form>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.youtube.com/"><i class="ri-youtube-line"></i></a>
+        <a href="https://www.instagram.com"
+          ><i class="ri-instagram-line"></i
+        ></a>
+        <a href="https://www.x.com"><i class="ri-twitter-line"></i></a>
+        <a href="https://www.facebook.com"
+          ><i class="ri-facebook-circle-line"></i
+        ></a>
+        <a href="https://www.linkedin.com"><i class="ri-linkedin-line"></i></a>
+        <a href="https://www.twitch.com"><i class="ri-twitch-line"></i></a>
+      </div>
+      <div class="footer-bottom">
+        <a href="#">REGLAMENTO</a>
+        <a href="#">PARTIDOS</a>
+        <a href="#">GALERIA</a>
+        <a href="#">CONTACTO</a>
+      </div>
+    </footer>
+
     <script src="/static/js/listar_equipos.js"></script>
 
     <script>
-        const showMenu = (toggleId, navId) => {
-          const toggle = document.getElementById(toggleId),
-            nav = document.getElementById(navId);
+      const showMenu = (toggleId, navId) => {
+        const toggle = document.getElementById(toggleId),
+          nav = document.getElementById(navId);
 
-          toggle.addEventListener("click", () => {
-            // Add show-menu class to nav menu
-            nav.classList.toggle("show-menu");
-            // Add show-icon to show and hide menu icon
-            toggle.classList.toggle("show-icon");
-          });
-        };
+        toggle.addEventListener("click", () => {
+          // Add show-menu class to nav menu
+          nav.classList.toggle("show-menu");
+          // Add show-icon to show and hide menu icon
+          toggle.classList.toggle("show-icon");
+        });
+      };
 
-        showMenu("nav-toggle", "nav-menu");
+      showMenu("nav-toggle", "nav-menu");
     </script>
-
-</body>
+  </body>
 </html>
