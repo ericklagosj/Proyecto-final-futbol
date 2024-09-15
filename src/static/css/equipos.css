@@ -352,13 +352,16 @@ body {
 
 /* Estilos del contenedor principal */
 main.table {
-  width: 95vw;
-  height: 95vh;
+  width: auto; /* Se ajusta al ancho del contenido */
+  height: auto; /* Se ajusta a la altura del contenido */
+  max-width: 95vw; /* Opcional: limita el ancho máximo al 95% del viewport */
+  max-height: 95vh; /* Opcional: limita la altura máxima al 95% del viewport */
   background-color: rgba(255, 255, 255, 0.178);
   backdrop-filter: blur(7px);
   box-shadow: 0 .4rem .8rem #0005;
   border-radius: .8rem;
   overflow: hidden;
+  margin: auto; /* Centra el contenedor dentro del elemento padre */
 }
 
 /* Estilos del encabezado de la tabla */
@@ -387,7 +390,7 @@ main.table {
 
 /* Estilos del grupo de entrada de búsqueda al pasar el cursor */
 .table__header .input-group:hover {
-  width: 45%;
+  width: 85%;
   background-color: #fff8;
   box-shadow: 0 .1rem .4rem #0002;
 }
@@ -12067,4 +12070,106 @@ ul.slick-dots {
       width: 100%; /* Ancho deseado para dispositivos móviles */
       padding: 2px;
   }
-}      
+}  
+
+
+/** FOOTER **/
+
+.footer {
+  padding: 20px;
+  background-color: #00274d;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Espacio entre elementos */
+}
+
+.footer-logo img {
+  width: 450px; /* Tamaño del logo */
+}
+
+.footer-text {
+  text-align: center;
+}
+
+.footer-lang a,
+.footer-top-link a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.footer-top-link a {
+  font-size: 16px;
+}
+
+.footer-top-link a:hover,
+.footer-lang a:hover {
+  text-decoration: underline;
+}
+
+.footer-contact {
+  margin-top: 20px;
+}
+
+.footer-subscribe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-subscribe input {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 200px;
+}
+
+.footer-subscribe button {
+  padding: 10px 20px;
+  background-color: #0056b3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.footer-subscribe button:hover {
+  background-color: #004494;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-social a {
+  color: #fff;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  color: #ccc;
+}
+
+.footer-bottom {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 20px;
+}
