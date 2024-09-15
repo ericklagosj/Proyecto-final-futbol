@@ -1134,6 +1134,72 @@ def actualizar_tabla_posiciones(equipo_local_id, equipo_visitante_id, goles_loca
             WHERE Equipo_ID = %s OR Equipo_ID = %s
         """, (equipo_local_id, equipo_visitante_id))
 
+    # Ahora, actualizar también la tabla general de primera división (torneo_regular)
+    actualizar_tabla_general(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante)
+
+
+    mysql.connection.commit()
+    cur.close()
+
+
+#### tabla que agrega los resultados tambien en la tabla general, donde se suman los puntos de todas las categorias 
+
+def actualizar_tabla_general(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante):
+    cur = mysql.connection.cursor()
+
+    # Actualizar los goles a favor y en contra en la tabla general
+    cur.execute("""
+        UPDATE torneo_regular
+        SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+        WHERE Equipo_ID = %s
+    """, (goles_local, goles_visitante, equipo_local_id))
+    cur.execute("""
+        UPDATE torneo_regular
+        SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+        WHERE Equipo_ID = %s
+    """, (goles_visitante, goles_local, equipo_visitante_id))
+
+    # Actualizar partidos jugados, ganados, empatados y perdidos en la tabla general
+    cur.execute("""
+        UPDATE torneo_regular
+        SET P_Jugados = P_Jugados + 1
+        WHERE Equipo_ID = %s OR Equipo_ID = %s
+    """, (equipo_local_id, equipo_visitante_id))
+
+    if goles_local > goles_visitante:
+        # El equipo local ganó
+        cur.execute("""
+            UPDATE torneo_regular
+            SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+            WHERE Equipo_ID = %s
+        """, (equipo_local_id,))
+        # El equipo visitante perdió
+        cur.execute("""
+            UPDATE torneo_regular
+            SET P_Perdidos = P_Perdidos + 1
+            WHERE Equipo_ID = %s
+        """, (equipo_visitante_id,))
+    elif goles_local < goles_visitante:
+        # El equipo visitante ganó
+        cur.execute("""
+            UPDATE torneo_regular
+            SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+            WHERE Equipo_ID = %s
+        """, (equipo_visitante_id,))
+        # El equipo local perdió
+        cur.execute("""
+            UPDATE torneo_regular
+            SET P_Perdidos = P_Perdidos + 1
+            WHERE Equipo_ID = %s
+        """, (equipo_local_id,))
+    else:
+        # Empate
+        cur.execute("""
+            UPDATE torneo_regular
+            SET P_Empatados = P_Empatados + 1, Puntos = Puntos + 1
+            WHERE Equipo_ID = %s OR Equipo_ID = %s
+        """, (equipo_local_id, equipo_visitante_id))
+
     mysql.connection.commit()
     cur.close()
 
@@ -1163,6 +1229,7 @@ def actualizar_tabla_posiciones_segunda(equipo_local_id, equipo_visitante_id, go
         WHERE Equipo_ID = %s OR Equipo_ID = %s
     """, (equipo_local_id, equipo_visitante_id))
 
+    # Actualizar puntos según el resultado
     if goles_local > goles_visitante:
         # El equipo local ganó
         cur.execute(f"""
@@ -1170,7 +1237,6 @@ def actualizar_tabla_posiciones_segunda(equipo_local_id, equipo_visitante_id, go
             SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
             WHERE Equipo_ID = %s
         """, (equipo_local_id,))
-        # El equipo visitante perdió
         cur.execute(f"""
             UPDATE {tabla_posiciones}
             SET P_Perdidos = P_Perdidos + 1
@@ -1183,7 +1249,6 @@ def actualizar_tabla_posiciones_segunda(equipo_local_id, equipo_visitante_id, go
             SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
             WHERE Equipo_ID = %s
         """, (equipo_visitante_id,))
-        # El equipo local perdió
         cur.execute(f"""
             UPDATE {tabla_posiciones}
             SET P_Perdidos = P_Perdidos + 1
@@ -1197,8 +1262,74 @@ def actualizar_tabla_posiciones_segunda(equipo_local_id, equipo_visitante_id, go
             WHERE Equipo_ID = %s OR Equipo_ID = %s
         """, (equipo_local_id, equipo_visitante_id))
 
+    # Ahora, actualizar también la tabla general de segunda división (torneo_regular_segunda)
+    actualizar_tabla_general_segunda(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante)
+
     mysql.connection.commit()
     cur.close()
+
+
+#### tabla que agrega los resultados tambien en la tabla general, donde se suman los puntos de todas las categorias 
+
+def actualizar_tabla_general_segunda(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante):
+    cur = mysql.connection.cursor()
+
+    # Actualizar los goles a favor y en contra en la tabla general
+    cur.execute("""
+        UPDATE torneo_regular_segunda
+        SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+        WHERE Equipo_ID = %s
+    """, (goles_local, goles_visitante, equipo_local_id))
+    cur.execute("""
+        UPDATE torneo_regular_segunda
+        SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+        WHERE Equipo_ID = %s
+    """, (goles_visitante, goles_local, equipo_visitante_id))
+
+    # Actualizar partidos jugados, ganados, empatados y perdidos en la tabla general
+    cur.execute("""
+        UPDATE torneo_regular_segunda
+        SET P_Jugados = P_Jugados + 1
+        WHERE Equipo_ID = %s OR Equipo_ID = %s
+    """, (equipo_local_id, equipo_visitante_id))
+
+    if goles_local > goles_visitante:
+        # El equipo local ganó
+        cur.execute("""
+            UPDATE torneo_regular_segunda
+            SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+            WHERE Equipo_ID = %s
+        """, (equipo_local_id,))
+        # El equipo visitante perdió
+        cur.execute("""
+            UPDATE torneo_regular_segunda
+            SET P_Perdidos = P_Perdidos + 1
+            WHERE Equipo_ID = %s
+        """, (equipo_visitante_id,))
+    elif goles_local < goles_visitante:
+        # El equipo visitante ganó
+        cur.execute("""
+            UPDATE torneo_regular_segunda
+            SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+            WHERE Equipo_ID = %s
+        """, (equipo_visitante_id,))
+        # El equipo local perdió
+        cur.execute("""
+            UPDATE torneo_regular_segunda
+            SET P_Perdidos = P_Perdidos + 1
+            WHERE Equipo_ID = %s
+        """, (equipo_local_id,))
+    else:
+        # Empate
+        cur.execute("""
+            UPDATE torneo_regular_segunda
+            SET P_Empatados = P_Empatados + 1, Puntos = Puntos + 1
+            WHERE Equipo_ID = %s OR Equipo_ID = %s
+        """, (equipo_local_id, equipo_visitante_id))
+
+    mysql.connection.commit()
+    cur.close()
+
 
 
 # Muestra la tabla general de primera división
