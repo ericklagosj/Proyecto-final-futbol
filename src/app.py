@@ -345,7 +345,9 @@ def administrar_enfrentamientos():
 
                 # Actualizar la tabla de posiciones y el torneo regular
                 actualizar_tabla_posiciones(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, id_categoria)
-                actualizar_torneo_regular()
+                actualizar_tabla_posiciones_segunda(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, id_categoria)
+
+               
 
                 cur.close()
 
@@ -359,6 +361,7 @@ def administrar_enfrentamientos():
                 id_jornada = request.form['id_jornada']
                 ubicacion = request.form['ubicacion']
                 fecha = request.form['fecha']
+                id_division = request.form['id_división']  # Obtener la división seleccionada
 
                 # Verificar si ya existe un enfrentamiento con los mismos equipos, jornada y categoría
                 cur = mysql.connection.cursor()
@@ -373,16 +376,13 @@ def administrar_enfrentamientos():
                 else:
                     # Insertar el nuevo enfrentamiento en la base de datos
                     cur.execute("""
-                        INSERT INTO partido (Equipo_Local_ID, Equipo_Visitante_ID, ID_categoria, ID_jornada, Ubicacion, Fecha)
-                        VALUES (%s, %s, %s, %s, %s, %s)
-                    """, (equipo_local_id, equipo_visitante_id, id_categoria, id_jornada, ubicacion, fecha))
+                        INSERT INTO partido (Equipo_Local_ID, Equipo_Visitante_ID, ID_categoria, ID_jornada, Ubicacion, Fecha, ID_división)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    """, (equipo_local_id, equipo_visitante_id, id_categoria, id_jornada, ubicacion, fecha, id_division))
                     mysql.connection.commit()
 
                     flash('Enfrentamiento registrado correctamente.', 'success')
 
-                # Actualizar la tabla de posiciones y el torneo regular
-                actualizar_tabla_posiciones(equipo_local_id, equipo_visitante_id, 0, 0, id_categoria)
-                actualizar_torneo_regular()
 
                 cur.close()
 
@@ -393,47 +393,82 @@ def administrar_enfrentamientos():
             flash(f'Ocurrió un error: {str(e)}', 'error')
             return redirect(url_for('administrar_enfrentamientos'))
     else:
-        # Consultar las jornadas disponibles
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT ID, Nombre FROM jornada")
-        jornadas = cur.fetchall()
+        try:
+            # Consultar las jornadas disponibles
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT ID, Nombre FROM jornada")
+            jornadas = cur.fetchall()
 
-        # Consultar los equipos disponibles
-        cur.execute("SELECT ID, Nombre FROM equipo")
-        equipos = cur.fetchall()
+            # Consultar los equipos disponibles
+            cur.execute("SELECT ID, Nombre FROM equipo")
+            equipos = cur.fetchall()
 
-        # Consultar las categorías disponibles
-        cur.execute("SELECT ID, Nombre FROM categoria")
-        categorias = cur.fetchall()
+            # Consultar las categorías disponibles
+            cur.execute("SELECT ID, Nombre FROM categoria")
+            categorias = cur.fetchall()
 
-        # Obtener el parámetro de filtrado por jornada
-        id_jornada_filtro = request.args.get('jornada')
+            # Consultar las divisiones disponibles
+            cur.execute("SELECT ID, Nombre FROM division")
+            divisiones = cur.fetchall()
 
-        # Consultar los enfrentamientos programados
-        if id_jornada_filtro:
-            cur.execute("""
-                SELECT p.ID, p.Fecha, j.Nombre AS Nombre_Jornada, p.Ubicacion, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Categoria, p.Goles_Local, p.Goles_Visita
-                FROM partido p
-                JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
-                JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
-                JOIN categoria c ON p.ID_categoria = c.ID
-                JOIN jornada j ON p.ID_jornada = j.ID
-                WHERE p.ID_jornada = %s
-            """, (id_jornada_filtro,))
-        else:
-            cur.execute("""
-                SELECT p.ID, p.Fecha, j.Nombre AS Nombre_Jornada, p.Ubicacion, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Categoria, p.Goles_Local, p.Goles_Visita
-                FROM partido p
-                JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
-                JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
-                JOIN categoria c ON p.ID_categoria = c.ID
-                JOIN jornada j ON p.ID_jornada = j.ID
-            """)
-        enfrentamientos = cur.fetchall()
+            # Obtener el parámetro de filtrado por jornada y división
+            id_jornada_filtro = request.args.get('jornada')
+            id_division_filtro = request.args.get('division')
 
-        cur.close()
+            # Consultar los enfrentamientos programados
+            if id_jornada_filtro and id_division_filtro:
+                cur.execute("""
+                    SELECT p.ID, p.Fecha, j.Nombre AS Nombre_Jornada, p.Ubicacion, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Categoria, p.Goles_Local, p.Goles_Visita, d.Nombre AS Division_Nombre
+                    FROM partido p
+                    JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
+                    JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
+                    JOIN categoria c ON p.ID_categoria = c.ID
+                    JOIN jornada j ON p.ID_jornada = j.ID
+                    JOIN division d ON p.ID_división = d.ID
+                    WHERE p.ID_jornada = %s AND p.ID_división = %s
+                """, (id_jornada_filtro, id_division_filtro))
+            elif id_jornada_filtro:
+                cur.execute("""
+                    SELECT p.ID, p.Fecha, j.Nombre AS Nombre_Jornada, p.Ubicacion, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Categoria, p.Goles_Local, p.Goles_Visita
+                    FROM partido p
+                    JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
+                    JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
+                    JOIN categoria c ON p.ID_categoria = c.ID
+                    JOIN jornada j ON p.ID_jornada = j.ID
+                    WHERE p.ID_jornada = %s
+                """, (id_jornada_filtro,))
+            elif id_division_filtro:
+                cur.execute("""
+                    SELECT p.ID, p.Fecha, j.Nombre AS Nombre_Jornada, p.Ubicacion, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Categoria, p.Goles_Local, p.Goles_Visita, d.Nombre AS Division_Nombre
+                    FROM partido p
+                    JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
+                    JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
+                    JOIN categoria c ON p.ID_categoria = c.ID
+                    JOIN jornada j ON p.ID_jornada = j.ID
+                    JOIN division d ON p.ID_división = d.ID
+                    WHERE p.ID_división = %s
+                """, (id_division_filtro,))
+            else:
+                cur.execute("""
+                    SELECT p.ID, p.Fecha, j.Nombre AS Nombre_Jornada, p.Ubicacion, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Categoria, p.Goles_Local, p.Goles_Visita, d.Nombre AS Division_Nombre
+                    FROM partido p
+                    JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
+                    JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
+                    JOIN categoria c ON p.ID_categoria = c.ID
+                    JOIN jornada j ON p.ID_jornada = j.ID
+                    JOIN division d ON p.ID_división = d.ID
+                """)
+            enfrentamientos = cur.fetchall()
 
-        return render_template('admin_enfrentamientos.html', enfrentamientos=enfrentamientos, jornadas=jornadas, equipos=equipos, categorias=categorias)
+            cur.close()
+
+            return render_template('admin_enfrentamientos.html', enfrentamientos=enfrentamientos, jornadas=jornadas, equipos=equipos, categorias=categorias, divisiones=divisiones)
+
+        except Exception as e:
+            # Captura de errores generales para evitar errores 500
+            flash(f'Ocurrió un error: {str(e)}', 'error')
+            return redirect(url_for('administrar_enfrentamientos'))
+
 
 ##############################################################################################################
 @app.route('/realizar-traspaso', methods=["POST"])
@@ -1102,10 +1137,72 @@ def actualizar_tabla_posiciones(equipo_local_id, equipo_visitante_id, goles_loca
     mysql.connection.commit()
     cur.close()
 
+    
+def actualizar_tabla_posiciones_segunda(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, id_categoria):
+    # Determinar la tabla de posiciones a actualizar según la categoría
+    tabla_posiciones = f'tabla_{id_categoria}_s'
+
+    cur = mysql.connection.cursor()
+
+    # Actualizar los goles a favor y en contra
+    cur.execute(f"""
+        UPDATE {tabla_posiciones}
+        SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+        WHERE Equipo_ID = %s
+    """, (goles_local, goles_visitante, equipo_local_id))
+    cur.execute(f"""
+        UPDATE {tabla_posiciones}
+        SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
+        WHERE Equipo_ID = %s
+    """, (goles_visitante, goles_local, equipo_visitante_id))
+
+    # Actualizar partidos jugados, ganados, empatados y perdidos
+    cur.execute(f"""
+        UPDATE {tabla_posiciones}
+        SET P_Jugados = P_Jugados + 1
+        WHERE Equipo_ID = %s OR Equipo_ID = %s
+    """, (equipo_local_id, equipo_visitante_id))
+
+    if goles_local > goles_visitante:
+        # El equipo local ganó
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+            WHERE Equipo_ID = %s
+        """, (equipo_local_id,))
+        # El equipo visitante perdió
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Perdidos = P_Perdidos + 1
+            WHERE Equipo_ID = %s
+        """, (equipo_visitante_id,))
+    elif goles_local < goles_visitante:
+        # El equipo visitante ganó
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
+            WHERE Equipo_ID = %s
+        """, (equipo_visitante_id,))
+        # El equipo local perdió
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Perdidos = P_Perdidos + 1
+            WHERE Equipo_ID = %s
+        """, (equipo_local_id,))
+    else:
+        # Empate
+        cur.execute(f"""
+            UPDATE {tabla_posiciones}
+            SET P_Empatados = P_Empatados + 1, Puntos = Puntos + 1
+            WHERE Equipo_ID = %s OR Equipo_ID = %s
+        """, (equipo_local_id, equipo_visitante_id))
+
+    mysql.connection.commit()
+    cur.close()
 
 
 # Muestra la tabla general de primera división
-@app.route('/tabla-posiciones')
+@app.route('/tabla-posiciones', endpoint='tabla_posiciones')
 def tabla_posiciones():
     # Obtener la categoría seleccionada desde los parámetros de la URL
     categoria_seleccionada = request.args.get('categoria', 'all')
@@ -1123,23 +1220,18 @@ def tabla_posiciones():
 
     # Consulta SQL para obtener los datos de la tabla de posiciones
     cur.execute(f"""
-        SELECT e.Nombre AS Club, e.Imagen AS Imagen, 
-               SUM(COALESCE(tr.Puntos, 0)) AS PTS, 
-               MAX(tr.P_Jugados) AS PJ, 
-               MAX(tr.P_Ganados) AS PG, 
-               MAX(tr.P_Empatados) AS PE, 
-               MAX(tr.P_Perdidos) AS PP, 
-               MAX(tr.Goles_Favor) AS GF, 
-               MAX(tr.Goles_Contra) AS GC,
-               MAX(tr.Goles_Favor - tr.Goles_Contra) AS DIF
+        SELECT e.Nombre AS Club, e.Imagen AS Imagen, tr.Puntos AS PTS, 
+            tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
+            tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
+            tr.Goles_Favor AS GF, tr.Goles_Contra AS GC,
+            (tr.Goles_Favor - tr.Goles_Contra) AS DIF
         FROM {tabla} tr
         JOIN equipo e ON tr.Equipo_ID = e.ID
-        GROUP BY e.Nombre, e.Imagen
-        ORDER BY PTS DESC, DIF DESC
+        ORDER BY tr.Puntos DESC, (tr.Goles_Favor - tr.Goles_Contra) DESC
     """)
 
+    # Obtener los resultados de la consulta
     tabla_posiciones = cur.fetchall()
-
     cur.close()
 
     # Asegurarse de que cada equipo tenga la ruta completa de la imagen
@@ -1149,6 +1241,7 @@ def tabla_posiciones():
 
     # Renderizar la plantilla HTML con los datos de la tabla de posiciones
     return render_template('tabla_posiciones.html', tabla_posiciones=tabla_posiciones)
+
 
 
 
@@ -1163,145 +1256,12 @@ def guardar_enfrentamiento(equipo_local_id, equipo_visitante_id, goles_local, go
         """, (equipo_local_id, equipo_visitante_id, goles_local, goles_visita))
         mysql.connection.commit()
 
-        # Después de guardar el enfrentamiento, actualizar la tabla 'torneo_regular'
-        actualizar_torneo_regular()
+        
 
         cur.close()
 
     except Exception as e:
         print(f"Error al guardar enfrentamiento: {e}")
-
-def actualizar_torneo_regular():
-    try:
-        cur = mysql.connection.cursor()
-
-        # Actualizar todas las estadísticas necesarias en la tabla torneo_regular
-        cur.execute("""
-            UPDATE torneo_regular AS tr
-            JOIN (
-                SELECT Equipo_ID,
-                       COUNT(*) AS P_Jugados,
-                       SUM(CASE WHEN Resultado = 'ganado' THEN 1 ELSE 0 END) AS P_Ganados,
-                       SUM(CASE WHEN Resultado = 'empatado' THEN 1 ELSE 0 END) AS P_Empatados,
-                       SUM(CASE WHEN Resultado = 'perdido' THEN 1 ELSE 0 END) AS P_Perdidos,
-                       SUM(Goles_local) AS Goles_Favor,
-                       SUM(Goles_visita) AS Goles_Contra
-                FROM partidos
-                GROUP BY Equipo_ID
-            ) AS p ON tr.Equipo_ID = p.Equipo_ID
-            SET tr.P_Jugados = p.P_Jugados,
-                tr.P_Ganados = p.P_Ganados,
-                tr.P_Empatados = p.P_Empatados,
-                tr.P_Perdidos = p.P_Perdidos,
-                tr.Goles_Favor = p.Goles_Favor,
-                tr.Goles_Contra = p.Goles_Contra,
-                tr.DIF = p.Goles_Favor - p.Goles_Contra
-        """)
-        mysql.connection.commit()
-
-        cur.close()
-    except Exception as e:
-        print(f"Error al actualizar torneo regular: {e}")
-
-
-
-def actualizar_tabla_posiciones(equipo_local_id, equipo_visitante_id, goles_local, goles_visitante, id_categoria):
-    try:
-        # Determinar la tabla de posiciones a actualizar según la categoría
-        tabla_posiciones = f'tabla_{id_categoria}_p'
-
-        cur = mysql.connection.cursor()
-
-        # Actualizar los goles a favor y en contra
-        cur.execute(f"""
-            UPDATE {tabla_posiciones}
-            SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
-            WHERE Equipo_ID = %s
-        """, (goles_local, goles_visitante, equipo_local_id))
-        cur.execute(f"""
-            UPDATE {tabla_posiciones}
-            SET Goles_Favor = Goles_Favor + %s, Goles_Contra = Goles_Contra + %s
-            WHERE Equipo_ID = %s
-        """, (goles_visitante, goles_local, equipo_visitante_id))
-
-        # Actualizar partidos jugados, ganados, empatados y perdidos
-        cur.execute(f"""
-            UPDATE {tabla_posiciones}
-            SET P_Jugados = P_Jugados + 1
-            WHERE Equipo_ID = %s OR Equipo_ID = %s
-        """, (equipo_local_id, equipo_visitante_id))
-
-        if goles_local > goles_visitante:
-            # El equipo local ganó
-            cur.execute(f"""
-                UPDATE {tabla_posiciones}
-                SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
-                WHERE Equipo_ID = %s
-            """, (equipo_local_id,))
-            # El equipo visitante perdió
-            cur.execute(f"""
-                UPDATE {tabla_posiciones}
-                SET P_Perdidos = P_Perdidos + 1
-                WHERE Equipo_ID = %s
-            """, (equipo_visitante_id,))
-        elif goles_local < goles_visitante:
-            # El equipo visitante ganó
-            cur.execute(f"""
-                UPDATE {tabla_posiciones}
-                SET P_Ganados = P_Ganados + 1, Puntos = Puntos + 3
-                WHERE Equipo_ID = %s
-            """, (equipo_visitante_id,))
-            # El equipo local perdió
-            cur.execute(f"""
-                UPDATE {tabla_posiciones}
-                SET P_Perdidos = P_Perdidos + 1
-                WHERE Equipo_ID = %s
-            """, (equipo_local_id,))
-        else:
-            # Empate
-            cur.execute(f"""
-                UPDATE {tabla_posiciones}
-                SET P_Empatados = P_Empatados + 1, Puntos = Puntos + 1
-                WHERE Equipo_ID = %s OR Equipo_ID = %s
-            """, (equipo_local_id, equipo_visitante_id))
-
-        mysql.connection.commit()
-        cur.close()
-
-    except Exception as e:
-        print(f"Error al actualizar tabla de posiciones: {e}")
-
-
-
-def actualizar_puntos_torneo_regular():
-    try:
-        cur = mysql.connection.cursor()
-
-        # Recorremos cada tabla de categoría
-        for tabla_num in range(1, 6):
-            tabla_name = f"tabla_{tabla_num}_p"
-
-            # Consulta para sumar los puntos por equipo en la tabla actual
-            cur.execute(f"""
-                SELECT Equipo_ID, SUM(Puntos) AS Total_Puntos
-                FROM {tabla_name}
-                GROUP BY Equipo_ID
-            """)
-            puntos_por_equipo = cur.fetchall()
-
-            # Actualizar la tabla torneo_regular con los puntos calculados
-            for equipo_id, total_puntos in puntos_por_equipo:
-                cur.execute("""
-                    UPDATE torneo_regular
-                    SET Puntos = COALESCE(Puntos, 0) + %s
-                    WHERE Equipo_ID = %s
-                """, (total_puntos, equipo_id))
-
-        mysql.connection.commit()
-        cur.close()
-
-    except Exception as e:
-        print(f"Error al actualizar puntos en torneo_regular: {e}")
 
 
 
@@ -1353,227 +1313,7 @@ def tabla_posiciones_segunda():
 ####################################################################
 
 
-# Muestra la tabla de juvenil primera división
-@app.route('/tabla-juvenil-p')
-def tabla_juvenil_p():
-    cur = mysql.connection.cursor()
 
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_juvenil_p tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_juvenil_p = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_juvenil_p.html', tabla_juvenil_p=tabla_juvenil_p)
-
-
-# Muestra la tabla de adulta primera división
-@app.route('/tabla-adulta-p')
-def tabla_adulta_p():
-    cur = mysql.connection.cursor()
-
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_adulta_p tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_adulta_p = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_adulta_p.html', tabla_adulta_p=tabla_adulta_p)
-
-
-# Muestra la tabla de senior primera división
-@app.route('/tabla-senior-p')
-def tabla_senior_p():
-    cur = mysql.connection.cursor()
-
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_senior_p tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_senior_p = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_senior_p.html', tabla_senior_p=tabla_senior_p)
-
-
-# Muestra la tabla de super senior primera división
-@app.route('/tabla-supersenior-p')
-def tabla_supersenior_p():
-    cur = mysql.connection.cursor()
-
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_supersenior_p tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_supersenior_p = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_supersenior_p.html', tabla_supersenior_p=tabla_supersenior_p)
-
-
-
-# Muestra la tabla de honor primera división
-@app.route('/tabla-honor-p')
-def tabla_honor_p():
-    cur = mysql.connection.cursor()
-
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_honor_p tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_honor_p = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_honor_p.html', tabla_honor_p=tabla_honor_p)
-
-
-
-# Muestra la tabla de juvenil segunda división
-@app.route('/tabla-juvenil-s')
-def tabla_juvenil_s():
-    cur = mysql.connection.cursor()
-
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_juvenil_s tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_juvenil_s = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_juvenil_s.html', tabla_juvenil_s=tabla_juvenil_s)
-
-
-
-# Muestra la tabla de adulta segunda división
-@app.route('/tabla-adulta-s')
-def tabla_adulta_s():
-    cur = mysql.connection.cursor()
-
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_adulta_s tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_adulta_s = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_adulta_s.html', tabla_adulta_s=tabla_adulta_s)
-
-
-# Muestra la tabla de senior segunda división
-@app.route('/tabla-senior-s')
-def tabla_senior_s():
-    cur = mysql.connection.cursor()
-
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_senior_s tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_senior_s = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_senior_s.html', tabla_senior_s=tabla_senior_s)
-
-
-# Muestra la tabla de super senior segunda división
-@app.route('/tabla-supersenior-s')
-def tabla_supersenior_s():
-    cur = mysql.connection.cursor()
-
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_supersenior_s tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_supersenior_s = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_supersenior_s.html', tabla_supersenior_s=tabla_supersenior_s)
-
-
-# Muestra la tabla de honor segunda división
-@app.route('/tabla-honor-s')
-def tabla_honor_s():
-    cur = mysql.connection.cursor()
-
-    # Consulta para obtener los datos de la tabla torneo_regular_segunda
-    cur.execute("""
-        SELECT Posicion AS Pos, e.Nombre AS Club, tr.Puntos AS PTS, 
-               tr.P_Jugados AS PJ, tr.P_Ganados AS PG, 
-               tr.P_Empatados AS PE, tr.P_Perdidos AS PP, 
-               tr.Goles_Favor AS GF, tr.Goles_Contra AS GC
-        FROM tabla_honor_s tr
-        JOIN equipo e ON tr.Equipo_ID = e.ID
-        ORDER BY tr.Posicion
-    """)
-
-    tabla_honor_s = cur.fetchall()
-    cur.close()
-
-    return render_template('tabla_honor_s.html', tabla_honor_s=tabla_honor_s)
 ########### FIN TABLAS DE POSICIONES ############
 #################################################
 

@@ -4,10 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrar Enfrentamientos</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/adminjugadores.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/adminenfrentamientos.css" />
 </head>
 <body>
-    <main class="table" id="customers_table">
+
+    <!-- Nuevo header añadido -->
+    <header>
+        <div class="announcement-bar">
+            <div id="next-matches">
+                <!-- Los partidos se cargarán aquí mediante JavaScript -->
+            </div>
+        </div>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-toggle" id="mobile-menu">
+                    <i class="ri-menu-line"></i>
+                </div>
+                <div class="navbar-logo">
+                    <img class="log" src="/static/images/logo.png" alt="Logo" />
+                </div>
+            </div>
+            <div class="navbar-links" id="navbar-links">
+                <a href="{{ url_for('admin') }}">PANEL</a>
+                <a href="{{ url_for('mostrar_jugadores_admin') }}">ASISTENCIA</a>
+                <a href="{{ url_for('transferir_jugador')}}">TRASPASOS</a>
+                <a href="{{ url_for('estadisticas_jugadores') }}">ESTADISTICAS</a>
+                <a href="{{ url_for('listar_equipos')}}">EQUIPOS</a>
+                <a href="{{ url_for('listar_jugadores') }}">JUGADORES</a>
+                <a href="{{ url_for('registro') }}">REGISTRO JUGADORES</a>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Resto del contenido de la página -->
+    <main class="table-container">
         <section class="table__header">
             <h1>Administrar Enfrentamientos</h1>
             <div class="input-group">
@@ -15,76 +45,114 @@
                 <img src="/static/images/equipos/search.png" alt="" />
             </div>
         </section>
-        <!-- Mostrar la jornada actual -->
-        <h2>Jornada: {{ jornada_actual }}</h2>
-        <!-- Filtro por jornada -->
-        <form action="{{ url_for('administrar_enfrentamientos') }}" method="get">
-            <label for="jornada">Filtrar por jornada:</label>
-            <select name="jornada" id="jornada">
-                <option value="">Todas las jornadas</option>
-                {% for jornada in jornadas %}
-                <option value="{{ jornada.ID }}" {% if jornada.ID == jornada_actual_id %}selected{% endif %}>{{ jornada.Nombre }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit">Filtrar</button>
-        </form>
 
-            <!-- Mostrar mensajes flash -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul>
-                        {% for category, message in messages %}
-                            <li class="flash {{ category }}">{{ message }}</li>
+        <!-- Filtro por jornada y división -->
+        <div class="filters">
+            <h2>Jornada: {{ jornada_actual }}</h2>
+            <form action="{{ url_for('administrar_enfrentamientos') }}" method="get" class="filter-form">
+                <div class="filter-group">
+                    <label for="jornada">Filtrar por jornada:</label>
+                    <select name="jornada" id="jornada">
+                        <option value="">Todas las jornadas</option>
+                        {% for jornada in jornadas %}
+                        <option value="{{ jornada.ID }}" {% if jornada.ID == jornada_actual_id %}selected{% endif %}>{{ jornada.Nombre }}</option>
                         {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="division">Filtrar por división:</label>
+                    <select name="division" id="division">
+                        <option value="">Todas las divisiones</option>
+                        <option value="1" {% if request.args.get('division') == '1' %}selected{% endif %}>Primera División</option>
+                        <option value="2" {% if request.args.get('division') == '2' %}selected{% endif %}>Segunda División</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-filter">Filtrar</button>
+            </form>
+        </div>
 
-        <!-- Formulario para crear nuevo enfrentamiento -->
-        <form action="{{ url_for('administrar_enfrentamientos') }}" method="post">
-            <label for="equipo_local_id">Equipo Local:</label>
-            <select name="equipo_local_id" id="equipo_local_id" required>
-                {% for equipo in equipos %}
-                <option value="{{ equipo.ID }}">{{ equipo.Nombre }}</option>
-                {% endfor %}
-            </select>
-            <label for="equipo_visitante_id">Equipo Visitante:</label>
-            <select name="equipo_visitante_id" id="equipo_visitante_id" required>
-                {% for equipo in equipos %}
-                <option value="{{ equipo.ID }}">{{ equipo.Nombre }}</option>
-                {% endfor %}
-            </select>
-            <label for="id_categoria">Categoría:</label>
-            <select name="id_categoria" id="id_categoria" required>
-                {% for categoria in categorias %}
-                <option value="{{ categoria.ID }}">{{ categoria.Nombre }}</option>
-                {% endfor %}
-            </select>
-            <label for="id_jornada">Jornada:</label>
-            <select name="id_jornada" id="id_jornada" required>
-                {% for jornada in jornadas %}
-                <option value="{{ jornada.ID }}">{{ jornada.Nombre }}</option>
-                {% endfor %}
-            </select>
-            <label for="ubicacion">Ubicación:</label>
-            <input type="text" name="ubicacion" id="ubicacion" required>
-            <label for="fecha">Fecha:</label>
-            <input type="date" name="fecha" id="fecha" required>
-            <button type="submit">Crear Enfrentamiento</button>
-        </form>
+        <!-- Mostrar mensajes flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for category, message in messages %}
+                        <li class="flash {{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+            <!-- Formulario para crear nuevo enfrentamiento -->
+            <section class="create-match">
+                <h2>Crear Enfrentamiento</h2>
+                <form action="{{ url_for('administrar_enfrentamientos') }}" method="post" class="create-match-form">
+                    <div class="form-group">
+                        <label for="equipo_local_id">Equipo Local:</label>
+                        <select name="equipo_local_id" id="equipo_local_id" required>
+                            {% for equipo in equipos %}
+                            <option value="{{ equipo.ID }}">{{ equipo.Nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="equipo_visitante_id">Equipo Visitante:</label>
+                        <select name="equipo_visitante_id" id="equipo_visitante_id" required>
+                            {% for equipo in equipos %}
+                            <option value="{{ equipo.ID }}">{{ equipo.Nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_categoria">Categoría:</label>
+                        <select name="id_categoria" id="id_categoria" required>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.ID }}">{{ categoria.Nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_jornada">Jornada:</label>
+                        <select name="id_jornada" id="id_jornada" required>
+                            {% for jornada in jornadas %}
+                            <option value="{{ jornada.ID }}">{{ jornada.Nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ubicacion">Ubicación:</label>
+                        <input type="text" name="ubicacion" id="ubicacion" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" name="fecha" id="fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_división">División:</label>
+                        <select name="id_división" id="id_división" required>
+                            {% for división in divisiones %}
+                            <option value="{{ división.ID }}">{{ división.Nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-create">Crear Enfrentamiento</button>
+                </form>
+            </section>
+
+        <!-- Tabla de enfrentamientos -->
         <section class="table__body">
             <table>
                 <thead>
                     <tr>
-                        <th>Fecha<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Jornada<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Ubicación<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Equipo Local<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Equipo Visitante<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Categoría<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Goles Local<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Goles Visitante<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Acciones</th>
+                        <th class="fecha">Fecha<span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="jornada">Jornada<span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="ubicacion">Ubicación<span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="equipo-local">Equipo Local<span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="equipo-visitante">Equipo Visitante<span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="categoria">Categoría<span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="division">División<span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="goles-local">Goles Local<span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="goles-visitante">Goles Visitante<span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="acciones">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,15 +160,16 @@
                     <tr>
                         <form action="{{ url_for('administrar_enfrentamientos') }}" method="post">
                             <input type="hidden" name="id_partido" value="{{ enfrentamiento.ID }}">
-                            <td>{{ enfrentamiento.Fecha }}</td>
-                            <td>{{ enfrentamiento.Nombre_Jornada }}</td>
-                            <td>{{ enfrentamiento.Ubicacion }}</td>
-                            <td>{{ enfrentamiento.Equipo_Local }}</td>
-                            <td>{{ enfrentamiento.Equipo_Visitante }}</td>
-                            <td>{{ enfrentamiento.Categoria }}</td>
-                            <td><input type="number" name="goles_local" value="{{ enfrentamiento.Goles_Local }}"></td>
-                            <td><input type="number" name="goles_visitante" value="{{ enfrentamiento.Goles_Visita }}"></td>
-                            <td><button type="submit">Actualizar</button></td>
+                            <td class="fecha">{{ enfrentamiento.Fecha }}</td>
+                            <td class="jornada">{{ enfrentamiento.Nombre_Jornada }}</td>
+                            <td class="ubicacion">{{ enfrentamiento.Ubicacion }}</td>
+                            <td class="equipo-local">{{ enfrentamiento.Equipo_Local }}</td>
+                            <td class="equipo-visitante">{{ enfrentamiento.Equipo_Visitante }}</td>
+                            <td class="categoria">{{ enfrentamiento.Categoria }}</td>
+                            <td class="division">{{ enfrentamiento['Division_Nombre'] }}</td>
+                            <td class="goles-local"><input type="number" name="goles_local" value="{{ enfrentamiento.Goles_Local }}"></td>
+                            <td class="goles-visitante"><input type="number" name="goles_visitante" value="{{ enfrentamiento.Goles_Visita }}"></td>
+                            <td class="acciones"><button type="submit">Guardar</button></td>
                         </form>
                     </tr>
                     {% endfor %}
@@ -108,5 +177,6 @@
             </table>
         </section>
     </main>
+
 </body>
 </html>
