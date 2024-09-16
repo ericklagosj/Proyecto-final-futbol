@@ -13,6 +13,12 @@ body {
   font-weight: 500;
 }
 
+/*menu*/
+.ri-menu-line {
+  color: #fff;
+  padding: 30px;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -365,11 +371,13 @@ body {
 /* Aquí va el CSS para ajustar las imágenes */
 /* CSS para ajustar las imágenes */
 img.table-img {
-  width: 80px;
-  height: 80px;
-  display: block;
-  margin: 0 auto; /* Esto centrará horizontalmente las imágenes */
+  width: 20px;
+  height: 20px;
+  display: inline-block; /* Permite que la imagen esté alineada junto con el texto */
+  margin: 0; /* Opcional: elimina el margen para ajustarla mejor */
+  vertical-align: middle; /* Alinea verticalmente la imagen al centro del texto */
 }
+
 
 /* Ocultar imágenes en filas de datos */
 tbody tr img {
@@ -382,7 +390,7 @@ tbody tr img {
 }
 
 .content {
-  margin-top: 6.5rem;
+  margin-top: 3.5rem;
 }
 
 /* Reset de estilos */
@@ -428,7 +436,7 @@ main.table {
   width: 100%;
   height: 10%;
   background-color: #fff4;
-  padding: 0.8rem 1rem;
+  padding: 0.2rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -439,12 +447,22 @@ main.table {
   width: 35%;
   height: 100%;
   background-color: #fff5;
-  padding: 0 0.8rem;
+  padding: 0 0.2rem;
   border-radius: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   transition: 0.2s;
+}
+
+/* Estilos del grupo de entrada de búsqueda para pantallas pequeñas */
+@media (max-width: 768px) {
+  .table__header .input-group {
+    width: 75%; 
+    height: 50%;
+    margin: 5px;
+    border-radius: 1rem; /* Ajusta el radio del borde si es necesario */
+  }
 }
 
 /* Estilos del grupo de entrada de búsqueda al pasar el cursor */
@@ -514,10 +532,29 @@ td img {
 table,
 th,
 td {
+  font-size: 0.8rem; /* Tamaño de letra */
   border-collapse: collapse;
   padding: 1rem;
   text-align: center; /* Texto centrado en todas las celdas */
 }
+
+/* Estilos específicos para las celdas de la primera columna */
+td.name{
+  text-align: left;
+}
+
+td.td-estadisticas{
+  font-size: 1rem;
+  font-weight: bold;
+  width: 10%;
+}
+
+th.th-estadisticas{
+  /*tamaño de celda*/
+  padding: 0.2rem;
+  width: 100%;
+}
+
 
 /* Estilos del encabezado de la tabla */
 thead th {

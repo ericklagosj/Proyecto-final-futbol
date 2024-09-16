@@ -28,6 +28,10 @@ body {
   left: 0;
 }
 
+.ri-menu-line{
+  margin: 30px;
+}
+
 .navbar-container {
   display: flex;
   justify-content: space-between;
@@ -40,6 +44,7 @@ body {
 
 .navbar-logo img {
   height: 40px;
+  margin-right: 20px;
 }
 
 .navbar-toggle {
@@ -393,7 +398,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin: 40px 40px 10px 40px; 
   flex-wrap: wrap; /* Permite que los elementos se envuelvan en múltiples líneas en pantallas pequeñas */
 }
 

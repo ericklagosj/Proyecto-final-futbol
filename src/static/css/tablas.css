@@ -379,12 +379,13 @@ body {
 /* Estilos del contenedor principal */
 main.table {
     width: 94vw;
-    height: 95vh;
+    height: 74vh;
     background-color: rgba(255, 255, 255, 0.288);
     backdrop-filter: blur(7px);
     box-shadow: 0 .4rem .8rem #0005;
     border-radius: .8rem;
     overflow: hidden;
+    margin: 10px;
 }
 
 /* Estilos del encabezado de la tabla */

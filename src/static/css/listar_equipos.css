@@ -772,7 +772,7 @@ td.sticky-column {
 /****** footer *****/
 
 .footer {
-  padding: 20px;
+  padding: 10px;
   background-color: #00274d;
   color: #fff;
   text-align: center;
@@ -789,7 +789,7 @@ td.sticky-column {
 }
 
 .footer-logo img {
-  width: 100px;
+  width: 80px;
 }
 
 .footer-lang a,

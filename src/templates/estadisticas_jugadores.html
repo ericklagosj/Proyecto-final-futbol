@@ -45,7 +45,7 @@
           <a href="{{ url_for('home') }}"> INICIO</a>
           <a href="{{ url_for('noticias') }}"> NOTICIAS</a>
           <a href="{{ url_for('calendario') }}"> CALENDARIO</a>
-          <a href="{{ url for('equipos') }}">EQUIPOS</a>
+          <a href="{{ url_for('listar_equipos') }}">EQUIPOS</a>
           <div class="dropdown">
             <button class="dropbtn">
               POSICIONES <i class="ri-arrow-down-s-line"></i>
@@ -115,14 +115,12 @@
             <thead>
               <tr>
                 <th>Nombre<span class="icon-arrow">↑</span></th>
-                <th>
-                  Goles
-                  <img
+                <th class="th-estadisticas">
+                  Goles <img
                     src="/static/images/equipos/balon.png"
                     alt="Amarilla"
                     class="table-img"
-                  /><span class="icon-arrow"></span
-                  ><span class="icon-arrow">↑</span>
+                  /><span class="icon-arrow">↑</span>
                 </th>
                 <th>
                   Tarjetas
@@ -146,29 +144,29 @@
             <tbody>
               {% for jugador in jugadores %}
               <tr>
-                <td>
+                <td class="name">
                   {{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{
                   jugador['Apellido_Materno'] }}
                 </td>
-                <td>
+                <td class="td-estadisticas">
                   <img src="/static/images/equipos/balon.png" alt="Goles" />
                   {{ jugador['Goles_Anotados'] }}
                 </td>
-                <td>
+                <td class="td-estadisticas">
                   {{ jugador['Tarjetas_Amarillas'] }}
                   <img
                     src="/static/images/equipos/tarjeta-amarilla.png"
                     alt="Amarilla"
                   />
                 </td>
-                <td>
+                <td class="td-estadisticas">
                   {{ jugador['Tarjetas_Rojas'] }}
                   <img
                     src="/static/images/equipos/tarjeta-roja.png"
                     alt="Roja"
                   />
                 </td>
-                <td>{{ jugador['Asistencia'] }}%</td>
+                <td class="td-estadisticas">{{ jugador['Asistencia'] }}%</td>
               </tr>
               {% endfor %}
             </tbody>

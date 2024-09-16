@@ -19,57 +19,8 @@ def inicio():
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    cur = mysql.connection.cursor()
-    if request.method == 'POST':
-        ID_jornada = request.form.get('ID_jornada', 1)
-    else:
-        ID_jornada = 1
-
-    cur.execute("""
-        SELECT p.Goles_Local, p.Goles_Visita, p.Ubicacion, p.Fecha, e1.Nombre AS Equipo_Local, e2.Nombre AS Equipo_Visitante, c.Nombre AS Nombre_Categoria, p.ID AS Partido_ID
-        FROM partido p
-        JOIN equipo e1 ON p.Equipo_Local_ID = e1.ID
-        JOIN equipo e2 ON p.Equipo_Visitante_ID = e2.ID
-        JOIN categoria c ON p.ID_categoria = c.ID
-        WHERE p.ID_jornada = %s
-    """, (ID_jornada,))
-    partidos = cur.fetchall()
-
-    cur.execute("""
-        SELECT gj.Partido_ID, j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, gj.Goles, e.Nombre AS Nombre_Equipo
-        FROM goles_jugador gj
-        INNER JOIN jugador j ON gj.Jugador_ID = j.ID
-        INNER JOIN equipo e ON j.Equipo_ID = e.ID
-        WHERE gj.Jornada = %s
-    """, (ID_jornada,))
-    goles_por_partido = cur.fetchall()
-
-    categorias = defaultdict(list)
-    for partido in partidos:
-        categoria_nombre = partido['Nombre_Categoria']
-        partido_info = {
-            'Equipo_Local': partido['Equipo_Local'],
-            'Goles_Local': partido['Goles_Local'],
-            'Goles_Visita': partido['Goles_Visita'],
-            'Equipo_Visitante': partido['Equipo_Visitante'],
-            'Ubicacion': partido['Ubicacion'],
-            'Fecha': partido['Fecha'],
-            'Partido_ID': partido['Partido_ID'],
-            'Jugadores': []
-        }
-        for gol in goles_por_partido:
-            if gol['Partido_ID'] == partido['Partido_ID']:
-                jugador_info = {
-                    'Nombre': f"{gol['Nombre']} {gol['Apellido_Paterno']} {gol['Apellido_Materno']}",
-                    'Goles': gol['Goles'],
-                    'Equipo': gol['Nombre_Equipo']
-                }
-                partido_info['Jugadores'].append(jugador_info)
-
-        categorias[categoria_nombre].append(partido_info)
-
-    categorias = dict(categorias)
-    return render_template("index.html", categorias=categorias, ID_jornada=int(ID_jornada))
+    posiciones = tabla_posiciones()
+    return render_template("index.html", posiciones=posiciones)
   
 
 @app.route('/admin')
@@ -657,7 +608,7 @@ def obtener_equipo(id):
             LEFT JOIN (
                 SELECT 
                     id_jugador, 
-                    SUM(asistencia)/18*100 AS Asistencia 
+                    SUM(asistencia)/14*100 AS Asistencia 
                 FROM 
                     asistencia 
                 GROUP BY 
@@ -743,7 +694,7 @@ def estadisticas_jugadores():
             LEFT JOIN (
                 SELECT 
                     id_jugador, 
-                    SUM(asistencia)/18*100 AS Asistencia 
+                    SUM(asistencia)/14*100 AS Asistencia 
                 FROM 
                     asistencia 
                 GROUP BY 
@@ -982,8 +933,8 @@ def mostrar_jugadores():
     cur.close()
 
     total_asistencia_partidos = sum(total_asistencias_por_jornada.values())
-    # Calcular el total de asistencias posibles (18 jornadas)
-    total_asistencias_posibles = 18
+    # Calcular el total de asistencias posibles
+    total_asistencias_posibles = 14
 
     return render_template('asistencia.html', jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_jornadas_asistidas=total_jornadas_asistidas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornadas=jornadas, total_asistencia_partidos=total_asistencia_partidos, total_asistencias_posibles=total_asistencias_posibles)
 
