@@ -40,6 +40,7 @@ body {
 
 .navbar-logo img {
   height: 40px;
+  margin-right: 30px;
 }
 
 .navbar-toggle {
@@ -69,6 +70,10 @@ body {
   text-align: center;
   font-weight: 500;
   transition: background-color 0.3s, color 0.3s;
+}
+
+h2{
+  margin-left: 15px ;
 }
 
 .navbar-links a:hover,
@@ -411,7 +416,6 @@ td:first-child:before {
   bottom: 0;
   left: 0;
   width: 4px; /* Ancho de la barra */
-  background-color: #000; /* Color de la barra */
 }
 
 /* Estilos específicos para dispositivos móviles */
@@ -435,4 +439,8 @@ td:first-child:before {
   tbody td:last-child:before {
     content: "%";
   }
+}
+
+.ri-menu-line{
+  margin-left: 30px;
 }

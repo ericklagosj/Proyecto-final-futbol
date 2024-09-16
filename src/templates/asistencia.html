@@ -55,11 +55,13 @@
     </header>
     <H1></H1>
     <div class="table-container">
-        <h2 class="h22">Asistencia Jugadores</h2>
+        <h2 class="h2">Asistencia Jugadores</h2>
         <table>
             <thead>
                 <tr>
                     <th>Nombre</th>
+                    <th>Equipo</th>
+                    <th>Categoría</th>
                     {% for jornada in jornadas %}
                     <th>J{{ jornada }}</th>
                     {% endfor %}
@@ -70,22 +72,31 @@
             <tbody>
                 {% for jugador in jugadores %}
                 <tr>
-                    <td data-label-abbr="Nombre">{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
+                    <td data-label-abbr="Nombre">{{ jugador['nombre'] }} {{ jugador['Apellido_Paterno'] }} {{ jugador['Apellido_Materno'] }}</td>
+                    <td data-label-abbr="Equipo">{{ jugador['nombre_equipo'] if jugador['nombre_equipo'] else 'No categorizado' }}</td>
+                    <td data-label-abbr="Categoría">{{ jugador['nombre_categoria'] if jugador['nombre_categoria'] else 'No categorizado' }}</td>
                     {% for jornada in jornadas %}
                     <td data-label-abbr="J{{ jornada }}">
-                        {% if asistencia_jornadas[jugador.id].get(jornada, 0) == 1 %}
+                        {% if asistencia_jornadas[jugador['id']].get(jornada, 0) == 1 %}
                             ✔️
                         {% else %}
                             ❌
                         {% endif %}
                     </td>
                     {% endfor %}
-                    <td data-label-abbr="Total">{{ asistencia_total.get(jugador.id, 0) }}</td>
-                    <td data-label-abbr="%">{% if total_asistencias_posibles > 0 %} {{ '%.1f' % (asistencia_total.get(jugador.id, 0) / total_asistencias_posibles * 100) }}% {% else %} 0% {% endif %}</td>
+                    <td data-label-abbr="Total">{{ asistencia_total.get(jugador['id'], 0) }}</td>
+                    <td data-label-abbr="%">
+                        {% if total_asistencias_posibles > 0 %}
+                            {{ '%.1f' % (asistencia_total.get(jugador['id'], 0) / total_asistencias_posibles * 100) }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        
     </div>
 
     <footer class="footer">

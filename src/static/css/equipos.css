@@ -375,6 +375,12 @@ main.table {
   align-items: center;
 }
 
+.table__body {
+  max-height: 400px; /* Ajusta la altura máxima según lo que necesites */
+  overflow-y: auto; /* Para permitir desplazamiento vertical */
+  overflow-x: auto; /* Para permitir desplazamiento horizontal si es necesario */
+}
+
 /* Estilos del grupo de entrada de búsqueda */
 .table__header .input-group {
   width: 35%;
@@ -418,8 +424,8 @@ main.table {
   margin: .8rem auto;
   padding-top: 0;
   border-radius: .6rem;
-  overflow: auto;
-  overflow: overlay;
+  overflow-y: auto; /* Para permitir desplazamiento vertical */
+  overflow-x: auto; /* Para permitir desplazamiento horizontal si es necesario */
 }
 
 /* Estilos de las barras de desplazamiento */

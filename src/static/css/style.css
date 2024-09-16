@@ -7188,6 +7188,8 @@ h6 {
   .layercontent02, .layercontent03, .layercontent04, .layercontent05, .layercontent06, .layercontent07 {
     display: block; }
   .layercontent02 {
+    width: 100px;
+    height: 100px;
     left: 80% !important;
     top: 280px !important; }
   .layercontent03 {
@@ -11905,4 +11907,12 @@ footer > p {
   height: auto; /* Altura ajustada automáticamente para mantener la proporción */
   vertical-align: middle; /* Alinea verticalmente el logo con el texto */
   display: inline-block; /* Hace que el logo se comporte como un bloque en línea */
+}
+
+
+
+/*ultimas cosas*/
+
+.section{
+  background-image: url('/static/images/login/fondo11.jpg');
 }
