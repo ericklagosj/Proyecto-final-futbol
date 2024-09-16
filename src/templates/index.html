@@ -10,9 +10,7 @@
     <link rel=stylesheet href="/static/css/style.css">
     <link rel=stylesheet href="/static/css/vendor.css">
     <link rel=stylesheet type=text/css href="/static/css/layerslider.css">
-    <link rel="stylesheet" href="../static/css/index.css">
     <script src=/static/js/vendor/modernizr.js></script>
-
 </head>
 <body>
 <!--[if lt IE 10]>
@@ -47,9 +45,8 @@
                                             <span></span> <span></span></a></li>
                                         <li><a href="{{ url_for('noticias')}}">Noticias<span></span> <span></span> <span></span>
                                             <span></span></a></li>
-                                        <li><a href="{{ url_for('calendario')}}">Calendario<span></span> <span></span> <span></span> <span></span></a>
                                         <li><a href="{{ url_for('galeria')}}">Galeria<span></span> <span></span> <span></span> <span></span></a>
-
+                            
                                         </li>
                                         <li><a href="{{ url_for('listar_equipos')}}">Equipos<span></span> <span></span> <span></span>
                                             <span></span></a></li>
@@ -68,9 +65,6 @@
                                         </li>
                                         <li><a href="{{ url_for('formulario')}}">Reglamento <span></span> <span></span> <span></span> <span></span></a>
                                         </li>
-                                      </li>
-                                      <li><a href="{{ url_for('transferir_jugador')}}">Transferencia <span></span> <span></span> <span></span> <span></span></a>
-                                      </li>
                                     </ul>
                                 </div>
                             </div>
@@ -120,58 +114,200 @@
             <div class=row>Club Asociacion De<sup>Futbol</sup> Feb , 2024.</div>
         </div>
     </div>
+    <section class=about>
+        <div class=container>
+            <div class=row><h2 class=heading>Acerca <span>De</span></h2>
 
-  
- 
+                <div class=about-wrap>
+                    <div class="tab-content nav-content"><p role=tabpanel class="tab-pane fade" id=matches>Lorem ipsum
+                        dolor sit amet, consectetur adipisicing elit. Enim amet cumque quo at eius nulla, voluptates
+                        assumenda saepe, consequatur fuga sapiente. Quas optio adipisci dolor possimus quos, maiores
+                        aliquid placeat! nemo ab praesentium voluptatum, exercitationem ad quo tempore quam temporibus
+                        voluptates odio, qui laborum pariatur perferendis! Sapiente, itaque facilis deleniti unde?Lorem
+                        ipsum dolor sit amet, consectetur adipisicing elit.</p>
 
+                        <p role=tabpanel class="tab-pane active fade in" id=static>Lorem ipsum dolor sit amet,
+                            consectetur adipisicing elit. Enim amet cumque quo at eius nulla, voluptates asaliquid
+                            placeat!Lorem ipsum dolor sit amet, consectetur adipisicing elit. nemo ab praesentium
+                            voluptatum, exercitationem ad quo tempore quam temporibus voluptates odio, qui laborum
+                            pariatur perferendis! Sapiente, itaque facilis deleniti unde?Lorem ipsum dolor sit amet,
+                            consectetur adipisicing elit.</p>
 
-<script>
-  document
-    .getElementById("reset-filters")
-    .addEventListener("click", function () {
-      document.getElementById("season-select").value = "2023-24";
-      document.getElementById("competition-select").value = "all";
-    });
+                        <p role=tabpanel class="tab-pane fade" id=traning>Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. s quos, maiores aliquid placeat! Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Esse nemo ab praesentium voluptatum, exercitationem ad quo tempore quam
+                            temporibus voluptates odio, qui laborum pariatur perferendis! Sapiente, itaque facilis
+                            deleniti unde?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur expedita
+                            recusandae ullam autem ducimus consectetur sed iure sequi ratione architecto optio
+                            consequuntur atque dolor dolores asperiores illum, quam hic ab?</p></div>
+                    <div class=nav-header id=aboutTab>
+                        <ul class="nav nav-tabs clearfix" role=tablist>
+                            <li><a href=#matches aria-controls=matches role=tab data-toggle=tab>Partidos</a></li>
+                            <li class=active><a href=#static aria-controls=static role=tab data-toggle=tab>Estadisticas</a>
+                            </li>
+                            <li><a href=#traning aria-controls=traning role=tab data-toggle=tab>Entranamiento</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  document
-    .getElementById("competition-select")
-    .addEventListener("change", function () {
-      const competition = this.value;
-      const rows = document.querySelectorAll(".result-row");
-      rows.forEach((row) => {
-        if (
-          competition === "all" ||
-          row
-            .querySelector(".result-competition span")
-            .textContent.toLowerCase()
-            .includes(competition)
-        ) {
-          row.style.display = "flex";
-        } else {
-          row.style.display = "none";
-        }
-      });
-    });
-</script>
+    <section>
+        <main>
+        <section class="main-container-left">
+          <h2>Historias destacadas</h2>
+          <div class="container-top-left">
+            <article>
+              <img src="/static/images/noticias/bottom-left-1.jpg" />
 
+              <div>
+                <h3>Los Mejores "BMWs" para Familias, Otorgados por la FIFA</h3>
 
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Blanditiis ea sint, nisi rem earum fugit? Facere veritatis
+                  sapiente eveniet quibusdam.
+                </p>
 
+                <a href="#">Leer Mas <span>>></span></a>
+              </div>
+            </article>
+          </div>
 
+          <div class="container-bottom-left">
+            <article>
+              <img src="/static/images/noticias/bottom-left-1.jpg" />
+              <div>
+                <h3>
+                  ¡Anuncio Especial! Los Mejores "Parlantes" Inteligentes del
+                  Año para la Asociación de Fútbol
+                </h3>
+                <p>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Commodi iure modi animi cupiditate. Explicabo, nihil?
+                </p>
 
+                <a href="#">Leer Mas <span>>></span></a>
+              </div>
+            </article>
 
+            <article>
+              <img src="/static/images/noticias/bottom-left-2.jpg" />
+              <div>
+                <h3>
+                  iPad Pro, ¡la Revelación del Año! ¿Se ha Convertido en el
+                  Compañero Estrella para los Entrenadores y Jugadores de la
+                  Asociación de Fútbol??
+                </h3>
+                <p>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                  Commodi iure modi animi cupiditate. Explicabo, nihil?
+                </p>
 
+                <a href="#">Leer Mas <span>>></span></a>
+              </div>
+            </article>
+          </div>
+        </section>
 
-<script>
-  document.querySelectorAll('.partido').forEach(partido => {
-      partido.addEventListener('click', () => {
-          const targetId = partido.getAttribute('data-target');
-          const detailContainer = document.getElementById(targetId + '-container');
-          detailContainer.style.display = detailContainer.style.display === 'none' ? '' : 'none';
-      });
-  });
-  </script>
-    
+        <section class="main-container-right">
+          <h2>Últimas historias</h2>
 
+          <article>
+            <h4>justo en</h4>
+            <div>
+              <h2>
+                ¡Atención, Aficionados! Descubre Cómo Seguir el Ritmo de Tu
+                "Golazo Financiero" con el Portal Get My Payment del IRSl
+              </h2>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+                repellendus?
+              </p>
+
+              <a href="#">Leer Mas <span>>></span></a>
+            </div>
+            <img src="/static/images/noticias/right-1.jpg" />
+          </article>
+
+          <article>
+            <h4>justo en</h4>
+            <div>
+              <h2>
+                ¡Anuncio Especial! Los Mejores "Partidos" al Aire Libre para
+                Disfrutar en Familia, Seleccionados por la Asociación de Fútbol
+              </h2>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+                repellendus?
+              </p>
+
+              <a href="#">Leer Mas <span>>></span></a>
+            </div>
+            <img src="/static/images/noticias/right-2.jpg" />
+          </article>
+
+          <article>
+            <h4>justo en</h4>
+            <div>
+              <h2>
+                ¡Atención, Aficionados! Descubre los Mejores "Medios de Campo"
+                Eléctricos para el 2020, Seleccionados por la Asociación de
+                Fútbol
+              </h2>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+                repellendus?
+              </p>
+
+              <a href="#">Leer Mas <span>>></span></a>
+            </div>
+            <img src="/static/images/noticias/right-3.jpg" />
+          </article>
+
+          <article>
+            <h4>justo en</h4>
+            <div>
+              <h2>
+                ¡Noticia Emocionante! Disneyland París Presentará la Emocionante
+                Obra Teatral "El Rey León" el Viernes por la Noche, Seleccionada
+                por la Asociación de Fútbol
+              </h2>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+                repellendus?
+              </p>
+
+              <a href="#">Leer Mas <span>>></span></a>
+            </div>
+            <img src="/static/images/noticias/right-4.jpg" />
+          </article>
+
+          <article>
+            <h4>justo en</h4>
+            <div>
+              <h2>
+                Mirar la pantalla de bloqueo de un teléfono también requiere una
+                orden judicial, dictamina un juez
+              </h2>
+
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
+                repellendus?
+              </p>
+
+              <a href="#">Leer Mas<span>>></span></a>
+            </div>
+            <img src="/static/images/noticias/right-5.jpg" />
+          </article>
+        </section>
+      </main>
+    </section>
 
     <footer class=footer-type01>
         <div class=footer-type02>
