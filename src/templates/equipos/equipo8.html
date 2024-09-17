@@ -23,6 +23,36 @@
             font-weight: bold;
             text-transform: uppercase;
         }
+
+        .innerbanner {
+            display: flex;
+            flex-direction: column; /* Para que el título y la imagen estén en columnas */
+            align-items: center; /* Centra los elementos horizontalmente */
+            justify-content: center; /* Centra los elementos verticalmente */
+            height: 85vh; /* Asegúrate de que el contenedor tenga altura */
+        }
+
+        .imgcantarana {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 150px;
+            z-index: 4;
+        }
+
+        .bannerHeadline {
+            margin-top: 60px;
+            font-size: 3.5em;
+            color: #333;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .icons{
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
     </style>
 </head>
 <body><!--[if lt IE 10]>
@@ -35,7 +65,7 @@
             <div class=container>
                 <div class=row>
                     <ul>
-                        <li><a href="#">Registrar/logear</a></li>
+                        <li><a href="#">INGRESAR</a></li>
                     </ul>
                 </div>
             </div>
@@ -70,16 +100,7 @@
                                             <span></span> <span></span></a></li>
                                         <li><a href=#>Estadisticas <span></span> <span></span> <span></span>
                                             <span></span></a></li>
-                                        <li><a>error <span></span> <span></span> <span></span> <span></span></a>
-                                            <ul class=sub-menu>
-                                                <li><a href=400.html>400 page</a></li>
-                                                <li><a href=401.html>401 page</a></li>
-                                                <li><a href=403.html>403 page</a></li>
-                                                <li><a href=404.html>404 page</a></li>
-                                                <li><a href=500.html>500 page</a></li>
-                                                <li><a href=503.html>503 page</a></li>
-                                            </ul>
-                                        </li>
+                                        
                                     </ul>
                                 </div>
                             </div>
@@ -89,9 +110,53 @@
             </div>
         </div>
     </header>
-    <div class=innerbannerwrap>
-        <div class=innerbanner><h2 class=bannerHeadline>Canta<span>rana</span></h2></div>
+    <div class="innerbannerwrap">
+        <div class="innerbanner">
+            <h2 class="bannerHeadline">Canta<span>rana</span></h2>
+            <img class="imgcantarana" src="/static/images/partidos/cantarana.png" alt="Banner">
+        </div>
     </div>
+
+        <!-- Sección de directiva -->
+        <section class="directiva-section">
+            <h2 class="directiva-title">Directiva del Club</h2>
+            <div class="directiva-list">
+                <div class="directiva-item">
+                    <span class="directiva-name">Juan Ortiz Torres</span>
+                    <span class="directiva-role">Presidente</span>
+                </div>
+                <div class="directiva-item">
+                    <span class="directiva-name">Constanza Godoy Valenzuela</span>
+                    <span class="directiva-role">Secretaria</span>
+                </div>
+                <div class="directiva-item">
+                    <span class="directiva-name">Julio Toledo Salazar</span>
+                    <span class="directiva-role">Tesorero</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Redes Sociales -->   
+        <section class="redes-section">
+            <h2 class="redes-title">Redes Sociales del Club</h2>
+            <a class="redes-link" href="https://www.facebook.com/profile.php?id=61554646346166&amp;mibextid=ZbWKwL" target="_blank">
+                <img class="icons" src="/static/images/iconos/facebook.png" alt="Facebook" class="redes-icon" /> Facebook del Club
+            </a>
+        </section>
+
+
+        <!-- Sección de Historia del Club -->
+        <section class="historia-section">
+            <h2 class="historia-title">Historia del Club</h2>
+            <div id="historia-text" class="historia-text">
+                El club deportivo Unión Canta-Rana, fundado el 01/04/1960, se constituye como una herramienta para promover la práctica del deporte, llegando a personas de distintas edades. 
+                Es una manera de utilizar el deporte como un espacio de recreación y esparcimiento para toda la familia. 
+                Poco a poco se han logrado triunfos en diferentes campeonatos organizados por la Asociación de Fútbol de San Ignacio. 
+                Es aquí donde comienza el recorrido de este gran club en nuestros 64 años de participación.
+            </div>
+            <div class="ver-mas" onclick="toggleText()">Ver más</div>
+        </section>
+
     <section id="tranding">
         <h1 class="title">Galería de fotos</h1>
         <div class="galeria-fotos">
@@ -282,6 +347,22 @@
         document.getElementById('category-select').onchange = function() {
             document.getElementById('category-form').submit();
         };
+    </script>
+
+
+    <script>
+        function toggleText() {
+            const textElement = document.getElementById('historia-text');
+            const button = document.querySelector('.ver-mas');
+            
+            if (textElement.classList.contains('expanded')) {
+                textElement.classList.remove('expanded');
+                button.textContent = 'Ver más';
+            } else {
+                textElement.classList.add('expanded');
+                button.textContent = 'Ver menos';
+            }
+        }
     </script>
 
     <script src=/static/js/vendor/vendor.js></script>

@@ -305,13 +305,13 @@ body {
 }
 
 .footer-logo img {
-  width: 100px;
+  width: 80px;
 }
 
 .footer-lang a,
 .footer-top-link a,
 .footer-bottom a {
-  color: #fff;
+  color: #ffffff;
   text-decoration: none;
 }
 
