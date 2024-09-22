@@ -11,6 +11,130 @@
     <link rel=stylesheet href="/static/css/vendor.css">
     <link rel=stylesheet type=text/css href="/static/css/layerslider.css">
     <script src=/static/js/vendor/modernizr.js></script>
+
+    <style>
+      body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    }
+
+    .section {
+        padding: 5px 0;
+        text-align: center;
+        background-color: #e3e6f3;
+    }
+
+    .section h2 {
+        font-size: 2.5em;
+        margin-bottom: 40px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .card-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .card {
+        background: linear-gradient(135deg, #ffffff, #e3e6f3);
+        border-radius: 15px;
+        overflow: hidden;
+        margin-top: 10px;
+        width: 320px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        position: relative;
+    }
+
+    .card:hover {
+        transform: scale(1.08);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-bottom: 2px solid #030303;
+    }
+
+    .card-content {
+        padding: 15px;
+    }
+
+    .card-content h3 {
+        font-size: 1.6em;
+        margin-bottom: 15px;
+        color: #3a3a3a;
+        font-weight: bold;
+    }
+
+    .card-content p {
+        font-size: 1em;
+        margin-bottom: 20px;
+        color: #555;
+    }
+
+    .card-content a {
+        display: inline-block;
+        padding: 10px 20px;
+        color: #fff;
+        background-color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .card-content a:hover {
+        background-color: #0056b3;
+    }
+
+    /* Agregar efecto de sombra en el borde superior de las tarjetas */
+    .card:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        transition: height 0.3s ease;
+    }
+
+    .card:hover:before {
+        height: 2px;
+    }
+
+    .sections {
+      background-color: #f0f0f0; /* Color de fondo gris claro */
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      border-radius: 10px; /* Bordes redondeados */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor */
+  }
+  .sections img {
+      width: 70px; /* Ajusta el tamaño del logo */
+      height: auto;
+      margin-right: 20px; /* Espacio entre el logo y el texto */
+  }
+  .sections h2 {
+      font-size: 1.2em;
+      margin: 0;
+      font-weight: bold;
+      color: #333; /* Color del texto */
+  }
+    
+
+  </style>
+
 </head>
 <body>
 <!--[if lt IE 10]>
@@ -23,7 +147,7 @@
             <div class=container>
                 <div class=row>
                     <ul>
-                        <li><a href="{{ url_for('login') }}">Registrar/logear</a></li>
+                        <li><a href="{{ url_for('login') }}">Ingresar</a></li>
                     </ul>
                 </div>
             </div>
@@ -41,7 +165,7 @@
                                 </div>
                                 <div class=nav-menu>
                                     <ul class="nav navbar-nav menu-bar">
-                                        <li><a href=index-2.html class=active>Inicio <span></span> <span></span>
+                                      <li><a href="{{ url_for('formulario')}}">Reglamento <span></span> <span></span> <span></span> <span></span></a>
                                             <span></span> <span></span></a></li>
                                         <li><a href="{{ url_for('noticias')}}">Noticias<span></span> <span></span> <span></span>
                                             <span></span></a></li>
@@ -57,14 +181,14 @@
 
                                             </ul>
                                         </li>
-                                        <li><a href="{{ url_for('estadisticas_jugadores') }}">Estadisticas <span></span> <span></span> <span></span>
-                                            <span></span></a></li>
+                                        <li><a>Estadisticas<span></span> <span></span> <span></span> <span></span></a>
+                                          <ul class=sub-menu>
+                                              <li><a href="{{ url_for('estadisticas_jugadores') }}">Generales <span></span> <span></span> <span></span>
+                                              <li><a href="{{ url_for('mostrar_jugadores')}}">Asistencia <span></span> <span></span> <span></span> <span></span></a>
+
+                                          </ul>
+                                      </li>
                                         <li><a href="{{ url_for('resultados_partidos')}}">Partidos <span></span> <span></span> <span></span> <span></span></a>
-                                        </li>
-                                        <li><a href="{{ url_for('mostrar_jugadores')}}">Asistencia <span></span> <span></span> <span></span> <span></span></a>
-                                        </li>
-                                        <li><a href="{{ url_for('formulario')}}">Reglamento <span></span> <span></span> <span></span> <span></span></a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -97,7 +221,7 @@
             <img src="{{ url_for('static', filename='images/banner/back_particles.png') }}"alt=particles class=ls-l style="z-index:3; left:50%;"
                  data-ls="offsetxin: left; offsetxout:left; scalein:90; easingin: easeoutquart; durationin: 3000; delayin: 250;">
             <h2 class="ls-l bannertext layercontent03" data-ls="offsetxin:left; rotatexin:90 ; durationin: 3500;">
-                Club</h2>
+                </h2>
 
             <h2 class="ls-l bannertext01 italic01 layercontent04"
                 data-ls="offsetxin:left; scalexin:9; durationin: 4000;">Asociacion</h2><h4
@@ -105,209 +229,73 @@
                 De</h4>
 
             <h2 class="ls-l bannertext01 layercontent06" style="left: 87%; top:760px;"
-                data-ls="offsetxin:left; flipxin:90 ; durationin: 5000;">Futbol<sup>#1</sup></h2><h6
+                data-ls="offsetxin:left; flipxin:90 ; durationin: 5000;">Futbol<sup></sup></h2><h6
                     class="ls-l bannertext03 layercontent07" data-ls="offsetxin:left; flipxin:90 ; durationin: 6000;">
-                Feb , 2024</h6></div>
+                </h6></div>
     </div>
     <div class=banner-text>
         <div class=container>
-            <div class=row>Club Asociacion De<sup>Futbol</sup> Feb , 2024.</div>
+            <div class=row-asoc>Asociacion De Futbol de San ignacio.</div>
         </div>
     </div>
-    <section class=about>
-        <div class=container>
-            <div class=row><h2 class=heading>Acerca <span>De</span></h2>
-
-                <div class=about-wrap>
-                    <div class="tab-content nav-content"><p role=tabpanel class="tab-pane fade" id=matches>Lorem ipsum
-                        dolor sit amet, consectetur adipisicing elit. Enim amet cumque quo at eius nulla, voluptates
-                        assumenda saepe, consequatur fuga sapiente. Quas optio adipisci dolor possimus quos, maiores
-                        aliquid placeat! nemo ab praesentium voluptatum, exercitationem ad quo tempore quam temporibus
-                        voluptates odio, qui laborum pariatur perferendis! Sapiente, itaque facilis deleniti unde?Lorem
-                        ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-                        <p role=tabpanel class="tab-pane active fade in" id=static>Lorem ipsum dolor sit amet,
-                            consectetur adipisicing elit. Enim amet cumque quo at eius nulla, voluptates asaliquid
-                            placeat!Lorem ipsum dolor sit amet, consectetur adipisicing elit. nemo ab praesentium
-                            voluptatum, exercitationem ad quo tempore quam temporibus voluptates odio, qui laborum
-                            pariatur perferendis! Sapiente, itaque facilis deleniti unde?Lorem ipsum dolor sit amet,
-                            consectetur adipisicing elit.</p>
-
-                        <p role=tabpanel class="tab-pane fade" id=traning>Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. s quos, maiores aliquid placeat! Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Esse nemo ab praesentium voluptatum, exercitationem ad quo tempore quam
-                            temporibus voluptates odio, qui laborum pariatur perferendis! Sapiente, itaque facilis
-                            deleniti unde?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur expedita
-                            recusandae ullam autem ducimus consectetur sed iure sequi ratione architecto optio
-                            consequuntur atque dolor dolores asperiores illum, quam hic ab?</p></div>
-                    <div class=nav-header id=aboutTab>
-                        <ul class="nav nav-tabs clearfix" role=tablist>
-                            <li><a href=#matches aria-controls=matches role=tab data-toggle=tab>Partidos</a></li>
-                            <li class=active><a href=#static aria-controls=static role=tab data-toggle=tab>Estadisticas</a>
-                            </li>
-                            <li><a href=#traning aria-controls=traning role=tab data-toggle=tab>Entranamiento</a></li>
-                        </ul>
-                    </div>
+      <section class="section">
+        <div class="sections"> 
+          <img src="/static/images/logo.png" alt="Logo">
+          <h2>Explora nuestras secciones</h2>
+        </div>
+        <div class="card-container">
+            <div class="card">
+                <img src="/static/images/home/tabla-p.png" alt="Posiciones">
+                <div class="card-content">
+                    <h3>Tablas de Posiciones Primera</h3>
+                    <p>Consulta la clasificación de equipos en la Primera División.</p>
+                    <a href="{{ url_for('tabla_posiciones') }}">Ver más</a>
                 </div>
             </div>
+            <div class="card">
+              <img src="/static/images/home/tabla-s.png" alt="Posiciones">
+              <div class="card-content">
+                  <h3>Tablas de Posiciones Segunda</h3>
+                  <p>Consulta la clasificación de equipos en la Segunda División.</p>
+                  <a href="{{ url_for('tabla_posiciones_segunda') }}">Ver más</a>
+              </div>
+          </div>
+            <div class="card">
+                <img src="/static/images/home/resultados.png" alt="Partidos">
+                <div class="card-content">
+                    <h3>Partidos</h3>
+                    <p>Revisa los resultados y próximos partidos de nuestra liga.</p>
+                    <a href="{{ url_for('resultados_partidos') }}">Ver más</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/static/images/home/equipos.png" alt="Equipos">
+                <div class="card-content">
+                    <h3>Equipos</h3>
+                    <p>Conoce a los equipos que forman parte de nuestra liga.</p>
+                    <a href="{{ url_for('listar_equipos') }}">Ver más</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/static/images/home/estadisticas.png" alt="Estadísticas">
+                <div class="card-content">
+                    <h3>Estadísticas</h3>
+                    <p>Consulta las estadísticas de los jugadores y equipos.</p>
+                    <a href="{{ url_for('estadisticas_jugadores') }}">Ver más</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="/static/images/home/detailest.png" alt="Asistencia">
+                <div class="card-content">
+                    <h3>Asistencia</h3>
+                    <p>Revisa la asistencia de los jugadores en cada partido.</p>
+                    <a href="{{ url_for('mostrar_jugadores') }}">Ver más</a>
+                </div>
+            </div>
+            
         </div>
-    </section>
+      </section>
 
-    <section>
-        <main>
-        <section class="main-container-left">
-          <h2>Historias destacadas</h2>
-          <div class="container-top-left">
-            <article>
-              <img src="/static/images/noticias/bottom-left-1.jpg" />
-
-              <div>
-                <h3>Los Mejores "BMWs" para Familias, Otorgados por la FIFA</h3>
-
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Blanditiis ea sint, nisi rem earum fugit? Facere veritatis
-                  sapiente eveniet quibusdam.
-                </p>
-
-                <a href="#">Leer Mas <span>>></span></a>
-              </div>
-            </article>
-          </div>
-
-          <div class="container-bottom-left">
-            <article>
-              <img src="/static/images/noticias/bottom-left-1.jpg" />
-              <div>
-                <h3>
-                  ¡Anuncio Especial! Los Mejores "Parlantes" Inteligentes del
-                  Año para la Asociación de Fútbol
-                </h3>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Commodi iure modi animi cupiditate. Explicabo, nihil?
-                </p>
-
-                <a href="#">Leer Mas <span>>></span></a>
-              </div>
-            </article>
-
-            <article>
-              <img src="/static/images/noticias/bottom-left-2.jpg" />
-              <div>
-                <h3>
-                  iPad Pro, ¡la Revelación del Año! ¿Se ha Convertido en el
-                  Compañero Estrella para los Entrenadores y Jugadores de la
-                  Asociación de Fútbol??
-                </h3>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Commodi iure modi animi cupiditate. Explicabo, nihil?
-                </p>
-
-                <a href="#">Leer Mas <span>>></span></a>
-              </div>
-            </article>
-          </div>
-        </section>
-
-        <section class="main-container-right">
-          <h2>Últimas historias</h2>
-
-          <article>
-            <h4>justo en</h4>
-            <div>
-              <h2>
-                ¡Atención, Aficionados! Descubre Cómo Seguir el Ritmo de Tu
-                "Golazo Financiero" con el Portal Get My Payment del IRSl
-              </h2>
-
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                repellendus?
-              </p>
-
-              <a href="#">Leer Mas <span>>></span></a>
-            </div>
-            <img src="/static/images/noticias/right-1.jpg" />
-          </article>
-
-          <article>
-            <h4>justo en</h4>
-            <div>
-              <h2>
-                ¡Anuncio Especial! Los Mejores "Partidos" al Aire Libre para
-                Disfrutar en Familia, Seleccionados por la Asociación de Fútbol
-              </h2>
-
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                repellendus?
-              </p>
-
-              <a href="#">Leer Mas <span>>></span></a>
-            </div>
-            <img src="/static/images/noticias/right-2.jpg" />
-          </article>
-
-          <article>
-            <h4>justo en</h4>
-            <div>
-              <h2>
-                ¡Atención, Aficionados! Descubre los Mejores "Medios de Campo"
-                Eléctricos para el 2020, Seleccionados por la Asociación de
-                Fútbol
-              </h2>
-
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                repellendus?
-              </p>
-
-              <a href="#">Leer Mas <span>>></span></a>
-            </div>
-            <img src="/static/images/noticias/right-3.jpg" />
-          </article>
-
-          <article>
-            <h4>justo en</h4>
-            <div>
-              <h2>
-                ¡Noticia Emocionante! Disneyland París Presentará la Emocionante
-                Obra Teatral "El Rey León" el Viernes por la Noche, Seleccionada
-                por la Asociación de Fútbol
-              </h2>
-
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                repellendus?
-              </p>
-
-              <a href="#">Leer Mas <span>>></span></a>
-            </div>
-            <img src="/static/images/noticias/right-4.jpg" />
-          </article>
-
-          <article>
-            <h4>justo en</h4>
-            <div>
-              <h2>
-                Mirar la pantalla de bloqueo de un teléfono también requiere una
-                orden judicial, dictamina un juez
-              </h2>
-
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id,
-                repellendus?
-              </p>
-
-              <a href="#">Leer Mas<span>>></span></a>
-            </div>
-            <img src="/static/images/noticias/right-5.jpg" />
-          </article>
-        </section>
-      </main>
-    </section>
 
     <footer class=footer-type01>
         <div class=footer-type02>
@@ -324,10 +312,7 @@
                                     class="fa fa-behance"></i></a></li>
                         </ul>
                         <p><a target="_blank" href="https://www.templatespoint.net/">Templates Point</a></p></div>
-                    <div class=footer-appstore>
-                        <figure><a href=#><img src="/static/images/appstore/apple.png" alt=image></a></figure>
-                        <figure><a href=#><img src="/static/images/appstore/google.png" alt=image></a></figure>
-                    </div>
+                    
                 </div>
             </div>
         </div>

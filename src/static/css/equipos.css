@@ -375,6 +375,12 @@ main.table {
   align-items: center;
 }
 
+.table__body {
+  max-height: 400px; /* Ajusta la altura máxima según lo que necesites */
+  overflow-y: auto; /* Para permitir desplazamiento vertical */
+  overflow-x: auto; /* Para permitir desplazamiento horizontal si es necesario */
+}
+
 /* Estilos del grupo de entrada de búsqueda */
 .table__header .input-group {
   width: 35%;
@@ -418,8 +424,8 @@ main.table {
   margin: .8rem auto;
   padding-top: 0;
   border-radius: .6rem;
-  overflow: auto;
-  overflow: overlay;
+  overflow-y: auto; /* Para permitir desplazamiento vertical */
+  overflow-x: auto; /* Para permitir desplazamiento horizontal si es necesario */
 }
 
 /* Estilos de las barras de desplazamiento */
@@ -6938,11 +6944,11 @@ h6 {
 .bannerHeadline {
   font-family: "Oswald", sans-serif;
   font-size: 80px;
-  color: white;
+  color: yellow;
   font-weight: 400;
   text-transform: uppercase; }
   .bannerHeadline span {
-    color: #b81e20; }
+    color: green; }
 
 /* ---------- aside inner page -----------*/
 .widgetinner {
@@ -8609,34 +8615,51 @@ ul.videoLive {
       position: absolute;
       content: "\f077"; } }
 
-.innerbanner {
-  height: 600px;
-  position: relative;
-  overflow: hidden;
-  background: url(/static/images/background/innerpageBg.jpg) center no-repeat;
-  /* Image Credit: Unsplash.me */
-  background-size: cover;
-  background-attachment: fixed; }
-
-.innerbannerwrap {
-  position: relative; }
-  .innerbannerwrap .content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0; }
-  .innerbannerwrap h2 {
-    -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-    display: inline-block;
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    color: #fff;
-    z-index: 2; }
+      .innerbanner {
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+        background: url(/static/images/cantarrana/cantaranaimg.jpg) center / cover;
+        background-size: cover;
+        background-attachment: fixed;
+      }
+      
+      /* Agregar una capa oscura delante del banner */
+      .innerbanner::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad (0.5) para la intensidad de oscurecimiento */
+        z-index: 1; /* Asegura que la capa esté detrás del contenido */
+      }
+      
+      .innerbannerwrap {
+        position: relative;
+        z-index: 2; /* Asegura que el contenido esté por delante de la capa oscura */
+      }
+      
+      .innerbannerwrap .content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+      
+      .innerbannerwrap h2 {
+        transform: translate(-50%, -50%);
+        display: inline-block;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: #fff;
+        z-index: 3; /* Asegura que el texto esté visible delante de todo */
+      }
+      
 
 /*------------ different background --------------*/
 .bg-red {
@@ -12173,3 +12196,126 @@ ul.slick-dots {
   opacity: 0.8;
   margin-top: 20px;
 }
+
+
+/* Estilo para el título "Directiva del club" */
+.directiva-section {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.directiva-title {
+  font-size: 2.2em;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.directiva-list {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* Asegurando que los bloques tengan el mismo tamaño */
+.directiva-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 15px;
+  padding-top: 25px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  width: 300px;
+  height: 120px;
+}
+
+.directiva-item:hover {
+  transform: translateY(-5px);
+}
+
+/* Estilo para los íconos */
+.directiva-item i {
+  font-size: 3em;
+  color: #007bff;
+}
+
+/* Estilo para los nombres */
+.directiva-name {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+/* Estilo para los roles */
+.directiva-role {
+  font-size: 1.2em;
+  font-style: italic;
+  color: #666;
+}
+
+
+        /* Redes sociales */
+        .redes-section {
+          margin-top: 10px;
+          margin-bottom: 30px;
+          padding: 8px 6px;
+          text-align: center;
+      }
+
+      .redes-title {
+          font-size: 1.8em;
+          color: #333;
+          margin-bottom: 15px;
+      }
+
+      .redes-link {
+          font-size: 1.5em;
+          color: #3b5998;
+          text-decoration: none;
+      }
+
+      .redes-link i {
+          margin-right: 10px;
+      }
+
+      /* Historia del club */
+      .historia-section {
+        padding: 2px 6px;
+          margin-top: 15px;
+          text-align: justify;
+      }
+
+      .historia-title {
+          font-size: 2em;
+          color: #333;
+          margin-bottom: 10px;
+      }
+
+      .historia-text {
+          max-height: 80px; /* Limitar la altura para el colapso inicial */
+          overflow: hidden;
+          transition: max-height 0.5s ease;
+      }
+
+      .historia-text.expanded {
+          max-height: 500px; /* Expandir cuando se haga clic */
+      }
+
+      .ver-mas {
+          margin-top: 10px;
+          font-size: 1em;
+          color: #007bff;
+          cursor: pointer;
+      }
+
+      .ver-mas:hover {
+          text-decoration: underline;
+      }

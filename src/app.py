@@ -896,8 +896,15 @@ def guardar_goles():
 @app.route('/asistencia-jugadores')
 def mostrar_jugadores():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT id, nombre, Apellido_Paterno, Apellido_Materno FROM jugador")
 
+    # Obtener todos los jugadores junto con sus equipos y categorías
+    cur.execute("""
+        SELECT jugador.id, jugador.nombre, jugador.Apellido_Paterno, jugador.Apellido_Materno, 
+               equipo.nombre AS nombre_equipo, categoria.nombre AS nombre_categoria 
+        FROM jugador 
+        JOIN equipo ON jugador.Equipo_ID = equipo.id
+        JOIN categoria ON jugador.Categoria_ID = categoria.id
+    """)
     jugadores = cur.fetchall()
 
     # Obtener la lista de todas las jornadas disponibles
@@ -908,7 +915,7 @@ def mostrar_jugadores():
     asistencia_jornadas = {}
     total_jornadas_asistidas = {}
     total_asistencias_por_jornada = {f'J{j}': 0 for j in jornadas}
-    asistencia_total = {}  
+    asistencia_total = {}
 
     # Obtener la asistencia de cada jugador para cada jornada
     for jugador in jugadores:
@@ -936,7 +943,17 @@ def mostrar_jugadores():
     # Calcular el total de asistencias posibles
     total_asistencias_posibles = 14
 
-    return render_template('asistencia.html', jugadores=jugadores, asistencia_jornadas=asistencia_jornadas, total_jornadas_asistidas=total_jornadas_asistidas, total_asistencias_por_jornada=total_asistencias_por_jornada, asistencia_total=asistencia_total, jornadas=jornadas, total_asistencia_partidos=total_asistencia_partidos, total_asistencias_posibles=total_asistencias_posibles)
+    # Renderizar la plantilla HTML con los nuevos datos de equipo y categoría
+    return render_template('asistencia.html', 
+                           jugadores=jugadores, 
+                           asistencia_jornadas=asistencia_jornadas, 
+                           total_jornadas_asistidas=total_jornadas_asistidas, 
+                           total_asistencias_por_jornada=total_asistencias_por_jornada, 
+                           asistencia_total=asistencia_total, 
+                           jornadas=jornadas, 
+                           total_asistencia_partidos=total_asistencia_partidos, 
+                           total_asistencias_posibles=total_asistencias_posibles)
+
 
 #########################################################################################################################
 

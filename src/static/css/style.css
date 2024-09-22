@@ -6544,6 +6544,7 @@ h6 {
         color: rgba(255, 255, 255, 0.5);
         font-weight: 400;
         padding: 10px;
+        margin-right: 15px;
         display: block;
         text-transform: uppercase;
         transition: color 0.4s ease-in-out; }
@@ -7164,14 +7165,30 @@ h6 {
     font-weight: 400; }
 
 .banner-text {
-  background: #57606a;
-  font-family: "Montserrat", sans-serif;
+  background: #0b285c;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 30px;
   color: white;
   font-weight: 400;
   text-transform: uppercase;
-  padding: 20px 0;
+  padding: 10px 0;
   text-align: center; }
+
+
+.row-asoc {
+    font-size: 24px; /* Tamaño de fuente del texto */
+    color: white; /* Color del texto */
+    text-align: center; /* Alineación del texto al centro */
+    padding: 20px 0; /* Espaciado en la parte superior e inferior */
+}
+
+.row-asoc a {
+    font-size: 16px; /* Tamaño de fuente de enlaces (si hay algún <a> en el futuro) */
+    color: black; /* Color de enlaces */
+    margin-right: 10px;
+}
+
+
 
 @media screen and (min-width: 992px) {
   .banner-text {
@@ -7188,6 +7205,8 @@ h6 {
   .layercontent02, .layercontent03, .layercontent04, .layercontent05, .layercontent06, .layercontent07 {
     display: block; }
   .layercontent02 {
+    width: 100px;
+    height: 100px;
     left: 80% !important;
     top: 280px !important; }
   .layercontent03 {
@@ -11402,7 +11421,7 @@ ul.slick-dots {
 /* global styling */
 
 img {
-  width: 100%;
+  width: 89%;
 }
 ul {
   list-style: none;
@@ -11906,3 +11925,12 @@ footer > p {
   vertical-align: middle; /* Alinea verticalmente el logo con el texto */
   display: inline-block; /* Hace que el logo se comporte como un bloque en línea */
 }
+
+
+
+/*ultimas cosas*/
+
+.section{
+  background-image: url('/static/images/login/fondo11.jpg');
+}
+

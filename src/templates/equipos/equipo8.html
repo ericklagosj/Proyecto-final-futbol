@@ -6,11 +6,54 @@
     <meta name=description content="">
     <meta name=viewport content="width=device-width, initial-scale=1">
     <title>soccer club</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
     <link rel="shortcut icon" href=/static/css/favicon.ico>
     <link rel=stylesheet href=/static/css/vendor.css>
     <link rel=stylesheet type=text/css href=/static/css/layerslider.css>
     <link rel="stylesheet" type="text/css" href="/static/css/equipos.css" />
     <script src=/static/js/vendor/modernizr.js></script>
+    <style>
+        /* Estilo para el título "Galería de fotos" */
+        h1.title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin: 20px 0;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .innerbanner {
+            display: flex;
+            flex-direction: column; /* Para que el título y la imagen estén en columnas */
+            align-items: center; /* Centra los elementos horizontalmente */
+            justify-content: center; /* Centra los elementos verticalmente */
+            height: 85vh; /* Asegúrate de que el contenedor tenga altura */
+        }
+
+        .imgcantarana {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 150px;
+            z-index: 4;
+        }
+
+        .bannerHeadline {
+            margin-top: 60px;
+            font-size: 3.5em;
+            color: #333;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .icons{
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+    </style>
 </head>
 <body><!--[if lt IE 10]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
@@ -22,13 +65,13 @@
             <div class=container>
                 <div class=row>
                     <ul>
-                        <li><a href="#">Registrar/logear</a></li>
+                        <li><a href="#">INGRESAR</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="header-lower clearfix">
-            <div class=container>
+            <div class=contenedor>
                 <div class=row><h1 class=logo><a href=index-2.html><img src=/static/images/logo.png alt=image></a></h1>
 
                     <div class=menubar>
@@ -44,11 +87,11 @@
                                             <span></span></a></li>
                                         <li><a href=# class=active>Noticias <span></span> <span></span>
                                             <span></span> <span></span></a></li>
-                                        <li><a>Galeria <span></span> <span></span> <span></span> <span></span></a>
+                                        <li><a>T.Posiciones <span></span> <span></span> <span></span> <span></span></a>
                                             <ul class=sub-menu>
-                                                <li><a href=gallerypage01.html>masonry</a></li>
-                                                <li><a href=gallery02.html>gallery column two</a></li>
-                                                <li><a href=gallery03.html>gallery column 03</a></li>
+                                                <li><a href=gallerypage01.html>Posiciones</a></li>
+                                                <li><a href=gallery02.html>Primera Division</a></li>
+                                                <li><a href=gallery03.html>Segunda Division</a></li>
                                             </ul>
                                         </li>
                                         <li><a href=#>Equipos <span></span> <span></span> <span></span>
@@ -57,138 +100,162 @@
                                             <span></span> <span></span></a></li>
                                         <li><a href=#>Estadisticas <span></span> <span></span> <span></span>
                                             <span></span></a></li>
-                                        <li><a>error <span></span> <span></span> <span></span> <span></span></a>
-                                            <ul class=sub-menu>
-                                                <li><a href=400.html>400 page</a></li>
-                                                <li><a href=401.html>401 page</a></li>
-                                                <li><a href=403.html>403 page</a></li>
-                                                <li><a href=404.html>404 page</a></li>
-                                                <li><a href=500.html>500 page</a></li>
-                                                <li><a href=503.html>503 page</a></li>
-                                            </ul>
-                                        </li>
+                                        
                                     </ul>
                                 </div>
                             </div>
                         </nav>
                     </div>
-                    <div class=social><a href=https://www.facebook.com/templatespoint.net class=facebook><i
-                            class="fa fa-facebook"></i></a> <a href=https://twitter.com/itobuztech class=twitter><i
-                            class="fa fa-twitter"></i></a> <a href=https://www.behance.net/ class=behance><i
-                            class="fa fa-behance"></i></a></div>
                 </div>
             </div>
         </div>
     </header>
-    <div class=innerbannerwrap>
-        <div class=innerbanner><h2 class=bannerHeadline>Rena<span>cer</span></h2></div>
-    </div>
-    <section class="matchSchedule countryclub">
-        <div class=container>
-            <div class=row><h2 class="heading small">información<span> del equipo</span></h2>
-
-                <p class=headParagraph>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil debitis mollitia
-                    Est.</p></div>
+    <div class="innerbannerwrap">
+        <div class="innerbanner">
+            <h2 class="bannerHeadline">Canta<span>rana</span></h2>
+            <img class="imgcantarana" src="/static/images/partidos/cantarana.png" alt="Banner">
         </div>
-    </section>
-    <section class=players>
-        <div class=container>
-            <div class=row><h2 class=heading>Miembros <span>Directivo</span></h2>
+    </div>
 
-                <p class=headParagraph>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis
-                    Laborum nesciunt doloribus expedita atque error rem molestias, ducimus.</p>
-
-                <div class="wrapplayer clearfix"><a class="prv prev-player"></a> <a class="nxt next-player"></a>
-                    <ul class="boardmember clearfix">
-                        <li class=clearfix>
-                            <div>
-                                <div>
-                                    <div class=fig01>
-                                        <div class="memberimg" style="background: url('/static/images/boardMember/boardMember01.jpg') no-repeat top center;"></div>
-                                    </div>
-                                    <div class="bg-black01 fig02"><h6 class=paragraph02>Sammie Stoddard</h6>
-
-                                        <p class="uppercaseheading red">Ayudante Tecnico</p>
-
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam officia
-                                            labore molestias, Doloribus, aspernatur.</p></div>
-                                    <div class="bg-black fig02"><p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit. Velit repellat cum necessitatibus quas magni! Qui, modi possimus.</p>
-                                    </div>
-                                    <div class="bg-redcolor fig02"><p>Fecha Na: 14 Abril 1975, Chile</p></div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <div>
-                                    <div class=fig01>
-                                        <div class="memberimg" style="background: url('/static/images/boardMember/boardMember02.jpg') no-repeat top center;"></div>
-                                    </div>
-                                    <div class="bg-black01 fig02"><h6 class=paragraph02>Dominick Dumbleton</h6>
-
-                                        <p class="uppercaseheading red">Director Tecnico</p>
-
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam officia
-                                            labore molestias, Doloribus, aspernatur.</p></div>
-                                    <div class="bg-black fig02"><p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit. Velit repellat cum necessitatibus quas magni! Qui, modi possimus.</p>
-                                    </div>
-                                    <div class="bg-redcolor fig02"><p>Fecha Na: 14 Abril 1975, Chile</p></div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <div>
-                                    <div class=fig01>
-                
-                                        <div class="memberimg" style="background: url('/static/images/boardMember/boardMember03.jpg') no-repeat top center;"></div>
-                                    </div>
-                                    <div class="bg-black01 fig02"><h6 class=paragraph02>Leland Lagos</h6>
-
-                                        <p class="uppercaseheading red">Enfermero</p>
-
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam officia
-                                            labore molestias, Doloribus, aspernatur.</p></div>
-                                    <div class="bg-black fig02"><p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit. Velit repellat cum necessitatibus quas magni! Qui, modi possimus.</p>
-                                    </div>
-                                    <div class="bg-redcolor fig02"><p>Fecha Na: 14 Abril 1975, England</p></div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <div>
-                                    <div class=fig01>
-                                        <div class="memberimg" style="background: url('/static/images/boardMember/boardMember02.jpg') no-repeat top center;"></div>
-                                    </div>
-                                    <div class="bg-black01 fig02"><h6 class=paragraph02>Kenton Kidd</h6>
-
-                                        <p class="uppercaseheading red">ceo</p>
-
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam officia
-                                            labore molestias, Doloribus, aspernatur.</p></div>
-                                    <div class="bg-black fig02"><p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                        elit. Velit repellat cum necessitatibus quas magni! Qui, modi possimus.</p>
-                                    </div>
-                                    <div class="bg-redcolor fig02"><p>BORN 14 April 1975, England</p></div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+        <!-- Sección de directiva -->
+        <section class="directiva-section">
+            <h2 class="directiva-title">Directiva del Club</h2>
+            <div class="directiva-list">
+                <div class="directiva-item">
+                    <span class="directiva-name">Juan Ortiz Torres</span>
+                    <span class="directiva-role">Presidente</span>
+                </div>
+                <div class="directiva-item">
+                    <span class="directiva-name">Constanza Godoy Valenzuela</span>
+                    <span class="directiva-role">Secretaria</span>
+                </div>
+                <div class="directiva-item">
+                    <span class="directiva-name">Julio Toledo Salazar</span>
+                    <span class="directiva-role">Tesorero</span>
                 </div>
             </div>
+        </section>
+
+        <!-- Sección de Redes Sociales -->   
+        <section class="redes-section">
+            <h2 class="redes-title">Redes Sociales del Club</h2>
+            <a class="redes-link" href="https://www.facebook.com/profile.php?id=61554646346166&amp;mibextid=ZbWKwL" target="_blank">
+                <img class="icons" src="/static/images/iconos/facebook.png" alt="Facebook" class="redes-icon" /> Facebook del Club
+            </a>
+        </section>
+
+
+        <!-- Sección de Historia del Club -->
+        <section class="historia-section">
+            <h2 class="historia-title">Historia del Club</h2>
+            <div id="historia-text" class="historia-text">
+                El club deportivo Unión Canta-Rana, fundado el 01/04/1960, se constituye como una herramienta para promover la práctica del deporte, llegando a personas de distintas edades. 
+                Es una manera de utilizar el deporte como un espacio de recreación y esparcimiento para toda la familia. 
+                Poco a poco se han logrado triunfos en diferentes campeonatos organizados por la Asociación de Fútbol de San Ignacio. 
+                Es aquí donde comienza el recorrido de este gran club en nuestros 64 años de participación.
+            </div>
+            <div class="ver-mas" onclick="toggleText()">Ver más</div>
+        </section>
+
+    <section id="tranding">
+        <h1 class="title">Galería de fotos</h1>
+        <div class="galeria-fotos">
+          <div class="swiper tranding-slider">
+            <div class="swiper-wrapper">
+              <!-- Slide-start -->
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="/static/images/El_Lucero/img1.jpg" alt="Tranding">
+                </div>
+                <div class="tranding-slide-content">
+                  
+                </div>
+              </div>
+              <!-- Slide-end -->
+              <!-- Slide-start -->
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="/static/images/El_Lucero/img2.jpg" alt="Tranding">
+                </div>
+                <div class="tranding-slide-content">
+                  
+                </div>
+              </div>
+              <!-- Slide-end -->
+              <!-- Slide-start -->
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="/static/images/El_Lucero/img3.jpg" alt="Tranding">
+                </div>
+                <div class="tranding-slide-content">
+                  
+                </div>
+              </div>
+              <!-- Slide-end -->
+              <!-- Slide-start -->
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="/static/images/El_Lucero/img4.jpg" alt="Tranding">
+                </div>
+                <div class="tranding-slide-content">
+                  
+                </div>
+              </div>
+              <!-- Slide-end -->
+              <!-- Slide-start -->
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="/static/images/El_Lucero/img5.jpg" alt="Tranding">
+                </div>
+                <div class="tranding-slide-content">
+                  
+                </div>
+              </div>
+              <!-- Slide-end -->
+              <!-- Slide-start -->
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="/static/images/El_Lucero/img6.jpg" alt="Tranding">
+                </div>
+                <div class="tranding-slide-content">
+                  
+                </div>
+              </div>
+              <!-- Slide-end -->
+              <!-- Slide-start -->
+              <div class="swiper-slide tranding-slide">
+                <div class="tranding-slide-img">
+                  <img src="/static/images/El_Lucero/img7.jpg" alt="Tranding">
+                </div>
+                <div class="tranding-slide-content">
+                  
+                </div>
+              </div>
+              <!-- Slide-end -->
+            </div>
+  
+            <div class="tranding-slider-control">
+              <div class="swiper-button-prev slider-arrow">
+                <ion-icon name="arrow-back-outline"></ion-icon>
+              </div>
+              <div class="swiper-button-next slider-arrow">
+                <ion-icon name="arrow-forward-outline"></ion-icon>
+              </div>
+              <div class="swiper-pagination"></div>
+            </div>
+  
+          </div>
         </div>
-    </section>   
+    </section>
+    
+      
 </div>
 <div class="fondo">
     <main class="table" id="customers_table">
         <section class="table__header">
             <h1></h1>
             <div class="input-group">
-                <input type="search" placeholder="Buscar Jugadores..." />
+                <input type="search" placeholder="Buscar..." />
                 <img src="/static/images/equipos/search.png" alt="" />
             </div>
             <div class="category-filter">
@@ -211,28 +278,34 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Nombre <span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Rut <span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Fecha Nacimiento <span class="icon-arrow">&UpArrow;</span></th>
+                        <th class="name">Nombre   <span class="icon-arrow">&UpArrow;</span></th>
                         <th>Categoría <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Goles<img src="/static/images/equipos/balon.png" alt="Goles" style="width: 20px; height: 16px; padding-left: 4px;"> <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Tarjetas <img src="/static/images/equipos/tarjeta-amarilla.png" alt="Amarilla" style="width: 20px; height: 20px;"> <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Tarjetas <img src="/static/images/equipos/tarjeta-roja.png" alt="Roja" style="width: 20px; height: 20px;"> <span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Asistencia <span class="icon-arrow">&UpArrow;</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for jugador in jugadores %}
                     <tr class="player-row">
                         <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{ jugador['Apellido_Materno'] }}</a></td>
-                        <td>{{ jugador['rut'] }}</td>
-                        <td>{{ jugador['Fecha_Nacimiento'] }}</td>
-                        <td>{{ jugador['Categoria_ID'] }}</td>
+                        <td>{{ jugador['Categoria'] }}</td>
+                        <td>{{ jugador['Goles_Anotados'] }}</td>
+                        <td>{{ jugador['Tarjetas_Amarillas'] }}</td>
+                        <td>{{ jugador['Tarjetas_Rojas'] }}</td>
+                        <td>{{ jugador['Asistencia'] }}%</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            
+            
         </section>
     </main>
     
 </div>
-<footer class="footer">
+    <footer class="footer">
         <div class="footer-top">
             <div class="footer-logo">
                 <img src="/static/images/logo.png" alt="Logo" />
@@ -270,16 +343,37 @@
             <a href="#">CONTACTO</a>
         </div>
     </footer>
-<script>
-    document.getElementById('category-select').onchange = function() {
-        document.getElementById('category-form').submit();
-    };
-</script>
+    <script>
+        document.getElementById('category-select').onchange = function() {
+            document.getElementById('category-form').submit();
+        };
+    </script>
 
-<script src=/static/js/vendor/vendor.js></script>
-<script src=/static/js/main.js></script>
-<script src=/static/js/filtro.js></script>
-<script src=/static/js/equipo.js></script>
+
+    <script>
+        function toggleText() {
+            const textElement = document.getElementById('historia-text');
+            const button = document.querySelector('.ver-mas');
+            
+            if (textElement.classList.contains('expanded')) {
+                textElement.classList.remove('expanded');
+                button.textContent = 'Ver más';
+            } else {
+                textElement.classList.add('expanded');
+                button.textContent = 'Ver menos';
+            }
+        }
+    </script>
+
+    <script src=/static/js/vendor/vendor.js></script>
+    <script src=/static/js/main.js></script>
+    <script src=/static/js/filtro.js></script>
+    <script src=/static/js/equipo.js></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="/static/js/script.js"></script>
 </body>
 
 </html>

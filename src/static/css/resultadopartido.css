@@ -171,6 +171,36 @@ body {
   color: #041e42;
 }
 
+
+
+/* Estilos para el ancho de las columnas */
+.equipo-local-col, .equipo-visitante-col {
+  width: 30%; /* Ajusta el porcentaje según sea necesario */
+}
+
+.resultado-col {
+  width: 30%; /* Ajusta el porcentaje según sea necesario */
+}
+
+/* Asegúrate de que la tabla se ajuste al ancho del contenedor */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+@media (max-width: 768px) {
+  .equipo-local-col, .equipo-visitante-col {
+      width: 25%; /* Ajusta el porcentaje según sea necesario */
+  }
+
+  .resultado-col {
+      width: 12%; /* Ajusta el porcentaje según sea necesario */
+  }
+}
+
+
+
+
 /* Responsive Design */
 
 @media (max-width: 768px) {

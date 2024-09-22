@@ -90,48 +90,49 @@
     <div class="categoria">
         <h2>{{ nombre_categoria }}</h2>
         <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Equipo Local</th>
-                        <th>Resultado</th>
-                        <th>Equipo Visitante</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for partido in partidos %}
-                    <tr class="partido" data-target="detalle-{{ nombre_categoria }}-{{ loop.index }}">
-                        <td>
-                            <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Local'] + '.png') }}" alt="Escudo del equipo local" class="equipo-logo" />
-                            {{ partido['Equipo_Local'] }}
-                        </td>
-                        <td>{{ partido['Goles_Local'] }} - {{ partido['Goles_Visita'] }}</td>
-                        <td>
-                            <img src="{{ url_for('static', filename='images/equipos/' + partido['Equipo_Visitante'] + '.png') }}" alt="Escudo del equipo visitante" class="equipo-logo" />
-                            {{ partido['Equipo_Visitante'] }}
-                        </td>
-                    </tr>
-                    <!-- Contenedor para los detalles del partido -->
-                    <tr class="detalle-container" id="detalle-{{ nombre_categoria }}-{{ loop.index }}-container" style="display: none;">
-                        <td colspan="3">
-                            <!-- Contenido de los detalles del partido -->
-                            <div id="detalle-{{ nombre_categoria }}-{{ loop.index }}" class="detalle-content">
-                                <h3>Jugadores que anotaron goles:</h3>
-                                <ul>
-                                    {% if partido['Jugadores'] %}
-                                        {% for jugador in partido['Jugadores'] %}
-                                        <li>{{ jugador['Nombre'] }} ({{ jugador['Equipo'] }}) - Goles: {{ jugador['Goles'] }}</li>
-                                        {% endfor %}
-                                    {% else %}
-                                        <li>No hay goles registrados en este partido.</li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+          <table>
+            <thead>
+                <tr>
+                    <th class="equipo-local-col">Equipo Local</th>
+                    <th class="resultado-col">Resultado</th>
+                    <th class="equipo-visitante-col">Equipo Visitante</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for partido in partidos %}
+                <tr class="partido" data-target="detalle-{{ nombre_categoria }}-{{ loop.index }}">
+                    <td class="equipo-local-col">
+                        <img src="{{ url_for('static', filename='images/partidos/' + partido['Equipo_Local'] + '.png') }}" alt="Escudo del equipo local" class="equipo-logo" />
+                        {{ partido['Equipo_Local'] }}
+                    </td>
+                    <td class="resultado-col">{{ partido['Goles_Local'] }} - {{ partido['Goles_Visita'] }}</td>
+                    <td class="equipo-visitante-col">
+                        <img src="{{ url_for('static', filename='images/partidos/' + partido['Equipo_Visitante'] + '.png') }}" alt="Escudo del equipo visitante" class="equipo-logo" />
+                        {{ partido['Equipo_Visitante'] }}
+                    </td>
+                </tr>
+                <!-- Contenedor para los detalles del partido -->
+                <tr class="detalle-container" id="detalle-{{ nombre_categoria }}-{{ loop.index }}-container" style="display: none;">
+                    <td colspan="3">
+                        <!-- Contenido de los detalles del partido -->
+                        <div id="detalle-{{ nombre_categoria }}-{{ loop.index }}" class="detalle-content">
+                            <h3>Estadisticas del partido:</h3>
+                            <ul>
+                                {% if partido['Jugadores'] %}
+                                    {% for jugador in partido['Jugadores'] %}
+                                    <li>{{ jugador['Nombre'] }} ({{ jugador['Equipo'] }}) - Goles: {{ jugador['Goles'] }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li>No hay goles registrados en este partido.</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
         </div>
     </div>
     {% endfor %}

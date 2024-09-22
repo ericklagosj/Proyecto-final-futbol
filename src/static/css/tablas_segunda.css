@@ -1,0 +1,696 @@
+body {
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    background-color: #f4f4f9;
+  }
+  
+  .announcement-bar {
+    background-color: #022855;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #a12e11;;
+    padding: 10px 56px;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .navbar-logo img {
+    height: 40px;
+  }
+  
+  .navbar-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .navbar-links {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-links a,
+  .dropbtn {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .navbar-links a:hover,
+  .dropbtn:hover {
+    background-color: #022855;
+    border-radius: 5px;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #022855;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+  }
+  
+  .dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .dropdown-content a:last-child {
+    border-bottom: none;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #041e42;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-actions a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 16px;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    font-weight: 500;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .navbar-actions a.highlight {
+    background-color: #d9534f;
+    border-radius: 5px;
+    font-weight: 700;
+  }
+  
+  .navbar-actions a i {
+    margin-right: 5px;
+  }
+  
+  .navbar-search {
+    position: relative;
+  }
+  
+  .navbar-search input {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+  }
+  
+  .navbar-search i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #041e42;
+  }
+  
+  /* Responsive Design */
+  
+  @media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .navbar-toggle {
+      display: block;
+      margin-left: -40px; /* Ajusta el margen izquierdo según sea necesario */
+    }
+  
+    .navbar-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .navbar-links a,
+    .dropbtn {
+      width: 100%;
+      text-align: left;
+      padding-left: 20px;
+      display: block;
+    }
+  
+    .navbar-actions {
+      flex-direction: column;
+      width: 100%;
+      display: none;
+    }
+  
+    .navbar-actions a {
+      width: 100%;
+      text-align: left;
+      padding-left: 20px;
+    }
+  
+    .navbar-search {
+      width: 100%;
+      padding: 10px 20px;
+      display: none;
+    }
+  
+    .navbar-search input {
+      width: calc(100% - 40px);
+    }
+  
+    .dropdown-content {
+      position: static;
+      width: 100%;
+      box-shadow: none;
+    }
+  
+    .dropdown-content a {
+      padding-left: 40px; /* Ajusta el padding según sea necesario */
+    }
+  
+    .navbar-links.active,
+    .navbar-actions.active,
+    .navbar-search.active {
+      display: flex;
+    }
+  
+    /* Añade este ajuste para asegurarte de que los elementos de dropdown están alineados */
+    .dropdown {
+      width: 100%;
+    }
+  
+    .dropdown-content a {
+      text-align: left;
+      padding-left: 40px;
+    }
+  
+    .navbar-logo {
+      position: absolute;
+      right: 20px;
+      top: 26px;
+      transform: translateY(-50%);
+      z-index: 1000; /* Asegura que el logo esté por encima del menú desplegable */
+    }
+  
+    .navbar-logo img {
+      height: 20px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .announcement-bar {
+      font-size: 12px;
+      padding: 5px 0;
+    }
+  
+    .navbar-logo img {
+      height: 49px;
+    }
+  
+    .navbar-links a,
+    .dropbtn,
+    .navbar-actions a {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .navbar-search input {
+      font-size: 14px;
+    }
+  }
+  
+  body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+  }
+  
+  .contenido {
+      flex: 1; /* Ocupa todo el espacio restante */
+      padding: 20px;
+      background-color: #f9f9f9;
+      box-sizing: border-box;
+  }
+  
+  .footer {
+      padding: 20px;
+      background-color: #a12e11;;
+      color: #fff;
+      text-align: center;
+      width: 95%; /* Ocupa todo el ancho disponible */
+  }
+  
+  /* Estilos específicos para el footer */
+  .footer-top, .footer-contact, .footer-subscribe, .footer-social, .footer-bottom {
+      margin-bottom: 20px;
+  }
+  
+  .footer-logo img {
+      width: 100px;
+  }
+  
+  .footer-lang a, .footer-top-link a, .footer-bottom a {
+      color: #fff;
+      text-decoration: none;
+  }
+  
+  .footer-lang a:hover, .footer-top-link a:hover, .footer-bottom a:hover {
+      text-decoration: underline;
+  }
+  
+  .footer-subscribe {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+  }
+  
+  .footer-subscribe input {
+      flex: 1; /* Ocupa todo el espacio disponible */
+      padding: 10px;
+      margin: 0 10px 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+  }
+  
+  .footer-subscribe button {
+      padding: 10px 20px;
+      background-color: #0056b3;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+  
+  .footer-subscribe button:hover {
+      background-color: #004494;
+  }
+  
+  .footer-social {
+      margin-bottom: 10px;
+  }
+  
+  .footer-social a {
+      color: #fff;
+      margin: 0 10px;
+      font-size: 24px;
+      text-decoration: none;
+  }
+  
+  .footer-social a:hover {
+      color: #ccc;
+  }
+  
+  /* FIN CSS NAVBAR Y FOOTER */
+  
+  
+  /* Reset de estilos */
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+  }
+  
+  /* Estilos del body */
+  body {
+      min-height: 100vh;
+      background: url(/static/images/equipos/fondosegunda.jpg) center / cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  /* Estilos del contenedor principal */
+  main.table {
+      width: 94vw;
+      height: 94vh;
+      background-color: rgba(255, 255, 255, 0.288);
+      backdrop-filter: blur(7px);
+      box-shadow: 0 .4rem .8rem #0005;
+      border-radius: .8rem;
+      overflow: hidden;
+      margin: 10px;
+      margin-top: 20px;
+      padding-top: 40px;
+  }
+  
+  /* Estilos del encabezado de la tabla */
+  .table__header {
+      width: 100%;
+      height: 10%;
+      background-color: rgba(197, 195, 191, 0.616);
+      padding: .9rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+  
+  /* Estilos del grupo de entrada de búsqueda */
+  .table__header .input-group {
+      width: 35%;
+      height: 100%;
+      background-color: #fff5;
+      padding: 0 .8rem;
+      border-radius: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: .2s;
+  }
+  
+  /* Estilos del grupo de entrada de búsqueda al pasar el cursor */
+  .table__header .input-group:hover {
+      width: 45%;
+      background-color: #fff8;
+      box-shadow: 0 .1rem .4rem #0002;
+  }
+  
+  /* Estilos de la imagen del grupo de entrada de búsqueda */
+  .table__header .input-group img {
+      width: 1.2rem;
+      height: 1.2rem;
+  }
+  
+  /* Estilos del input de búsqueda */
+  .table__header .input-group input {
+      width: 100%;
+      padding: 0 .5rem 0 .3rem;
+      background-color: transparent;
+      border: none;
+      outline: none;
+  }
+  
+  /* Estilos generales de las celdas */
+  th,
+  td {
+      border-collapse: collapse;
+      padding: .3rem; /* Reducir el espacio interno */
+      text-align: left;
+  }
+  
+  /* Estilos específicos para las celdas con solo números */
+  th:not(:first-child):not(:last-child),
+  td:not(:first-child):not(:last-child) {
+      min-width: 2rem; /* Ajustar el ancho mínimo */
+  }
+  
+  
+  /* Estilos del cuerpo de la tabla */
+  .table__body {
+      width: 97%;
+      max-height: calc(89% - 1.6rem);
+      background-color: #fffb;
+      margin: .8rem auto;
+      border-radius: .6rem;
+      overflow: auto;
+      overflow: overlay;
+  }
+  
+  /* Estilos de las barras de desplazamiento */
+  .table__body::-webkit-scrollbar {
+      width: 0.5rem;
+      height: 0.5rem;
+  }
+  
+  /* Estilos del pulgar de la barra de desplazamiento */
+  .table__body::-webkit-scrollbar-thumb {
+      border-radius: .5rem;
+      background-color: #0004;
+      visibility: hidden;
+  }
+  
+  /* Estilos del pulgar de la barra de desplazamiento al pasar el cursor */
+  .table__body:hover::-webkit-scrollbar-thumb {
+      visibility: visible;
+  }
+  
+  /* Estilos generales de la tabla */
+  table {
+      width: 100%;
+  }
+  
+  /* Estilos generales de las celdas */
+  table,
+  th,
+  td {
+      border-collapse: collapse;
+      padding: 1rem;
+      text-align: left;
+  }
+  
+  /* Estilos del encabezado de la tabla */
+  thead th {
+      position: sticky;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      background-color: #d5d1defe;
+      cursor: pointer;
+      text-transform: capitalize;
+      text-align: center;
+  }
+  
+  /* Estilos de las filas pares del cuerpo de la tabla */
+  tbody tr:nth-child(even) {
+      background-color: #0000000b;
+  }
+  
+  /* Estilos de las filas al pasar el cursor */
+  tbody tr:hover {
+      background-color: rgba(255, 255, 255, 0.4) !important;
+  }
+  
+  /* Estilos de las celdas, párrafos e imágenes al pasar el cursor */
+  tbody tr td,
+  tbody tr td p {
+      transition: .2s ease-in-out;
+      padding-left: 20px; /* Ajusta el valor según sea necesario para centrar más a la derecha */
+  }
+  
+  /* Estilos de las imágenes de las celdas */
+  tbody tr td img {
+      width: 36px;
+      height: 36px;
+      margin-right: .5rem;
+      border-radius: 50%;
+      vertical-align: middle;
+  }
+  
+  /* Estilos de las celdas ocultas */
+  tbody tr.hide td,
+  tbody tr.hide td p {
+      padding: 0;
+      font: 0 / 0 sans-serif;
+      transition: .2s ease-in-out .5s;
+  }
+  
+  /* Estilos de las imágenes de las celdas ocultas */
+  tbody tr.hide td img {
+      width: 0;
+      height: 0;
+      transition: .2s ease-in-out .5s;
+  }
+  
+  /* Estilos para dispositivos con ancho de pantalla máximo de 1000px */
+  @media (max-width: 1000px) {
+      /* Estilos para las celdas que no son la primera de su tipo */
+      td:not(:first-of-type) {
+          min-width: .1rem;
+          padding-left: 1px;
+      }
+  }
+  
+  /* Estilos de la flecha en el encabezado de la tabla */
+  thead th span.icon-arrow {
+      display: inline-block;
+      width: 1.3rem;
+      height: 1.3rem;
+      border-radius: 50%;
+      border: 1.4px solid transparent;
+      text-align: center;
+      font-size: 1rem;
+      margin-left: .5rem;
+      transition: .2s ease-in-out;
+  }
+  
+  /* Estilos de la flecha en el encabezado de la tabla al pasar el cursor */
+  thead th:hover span.icon-arrow {
+      border: 1.4px solid #6c00bd;
+  }
+  
+  /* Estilos del encabezado de la tabla al pasar el cursor */
+  thead th:hover {
+      color: #6c00bd;
+  }
+  
+  /* Estilos de la flecha activa en el encabezado de la tabla */
+  thead th.active span.icon-arrow {
+      background-color: #6c00bd;
+      color: #fff;
+  }
+  
+  /* Estilos de la flecha ascendente en el encabezado de la tabla */
+  thead th.asc span.icon-arrow {
+      transform: rotate(180deg);
+  }
+  
+  /* Estilos del encabezado de la tabla activo y celdas activas en el cuerpo */
+  thead th.active,
+  tbody td.active {
+      color: #6c00bd;
+  }
+  
+  /* Estilos del botón de exportación de archivo */
+  .export__file {
+      position: relative;
+  }
+  
+  /* Estilos del botón de exportación de archivo */
+  .export__file .export__file-btn {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      background: #fff6 url(/static/images/equipos/export.png) center / 80% no-repeat;
+      border-radius: 50%;
+      transition: .2s ease-in-out;
+  }
+  
+  /* Estilos del botón de exportación de archivo al pasar el cursor */
+  .export__file .export__file-btn:hover {
+      background-color: #fff;
+      transform: scale(1.15);
+      cursor: pointer;
+  }
+  
+  /* Estilos del input oculto de exportación de archivo
+  /* Estilos del botón de exportación de archivo */
+  .export__file .export__file-btn {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      background: #fff6 url(/static/images/equipos/export.png) center / 80% no-repeat;
+      border-radius: 50%;
+      transition: .2s ease-in-out;
+  }
+  
+  /* Estilos del botón de exportación de archivo al pasar el cursor */
+  .export__file .export__file-btn:hover {
+      background-color: #fff;
+      transform: scale(1.15);
+      cursor: pointer;
+  }
+  
+  /* Estilos del input oculto de exportación de archivo */
+  .export__file input {
+      display: none;
+  }
+  
+  /* Estilos de las opciones de exportación de archivo */
+  .export__file .export__file-options {
+      position: absolute;
+      right: 0;
+      width: 12rem;
+      border-radius: .5rem;
+      overflow: hidden;
+      text-align: center;
+      opacity: 0;
+      transform: scale(.8);
+      transform-origin: top right;
+      box-shadow: 0 .2rem .5rem #0004;
+      transition: .2s;
+  }
+  
+  /* Estilos de las opciones de exportación de archivo al estar seleccionado el input */
+  .export__file input:checked + .export__file-options {
+      opacity: 1;
+      transform: scale(1);
+      z-index: 100;
+  }
+  
+  /* Estilos de las etiquetas de las opciones de exportación de archivo */
+  .export__file .export__file-options label {
+      display: block;
+      width: 100%;
+      padding: .6rem 0;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      transition: .2s ease-in-out;
+  }
+  
+  /* Estilos de la primera etiqueta de las opciones de exportación de archivo */
+  .export__file .export__file-options label:first-of-type {
+      padding: 1rem 0;
+      background-color: #86e49d !important;
+  }
+  
+  /* Estilos de las etiquetas de las opciones de exportación de archivo al pasar el cursor */
+  .export__file .export__file-options label:hover {
+      transform: scale(1.05);
+      background-color: #fff;
+      cursor: pointer;
+  }
+  
+  /* Estilos de las imágenes de las opciones de exportación de archivo */
+  .export__file .export__file-options img {
+      width: 2rem;
+      height: auto;
+  }
+  
