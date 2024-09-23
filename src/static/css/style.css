@@ -11934,3 +11934,103 @@ footer > p {
   background-image: url('/static/images/login/fondo11.jpg');
 }
 
+/** FOOTER **/
+
+.footer {
+  padding: 20px;
+  background-color: #00274d;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Espacio entre elementos */
+}
+
+.footer-logo img {
+  width: 450px; /* Tamaño del logo */
+}
+
+.footer-text {
+  text-align: center;
+}
+
+.footer-lang a,
+.footer-top-link a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.footer-top-link a {
+  font-size: 16px;
+}
+
+.footer-top-link a:hover,
+.footer-lang a:hover {
+  text-decoration: underline;
+}
+
+.footer-contact {
+  margin-top: 20px;
+}
+
+.footer-subscribe {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-subscribe input {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-width: 200px;
+}
+
+.footer-subscribe button {
+  padding: 10px 20px;
+  background-color: #0056b3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.footer-subscribe button:hover {
+  background-color: #004494;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-social a {
+  color: #fff;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  color: #ccc;
+}
+
+.footer-bottom {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 20px;
+}
