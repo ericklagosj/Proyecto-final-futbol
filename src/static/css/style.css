@@ -11965,7 +11965,7 @@ footer > p {
 
 .footer-lang a,
 .footer-top-link a {
-  color: #fff;
+  color: #f3f3f3;
   text-decoration: none;
   font-size: 18px;
 }
@@ -12026,11 +12026,12 @@ footer > p {
 }
 
 .footer-social a:hover {
-  color: #ccc;
+  color: #fff;
 }
 
-.footer-bottom {
+.footer-bottom a{
   font-size: 14px;
   opacity: 0.8;
   margin-top: 20px;
+  color: #fff;
 }
