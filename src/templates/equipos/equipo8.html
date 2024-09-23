@@ -53,6 +53,181 @@
             margin-right: 10px;
         }
 
+        .sections {
+            background-color: #f0f0f0; /* Color de fondo gris claro */
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor */
+        }
+        .sections img {
+            width: 70px; /* Ajusta el tamaño del logo */
+            height: auto;
+            margin-right: 20px; /* Espacio entre el logo y el texto */
+        }
+        .sections h2 {
+            font-size: 1.2em;
+            margin: 0;
+            font-weight: bold;
+            color: #333; /* Color del texto */
+        }
+
+        .sections-fotos {
+            background-color: #f0f0f0; /* Color de fondo gris claro */
+            padding: 16px;
+            margin-top: 5px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor */
+        }
+        .sections-fotos img {
+            width: 70px; /* Ajusta el tamaño del logo */
+            height: auto;
+            margin-right: 20px; /* Espacio entre el logo y el texto */
+        }
+        .sections-fotos h2 {
+            font-size: 1.2em;
+            margin: 0;
+            font-weight: bold;
+            color: #333; /* Color del texto */
+        }
+
+        .directiva-section{
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 16px;
+        }
+
+        .container-botones {
+            display: flex;
+            flex-wrap: wrap; /* Esto permite que los botones que no quepan en la fila bajen */
+            gap: 10px; /* Espacio entre los botones */
+            justify-content: center; /* Centrar los botones horizontalmente */
+            margin-top: 20px; /* Ajusta según lo necesites */
+            }
+
+        .boton {
+            background-color: #b87333; /* Color cobrizo */
+            color: white; /* Texto blanco para contraste */
+            padding: 10px 20px; /* Tamaño de los botones */
+            border: none;
+            border-radius: 5px; /* Bordes suavizados */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera para darle profundidad */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Transiciones suaves */
+        }
+
+        .boton:hover {
+            background-color: #a65e29; /* Un tono más oscuro al hacer hover */
+            transform: translateY(-3px); /* Efecto de levantar al pasar el mouse */
+        }
+
+                /* Historia Section */
+                .historia-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .historia-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        .historia-text {
+            text-align: justify;
+            margin-top: 10px;
+            line-height: 1.6em;
+        }
+
+        .ver-mas {
+            color: #004080;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .ver-mas:hover {
+            color: #003366;
+        }
+
+            /* Galería */
+            .galeria-section {
+            padding: 5px;
+        }
+        .galeria-section {
+            background-image: url('/static/images/login/fondo11.jpg');
+            background-size: cover; /* Hace que el fondo cubra toda la sección */
+            background-position: center; /* Centra la imagen */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            min-height: 400px; /* Asegura que la galería tenga una altura mínima */
+        }
+
+
+        .title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .swiper-pagination {
+            bottom: 0;
+        }
+
+        .slider-arrow {
+            color: #004080;
+        }
+
+        /* Redes Sociales */
+        .redes-section {
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .redes-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-size: 1.2em;
+            margin-top: 10px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .redes-link:hover {
+            color: #00c4ff;
+        }
+
+        .icons {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
     </style>
 </head>
 <body><!--[if lt IE 10]>
@@ -118,8 +293,21 @@
     </div>
 
         <!-- Sección de directiva -->
-        <section class="directiva-section">
-            <h2 class="directiva-title">Directiva del Club</h2>
+        <div class="sections"> 
+            <img src="/static/images/partidos/cantarana.png" alt="Logo">
+            <h2>Club deportivo Canta-Rana</h2>
+        </div>
+
+        <!-- Botones para navegación rápida -->
+        <div class="nav-buttons" style="text-align: center; margin-top: 20px;">
+            <!--<button onclick="scrollToSection('directiva-section')">Directiva</button> -->
+            <button onclick="scrollToSection('redes-section')">Redes Sociales</button>
+            <button onclick="scrollToSection('historia-section')">Información del Club</button>
+            <button onclick="scrollToSection('tranding')">Galería</button>
+            <button onclick="scrollToSection('jugadores-section')">Jugadores</button>
+        </div>
+
+        <section class="directiva-section" id="directiva-section">
             <div class="directiva-list">
                 <div class="directiva-item">
                     <span class="directiva-name">Juan Ortiz Torres</span>
@@ -137,7 +325,7 @@
         </section>
 
         <!-- Sección de Redes Sociales -->   
-        <section class="redes-section">
+        <section class="redes-section" id="redes-section">
             <h2 class="redes-title">Redes Sociales del Club</h2>
             <a class="redes-link" href="https://www.facebook.com/profile.php?id=61554646346166&amp;mibextid=ZbWKwL" target="_blank">
                 <img class="icons" src="/static/images/iconos/facebook.png" alt="Facebook" class="redes-icon" /> Facebook del Club
@@ -146,7 +334,7 @@
 
 
         <!-- Sección de Historia del Club -->
-        <section class="historia-section">
+        <section class="historia-section" id="historia-section">
             <h2 class="historia-title">Historia del Club</h2>
             <div id="historia-text" class="historia-text">
                 El club deportivo Unión Canta-Rana, fundado el 01/04/1960, se constituye como una herramienta para promover la práctica del deporte, llegando a personas de distintas edades. 
@@ -157,15 +345,19 @@
             <div class="ver-mas" onclick="toggleText()">Ver más</div>
         </section>
 
-    <section id="tranding">
-        <h1 class="title">Galería de fotos</h1>
+    <section id="tranding" class="galeria-section">
+        
+        <div class="sections-fotos" id="jugadores-section"> 
+            <img src="/static/images/partidos/cantarana.png" alt="Logo">
+            <h2>Galería de fotos</h2>
+          </div>
         <div class="galeria-fotos">
           <div class="swiper tranding-slider">
             <div class="swiper-wrapper">
               <!-- Slide-start -->
               <div class="swiper-slide tranding-slide">
                 <div class="tranding-slide-img">
-                  <img src="/static/images/El_Lucero/img1.jpg" alt="Tranding">
+                  <img src="/static/images/cantarrana/image1.jpg" alt="Tranding">
                 </div>
                 <div class="tranding-slide-content">
                   
@@ -175,7 +367,7 @@
               <!-- Slide-start -->
               <div class="swiper-slide tranding-slide">
                 <div class="tranding-slide-img">
-                  <img src="/static/images/El_Lucero/img2.jpg" alt="Tranding">
+                  <img src="/static/images/cantarrana/image2.jpg" alt="Tranding">
                 </div>
                 <div class="tranding-slide-content">
                   
@@ -185,7 +377,7 @@
               <!-- Slide-start -->
               <div class="swiper-slide tranding-slide">
                 <div class="tranding-slide-img">
-                  <img src="/static/images/El_Lucero/img3.jpg" alt="Tranding">
+                  <img src="/static/images/cantarrana/image3.jpg" alt="Tranding">
                 </div>
                 <div class="tranding-slide-content">
                   
@@ -195,7 +387,7 @@
               <!-- Slide-start -->
               <div class="swiper-slide tranding-slide">
                 <div class="tranding-slide-img">
-                  <img src="/static/images/El_Lucero/img4.jpg" alt="Tranding">
+                  <img src="/static/images/cantarrana/image9.jpg" alt="Tranding">
                 </div>
                 <div class="tranding-slide-content">
                   
@@ -205,7 +397,7 @@
               <!-- Slide-start -->
               <div class="swiper-slide tranding-slide">
                 <div class="tranding-slide-img">
-                  <img src="/static/images/El_Lucero/img5.jpg" alt="Tranding">
+                  <img src="/static/images/cantarrana/image5.jpg" alt="Tranding">
                 </div>
                 <div class="tranding-slide-content">
                   
@@ -215,7 +407,7 @@
               <!-- Slide-start -->
               <div class="swiper-slide tranding-slide">
                 <div class="tranding-slide-img">
-                  <img src="/static/images/El_Lucero/img6.jpg" alt="Tranding">
+                  <img src="/static/images/cantarrana/image6.jpg" alt="Tranding">
                 </div>
                 <div class="tranding-slide-content">
                   
@@ -225,7 +417,7 @@
               <!-- Slide-start -->
               <div class="swiper-slide tranding-slide">
                 <div class="tranding-slide-img">
-                  <img src="/static/images/El_Lucero/img7.jpg" alt="Tranding">
+                  <img src="/static/images/cantarrana/image7.jpg" alt="Tranding">
                 </div>
                 <div class="tranding-slide-content">
                   
@@ -250,7 +442,12 @@
     
       
 </div>
+<div class="sections" id="jugadores-section"> 
+    <img src="/static/images/partidos/cantarana.png" alt="Logo">
+    <h2>Jugadores Club deportivo Canta-Rana</h2>
+  </div>
 <div class="fondo">
+    
     <main class="table" id="customers_table">
         <section class="table__header">
             <h1></h1>
@@ -361,6 +558,15 @@
             } else {
                 textElement.classList.add('expanded');
                 button.textContent = 'Ver menos';
+            }
+        }
+    </script>
+
+    <script>
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
             }
         }
     </script>

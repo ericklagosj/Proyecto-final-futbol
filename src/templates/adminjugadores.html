@@ -31,6 +31,7 @@
                 <thead>
                     <tr>
                         <th>Nombre<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Rut<span class="icon-arrow">&UpArrow;</span></th>
                         <th>Equipo<span class="icon-arrow">&UpArrow;</span></th>
                         <th>Categoría<span class="icon-arrow">&UpArrow;</span></th>
                         <th>Goles Anotados<span class="icon-arrow">&UpArrow;</span></th>
@@ -43,6 +44,7 @@
                 {% for jugador in jugadores %}
                 <tr>
                     <td>{{ jugador.Nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
+                    <td>{{ jugador.rut }}</td>
                     <td>{{ jugador.Nombre_Equipo }}</td>
                     <td>{{ jugador.Nombre_Categoria }}</td>
                     <td>{{ jugador.Goles_Anotados }}</td>
@@ -115,7 +117,51 @@
     }
     </script>
 
+    <script>
+        // Función para filtrar jugadores por nombre y categoría
+        function filtrarJugadores() {
+            // Obtener los valores del input de búsqueda y del select de categoría
+            const input = document.getElementById('search-input').value.toLowerCase();
+            const categoria = document.getElementById('category-select').value;
+            
+            // Obtener todas las filas de la tabla
+            const filas = document.querySelectorAll('table tbody tr');
+
+            // Iterar sobre las filas
+            filas.forEach(fila => {
+                // Obtener los valores de las columnas de nombre y categoría de cada fila
+                const nombreJugador = fila.querySelector('td:nth-child(1)').innerText.toLowerCase();
+                const categoriaJugador = fila.querySelector('td:nth-child(4)').innerText.toLowerCase();
+
+                // Comprobar si el nombre del jugador o la categoría coinciden con los filtros
+                const coincideNombre = nombreJugador.includes(input);
+                const coincideCategoria = (categoria === 'all') || categoriaJugador.includes(categoria);
+
+                // Mostrar u ocultar la fila en función de si coincide o no
+                if (coincideNombre && coincideCategoria) {
+                    fila.style.display = '';
+                } else {
+                    fila.style.display = 'none';
+                }
+            });
+        }
+
+        // Asignar el evento de entrada al input de búsqueda
+        document.getElementById('search-input').addEventListener('input', filtrarJugadores);
+        // Asignar el evento de cambio al select de categoría
+        document.getElementById('category-select').addEventListener('change', filtrarJugadores);
+    </script>
+
+
 </body>
-<script src="/static/js/filtro.js"></script>
+<script src=/static/js/vendor/vendor.js></script>
+<script src=/static/js/main.js></script>
+<script src=/static/js/filtro.js></script>
+<script src=/static/js/equipo.js></script>
 <script src="/static/js/listar_jugadores.js"></script>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<script src="/static/js/script.js"></script>
 </html>
