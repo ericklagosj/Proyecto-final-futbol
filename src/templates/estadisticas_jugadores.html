@@ -1,223 +1,181 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title class="titulo">Estadísticas Jugadores</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="/static/css/estadisticas_jugadores.css"
-    />
-
+    <title>Estadísticas Jugadores</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/estadisticas_jugadores.css" />
+    
     <!--=============== REMIXICONS ===============-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/2.5.0/remixicon.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+</head>
+<body>
     <header>
-      <div class="announcement-bar">
-        <div id="next-matches">
-          <!-- Los partidos se cargarán aquí mediante JavaScript -->
-        </div>
-      </div>
-      <nav class="navbar">
-        <div class="navbar-container">
-          <div class="navbar-toggle" id="mobile-menu">
-            <i class="ri-menu-line"></i>
-          </div>
-          <div class="navbar-logo">
-            <img src="/static/images/logo.png" alt="Logo" class="logo-img" />
-          </div>
-        </div>
-        <div class="navbar-links" id="navbar-links">
-          <a href="{{ url_for('home') }}"> INICIO</a>
-          <a href="{{ url_for('noticias') }}"> NOTICIAS</a>
-          <a href="{{ url_for('calendario') }}"> CALENDARIO</a>
-          <a href="{{ url_for('listar_equipos') }}">EQUIPOS</a>
-          <div class="dropdown">
-            <button class="dropbtn">
-              POSICIONES <i class="ri-arrow-down-s-line"></i>
-            </button>
-            <div class="dropdown-content">
-              <a href="{{ url_for('tabla_posiciones')}}">PRIMERA DIVISION</a>
-              <a href="{{ url_for('tabla_posiciones_segunda') }}"
-                >SEGUNDA DIVISION</a
-              >
+        <div class="announcement-bar">
+            <div id="next-matches">
+                <!-- Los partidos se cargarán aquí mediante JavaScript -->
             </div>
-          </div>
-          <a href="{{ url_for('mostrar_jugadores')}}"> ASISTENCIA</a>
-          <a href="{{ url_for('estadisticas_jugadores') }}"> ESTADISTICAS</a>
-          <a href="{{ url_for('resultados_partidos')}}"> PARTIDOS</a>
-          <a href="{{ url_for('galeria') }}"> GALERIA</a>
-          <a href="#"> REGLAMENTO</a>
         </div>
-        <div class="navbar-actions" id="navbar-actions">
-          <a href="{{ url_for('login') }}" class="highlight"
-            ><i class="ri-user-line"></i> LogIn</a
-          >
-          <div class="navbar-search" id="navbar-search">
-            <input type="text" placeholder="Buscar..." />
-            <i class="ri-search-line"></i>
-          </div>
-        </div>
-      </nav>
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-toggle" id="mobile-menu">
+                    <i class="ri-menu-line"></i>
+                </div>
+                <div class="navbar-logo">
+                    <img src="/static/images/logo.png" alt="Logo" class="logo-img" />
+                </div>
+            </div>
+            <div class="navbar-links" id="navbar-links">
+                <a href="{{ url_for('home') }}">INICIO</a>
+                <a href="{{ url_for('noticias') }}">NOTICIAS</a>
+                <a href="{{ url_for('calendario') }}">CALENDARIO</a>
+                <a href="{{ url_for('listar_equipos') }}">EQUIPOS</a>
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        POSICIONES <i class="ri-arrow-down-s-line"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('tabla_posiciones') }}">PRIMERA DIVISION</a>
+                        <a href="{{ url_for('tabla_posiciones_segunda') }}">SEGUNDA DIVISION</a>
+                    </div>
+                </div>
+                <a href="{{ url_for('mostrar_jugadores') }}">ASISTENCIA</a>
+                <a href="{{ url_for('estadisticas_jugadores') }}">ESTADISTICAS</a>
+                <a href="{{ url_for('resultados_partidos') }}">PARTIDOS</a>
+                <a href="{{ url_for('galeria') }}">GALERIA</a>
+                <a href="#">REGLAMENTO</a>
+            </div>
+            <div class="navbar-actions" id="navbar-actions">
+                <a href="{{ url_for('login') }}" class="highlight">
+                    <i class="ri-user-line"></i> LogIn
+                </a>
+                <div class="navbar-search" id="navbar-search">
+                    <input type="text" placeholder="Buscar..." />
+                    <i class="ri-search-line"></i>
+                </div>
+            </div>
+        </nav>
     </header>
     <div class="content">
-      <main class="table" id="customers_table">
-        <section class="table__header">
-          <!-- Encabezado de la tabla -->
-          <h1>Estadísticas Jugadores</h1>
-          <!-- Barra de búsqueda -->
-          <div class="input-group">
-            <input type="search" placeholder="Buscar Estadísticas..." />
-            <img src="/static/images/equipos/search.png" alt="" />
-          </div>
-          <!-- Opciones de exportación -->
-          <div class="export__file">
-            <label
-              for="export-file"
-              class="export__file-btn"
-              title="Exportar Archivo"
-            ></label>
-            <input type="checkbox" id="export-file" />
-            <div class="export__file-options">
-              <label>Exportar como &nbsp; &#10140;</label>
-              <label for="export-file" id="toPDF"
-                >PDF <img src="/static/images/equipos/pdf.png" alt=""
-              /></label>
-              <label for="export-file" id="toJSON"
-                >JSON <img src="/static/images/equipos/json.png" alt=""
-              /></label>
-              <label for="export-file" id="toCSV"
-                >CSV <img src="/static/images/equipos/csv.png" alt=""
-              /></label>
-              <label for="export-file" id="toEXCEL"
-                >EXCEL <img src="/static/images/equipos/excel.png" alt=""
-              /></label>
-            </div>
-          </div>
-        </section>
-        <!-- Cuerpo de la tabla -->
-        <section class="table__body">
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre<span class="icon-arrow">↑</span></th>
-                <th class="th-estadisticas">
-                  Goles <img
-                    src="/static/images/equipos/balon.png"
-                    alt="Amarilla"
-                    class="table-img"
-                  /><span class="icon-arrow">↑</span>
-                </th>
-                <th>
-                  Tarjetas
-                  <img
-                    src="/static/images/equipos/tarjeta-amarilla.png"
-                    alt="Amarilla"
-                    class="table-img"
-                  /><span class="icon-arrow">↑</span>
-                </th>
-                <th>
-                  Tarjetas
-                  <img
-                    src="/static/images/equipos/tarjeta-roja.png"
-                    alt="Roja"
-                    class="table-img"
-                  /><span class="icon-arrow">↑</span>
-                </th>
-                <th>Asistencia<span class="icon-arrow">↑</span></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for jugador in jugadores %}
-              <tr>
-                <td class="name">
-                  {{ jugador['Nombre'] }} {{ jugador['Apellido_Paterno'] }} {{
-                  jugador['Apellido_Materno'] }}
-                </td>
-                <td class="td-estadisticas">
-                  <img src="/static/images/equipos/balon.png" alt="Goles" />
-                  {{ jugador['Goles_Anotados'] }}
-                </td>
-                <td class="td-estadisticas">
-                  {{ jugador['Tarjetas_Amarillas'] }}
-                  <img
-                    src="/static/images/equipos/tarjeta-amarilla.png"
-                    alt="Amarilla"
-                  />
-                </td>
-                <td class="td-estadisticas">
-                  {{ jugador['Tarjetas_Rojas'] }}
-                  <img
-                    src="/static/images/equipos/tarjeta-roja.png"
-                    alt="Roja"
-                  />
-                </td>
-                <td class="td-estadisticas">{{ jugador['Asistencia'] }}%</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </section>
-      </main>
+        <main class="table" id="customers_table">
+            <section class="table__header">
+                <h1>Estadísticas Jugadores</h1>
+                <div class="category-filter">
+                    <label for="category-select">Seleccionar Categoría:</label>
+                    <select id="category-select" name="categoria" onchange="cargarEstadisticas()">
+                        <option value="all">Todas</option>
+                        <option value="1">Juvenil</option>
+                        <option value="2">Adulta</option>
+                        <option value="3">Senior</option>
+                        <option value="4">Super Senior</option>
+                        <option value="5">Honor</option>
+                    </select>
+                </div>
+            </section>
+            <!-- Cuerpo de la tabla -->
+            <section class="table__body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre<span class="icon-arrow">↑</span></th>
+                            <th>Categoría<span class="icon-arrow">↑</span></th>
+                            <th class="th-estadisticas">Goles <img src="/static/images/equipos/balon.png" alt="Balón" class="table-img"/><span class="icon-arrow">↑</span></th>
+                            <th>Tarjetas Amarillas <img src="/static/images/equipos/tarjeta-amarilla.png" alt="Amarilla" class="table-img"/><span class="icon-arrow">↑</span></th>
+                            <th>Tarjetas Rojas <img src="/static/images/equipos/tarjeta-roja.png" alt="Roja" class="table-img"/><span class="icon-arrow">↑</span></th>
+                            <th>Asistencia<span class="icon-arrow">↑</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-jugadores">
+                        {% for jugador in jugadores %}
+                        <tr>
+                            <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }}</a></td>
+                            <td>{{ jugador['Categoria'] }}</td>
+                            <td>{{ jugador['Goles_Anotados'] }}</td>
+                            <td>{{ jugador['Tarjetas_Amarillas'] }}</td>
+                            <td>{{ jugador['Tarjetas_Rojas'] }}</td>
+                            <td>{{ jugador['Asistencia'] }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </main>
     </div>
     <footer class="footer">
-      <div class="footer-top">
-        <div class="footer-logo">
-          <img src="/static/images/logo.png" alt="Logo" />
+        <div class="footer-top">
+            <div class="footer-logo">
+                <img src="/static/images/logo.png" alt="Logo" />
+            </div>
+            <div class="footer-lang">
+                <a href="#">ASOCIACION DEPORTIVA</a>
+            </div>
+            <div class="footer-top-link">
+                <a href="#">Back to the top <i class="ri-arrow-up-s-line"></i></a>
+            </div>
         </div>
-        <div class="footer-lang">
-          <a href="#">ASOCIACION DEPORTIVA</a>
+        <div class="footer-contact">
+            <p>Dirección: Calle Falsa 123, Ciudad, País</p>
+            <p>Teléfono: +123 456 7890</p>
         </div>
-        <div class="footer-top-link">
-          <a href="#">Back to the top <i class="ri-arrow-up-s-line"></i></a>
+        <div class="footer-subscribe">
+            <h3>Suscríbete a nuestro boletín</h3>
+            <form id="subscribe-form">
+                <input type="email" placeholder="Ingresa tu email" required />
+                <button type="submit">Suscribirse</button>
+            </form>
         </div>
-      </div>
-      <div class="footer-contact">
-        <p>Dirección: Calle Falsa 123, Ciudad, País</p>
-        <p>Teléfono: +123 456 7890</p>
-      </div>
-      <div class="footer-subscribe">
-        <h3>Suscríbete a nuestro boletín</h3>
-        <form id="subscribe-form">
-          <input type="email" placeholder="Ingresa tu email" required />
-          <button type="submit">Suscribirse</button>
-        </form>
-      </div>
-      <div class="footer-social">
-        <a href="https://www.youtube.com/"><i class="ri-youtube-line"></i></a>
-        <a href="https://www.instagram.com"
-          ><i class="ri-instagram-line"></i
-        ></a>
-        <a href="https://www.x.com"><i class="ri-twitter-line"></i></a>
-        <a href="https://www.facebook.com"
-          ><i class="ri-facebook-circle-line"></i
-        ></a>
-        <a href="https://www.linkedin.com"><i class="ri-linkedin-line"></i></a>
-        <a href="https://www.twitch.com"><i class="ri-twitch-line"></i></a>
-      </div>
-      <div class="footer-bottom">
-        <a href="#">REGLAMENTO</a>
-        <a href="#">PARTIDOS</a>
-        <a href="#">GALERIA</a>
-        <a href="#">CONTACTO</a>
-      </div>
+        <div class="footer-social">
+            <a href="https://www.youtube.com/"><i class="ri-youtube-line"></i></a>
+            <a href="https://www.instagram.com"><i class="ri-instagram-line"></i></a>
+            <a href="https://www.x.com"><i class="ri-twitter-line"></i></a>
+            <a href="https://www.facebook.com"><i class="ri-facebook-circle-line"></i></a>
+            <a href="https://www.linkedin.com"><i class="ri-linkedin-line"></i></a>
+            <a href="https://www.twitch.com"><i class="ri-twitch-line"></i></a>
+        </div>
+        <div class="footer-bottom">
+            <a href="#">REGLAMENTO</a>
+            <a href="#">PARTIDOS</a>
+            <a href="#">GALERIA</a>
+            <a href="#">CONTACTO</a>
+            <a href="#">SOPORTE</a>
+        </div>
     </footer>
 
-    <!-- Script JavaScript -->
-    <script src="static/js/estadisticas_jugadores.js"></script>
-  </body>
+    <script src="/static/js/estadisticas_jugadores.js"></script>
+    <script>
+        function cargarEstadisticas() {
+            const categoria = document.getElementById('category-select').value;
+            fetch(`/estadisticas-jugadores?categoria=${categoria}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('tabla-jugadores');
+                    tbody.innerHTML = ''; // Limpiar tabla anterior
+                    data.jugadores.forEach(jugador => {
+                        const row = `<tr>
+                            <td><a href="/jugador/${jugador.ID}">${jugador.Nombre}</a></td>
+                            <td>${jugador.Categoria}</td>
+                            <td>${jugador.Goles_Anotados}</td>
+                            <td>${jugador.Tarjetas_Amarillas}</td>
+                            <td>${jugador.Tarjetas_Rojas}</td>
+                            <td>${jugador.Asistencia}%</td>
+                        </tr>`;
+                        tbody.innerHTML += row; // Agregar la nueva fila
+                    });
+                })
+                .catch(error => console.error('Error al cargar estadísticas:', error));
+
+
+                document.addEventListener('DOMContentLoaded', () => {
+                  const categorySelect = document.getElementById('category-select');
+                  if (categorySelect) {
+                      categorySelect.addEventListener('change', cargarEstadisticas);
+                  }
+                });
+
+        }
+    </script>
+  
+</body>
 </html>

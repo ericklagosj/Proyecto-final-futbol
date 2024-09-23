@@ -12319,3 +12319,30 @@ ul.slick-dots {
       .ver-mas:hover {
           text-decoration: underline;
       }
+
+      .table__body {
+        max-height: 800px; /* Ajusta la altura según tus necesidades */
+        overflow-y: auto;  /* Habilita el desplazamiento vertical */
+        padding-bottom: 10px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    th, td {
+        padding: 4px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+    }
+    
+    thead th {
+        position: sticky;
+        top: 0;
+        background-color: #f1f1f1; /* Color de fondo para que el encabezado se vea bien al hacer scroll */
+        z-index: 1;
+    }
+    

@@ -243,7 +243,7 @@ def crear_registro():
         1: (0, 17),   # Juvenil: hasta 17 años
         2: (18, 34),  # Adulta: de 18 a 34 años
         3: (35, 44),  # Senior: de 35 a 44 años
-        4: (45, 150), # Super Senior: desde 45 años en adelante
+        4: (45, 150), # Super Senior: desde 45 años en adelantepython src\app.py
         5: (0, 150)   # Honor: cualquier edad
     }
 
@@ -674,22 +674,35 @@ def obtener_jugador(id):
 
 
 
-
-# estadisticas jugadores
 @app.route('/estadisticas-jugadores')
 def estadisticas_jugadores():
     cur = mysql.connection.cursor()
-    cur.execute("""
+
+    # Obtener el parámetro de consulta 'categoria'
+    categoria = request.args.get('categoria')
+
+    # Obtener el parámetro de consulta 'equipo_id'
+    equipo_id = request.args.get('equipo_id')  # Asegúrate de que esto esté en la URL
+
+    # Consulta para obtener todas las categorías (puedes mantener esto si lo necesitas)
+    cur.execute("SELECT * FROM categoria")
+    categorias = cur.fetchall()
+
+    # Consulta base para obtener jugadores con sus estadísticas
+    consulta_jugadores = """
         SELECT 
+            j.ID,
             j.Nombre, 
             j.Apellido_Paterno, 
             j.Apellido_Materno, 
+            c.Nombre AS Categoria,
             COALESCE(SUM(g.Goles), 0) AS Goles_Anotados, 
             COALESCE(SUM(g.Tarjetas_Amarillas), 0) AS Tarjetas_Amarillas, 
             COALESCE(SUM(g.Tarjetas_Rojas), 0) AS Tarjetas_Rojas, 
             COALESCE(ROUND(a.Asistencia), 0) AS Asistencia 
         FROM 
             jugador j 
+            LEFT JOIN categoria c ON j.Categoria_ID = c.ID
             LEFT JOIN goles_jugador g ON j.ID = g.Jugador_ID 
             LEFT JOIN (
                 SELECT 
@@ -700,14 +713,32 @@ def estadisticas_jugadores():
                 GROUP BY 
                     id_jugador
             ) a ON j.ID = a.id_jugador
-        GROUP BY 
-            j.ID
-    """)
-    jugadores = cur.fetchall()
+    """
+    
+    # Agregar la condición para filtrar por categoría si se proporciona
+    params = []
+    if categoria and categoria.isdigit():
+        consulta_jugadores += " WHERE j.Categoria_ID = %s"
+        params.append(categoria)
+
+    consulta_jugadores += """
+        GROUP BY j.ID, c.Nombre
+        ORDER BY Goles_Anotados DESC
+    """
+    
+    try:
+        # Ejecutar la consulta
+        cur.execute(consulta_jugadores, params)
+        jugadores = cur.fetchall()
+    except Exception as e:
+        cur.close()
+        return jsonify({"error": str(e)}), 500  # Manejar errores de consulta
+
     cur.close()
 
+    # Renderizar la plantilla con los datos
     if jugadores:
-        return render_template("estadisticas_jugadores.html", jugadores=jugadores)
+        return render_template("estadisticas_jugadores.html", jugadores=jugadores, categorias=categorias, categoria=categoria, equipo_id=equipo_id)
     else:
         return jsonify({"error": "No se encontraron jugadores"}), 404
 
