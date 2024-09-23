@@ -294,7 +294,7 @@ body {
   background-color: #00274d;
   color: #fff;
   text-align: center;
-  width: 98%; /* Ocupa todo el ancho disponible */
+  width: 100%; /* Ocupa todo el ancho disponible */
 }
 
 /* Estilos específicos para el footer */
