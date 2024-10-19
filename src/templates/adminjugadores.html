@@ -1,121 +1,193 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Estadísticas de Jugadores</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/adminjugadores.css" />
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/static/css/adminjugadores.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <a href="#" class="logo">
+            <img src="static/images/logo.png" alt="" />
+            <span class="nav-item">Panel Admin</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-user"></i>
+            <span class="nav-item">Perfil</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-wallet"></i>
+            <span class="nav-item">Administrar Enfrentamientos</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-item">Asistencia Jugadores</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-tasks"></i>
+            <span class="nav-item">Registro Jugadores</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-home"></i>
+            <span class="nav-item">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="" class="logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-item">Log Out</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <body>
     <main class="table" id="customers_table">
-        <section class="table__header">
-            <h1>Estadísticas de jugadores</h1>
-            <div class="input-group">
-                <input type="search" id="search-input" placeholder="Buscar Jugadores..." />
-                <img src="/static/images/equipos/search.png" alt="" />
-            </div>
-            <div class="category-filter">
-                <label for="category-select">Seleccionar Categoría:</label>
-                <select id="category-select">
-                    <option value="all">Todas</option>
-                    <option value="1">Juvenil</option>
-                    <option value="2">Adulta</option>
-                    <option value="3">Senior</option>
-                    <option value="4">Super Senior</option>
-                    <option value="5">Honor</option>
-                </select>
-            </div>
-        </section>
-        <section class="table__body">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Equipo<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Categoría<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Goles Anotados<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Tarjetas Amarillas<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Tarjetas Rojas<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Sanciones<span class="icon-arrow">&UpArrow;</span></th>
-                        <th>Acciones<span class="icon-arrow">&UpArrow;</span></th>
-                    </tr>
-                </thead>
-                {% for jugador in jugadores %}
-                <tr>
-                    <td>{{ jugador.Nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
-                    <td>{{ jugador.Nombre_Equipo }}</td>
-                    <td>{{ jugador.Nombre_Categoria }}</td>
-                    <td>{{ jugador.Goles_Anotados }}</td>
-                    <td>{{ jugador.Tarjetas_Amarillas }}</td>
-                    <td>{{ jugador.Tarjetas_Rojas }}</td>
-                    <td>{{ jugador.Sanciones }}</td>
-                    <td>
-                        <button onclick="abrirFormularioEstadisticas('{{ jugador.ID }}')">Registrar Estadísticas</button>
-                    </td>
-                </tr>
-                {% endfor %}
-              </table>
-        </section>
+      <section class="table__header">
+        <h1>Estadísticas de jugadores</h1>
+        <div class="input-group">
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Buscar Jugadores..."
+          />
+          <img src="/static/images/equipos/search.png" alt="" />
+        </div>
+        <div class="category-filter">
+          <label for="category-select">Seleccionar Categoría:</label>
+          <select id="category-select">
+            <option value="all">Todas</option>
+            <option value="1">Juvenil</option>
+            <option value="2">Adulta</option>
+            <option value="3">Senior</option>
+            <option value="4">Super Senior</option>
+            <option value="5">Honor</option>
+          </select>
+        </div>
+      </section>
+      <section class="table__body">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Equipo<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Categoría<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Goles Anotados<span class="icon-arrow">&UpArrow;</span></th>
+              <th>
+                Tarjetas Amarillas<span class="icon-arrow">&UpArrow;</span>
+              </th>
+              <th>Tarjetas Rojas<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Sanciones<span class="icon-arrow">&UpArrow;</span></th>
+              <th>Acciones<span class="icon-arrow">&UpArrow;</span></th>
+            </tr>
+          </thead>
+          {% for jugador in jugadores %}
+          <tr>
+            <td>
+              {{ jugador.Nombre }} {{ jugador.Apellido_Paterno }} {{
+              jugador.Apellido_Materno }}
+            </td>
+            <td>{{ jugador.Nombre_Equipo }}</td>
+            <td>{{ jugador.Nombre_Categoria }}</td>
+            <td>{{ jugador.Goles_Anotados }}</td>
+            <td>{{ jugador.Tarjetas_Amarillas }}</td>
+            <td>{{ jugador.Tarjetas_Rojas }}</td>
+            <td>{{ jugador.Sanciones }}</td>
+            <td>
+              <button onclick="abrirFormularioEstadisticas('{{ jugador.ID }}')">
+                Registrar Estadísticas
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+      </section>
     </main>
 
     <!-- Modal para registrar estadísticas -->
-    <div id="modalEstadisticas" class="modal" style="display:none;">
-        <div class="modal-content">
-            <span class="close" onclick="cerrarFormularioEstadisticas()">&times;</span>
-            <h2>Registrar Estadísticas</h2>
-            <form id="formEstadisticas">
-                <input type="hidden" id="jugadorId" name="jugadorId">
-                <label for="jornada">Jornada:</label>
-                <select id="jornada" name="jornada">
-                    {% for i in range(1, 19) %}
-                        <option value="{{ i }}">Jornada {{ i }}</option>
-                    {% endfor %}
-                </select>
-                <label for="goles">Goles:</label>
-                <input type="number" id="goles" name="goles" min="0">
-                <label for="amarillas">Tarjetas Amarillas:</label>
-                <input type="number" id="amarillas" name="amarillas" min="0">
-                <label for="rojas">Tarjetas Rojas:</label>
-                <input type="number" id="rojas" name="rojas" min="0">
-                <label for="sanciones">Sanciones:</label>
-                <input type="text" id="sanciones" name="sanciones">
-                <button type="button" onclick="registrarEstadisticas()">Registrar</button>
-            </form>
-        </div>
+    <div id="modalEstadisticas" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close" onclick="cerrarFormularioEstadisticas()"
+          >&times;</span
+        >
+        <h2>Registrar Estadísticas</h2>
+        <form id="formEstadisticas">
+          <input type="hidden" id="jugadorId" name="jugadorId" />
+          <label for="jornada">Jornada:</label>
+          <select id="jornada" name="jornada">
+            {% for i in range(1, 19) %}
+            <option value="{{ i }}">Jornada {{ i }}</option>
+            {% endfor %}
+          </select>
+          <label for="goles">Goles:</label>
+          <input type="number" id="goles" name="goles" min="0" />
+          <label for="amarillas">Tarjetas Amarillas:</label>
+          <input type="number" id="amarillas" name="amarillas" min="0" />
+          <label for="rojas">Tarjetas Rojas:</label>
+          <input type="number" id="rojas" name="rojas" min="0" />
+          <label for="sanciones">Sanciones:</label>
+          <input type="text" id="sanciones" name="sanciones" />
+          <button type="button" onclick="registrarEstadisticas()">
+            Registrar
+          </button>
+        </form>
+      </div>
     </div>
 
     <script>
-    function abrirFormularioEstadisticas(jugadorId) {
+      function abrirFormularioEstadisticas(jugadorId) {
         document.getElementById("jugadorId").value = jugadorId;
         document.getElementById("modalEstadisticas").style.display = "block";
-    }
+      }
 
-    function cerrarFormularioEstadisticas() {
+      function cerrarFormularioEstadisticas() {
         document.getElementById("modalEstadisticas").style.display = "none";
-    }
+      }
 
-    function registrarEstadisticas() {
-        var formData = new FormData(document.getElementById("formEstadisticas"));
-        
-        fetch('/registrar-estadisticas', {
-            method: 'POST',
-            body: formData
+      function registrarEstadisticas() {
+        var formData = new FormData(
+          document.getElementById("formEstadisticas")
+        );
+
+        fetch("/registrar-estadisticas", {
+          method: "POST",
+          body: formData,
         })
-        .then(response => {
+          .then((response) => {
             if (response.ok) {
-                console.log('Registro exitoso');
-                location.reload();
+              console.log("Registro exitoso");
+              location.reload();
             } else {
-                console.error('Error al registrar estadísticas');
+              console.error("Error al registrar estadísticas");
             }
-        })
-        .catch(error => {
-            console.error('Error al registrar estadísticas:', error);
-        });
-    }
+          })
+          .catch((error) => {
+            console.error("Error al registrar estadísticas:", error);
+          });
+      }
     </script>
-
-</body>
-<script src="/static/js/filtro.js"></script>
-<script src="/static/js/listar_jugadores.js"></script>
+  </body>
+  <script src="/static/js/filtro.js"></script>
+  <script src="/static/js/listar_jugadores.js"></script>
 </html>

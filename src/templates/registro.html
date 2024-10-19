@@ -1,7 +1,10 @@
 {% include 'cabecera.html' %}
 
-<!-----FORMULARIO DE REGISTRO-->
 <div class="caja">
+    <div class="text-center mb-3">
+        <!-- Asegúrate de que 'home' es el nombre correcto de la función de la vista -->
+        <a href="{{ url_for('admin') }}" class="btn btn-primary">Volver al Inicio</a>
+    </div>
     <form class="form-control" action="{{ url_for('crear_registro') }}" method="post">
         <!---alertas-->
         {% if mensaje %}
@@ -40,7 +43,7 @@
                 <option value="4">Super Senior</option>
                 <option value="5">Honor</option>
             </select>
-        </div>        
+        </div>
         <div class="form-group">
             <label for="equipo_id" class="t text-center">Equipo</label>
             <select class="form-control" id="equipo_id" name="equipo_id">
@@ -70,4 +73,3 @@
         </div>
     </form>
 </div>
-<!-----FIN--------->
