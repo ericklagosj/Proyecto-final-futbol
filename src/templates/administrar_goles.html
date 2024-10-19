@@ -1,91 +1,259 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registrar Goles</title>
     <style>
-        .table-container {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
+      .table-container {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+      }
 
-        table {
-            border-collapse: collapse;
-            width: 45%;
-        }
+      table {
+        border-collapse: collapse;
+        width: 45%;
+      }
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
 
-        th {
-            background-color: #f2f2f2;
-        }
+      th {
+        background-color: #f2f2f2;
+      }
 
-        input[type="number"] {
-            width: 50px;
-        }
+      input[type="number"] {
+        width: 50px;
+      }
 
-        h2,
-        h1,
-        button {
-            text-align: center;
-        }
+      h2,
+      h1,
+      button {
+        text-align: center;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <a href="#" class="logo">
+            <img src="static/images/logo.png" alt="" />
+            <span class="nav-item">Panel Admin</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-user"></i>
+            <span class="nav-item">Perfil</span>
+          </a>
+        </li>
+        <li>
+          <a href="admin_enfrentamientos.html">
+            <i class="fas fa-wallet"></i>
+            <span class="nav-item">Administrar Enfrentamientos</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-item">Asistencia Jugadores</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-tasks"></i>
+            <span class="nav-item">Registro Jugadores</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-home"></i>
+            <span class="nav-item">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="" class="logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-item">Log Out</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family_Poppins:wght@400;500;600;700&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+      outline: none;
+      border: none;
+      text-decoration: none;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #dfe9f5;
+    }
+
+    nav {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      left: 0;
+      background: #fff;
+      width: 90px;
+      overflow: hidden;
+      transition: width 0.2s linear;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .logo {
+      text-align: center;
+      display: flex;
+      transition: all 0.5s ease;
+      margin: 10px 0 0 10px;
+    }
+
+    .logo img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+
+    .logo span {
+      font-weight: bold;
+      padding-left: 15px;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    a {
+      position: relative;
+      color: rgb(85, 83, 83);
+      font-size: 14px;
+      display: table;
+      width: 300px;
+      padding: 10px;
+    }
+
+    .fas {
+      position: relative;
+      width: 70px;
+      height: 40px;
+      top: 14px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .nav-item {
+      position: relative;
+      top: 12px;
+      margin-left: 10px;
+    }
+
+    a:hover {
+      background: #eee;
+    }
+
+    nav:hover {
+      width: 280px;
+      transition: all 0.5s ease;
+    }
+
+    .logout {
+      position: absolute;
+      bottom: 0;
+    }
+  </style>
+  <body>
     <h1>Registrar Goles</h1>
 
     {% for enfrentamiento in enfrentamientos %}
-    <h2>{{ enfrentamiento['Nombre_Local'] }} vs {{ enfrentamiento['Nombre_Visitante'] }}</h2>
+    <h2>
+      {{ enfrentamiento['Nombre_Local'] }} vs {{
+      enfrentamiento['Nombre_Visitante'] }}
+    </h2>
     <form action="{{ url_for('guardar_goles') }}" method="post">
-        <input type="hidden" name="equipo_local_id" value="{{ enfrentamiento['Equipo_Local_ID'] }}">
-        <input type="hidden" name="equipo_visitante_id" value="{{ enfrentamiento['Equipo_Visitante_ID'] }}">
-        <input type="hidden" name="jornada_id" value="{{ enfrentamiento['ID_jornada'] }}">
-        <input type="hidden" name="categoria_id" value="{{ enfrentamiento['ID_categoria'] }}">
-        
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Jugador</th>
-                        <th>Goles</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for jugador in jugadores_locales[loop.index0] %}
-                    <tr>
-                        <td>{{ jugador['Nombre'] }}</td>
-                        <td><input type="number" name="goles_local_{{ jugador['ID'] }}" min="0"></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        
-            <table>
-                <thead>
-                    <tr>
-                        <th>Jugador</th>
-                        <th>Goles</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for jugador in jugadores_visitantes[loop.index0] %}
-                    <tr>
-                        <td>{{ jugador['Nombre'] }}</td>
-                        <td><input type="number" name="goles_visitante_{{ jugador['ID'] }}" min="0"></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        
-        <button type="submit">Guardar Goles</button>
+      <input
+        type="hidden"
+        name="equipo_local_id"
+        value="{{ enfrentamiento['Equipo_Local_ID'] }}"
+      />
+      <input
+        type="hidden"
+        name="equipo_visitante_id"
+        value="{{ enfrentamiento['Equipo_Visitante_ID'] }}"
+      />
+      <input
+        type="hidden"
+        name="jornada_id"
+        value="{{ enfrentamiento['ID_jornada'] }}"
+      />
+      <input
+        type="hidden"
+        name="categoria_id"
+        value="{{ enfrentamiento['ID_categoria'] }}"
+      />
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Jugador</th>
+              <th>Goles</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for jugador in jugadores_locales[loop.index0] %}
+            <tr>
+              <td>{{ jugador['Nombre'] }}</td>
+              <td>
+                <input
+                  type="number"
+                  name="goles_local_{{ jugador['ID'] }}"
+                  min="0"
+                />
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Jugador</th>
+              <th>Goles</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for jugador in jugadores_visitantes[loop.index0] %}
+            <tr>
+              <td>{{ jugador['Nombre'] }}</td>
+              <td>
+                <input
+                  type="number"
+                  name="goles_visitante_{{ jugador['ID'] }}"
+                  min="0"
+                />
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <button type="submit">Guardar Goles</button>
     </form>
     {% endfor %}
-</body>
+  </body>
 </html>

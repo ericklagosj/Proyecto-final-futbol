@@ -1,304 +1,484 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Asistencia de Jugadores</title>
     <link rel="stylesheet" href="../static/css/asistencia.css" />
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
     <style>
-/* Estilos generales del formulario de filtro */
-        .filter-form {
-            background-color: #f2f2f2;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 1200px; /* Ampliar el ancho máximo para versión desktop */
-            margin: 40px auto;
-        }
+      /* Estilos generales del formulario de filtro */
+      .filter-form {
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 1200px; /* Ampliar el ancho máximo para versión desktop */
+        margin: 40px auto;
+      }
 
-        /* Contenedor del formulario de filtro */
-        .filter-form .form-row {
-            display: flex;
-            flex-wrap: wrap; /* Permitir que los elementos se envuelvan si es necesario */
-            gap: 10px; /* Espacio entre elementos */
-            align-items: center; /* Alinear verticalmente */
-        }
+      /* Contenedor del formulario de filtro */
+      .filter-form .form-row {
+        display: flex;
+        flex-wrap: wrap; /* Permitir que los elementos se envuelvan si es necesario */
+        gap: 10px; /* Espacio entre elementos */
+        align-items: center; /* Alinear verticalmente */
+      }
 
-        /* Estilo para cada elemento del formulario */
-        .filter-form label {
-            display: block;
-            margin: 0;
-            font-weight: bold;
-            flex: 1 1 200px; /* Flexibilidad para los labels */
-        }
+      /* Estilo para cada elemento del formulario */
+      .filter-form label {
+        display: block;
+        margin: 0;
+        font-weight: bold;
+        flex: 1 1 200px; /* Flexibilidad para los labels */
+      }
 
-        .filter-form select,
-        .filter-form input {
-            width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            flex: 2 1 200px; /* Flexibilidad para los campos de entrada */
-        }
+      .filter-form select,
+      .filter-form input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        flex: 2 1 200px; /* Flexibilidad para los campos de entrada */
+      }
 
+      .filter-form button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4caf50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        flex: 1 1 100px; /* Flexibilidad para el botón */
+      }
+
+      .filter-form button:hover {
+        background-color: #45a049;
+      }
+
+      /* Estilo para el botón de filtrar en móvil */
+      @media (max-width: 768px) {
         .filter-form button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            flex: 1 1 100px; /* Flexibilidad para el botón */
+          width: 100%;
         }
+      }
 
-        .filter-form button:hover {
-            background-color: #45a049;
-        }
+      /* Estilo para el contenedor del botón de filtrar */
+      .filter-form .button-container {
+        margin-top: 15px;
+        text-align: right; /* Alinear el botón a la derecha */
+      }
 
-        /* Estilo para el botón de filtrar en móvil */
-        @media (max-width: 768px) {
-            .filter-form button {
-                width: 100%;
-            }
-        }
-
-        /* Estilo para el contenedor del botón de filtrar */
+      /* Estilo para el botón de filtrar en la versión de escritorio */
+      @media (min-width: 769px) {
         .filter-form .button-container {
-            margin-top: 15px;
-            text-align: right; /* Alinear el botón a la derecha */
+          text-align: right; /* Alinear el botón a la derecha en versión desktop */
         }
+      }
 
-        /* Estilo para el botón de filtrar en la versión de escritorio */
-        @media (min-width: 769px) {
-            .filter-form .button-container {
-                text-align: right; /* Alinear el botón a la derecha en versión desktop */
-            }
-        }
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .btn-s {
+        background-color: green;
+      }
+      .btn-n {
+        background-color: red;
+      }
+      .btn-selected {
+        background-color: yellow;
+        color: black;
+      }
 
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .btn-s {
-            background-color: green;
-        }
-        .btn-n {
-            background-color: red;
-        }
-        .btn-selected {
-            background-color: yellow;
-            color: black;
-        }
-
-        /* Estilos para el cuadro de diálogo */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .modal-header {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .modal-body {
-            margin-bottom: 20px;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .button-container {
-            text-align: center;
-        }
-        .confirm-btn {
-            padding: 15px 30px;
-            border-radius: 5px;
-            font-size: 18px;
-            margin: 0 10px;
-            cursor: pointer;
-            border: none;
-        }
-        .confirm {
-            background-color: green;
-            color: white;
-        }
-        .cancel {
-            background-color: red;
-            color: white;
-        }
+      /* Estilos para el cuadro de diálogo */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .modal-header {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .modal-body {
+        margin-bottom: 20px;
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .button-container {
+        text-align: center;
+      }
+      .confirm-btn {
+        padding: 15px 30px;
+        border-radius: 5px;
+        font-size: 18px;
+        margin: 0 10px;
+        cursor: pointer;
+        border: none;
+      }
+      .confirm {
+        background-color: green;
+        color: white;
+      }
+      .cancel {
+        background-color: red;
+        color: white;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <a href="#" class="logo">
+            <img src="static/images/logo.png" alt="" />
+            <span class="nav-item">Panel Admin</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-user"></i>
+            <span class="nav-item">Perfil</span>
+          </a>
+        </li>
+        <li>
+          <a href="admin_enfrentamientos.html">
+            <i class="fas fa-wallet"></i>
+            <span class="nav-item">Administrar Enfrentamientos</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-chart-bar"></i>
+            <span class="nav-item">Asistencia Jugadores</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-tasks"></i>
+            <span class="nav-item">Registro Jugadores</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fas fa-home"></i>
+            <span class="nav-item">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="" class="logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-item">Log Out</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family_Poppins:wght@400;500;600;700&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+      outline: none;
+      border: none;
+      text-decoration: none;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: #dfe9f5;
+    }
+
+    nav {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100%;
+      left: 0;
+      background: #fff;
+      width: 90px;
+      overflow: hidden;
+      transition: width 0.2s linear;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    .logo {
+      text-align: center;
+      display: flex;
+      transition: all 0.5s ease;
+      margin: 10px 0 0 10px;
+    }
+
+    .logo img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+
+    .logo span {
+      font-weight: bold;
+      padding-left: 15px;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
+
+    a {
+      position: relative;
+      color: rgb(85, 83, 83);
+      font-size: 14px;
+      display: table;
+      width: 300px;
+      padding: 10px;
+    }
+
+    .fas {
+      position: relative;
+      width: 70px;
+      height: 40px;
+      top: 14px;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .nav-item {
+      position: relative;
+      top: 12px;
+      margin-left: 10px;
+    }
+
+    a:hover {
+      background: #eee;
+    }
+
+    nav:hover {
+      width: 280px;
+      transition: all 0.5s ease;
+    }
+
+    .logout {
+      position: absolute;
+      bottom: 0;
+    }
+  </style>
+  <body>
     <h1>Asistencia de Jugadores</h1>
 
-    <form class="filter-form" method="post" action="/asistencia-jugadores_admin">
-        <div class="form-row">
-            <div>
-                <label for="equipo_id">Equipo:</label>
-                <select name="equipo_id" id="equipo_id" required>
-                    <option value="">Seleccione un equipo</option>
-                    {% for equipo in equipos %}
-                    <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label for="categoria_id">Categoría:</label>
-                <select name="categoria_id" id="categoria_id" required>
-                    <option value="">Seleccione una categoría</option>
-                    {% for categoria in categorias %}
-                    <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div>
-                <label for="jornada">Jornada:</label>
-                <input type="number" name="jornada" id="jornada" min="1" max="18" required>
-            </div>
+    <form
+      class="filter-form"
+      method="post"
+      action="/asistencia-jugadores_admin"
+    >
+      <div class="form-row">
+        <div>
+          <label for="equipo_id">Equipo:</label>
+          <select name="equipo_id" id="equipo_id" required>
+            <option value="">Seleccione un equipo</option>
+            {% for equipo in equipos %}
+            <option value="{{ equipo.id }}">{{ equipo.nombre }}</option>
+            {% endfor %}
+          </select>
         </div>
-        <div class="button-container">
-            <button type="submit">Filtrar</button>
+        <div>
+          <label for="categoria_id">Categoría:</label>
+          <select name="categoria_id" id="categoria_id" required>
+            <option value="">Seleccione una categoría</option>
+            {% for categoria in categorias %}
+            <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+            {% endfor %}
+          </select>
         </div>
+        <div>
+          <label for="jornada">Jornada:</label>
+          <input
+            type="number"
+            name="jornada"
+            id="jornada"
+            min="1"
+            max="18"
+            required
+          />
+        </div>
+      </div>
+      <div class="button-container">
+        <button type="submit">Filtrar</button>
+      </div>
     </form>
-    
 
     {% if jugadores %}
     <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>J{{ jornada_seleccionada }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for jugador in jugadores %}
-                <tr>
-                    <td data-label-abbr="ID">{{ jugador.id }}</td>
-                    <td data-label-abbr="Nombre">{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
-                    <td data-label-abbr="J{{ jornada_seleccionada }}">
-                        <form method="post" action="/actualizar-asistencia" id="asistencia-form-{{ jugador.id }}">
-                            <input type="hidden" name="id_jugador" value="{{ jugador.id }}">
-                            <input type="hidden" name="jornada" value="{{ jornada_seleccionada }}">
-                            <button type="button" class="btn btn-s {% if asistencia_jornadas[jugador.id].get(jornada_seleccionada, 0) == 1 %}btn-selected{% endif %}" onclick="showConfirmDialog({{ jugador.id }}, '{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}', 1, this)">Sí</button>
-                            <button type="button" class="btn btn-n {% if asistencia_jornadas[jugador.id].get(jornada_seleccionada, 0) == 0 %}btn-selected{% endif %}" onclick="showConfirmDialog({{ jugador.id }}, '{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}', 0, this)">No</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>J{{ jornada_seleccionada }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for jugador in jugadores %}
+          <tr>
+            <td data-label-abbr="ID">{{ jugador.id }}</td>
+            <td data-label-abbr="Nombre">
+              {{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{
+              jugador.Apellido_Materno }}
+            </td>
+            <td data-label-abbr="J{{ jornada_seleccionada }}">
+              <form
+                method="post"
+                action="/actualizar-asistencia"
+                id="asistencia-form-{{ jugador.id }}"
+              >
+                <input
+                  type="hidden"
+                  name="id_jugador"
+                  value="{{ jugador.id }}"
+                />
+                <input
+                  type="hidden"
+                  name="jornada"
+                  value="{{ jornada_seleccionada }}"
+                />
+                <button
+                  type="button"
+                  class="btn btn-s {% if asistencia_jornadas[jugador.id].get(jornada_seleccionada, 0) == 1 %}btn-selected{% endif %}"
+                  onclick="showConfirmDialog({{ jugador.id }}, '{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}', 1, this)"
+                >
+                  Sí
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-n {% if asistencia_jornadas[jugador.id].get(jornada_seleccionada, 0) == 0 %}btn-selected{% endif %}"
+                  onclick="showConfirmDialog({{ jugador.id }}, '{{ jugador.nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}', 0, this)"
+                >
+                  No
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
     {% endif %}
 
     <!-- Cuadro de diálogo de confirmación -->
     <div id="confirmModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="modal-header">Confirmación</div>
-            <div class="modal-body">
-                <p id="confirmText"></p>
-            </div>
-            <div class="button-container">
-                <button id="confirmYes" class="confirm-btn confirm">Confirmar</button>
-                <button id="confirmNo" class="confirm-btn cancel">Cancelar</button>
-            </div>
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="modal-header">Confirmación</div>
+        <div class="modal-body">
+          <p id="confirmText"></p>
         </div>
+        <div class="button-container">
+          <button id="confirmYes" class="confirm-btn confirm">Confirmar</button>
+          <button id="confirmNo" class="confirm-btn cancel">Cancelar</button>
+        </div>
+      </div>
     </div>
 
     <script>
-        function showConfirmDialog(id_jugador, nombre_jugador, asistencia, button) {
-            var modal = document.getElementById("confirmModal");
-            var confirmText = document.getElementById("confirmText");
-            var confirmYes = document.getElementById("confirmYes");
-            var confirmNo = document.getElementById("confirmNo");
-            
-            confirmText.innerHTML = `¿Estás seguro de que quieres actualizar la asistencia de <strong>${nombre_jugador}</strong>?`;
+      function showConfirmDialog(
+        id_jugador,
+        nombre_jugador,
+        asistencia,
+        button
+      ) {
+        var modal = document.getElementById("confirmModal");
+        var confirmText = document.getElementById("confirmText");
+        var confirmYes = document.getElementById("confirmYes");
+        var confirmNo = document.getElementById("confirmNo");
 
-            confirmYes.onclick = function() {
-                updateAsistencia(id_jugador, asistencia, button);
-                modal.style.display = "none";
-            }
+        confirmText.innerHTML = `¿Estás seguro de que quieres actualizar la asistencia de <strong>${nombre_jugador}</strong>?`;
 
-            confirmNo.onclick = function() {
-                modal.style.display = "none";
-            }
+        confirmYes.onclick = function () {
+          updateAsistencia(id_jugador, asistencia, button);
+          modal.style.display = "none";
+        };
 
-            modal.style.display = "block";
+        confirmNo.onclick = function () {
+          modal.style.display = "none";
+        };
+
+        modal.style.display = "block";
+      }
+
+      function updateAsistencia(id_jugador, asistencia, button) {
+        var form = document.getElementById("asistencia-form-" + id_jugador);
+        var buttons = form.querySelectorAll("button");
+
+        // Reset all buttons in the form
+        buttons.forEach((btn) => btn.classList.remove("btn-selected"));
+
+        // Set the selected button to yellow
+        button.classList.add("btn-selected");
+
+        // Create a new form data object
+        var formData = new FormData(form);
+        formData.set("asistencia", asistencia);
+
+        // Send the data to the server
+        fetch("/actualizar-asistencia", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Asistencia actualizada", data);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      // Close modal when the user clicks on <span> (x)
+      document.querySelector(".close").onclick = function () {
+        document.getElementById("confirmModal").style.display = "none";
+      };
+
+      // Close modal when the user clicks anywhere outside of the modal
+      window.onclick = function (event) {
+        if (event.target == document.getElementById("confirmModal")) {
+          document.getElementById("confirmModal").style.display = "none";
         }
-
-        function updateAsistencia(id_jugador, asistencia, button) {
-            var form = document.getElementById('asistencia-form-' + id_jugador);
-            var buttons = form.querySelectorAll('button');
-            
-            // Reset all buttons in the form
-            buttons.forEach(btn => btn.classList.remove('btn-selected'));
-
-            // Set the selected button to yellow
-            button.classList.add('btn-selected');
-
-            // Create a new form data object
-            var formData = new FormData(form);
-            formData.set('asistencia', asistencia);
-
-            // Send the data to the server
-            fetch('/actualizar-asistencia', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Asistencia actualizada', data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-
-        // Close modal when the user clicks on <span> (x)
-        document.querySelector(".close").onclick = function() {
-            document.getElementById("confirmModal").style.display = "none";
-        }
-
-        // Close modal when the user clicks anywhere outside of the modal
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("confirmModal")) {
-                document.getElementById("confirmModal").style.display = "none";
-            }
-        }
+      };
     </script>
-</body>
+  </body>
 </html>
