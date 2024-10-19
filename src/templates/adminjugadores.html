@@ -64,65 +64,54 @@
   </header>
   <body>
     <main class="table" id="customers_table">
-      <section class="table__header">
-        <h1>Estadísticas de jugadores</h1>
-        <div class="input-group">
-          <input
-            type="search"
-            id="search-input"
-            placeholder="Buscar Jugadores..."
-          />
-          <img src="/static/images/equipos/search.png" alt="" />
-        </div>
-        <div class="category-filter">
-          <label for="category-select">Seleccionar Categoría:</label>
-          <select id="category-select">
-            <option value="all">Todas</option>
-            <option value="1">Juvenil</option>
-            <option value="2">Adulta</option>
-            <option value="3">Senior</option>
-            <option value="4">Super Senior</option>
-            <option value="5">Honor</option>
-          </select>
-        </div>
-      </section>
-      <section class="table__body">
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre<span class="icon-arrow">&UpArrow;</span></th>
-              <th>Equipo<span class="icon-arrow">&UpArrow;</span></th>
-              <th>Categoría<span class="icon-arrow">&UpArrow;</span></th>
-              <th>Goles Anotados<span class="icon-arrow">&UpArrow;</span></th>
-              <th>
-                Tarjetas Amarillas<span class="icon-arrow">&UpArrow;</span>
-              </th>
-              <th>Tarjetas Rojas<span class="icon-arrow">&UpArrow;</span></th>
-              <th>Sanciones<span class="icon-arrow">&UpArrow;</span></th>
-              <th>Acciones<span class="icon-arrow">&UpArrow;</span></th>
-            </tr>
-          </thead>
-          {% for jugador in jugadores %}
-          <tr>
-            <td>
-              {{ jugador.Nombre }} {{ jugador.Apellido_Paterno }} {{
-              jugador.Apellido_Materno }}
-            </td>
-            <td>{{ jugador.Nombre_Equipo }}</td>
-            <td>{{ jugador.Nombre_Categoria }}</td>
-            <td>{{ jugador.Goles_Anotados }}</td>
-            <td>{{ jugador.Tarjetas_Amarillas }}</td>
-            <td>{{ jugador.Tarjetas_Rojas }}</td>
-            <td>{{ jugador.Sanciones }}</td>
-            <td>
-              <button onclick="abrirFormularioEstadisticas('{{ jugador.ID }}')">
-                Registrar Estadísticas
-              </button>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
-      </section>
+        <section class="table__header">
+            <h1>Estadísticas de jugadores</h1>
+            <div class="input-group">
+                <input type="search" id="search-input" placeholder="Buscar Jugadores..." />
+                <img src="/static/images/equipos/search.png" alt="" />
+            </div>
+            <div class="category-filter">
+                <label for="category-select">Seleccionar Categoría:</label>
+                <select id="category-select">
+                    <option value="all">Todas</option>
+                    <option value="1">Juvenil</option>
+                    <option value="2">Adulta</option>
+                    <option value="3">Senior</option>
+                    <option value="4">Super Senior</option>
+                    <option value="5">Honor</option>
+                </select>
+            </div>
+        </section>
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Equipo<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Categoría<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Goles Anotados<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Tarjetas Amarillas<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Tarjetas Rojas<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Sanciones<span class="icon-arrow">&UpArrow;</span></th>
+                        <th>Acciones<span class="icon-arrow">&UpArrow;</span></th>
+                    </tr>
+                </thead>
+                {% for jugador in jugadores %}
+                <tr>
+                    <td>{{ jugador.Nombre }} {{ jugador.Apellido_Paterno }} {{ jugador.Apellido_Materno }}</td>
+                    <td>{{ jugador.Nombre_Equipo }}</td>
+                    <td>{{ jugador.Nombre_Categoria }}</td>
+                    <td>{{ jugador.Goles_Anotados }}</td>
+                    <td>{{ jugador.Tarjetas_Amarillas }}</td>
+                    <td>{{ jugador.Tarjetas_Rojas }}</td>
+                    <td>{{ jugador.Sanciones }}</td>
+                    <td>
+                        <button onclick="abrirFormularioEstadisticas('{{ jugador.ID }}')">Registrar Estadísticas</button>
+                    </td>
+                </tr>
+                {% endfor %}
+              </table>
+        </section>
     </main>
 
     <!-- Modal para registrar estadísticas -->
@@ -187,7 +176,8 @@
           });
       }
     </script>
-  </body>
-  <script src="/static/js/filtro.js"></script>
-  <script src="/static/js/listar_jugadores.js"></script>
+
+</body>
+<script src="/static/js/filtro.js"></script>
+<script src="/static/js/listar_jugadores.js"></script>
 </html>

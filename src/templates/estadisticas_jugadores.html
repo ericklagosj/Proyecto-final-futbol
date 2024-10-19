@@ -60,8 +60,13 @@
     </header>
     <div class="content">
         <main class="table" id="customers_table">
+            <h1>Estadísticas Jugadores</h1>
             <section class="table__header">
-                <h1>Estadísticas Jugadores</h1>
+                
+                <div class="input-group">
+                    <input type="search" id="search-input" placeholder="Buscar Jugadores..." />
+                    <img src="/static/images/equipos/search.png" alt="" />
+                </div>
                 <div class="category-filter">
                     <label for="category-select">Seleccionar Categoría:</label>
                     <select id="category-select" name="categoria" onchange="cargarEstadisticas()">
@@ -80,6 +85,7 @@
                     <thead>
                         <tr>
                             <th>Nombre<span class="icon-arrow">↑</span></th>
+                            <th>Rut<span class="icon-arrow">↑</span></th>
                             <th>Categoría<span class="icon-arrow">↑</span></th>
                             <th class="th-estadisticas">Goles <img src="/static/images/equipos/balon.png" alt="Balón" class="table-img"/><span class="icon-arrow">↑</span></th>
                             <th>Tarjetas Amarillas <img src="/static/images/equipos/tarjeta-amarilla.png" alt="Amarilla" class="table-img"/><span class="icon-arrow">↑</span></th>
@@ -91,6 +97,7 @@
                         {% for jugador in jugadores %}
                         <tr>
                             <td><a href="{{ url_for('obtener_jugador', id=jugador['ID']) }}">{{ jugador['Nombre'] }}</a></td>
+                            <td>{{ jugador['rut'] }}</td>
                             <td>{{ jugador['Categoria'] }}</td>
                             <td>{{ jugador['Goles_Anotados'] }}</td>
                             <td>{{ jugador['Tarjetas_Amarillas'] }}</td>

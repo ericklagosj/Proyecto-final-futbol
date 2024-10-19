@@ -37,7 +37,7 @@ def admin():
 def obtener_estadisticas_jugadores():
     cur = mysql.connection.cursor()
     cur.execute("""
-        SELECT j.ID, j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, 
+        SELECT j.ID, j.Nombre, j.Apellido_Paterno, j.Apellido_Materno, j.rut, 
                eq.Nombre AS Nombre_Equipo, c.Nombre AS Nombre_Categoria,
                SUM(gj.Goles) AS Goles_Anotados,
                SUM(gj.Tarjetas_Amarillas) AS Tarjetas_Amarillas,
@@ -692,7 +692,8 @@ def estadisticas_jugadores():
     consulta_jugadores = """
         SELECT 
             j.ID,
-            j.Nombre, 
+            j.Nombre,
+            j.rut, 
             j.Apellido_Paterno, 
             j.Apellido_Materno, 
             c.Nombre AS Categoria,
